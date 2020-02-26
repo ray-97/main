@@ -64,7 +64,7 @@ public class UniquePersonList implements Iterable<Person> {
         if (!target.isSamePerson(editedPerson) && contains(editedPerson)) {
             throw new DuplicatePersonException();
         }
-
+        // used a javaFX list, which we do not use immutability on. We simply set and modify existing list.
         internalList.set(index, editedPerson);
     }
 
