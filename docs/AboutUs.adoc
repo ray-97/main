@@ -8,7 +8,7 @@ Calgo was developed by the http://github.com/AY1920S2-CS2103T-F11-1[F11-1] team.
 {empty} +
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
-== Project Team
+== Project Team: F11-1
 
 === Vineeth Buddha
 image::buddhavineeth.png[width="150", align="left"]
