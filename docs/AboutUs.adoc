@@ -15,7 +15,7 @@ image::buddhavineeth.png[width="150", align="left"]
 {empty}[https://github.com/buddhavineeth[github]]
 
 Role: Software Developer & Git Expert +
-Responsibilities: Data Analysis & Insights
+Responsibilities: Data Analysis & Insights Report, Deliverables & Deadlines In-Charge
 
 '''
 
@@ -24,7 +24,7 @@ image::eugenetyc.png[width="150", align="left"]
 {empty}[https://github.com/eugenetyc[github]]
 
 Role: Software Developer +
-Responsibilities: Data, Storage
+Responsibilities: Data Search & Storage, Team Lead
 
 '''
 
@@ -32,8 +32,8 @@ Responsibilities: Data, Storage
 image::ray-97.png[width="150", align="left"]
 {empty}[https://github.com/ray-97[github]]
 
-Role: Project Manager & Software Developer +
-Responsibilities: DevOps & Project Management
+Role: Software Developer +
+Responsibilities: Data Collection & Organisation, Code Integration
 
 '''
 
@@ -42,7 +42,7 @@ image::jeremylow97.png[width="150", align="left"]
 {empty}[https://github.com/jeremylow97[github]]
 
 Role: Software Developer +
-Responsibilities: Logic & Documentation
+Responsibilities: Object Modelling, Architecture & Code Quality
 
 '''
 
@@ -51,6 +51,6 @@ image::j-dan23.png[width="150", align="left"]
 {empty}[https://github.com/J-Dan23[github]]
 
 Role: Software Developer +
-Responsibilities: Models, GUI & Mock-Ups
+Responsibilities: GUI & Handling User Inputs, Documentation
 
 '''
