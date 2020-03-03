@@ -5,6 +5,9 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import javafx.collections.ObservableList;
+import seedu.address.model.day.Day;
+import seedu.address.model.day.UniqueDayList;
+import seedu.address.model.food.Food;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -15,6 +18,7 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    private final UniqueDayList days;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -25,6 +29,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        days = new UniqueDayList();
     }
 
     public AddressBook() {}
@@ -38,6 +43,20 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     //// list overwrite operations
+
+    public boolean hasDay(Day day) {
+        requireNonNull(day);
+        return days.contains(day);
+    }
+
+    public void addDay(Day day) {
+        days.add(day);
+    }
+
+    public void addConsumption(Day before, Day after) {
+        // uniquedaylist handles consumption and changes to that day
+        days.addConsumption(before, after);
+    }
 
     /**
      * Replaces the contents of the person list with {@code persons}.
@@ -117,4 +136,5 @@ public class AddressBook implements ReadOnlyAddressBook {
     public int hashCode() {
         return persons.hashCode();
     }
+
 }

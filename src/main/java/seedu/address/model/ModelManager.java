@@ -11,6 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.day.Day;
+import seedu.address.model.food.Food;
 import seedu.address.model.person.Person;
 
 /**
@@ -110,6 +112,21 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public boolean hasDay(Day day) {
+        return addressBook.hasDay(day);
+    }
+
+    @Override
+    public void addDay(Day day) {
+        addressBook.addDay(day);
+    }
+
+    @Override
+    public void addConsumption(Day before, Day after) {
+        addressBook.addConsumption(before, after);
     }
 
     //=========== Filtered Person List Accessors =============================================================

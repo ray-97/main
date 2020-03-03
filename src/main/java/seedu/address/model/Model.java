@@ -5,6 +5,8 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.day.Day;
+import seedu.address.model.food.Food;
 import seedu.address.model.person.Person;
 
 /**
@@ -76,6 +78,10 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
+    void addDay(Day day);
+
+    void addConsumption(Day before, Day after);
+
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
@@ -84,4 +90,6 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    boolean hasDay(Day dayConsumed);
 }
