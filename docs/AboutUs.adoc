@@ -4,53 +4,53 @@
 :imagesDir: images
 :stylesDir: stylesheets
 
-AddressBook - Level 3 was developed by the https://se-edu.github.io/docs/Team.html[se-edu] team. +
-_{The dummy content given below serves as a placeholder to be used by future forks of the project.}_ +
+Calgo was developed by the http://github.com/AY1920S2-CS2103T-F11-1[F11-1] team. +
 {empty} +
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
 == Project Team
 
-=== John Doe
-image::damithc.jpg[width="150", align="left"]
-{empty}[http://www.comp.nus.edu.sg/~damithch[homepage]] [https://github.com/damithc[github]] [<<johndoe#, portfolio>>]
+=== Vineeth Buddha
+image::buddhavineeth.png[width="150", align="left"]
+{empty}[https://github.com/buddhavineeth[github]]
 
-Role: Project Advisor
-
-'''
-
-=== John Roe
-image::lejolly.jpg[width="150", align="left"]
-{empty}[http://github.com/lejolly[github]] [<<johndoe#, portfolio>>]
-
-Role: Team Lead +
-Responsibilities: UI
+Role: Software Developer & Git Expert +
+Responsibilities: Data Analysis & Insights
 
 '''
 
-=== Johnny Doe
-image::yijinl.jpg[width="150", align="left"]
-{empty}[http://github.com/yijinl[github]] [<<johndoe#, portfolio>>]
+=== Eugene Tan Yew Chin
+image::eugenetyc.png[width="150", align="left"]
+{empty}[https://github.com/eugenetyc[github]]
 
-Role: Developer +
-Responsibilities: Data
-
-'''
-
-=== Johnny Roe
-image::m133225.jpg[width="150", align="left"]
-{empty}[http://github.com/m133225[github]] [<<johndoe#, portfolio>>]
-
-Role: Developer +
-Responsibilities: Dev Ops + Threading
+Role: Software Developer +
+Responsibilities: Data, Storage
 
 '''
 
-=== Benson Meier
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+=== Cai Rui Cong
+image::ray-97.png[width="150", align="left"]
+{empty}[https://github.com/ray-97[github]]
 
-Role: Developer +
-Responsibilities: UI
+Role: Project Manager & Software Developer +
+Responsibilities: DevOps & Project Management
+
+'''
+
+=== Low Zhang Xian
+image::jeremylow97.png[width="150", align="left"]
+{empty}[https://github.com/jeremylow97[github]]
+
+Role: Software Developer +
+Responsibilities: Logic & Documentation
+
+'''
+
+=== Janice Ong Yi Wen
+image::j-dan23.png[width="150", align="left"]
+{empty}[https://github.com/J-Dan23[github]]
+
+Role: Software Developer +
+Responsibilities: Models, GUI & Mock-Ups
 
 '''
