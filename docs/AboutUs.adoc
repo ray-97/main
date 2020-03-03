@@ -12,7 +12,7 @@ We are a team based in the http://www.comp.nus.edu.sg[School of Computing, Natio
 
 === Vineeth Buddha
 image::buddhavineeth.png[width="150", align="left"]
-{empty}[https://github.com/buddhavineeth[github]]
+{empty}[https://github.com/buddhavineeth[github]] [<<buddhavineeth#, portfolio>>]
 
 Role: Software Developer & Git Expert +
 Responsibilities: Data Analysis & Insights Report, Deliverables & Deadlines In-Charge
@@ -21,7 +21,7 @@ Responsibilities: Data Analysis & Insights Report, Deliverables & Deadlines In-C
 
 === Eugene Tan Yew Chin
 image::eugenetyc.png[width="150", align="left"]
-{empty}[https://github.com/eugenetyc[github]]
+{empty}[https://github.com/eugenetyc[github]] [<<eugenetyc#, portfolio>>]
 
 Role: Software Developer +
 Responsibilities: Data Search & Storage, Team Lead
@@ -30,7 +30,7 @@ Responsibilities: Data Search & Storage, Team Lead
 
 === Cai Rui Cong
 image::ray-97.png[width="150", align="left"]
-{empty}[https://github.com/ray-97[github]]
+{empty}[https://github.com/ray-97[github]] [<<ray-97#, portfolio>>]
 
 Role: Software Developer +
 Responsibilities: Data Collection & Organisation, Code Integration
@@ -39,7 +39,7 @@ Responsibilities: Data Collection & Organisation, Code Integration
 
 === Low Zhang Xian
 image::jeremylow97.png[width="150", align="left"]
-{empty}[https://github.com/jeremylow97[github]]
+{empty}[https://github.com/jeremylow97[github]] [<<jeremylow97#, portfolio>>]
 
 Role: Software Developer +
 Responsibilities: Object Modelling, Architecture & Code Quality
@@ -48,7 +48,7 @@ Responsibilities: Object Modelling, Architecture & Code Quality
 
 === Janice Ong Yi Wen
 image::j-dan23.png[width="150", align="left"]
-{empty}[https://github.com/J-Dan23[github]]
+{empty}[https://github.com/J-Dan23[github]] [<<j-dan23#, portfolio>>]
 
 Role: Software Developer +
 Responsibilities: GUI & Handling User Inputs, Documentation
