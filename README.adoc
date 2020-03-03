@@ -7,9 +7,11 @@ ifndef::env-github[]
 image::doc/images/Ui.png[width="600"]
 endif::[]
 
-* Calgo is a personal meal tracker to encourage and inspire healthy eating.
-* If you're reading about this product, chances are you're interested to be part of the active fitness community who will benefit greatly from Calgo.
+* Change the way you approach fitness: Calgo offers an all-in-one calorie tracker with insights to ensure that you are one step closer to your fitness goals.
+* Our comprehensive reports transform the way you approach your daily meals by offering tweaks to your meal consumption patterns, through a clean and simple interface.
+
 * For the modern technology user, we have conveniently made the application available on desktop.
+* Download our app now from our latest release!
 
 == Site Map
 
