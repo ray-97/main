@@ -322,6 +322,14 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user who dislikes memorising things |have an option to see the entire Food record |know what Food items have their data currently in the records
 
+|`* * *` |user who is forgetful | be able to edit the nutritional value of a previously saved Food item in the Food record | I can edit the Food Item if I remembered a nutrition value of the Food Item wrongly previously
+
+|`* * *` |user who is busy | be able to create a list of Food records with preset nutritional values| so that I can quickly choose a Food Item with preset values and add it to my calorie tracker
+
+|`* * *` |user who don't like redundant things | see and be warned if a Food item that I am about to update my Food Record with already exists| so that I can save time and effort and not create a duplicate item in the Food record.
+
+|`* * *` |user who gets bored of food easily |delete a Food item that I no longer want to eat in future from my Food records| so that I do not have so many Food items in the Food records that I no longer eat.
+
 |=======================================================================
 
 _{More to be added}_
@@ -391,6 +399,38 @@ Use case ends.
 *The Food record is empty.* +
 A message indicating that the Food records are currently empty is shown. +
 Use case ends.
+
+[discrete]
+=== Use case: update current Food record with new Food Item
+
+*MSS*
+
+1.  User requests to add a new Food Item in the Food Records
+2.  Calgo creates and saves a new Food Item in the Food Records with nutritional information specified by user.
++
+Use case ends.
+
+[discrete]
+=== Use case: update an existing Food Item in current Food record
+
+*MSS*
+
+1.  User requests to edit an existing Food Item in the Food Records
+2.  Calgo replaces the existing Food Item's nutritional value with the new nutritional information in the Food Records.
++
+Use case ends.
+
+[discrete]
+=== Use case: deletes an existing Food Item in current Food record
+
+*MSS*
+
+1.  User requests to delete an existing Food Item from the Food Records
+2.  Calgo deletes the existing Food Item in the Food Records.
++
+Use case ends.
+
+
 
 [appendix]
 == Non Functional Requirements

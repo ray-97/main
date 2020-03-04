@@ -59,18 +59,38 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 Format: `help`
 
-=== Adding a person: `add`
+=== Updating the current Food Record: `update`
 
-Adds a person to the address book +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Updates a Food Item in the Food Record
 
-[TIP]
-A person can have any number of tags (including 0)
+****
+* If Food Item is not present in the Food Record, this will create a new Food Item with all the nutritional details specified
+* If Food Item is already present in the Food Record, this will override that Food Item with the nutritional details specified by user
+****
+
+Format: `update n/FOOD_NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `update n/pizza cal/200 p/10 c/200` +
+This command adds a new food item, pizza into the user’s food presets with nutritional details of 200 calories, 10g of protein, 200g of carbohydrates.
+* `update n/pizza c/100 p/10 c/100 f/30` +
+As pizza is already in the user’s food preset, this command overrides the nutritional details of pizza with 200 calories, 10g of protein, 200g of carbohydrates and 20g of fats
+
+
+[TIP]
+You can leave the any of the proteins, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
+
+=== Deleting a Food Item from current Food Record: `delete`
+Deletes the specified Food Item from the Food Record
+
+Format: `delete n/FOOD_NAME`
+
+Example:
+
+* `delete n/pizza` +
+Deletes pizza from the Food Record
+
 
 === Listing all Food items in Calgo's current Food Record : `list`
 
@@ -86,7 +106,7 @@ Provides a human-readable text file (FoodRecords.txt) in the target folder (defa
 
 Format: `export` or `export location/LOCATION`
 
-=== Editing a person : `edit`
+=== Editing a person : `edit` (TO BE EDITED BY RAY)
 
 Edits an existing person in the address book. +
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
@@ -134,7 +154,7 @@ Returns `chocolate protein powder shake` and `ON protein milkshake` which have 1
 Returns an error message
 
 // tag::delete[]
-=== Deleting a person : `delete`
+=== Deleting a person : `delete` (TO BE EDITED BY RAY)
 
 Deletes the specified person from the address book. +
 Format: `delete INDEX`
@@ -175,12 +195,13 @@ Format: `exit`
 * *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
 e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 * *Clear* : `clear`
-* *Delete* : `delete INDEX` +
-e.g. `delete 3`
+* *Update* : `update n/FOOD_NAME cal/CALORIES [p/PROTEINS] [p/PROTEINS] [c/CARBS] [f/FATS]`
+* *Delete* : `delete n/FOOD_NAME` +
+e.g. `delete pizza`
 * *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
 * *Find* : `find KEYWORD [MORE_KEYWORDS]` *OR* `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
-e.g. `find strawberr jam` *OR* +
+e.g. `find strawberry jam` *OR* +
 `find cal/100 f/10`
 * *List* : `list`
 * *Export* : `export` *OR* `export C:\Users\eugen\OneDrive\Desktop\`
