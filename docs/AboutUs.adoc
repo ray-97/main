@@ -8,49 +8,49 @@ Calgo was developed by the http://github.com/AY1920S2-CS2103T-F11-1[F11-1] team.
 {empty} +
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
-== Project Team
+== Project Team: F11-1
 
 === Vineeth Buddha
 image::buddhavineeth.png[width="150", align="left"]
-{empty}[https://github.com/buddhavineeth[github]]
+{empty}[https://github.com/buddhavineeth[github]] [<<buddhavineeth#, portfolio>>]
 
 Role: Software Developer & Git Expert +
-Responsibilities: Data Analysis & Insights
+Responsibilities: Data Analysis & Insights Report, Deliverables & Deadlines In-Charge
 
 '''
 
 === Eugene Tan Yew Chin
 image::eugenetyc.png[width="150", align="left"]
-{empty}[https://github.com/eugenetyc[github]]
+{empty}[https://github.com/eugenetyc[github]] [<<eugenetyc#, portfolio>>]
 
 Role: Software Developer +
-Responsibilities: Data, Storage
+Responsibilities: Data Search & Storage, Team Lead
 
 '''
 
 === Cai Rui Cong
 image::ray-97.png[width="150", align="left"]
-{empty}[https://github.com/ray-97[github]]
+{empty}[https://github.com/ray-97[github]] [<<ray-97#, portfolio>>]
 
-Role: Project Manager & Software Developer +
-Responsibilities: DevOps & Project Management
+Role: Software Developer +
+Responsibilities: Data Collection & Organisation, Code Integration
 
 '''
 
 === Low Zhang Xian
 image::jeremylow97.png[width="150", align="left"]
-{empty}[https://github.com/jeremylow97[github]]
+{empty}[https://github.com/jeremylow97[github]] [<<jeremylow97#, portfolio>>]
 
 Role: Software Developer +
-Responsibilities: Logic & Documentation
+Responsibilities: Object Modelling, Architecture & Code Quality
 
 '''
 
 === Janice Ong Yi Wen
 image::j-dan23.png[width="150", align="left"]
-{empty}[https://github.com/J-Dan23[github]]
+{empty}[https://github.com/J-Dan23[github]] [<<j-dan23#, portfolio>>]
 
 Role: Software Developer +
-Responsibilities: Models, GUI & Mock-Ups
+Responsibilities: GUI & Handling User Inputs, Documentation
 
 '''
