@@ -180,7 +180,7 @@ Deletes the second food consumed today in the consumption log displayed using `s
 * `vomit num/1 d/2020-03-04 portion/3` +
 Deletes 3 portions of of the first food item consumed on 2020-03-04.
 
-=== Exporting the current Food Record : 'export'
+=== Exporting the current Food Record : `export`
 
 Provides a human-readable text file (FoodRecords.txt) in the target folder (default: same folder as the Calgo application), containing all Food item records including name, calories, and nutritional values.
 
