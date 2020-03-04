@@ -37,7 +37,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  You can try experimenting to see the results for yourself! Some example commands:
 
 * *`list`* : lists all Food items currently recorded in the Food Records.
-* **`add`**`n/kiwi cal/125 p/1 c/20 f/3` : adds a Food named `kiwi` to the Food Records with its details saved as: 125 calories, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
+* **`update**`n/kiwi cal/125 p/1 c/20 f/3` : If there is no Food named `kiwi` in Food Records, this command adds `kiwi` to the Food Records with its details saved as: 125 calories, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
 * **`find`**`banana` : finds the entry banana in the Food Records and returns its details if available; otherwise an error message will be shown.
 * *`exit`* : exits the Calgo application
 
@@ -93,7 +93,7 @@ As pizza is already in the user’s food preset, this command overrides the nutr
 
 
 [TIP]
-You can leave the any of the proteins, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
+You can leave any of the proteins, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
 
 === Deleting a Food Item from current Food Record: `delete`
 Deletes the specified Food Item from the Food Record
@@ -160,7 +160,7 @@ Format: `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]`
 
 Examples:
 
-* `find wI` +
+* `find kiwi` +
 Returns `kiwi` and `kiwi juice`
 * `find `cal/100 p/25` +
 Returns `chocolate protein powder shake` and `ON protein milkshake` which have 100 calories and 25 grams of protein
@@ -188,10 +188,48 @@ Deletes the 2nd person in the address book.
 `delete 1` +
 Deletes the 1st person in the results of the `find` command.
 
+=== Setting a dietary goal: `goal`
+
+Sets a numerical goal for the desired number of calories to be consumed in a day. +
+
+This goal will be used to provide helpful insights for users in the Report. +
+
+Format: `goal [g/GOAL]`
+
+Example:
+
+* `goal 2800` +
+Sets the desired number of calories to be consumed to be 2800.
+
+
+=== Generating insights : `report`
+Given a date, the command generates a document (in pdf format) of relevant insights about the user's food consumption pattern of the same date.
+
+****
+* The report includes the following insights:
+** All Food items consumed on the given date. For each Food item, the following information will be included:
+*** Quantity consumed, for instance 3 servings.
+*** Number of calories consumed from the Food item.
+*** Amount of carbohydrates, proteins and fats consumed from the Food item.
+
+** The user's most liked Food item.
+** The total number of calories consumed in that day.
+** The total number of carbohydrates, proteins and fats consumed in that day.
+** A curated Food plan that includes Food items, that includes a healthy quantity of the user's favourite Food, while ensuring it meets user's dietary goal.
+****
+
+Example:
+
+* report `27-03-2020` +
+This generates a pdf containing the above-mentioned insights made on the consumption of  Food by the user, on 27th of March 2020.
+
+// todo: add Screenshot of report
+// todo: Graphical Report
+
 // end::delete[]
 === Clearing all entries : `clear`
 
-Clears all entries from the address book. +
+Clears all entries from the Food Record. +
 Format: `clear`
 
 === Exiting the program : `exit`
@@ -219,4 +257,6 @@ e.g. `find strawberry jam` *OR* +
 `find cal/100 f/10`
 * *List* : `list`
 * *Export* : `export` *OR* `export C:\Users\eugen\OneDrive\Desktop\`
+* *Goal* : `goal [g/GOAL]`
+* *Report* : `report [Date in dd-mm-yyyy]`
 * *Help* : `help`
