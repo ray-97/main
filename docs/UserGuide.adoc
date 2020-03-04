@@ -1,4 +1,4 @@
-= AddressBook Level 3 - User Guide
+= Calgo - User Guide
 :site-section: UserGuide
 :toc:
 :toc-title:
@@ -14,11 +14,14 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/AY1920S2-CS2103T-F11-1/main
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team F11-1`      Since: `March 2020`      Licence: `MIT`
 
 == Introduction
 
-AddressBook Level 3 (AB3) is for those who *prefer to use a desktop app for managing contacts*. More importantly, AB3 is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+Calgo is an *all-in-one calorie tracker* with deliverable insights to ensure that you are always one step ahead in your fitness goals.
+
+* For the modern day user who prefers to use a *desktop application*, Calgo's *Command Line Interface (CLI)* works seamlessly with its *Graphical User Interface (GUI)* to provide fast and accurate usage while presenting results with visual depth and clarity.
+* Fast typists would therefore greatly benefit from not only the speed of processing their input via the CLI but also the input correction methods of Calgo.
 
 == Quick Start
 
@@ -31,14 +34,14 @@ image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
+.  You can try experimenting to see the results for yourself! Some example commands:
 
-* *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Address Book.
-* **`delete`**`3` : deletes the 3rd contact shown in the current list
-* *`exit`* : exits the app
+* *`list`* : lists all Food items currently recorded in the Food Records.
+* **`add`**`n/kiwi cal/125 p/1 c/20 f/3` : adds a Food named `kiwi` to the Food Records with its details saved as: 125 calories, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
+* **`find`**`banana` : finds the entry banana in the Food Records and returns its details if available; otherwise an error message will be shown.
+* *`exit`* : exits the Calgo application
 
-.  Refer to <<Features>> for details of each command.
+.  Refer to <<Features>> section below for details of each command.
 
 [[Features]]
 == Features
@@ -46,10 +49,10 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-* Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/kiwi`.
+* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/kiwi t/favourite fruit` or as `n/kiwi`.
+* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be left empty, or used as `t/favourite`, `t/favourite t/green` etc.
+* Parameters can be in any order e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` is also acceptable.
 ====
 
 === Viewing help : `help`
@@ -69,10 +72,15 @@ Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
 
-=== Listing all persons : `list`
+=== Listing all Food items in Calgo's current Food Record : `list`
 
-Shows a list of all persons in the address book. +
+Shows a list of all Food items in the Food Records, with their respective nutritional values of Calories, Proteins, Carbohydrates, and Fats. +
 Format: `list`
+
+=== Exporting the current Food Record : 'export'
+
+Provides a human-readable text file (FoodRecords.txt) in the same folder as the Calgo application, containing all Food item records including name, calories, and nutritional values.
+Format: `export`
 
 === Editing a person : `edit`
 
@@ -94,25 +102,32 @@ Edits the phone number and email address of the 1st person to be `91234567` and 
 * `edit 2 n/Betsy Crower t/` +
 Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
-=== Locating persons by name: `find`
+=== Getting Food items by keywords or Food item values: `find`
 
-Finds persons whose names contain any of the given keywords. +
+Finds all Food items whose names contain any of the keyword(s), even as an incompletely-spelled word (e.g. by mistake). +
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
+* Alternatively, Food items can also be found by entering a specific value of its attributes, i.e. Calories, Proteins, Carbohydrates, or Fats. +
+Format: `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]`
+
+* Otherwise, an error message will be shown.
+
 ****
-* The search is case insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* The search is case insensitive. e.g `Kiwi` will match `kiwi`
+* The order of the keywords does not matter. e.g. `Grilled Cheeseburger` will match `Cheeseburger Grilled`
+* Incompletely-spelled words will be matched to all Food items containing the incompletely-spelled word. e.g. `Kiw` will match `Kiwi`
+* Food items matching at least one keyword (even if it is spelt incomplete) will be returned (i.e. `OR` search). e.g. `Ki Juice` results can include `Kiwi Ice Cream`, `Orange Juice`, `Kiki Brand Lemonade`
+* Finding by specific Food attribute values would filter out all matching Food items satisfying the criteria. e.g. `cal/90 c/10` results can include `KG Biscuit`, `Apple Slices` which have 90 calories and 10 grams of carbohydrates.
 ****
 
 Examples:
 
-* `find John` +
-Returns `john` and `John Doe`
-* `find Betsy Tim John` +
-Returns any person having names `Betsy`, `Tim`, or `John`
+* `find wI` +
+Returns `kiwi` and `kiwi juice`
+* `find `cal/100 p/25` +
+Returns `chocolate protein powder shake` and `ON protein milkshake` which have 100 calories and 25 grams of protein
+* `find` +
+Returns an error message
 
 // tag::delete[]
 === Deleting a person : `delete`
@@ -171,7 +186,9 @@ e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 123466
 e.g. `delete 3`
 * *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
 e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
+* *Find* : `find KEYWORD [MORE_KEYWORDS]` *OR* `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
+e.g. `find strawberr jam` *OR* +
+`find cal/100 f/10`
 * *List* : `list`
+* *Export* : `export`
 * *Help* : `help`
