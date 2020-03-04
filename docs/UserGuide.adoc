@@ -79,12 +79,12 @@ Format: `list`
 
 === Exporting the current Food Record : 'export'
 
-Provides a human-readable text file (FoodRecords.txt) in the same folder as the Calgo application, containing all Food item records including name, calories, and nutritional values.
+Provides a human-readable text file (FoodRecords.txt) in the target folder (default: same folder as the Calgo application), containing all Food item records including name, calories, and nutritional values.
 
 * Address book data are saved in the application automatically after any command that changes the data. There is no need to save manually for this matter. +
 * However, to obtain a more readable form of this data, use the `export` command.
 
-Format: `export`
+Format: `export` or `export location/LOCATION`
 
 === Editing a person : `edit`
 
@@ -183,5 +183,5 @@ e.g. `edit 2 n/James Lee e/jameslee@example.com`
 e.g. `find strawberr jam` *OR* +
 `find cal/100 f/10`
 * *List* : `list`
-* *Export* : `export`
+* *Export* : `export` *OR* `export C:\Users\eugen\OneDrive\Desktop\`
 * *Help* : `help`
