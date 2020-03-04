@@ -1,4 +1,4 @@
-= AddressBook Level 3 - Developer Guide
+= Calgo - Developer Guide
 :site-section: DeveloperGuide
 :toc:
 :toc-title:
@@ -14,7 +14,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/AY1920S2-CS2103T-F11-1/main
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team F11-1`      Since: `March 2020`      Licence: `MIT`
 
 == Setting up
 
@@ -279,13 +279,19 @@ Refer to the guide <<DevOps#, here>>.
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
+* wants to have, or already has, a lifestyle of eating healthy
+* has a need to manage a significant number of Food items (finding information about each Food item, tracking consumption, etc)
+* prefers desktop apps over other types
 * can type fast
 * prefers typing over mouse input
 * is reasonably comfortable using CLI apps
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*:
+
+* generate consumption reports and view progress and statistics
+* incomplete inputs can still give valid entries
+* generate Food records as a portable file
+* manage contacts faster than a typical mouse/GUI driven app
 
 [appendix]
 == User Stories
@@ -295,17 +301,27 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
-|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Calgo
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |user |have a portable and readable file to store the relevant values for each Food item |backup, share or export my personal Food records list
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |user who may not be able to access his laptop at some time |have a copy of my past Food records |use it for physical reference
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* * *` |user who wants to save a copy of my current Food records |specify a location for the save file |have the benefit of convenience
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* * *` |user who dislikes sieving through information and prefers to have only the relevant information presented |have a way to easily find what Food items I want in the records |save time and effort and not get annoyed
+
+|`* * *` |person who does not know what my food is made of |find out the nutritional composition of a particular food by name |locate details of the Food item without having to go through the entire Food record
+
+|`* * *` |lazy user who does not like typing too many tedious characters |have some form of autocomplete or input correction measure |obtain the same intended results for a search through the Food records as in the case of typing fully and correctly
+
+|`* * *` |user who cannot fully remember the Food name |have some form of autocomplete or input correction measure for incomplete keywords |obtain the possible results for a search through the Food records as in the case of typing fully and correctly
+
+|`* * *` |user who cannot fully remember the Food name |access a Food item's information by any one of its nutritional values I happen to remember |obtain a list of possible Food items that are relevant
+
+|`* * *` |user who dislikes memorising things |have an option to see the entire Food record |know what Food items have their data currently in the records
+
 |=======================================================================
 
 _{More to be added}_
@@ -313,44 +329,77 @@ _{More to be added}_
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: Delete person
+=== Use case: find Food item by name
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to find a Food item by the `name` keyword, which can be an incomplete word
+2.  Calgo shows a list of Food items which contains `name` in any part of the name of the Food item
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
+*The Food record is empty* +
+A message indicating that no such Food item exists is shown +
+Use case ends
+
+[discrete]
+=== Use case: find Food item by nutritional value
+
+*MSS*
+
+1.  User requests to find a Food item by any nutritional value of proteins, carbohydrates, or fats
+2.  Calgo shows a list of Food items in the Food records which has the same nutritional values
 +
 Use case ends.
 
-* 3a. The given index is invalid.
-+
-[none]
-** 3a1. AddressBook shows an error message.
-+
-Use case resumes at step 2.
+*Extensions*
 
-_{More to be added}_
+[none]
+*The Food record is empty.* +
+A message indicating that no such Food item exists is shown. +
+Use case ends.
+
+[discrete]
+=== Use case: export current Food records
+
+*MSS*
+
+1.  User requests to export the current Food records at a target location
+2.  Calgo creates a human-readable text file containing all Food item details at the target location
++
+Use case ends.
+
+[discrete]
+=== Use case: list current Food records
+
+*MSS*
+
+1.  User requests to list the current Food records
+2.  Calgo shows a list of all Food items in the current Food records
++
+Use case ends.
+
+*Extensions*
+
+[none]
+*The Food record is empty.* +
+A message indicating that the Food records are currently empty is shown. +
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
 
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `11` or above installed.
-.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 1000 Food items without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-_{More to be added}_
+.  Calgo should work on both 32-bit and 64-bit environments.
+.  The product expects users to initially find out about Food items and their respective nutritional values for creating Food item entries.
 
 [appendix]
 == Glossary
@@ -358,8 +407,8 @@ _{More to be added}_
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
 
-[[private-contact-detail]] Private contact detail::
-A contact detail that is not meant to be shared with others
+[[food-records]] Food records::
+The accumulated list of all Food items entered by the user, containing nutritional values of calories, number of grams of proteins, carbohydrates and fats.
 
 [appendix]
 == Product Survey

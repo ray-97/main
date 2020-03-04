@@ -80,6 +80,10 @@ Format: `list`
 === Exporting the current Food Record : 'export'
 
 Provides a human-readable text file (FoodRecords.txt) in the same folder as the Calgo application, containing all Food item records including name, calories, and nutritional values.
+
+* Address book data are saved in the application automatically after any command that changes the data. There is no need to save manually for this matter. +
+* However, to obtain a more readable form of this data, use the `export` command.
+
 Format: `export`
 
 === Editing a person : `edit`
@@ -160,17 +164,6 @@ Format: `clear`
 
 Exits the program. +
 Format: `exit`
-
-=== Saving the data
-
-Address book data are saved in the hard disk automatically after any command that changes the data. +
-There is no need to save manually.
-
-// tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
-
-_{explain how the user can enable/disable data encryption}_
-// end::dataencryption[]
 
 == FAQ
 
