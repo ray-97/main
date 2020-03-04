@@ -289,9 +289,9 @@ Refer to the guide <<DevOps#, here>>.
 *Value proposition*:
 
 * generate consumption reports and view progress and statistics
-* incomplete inputs can still give valid entries
+* app tolerates incomplete inputs and produces valid entries as output
 * generate Food records as a portable file
-* manage contacts faster than a typical mouse/GUI driven app
+* manage caloric tracking faster than a typical mouse/GUI driven app
 
 [appendix]
 == User Stories
@@ -339,6 +339,14 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* * *` |user who is busy | obtain an easy-to-understand consumption report | quickly understand my food consumption patterns and make plans to rectify them accordingly.
 
 |`* * *` |user who is a fitness influencer | get a screenshot and share my daily food consumption | can inspire my followers.
+
+|`* * *` |user who remembers the big picture but not the specifics | search for a particular part of a guide | not be bothered by unnecessary information.
+
+|`* *` |forgetful user | be able to find exact command formats | so that I won't need to go through the trouble of memorising commands
+
+|`* * *` | user who values visuals | curated information expressed in a well organised graph | intuitively understand information
+
+|`* * *` | user who values opinions | have some suggestions based on my goals and consumption patterns | know my options when I am indecisive on what to eat
 
 |=======================================================================
 
