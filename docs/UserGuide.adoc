@@ -37,7 +37,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  You can try experimenting to see the results for yourself! Some example commands:
 
 * *`list`* : lists all Food items currently recorded in the Food Records.
-* **`update**`n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the Food Records if there is currently no Food called 'kiwi' inside it, with 'kiwi's details saved as: 125 calories, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
+* **`update**n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the Food Records if there is currently no Food called 'kiwi' inside it, with its details saved as: 125 calories, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
 * **`find`**`banana` : finds the entry banana in the Food Records and returns its details if available; otherwise an error message will be shown.
 * *`exit`* : exits the Calgo application
 
@@ -55,7 +55,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 * Parameters can be in any order e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` is also acceptable.
 ====
 
-=== Viewing help : `help`
+=== Displaying help : `help`
 
 Displays a guide for all available commands in Calgo.
 
@@ -82,13 +82,13 @@ Updates a Food Item in the Food Record.
 * If Food Item is already present in the Food Record, this will override that Food Item with the nutritional details specified by user
 ****
 
-Format: `update n/FOOD_NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
+Format: `update n/NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
 
 Examples:
 
 * `update n/pizza cal/200 p/10 c/200` +
-This command adds a new food item, pizza into the user’s food presets with nutritional details of 200 calories, 10g of protein, 200g of carbohydrates.
-* `update n/pizza c/100 p/10 c/100 f/30` +
+This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calories, 10g of protein, 200g of carbohydrates.
+* `update n/pizza cal/100 p/10 c/100 f/30` +
 As pizza is already in the user’s food preset, this command overrides the nutritional details of pizza with 200Cal calories, 10g of protein, 200g of carbohydrates and 20g of fats.
 
 
@@ -98,7 +98,7 @@ You can leave any of the proteins, carbohydrates or fats value of a food item bl
 === Deleting a Food Item from current Food Record: `delete`
 Deletes the specified Food Item from the Food Record.
 
-Format: `delete n/FOOD_NAME`
+Format: `delete n/NAME`
 
 Example:
 
@@ -136,7 +136,7 @@ Displays a list of food user has consumed today.
 
 Adds a food item into the log which keeps track of what the user has eaten on that day.
 
-Format: `nom [n/FOOD_NAME] [d/DATE] [portion/PORTION]`
+Format: `nom [n/NAME] [d/DATE] [portion/PORTION]`
 
 ****
 * If a date is not provided, Calgo will take it that the user ate the food today.
@@ -188,17 +188,18 @@ Provides a human-readable text file (FoodRecords.txt) in the target folder (defa
 * Calgo data is saved in the application automatically after any command that changes the data. There is no need to save manually. +
 * However, to obtain a more readable form of this data, use the `export` command.
 
-Format: `export` or `export location/LOCATION`
+Format: `export [location/LOCATION]`
 
 === Getting Food items by keywords or Food item values : `find`
 
-Finds all Food items whose names contain any of the keyword(s), even as an incompletely-spelled word (e.g. by mistake). +
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Finds all Food items whose names contain any of the keyword(s), even as an incompletely-spelled word (e.g. by mistake).
 
 * Alternatively, Food items can also be found by entering a specific value of its attributes, i.e. Calories, Proteins, Carbohydrates, or Fats. +
 Format: `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]`
 
 * Otherwise, an error message will be shown.
+
+Format: `find KEYWORD [MORE_KEYWORDS]`
 
 ****
 * The search is case insensitive. e.g `Kiwi` will match `kiwi`
@@ -273,8 +274,8 @@ Format: `exit`
 == Command Summary
 
 * *Clear* : `clear`
-* *Update* : `update n/FOOD_NAME cal/CALORIES [p/PROTEINS] [p/PROTEINS] [c/CARBS] [f/FATS]`
-* *Delete* : `delete n/FOOD_NAME` +
+* *Update* : `update n/NAME cal/CALORIES [p/PROTEINS] [p/PROTEINS] [c/CARBS] [f/FATS]`
+* *Delete* : `delete n/NAME` +
 e.g. `delete pizza`
 * *Find* : `find KEYWORD [MORE_KEYWORDS]` *OR* `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
 e.g. `find strawberry jam` *OR* +
@@ -282,11 +283,11 @@ e.g. `find strawberry jam` *OR* +
 * *List* : `list`
 * *Stomach* : stomach [d/DATE] +
 eg. `stomach d/` *OR* `stomach d/2020-03-04`
-* *Nom* : nom [n/FOOD_NAME] [d/DATE] [portion/PORTION] +
+* *Nom* : nom [n/NAME] [d/DATE] [portion/PORTION] +
 eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken d/ portion/`
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
 eg. `vomit num/1 d/2020-03-04 portion/3` *OR* `num/2 d/ portion/`
-* *Export* : `export` *OR* `export C:\Users\eugen\OneDrive\Desktop\`
+* *Export* : `export` *OR* `export location /C:\Users\eugen\OneDrive\Desktop\`
 * *Goal* : `goal [g/GOAL]`
 * *Report* : `report [Date in dd-mm-yyyy]`
 * *Help* : `help`
