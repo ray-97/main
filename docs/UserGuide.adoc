@@ -73,7 +73,7 @@ This command will display all available commands, along with their associated co
 * `help list` +
 This command will display only available commands containing the keyword 'list'.
 
-=== Updating the current Food Record: `update`
+=== Updating the current Food Record : `update`
 
 Updates a Food Item in the Food Record.
 
@@ -181,7 +181,7 @@ Deletes the second food consumed today in the consumption log displayed using `s
 * `vomit num/1 d/2020-03-04 portion/3` +
 Deletes 3 portions of of the first food item consumed on 2020-03-04.
 
-=== Exporting the current Food Record : 'export'
+=== Exporting the current Food Record : `export`
 
 Provides a human-readable text file (FoodRecords.txt) in the target folder (default: same folder as the Calgo application), containing all Food item records including name, calories, and nutritional values.
 
@@ -190,14 +190,7 @@ Provides a human-readable text file (FoodRecords.txt) in the target folder (defa
 
 Format: `export` or `export location/LOCATION`
 
-Examples:
-
-* `edit 1 p/91234567 e/johndoe@example.com` +
-Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-* `edit 2 n/Betsy Crower t/` +
-Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
-
-=== Getting Food items by keywords or Food item values: `find`
+=== Getting Food items by keywords or Food item values : `find`
 
 Finds all Food items whose names contain any of the keyword(s), even as an incompletely-spelled word (e.g. by mistake). +
 Format: `find KEYWORD [MORE_KEYWORDS]`
@@ -279,14 +272,10 @@ Format: `exit`
 
 == Command Summary
 
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
-e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 * *Clear* : `clear`
 * *Update* : `update n/FOOD_NAME cal/CALORIES [p/PROTEINS] [p/PROTEINS] [c/CARBS] [f/FATS]`
 * *Delete* : `delete n/FOOD_NAME` +
 e.g. `delete pizza`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
-e.g. `edit 2 n/James Lee e/jameslee@example.com`
 * *Find* : `find KEYWORD [MORE_KEYWORDS]` *OR* `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
 e.g. `find strawberry jam` *OR* +
 `find cal/100 f/10`
@@ -295,8 +284,8 @@ e.g. `find strawberry jam` *OR* +
 eg. `stomach d/` *OR* `stomach d/2020-03-04`
 * *Nom* : nom [n/FOOD_NAME] [d/DATE] [portion/PORTION] +
 eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken d/ portion/`
-* *Vomit* : `vomit [n/FOOD_NAME] [d/DATE] [portion/PORTION]` +
-eg. `vomit n/chicken d/2020-03-04 portion/3` *OR* `vomit n/apple pie d/ portion/`
+* *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
+eg. `vomit num/1 d/2020-03-04 portion/3` *OR* `num/2 d/ portion/`
 * *Export* : `export` *OR* `export C:\Users\eugen\OneDrive\Desktop\`
 * *Goal* : `goal [g/GOAL]`
 * *Report* : `report [Date in dd-mm-yyyy]`
