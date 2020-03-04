@@ -57,7 +57,21 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 === Viewing help : `help`
 
-Format: `help`
+Displays a guide for all available commands for Calgo.
+
+****
+* This will display all available commands, in alphabetical order
+* If only a specific command is wanted, `help` can used with a keyword.
+****
+
+Format: `help [KEYWORD]`
+
+Examples:
+
+* `help` +
+This command will display all available commands, along with their associated command format and a brief description of the command's purpose.
+* `help list` +
+This command will display only available commands containing the keyword 'list'.
 
 === Updating the current Food Record: `update`
 
