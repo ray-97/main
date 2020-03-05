@@ -3,8 +3,12 @@ ifdef::env-github,env-browser[:relfileprefix: docs/]
 
 https://travis-ci.org/AY1920S2-CS2103T-F11-1/main[image:https://travis-ci.org/se-edu/addressbook-level3.svg?branch=master[Build Status]]
 
-ifndef::env-github[]
+ifdef::env-github[]
 image::docs/images/Ui.png[width="600"]
+endif::[]
+
+ifndef::env-github[]
+image::images/Ui.png[width="600"]
 endif::[]
 
 * Change the way you approach fitness: Calgo offers an all-in-one calorie tracker with insights to ensure that you are one step closer to your fitness goals.
