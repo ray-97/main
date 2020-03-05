@@ -7,6 +7,10 @@ ifndef::env-github[]
 image::docs/images/Ui.png[width="600"]
 endif::[]
 
+ifndef::env-github[]
+image::images/Ui.png[width="600"]
+endif::[]
+
 * Change the way you approach fitness: Calgo offers an all-in-one calorie tracker with insights to ensure that you are one step closer to your fitness goals.
 * Our comprehensive reports transform the way you approach your daily meals by offering tweaks to your meal consumption patterns, through a clean and simple interface.
 
