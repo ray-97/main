@@ -53,6 +53,15 @@ public class AddressBookParser {
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
 
+        case StomachCommandParser.COMMAND_WORD:
+            return new StomachCommandParser().parse(arguments);
+
+        case NomCommandParser.COMMAND_WORD:
+            return new NomCommandParser().parse(arguments);
+
+        case VomitCommandParser.COMMAND_WORD:
+            return new VomitCommandParser().parse(arguments);
+
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
 

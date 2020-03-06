@@ -58,6 +58,13 @@ public class AddressBook implements ReadOnlyAddressBook {
         days.addConsumption(before, after);
     }
 
+    // simply returns uniquedaylist as unmodifiable observable list
+    // uniquedaylist itself has an observable list, but here we making use of its property as
+    // an iterable.
+    public ObservableList<Day> getDayList() {
+        return days.asUnmodifiableObservableList();
+    }
+
     /**
      * Replaces the contents of the person list with {@code persons}.
      * {@code persons} must not contain duplicate persons.
