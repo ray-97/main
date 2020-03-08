@@ -358,42 +358,51 @@ _{More to be added}_
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: find Food item by name
+=== Use case: UC1 - Find Food item by name
+*System:* Calgo +
+*Actor:* User +
+*MSS:*
 
-*MSS*
-
-1.  User requests to find a Food item by the `name` keyword, which can be an incomplete word
-2.  Calgo shows a list of Food items which contains `name` in any part of the name of the Food item
+1. User uses the find command along with a partial/complete string which he wishes to match.
+2. Calgo displays a drop down list of suggestions while user is entering the name of the food.
+3. User decides on the input and presses enter.
+4. Calgo outputs a list of Food items that has name matching the string
 +
 Use case ends.
 
-*Extensions*
+*Extensions:* +
 
 [none]
-*The Food record is empty* +
-A message indicating that no such Food item exists is shown +
-Use case ends
+3a. Invalid input format, such as wrong prefixes used. +
+&ensp;&ensp;3a1. Calgo displays a message warning about wrong format. +
+&ensp;&ensp;Use case ends
+
+4a. Food item does not exist. +
+&ensp;&ensp;4a1. Calgo displays a message indicating that no such Food item exists. +
+&ensp;&ensp;Use case ends
 
 [discrete]
-=== Use case: find Food item by nutritional value
-
+=== Use case: UC2 - Find Food item by nutritional value
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
-1.  User requests to find a Food item by any nutritional value of proteins, carbohydrates, or fats
-2.  Calgo shows a list of Food items in the Food records which has the same nutritional values
+1.  User requests to find a Food item by any nutritional value of proteins, carbohydrates, or fats.
+2.  Calgo shows a list of Food items in the Food records which has the same nutritional values.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-*The Food record is empty.* +
-A message indicating that no such Food item exists is shown. +
-Use case ends.
+2a. The Food record is empty. +
+&ensp;&ensp;2a1. A message indicating that no such Food item exists is shown. +
+&ensp;&ensp;Use case ends.
 
 [discrete]
 === Use case: export current Food records
-
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
 1.  User requests to export the current Food records at a target location
@@ -403,7 +412,8 @@ Use case ends.
 
 [discrete]
 === Use case: list current Food records
-
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
 1.  User requests to list the current Food records
@@ -420,7 +430,8 @@ Use case ends.
 
 [discrete]
 === Use case: update current Food record with new Food Item
-
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
 1.  User requests to add a new Food Item in the Food Records
@@ -430,7 +441,8 @@ Use case ends.
 
 [discrete]
 === Use case: update an existing Food Item in current Food record
-
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
 1.  User requests to edit an existing Food Item in the Food Records
@@ -440,7 +452,8 @@ Use case ends.
 
 [discrete]
 === Use case: delete an existing Food Item in current Food record
-
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
 1.  User requests to delete an existing Food Item from the Food Records
@@ -450,7 +463,8 @@ Use case ends.
 
 [discrete]
 === Use case: set a dietary goal.
-
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
 1.  User sets a dietary goal for the daily number of calories to be consumed.
@@ -458,17 +472,16 @@ Use case ends.
 +
 Use case ends.
 
-
 [discrete]
 === Use case: generate a report on a specific day.
-
+*System:* Calgo +
+*Actor:* User +
 *MSS*
 
 1.  User requests to obtain a report on his or her food consumption pattern on a particular day.
 2.  Calgo analyses food consumed on that day and generates a document with actionable insights for the user.
 +
 Use case ends.
-
 
 [appendix]
 == Non Functional Requirements
