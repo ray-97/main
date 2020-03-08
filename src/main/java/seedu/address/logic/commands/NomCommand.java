@@ -23,12 +23,10 @@ public class NomCommand extends Command {
 
     private final Day dayConsumed;
     // private final EditDayDescriptor editDayDescriptor;
-    private final Day dayAfterConsuming;
 
-    public NomCommand(Day dayConsumed, Day dayAfterConsuming) {
+    public NomCommand(Day dayConsumed) {
         requireNonNull(dayConsumed);
         this.dayConsumed = dayConsumed;
-        this.dayAfterConsuming = dayAfterConsuming;
         // this.editDayDescriptor = editDayDescriptor;
     }
 
@@ -37,11 +35,11 @@ public class NomCommand extends Command {
         requireNonNull(model);
         if (!model.hasDay(dayConsumed)) {
             model.addDay(dayConsumed);
-        }
+        } // execute only passes in the corrected item to be edited in model. so parser needs to create dayAfterConsuming
         // parser uses descriptor, which is fed to command to createEditedDay.
         // createEditedDay, then feed it to model.
         // here we update the model with updated day, with updated log
-        model.addConsumption(dayConsumed, dayAfterConsuming);
+        model.addConsumptionToDay(dayConsumed);
         // return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         }
     }

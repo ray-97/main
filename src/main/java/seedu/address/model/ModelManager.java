@@ -127,8 +127,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addConsumption(Day before, Day after) {
-        addressBook.addConsumption(before, after);
+    public void addConsumptionToDay(Day dayConsumed) {
+        addressBook.addConsumptionToDay(dayConsumed);
     }
 
     //=========== Filtered Person List Accessors =============================================================

@@ -3,24 +3,25 @@ package seedu.address.model.day;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
-public class UniqueDayList implements Iterable<Day> {
+public class UniqueDayMap {
 
-    private final ObservableList<Day> internalList = FXCollections.observableArrayList();
-    private final ObservableList<Day> internalUnmodifiableList =
-            FXCollections.unmodifiableObservableList(internalList);
+    private final ObservableMap<LocalDate,Day> internalMap = FXCollections.observableHashMap();
+//    private final ObservableList<Day> internalUnmodifiableList =
+//            FXCollections.unmodifiableObservableList(internalList);
 
     // let Day be same if same local date.
     public boolean contains(Day toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::equals);
+        return internalMap.stream().anyMatch(toCheck::equals);
     }
 
     public void add(Day toAdd) {
@@ -28,13 +29,13 @@ public class UniqueDayList implements Iterable<Day> {
 //        if (contains(toAdd)) {
 //            throw new DuplicateDayException();
 //        }
-        internalList.add(toAdd);
+        internalMap.add(toAdd);
     }
 
     public void setDay(Day target, Day editedDay) {
         requireAllNonNull(target, editedDay);
 
-        int index = internalList.indexOf(target);
+        int index = internalMap.indexOf(target);
 //        if (index == -1) {
 //            throw new DayNotFoundException();
 //        }
@@ -43,13 +44,13 @@ public class UniqueDayList implements Iterable<Day> {
 //            throw new DuplicateDayException();
 //        }
 
-        internalList.set(index, editedDay);
+        internalMap.set(index, editedDay);
     }
 
     public void addConsumption(Day before, Day after) {
         requireAllNonNull(before, after);
 
-        int index = internalList.indexOf(before);
+        int index = internalMap.indexOf(before);
         if (index == -1) {
             throw new PersonNotFoundException();
         }
@@ -58,7 +59,7 @@ public class UniqueDayList implements Iterable<Day> {
             throw new DuplicatePersonException();
         }
 
-        internalList.set(index, after);
+        internalMap.set(index, after);
     }
 
     public void remove(Day toRemove) {
@@ -68,9 +69,9 @@ public class UniqueDayList implements Iterable<Day> {
 //        }
     }
 
-    public void setDays(UniqueDayList replacement) {
+    public void setDays(UniqueDayMap replacement) {
         requireNonNull(replacement);
-        internalList.setAll(replacement.internalList);
+        internalMap.setAll(replacement.internalMap);
     }
 
     // overloaded
@@ -80,28 +81,28 @@ public class UniqueDayList implements Iterable<Day> {
 //            throw new DuplicateDayException();
 //        }
 
-        internalList.setAll(days);
+        internalMap.setAll(days);
     }
 
-    public ObservableList<Day> asUnmodifiableObservableList() {
-        return internalUnmodifiableList;
-    }
+//    public ObservableList<Day> asUnmodifiableObservableList() {
+//        return internalUnmodifiableList;
+//    }
 
-    @Override
-    public Iterator<Day> iterator() {
-        return internalList.iterator();
-    }
+//    @Override
+//    public Iterator<Day> iterator() {
+//        return internalMap.iterator();
+//    }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof UniqueDayList // instanceof handles nulls
-                && internalList.equals(((UniqueDayList) other).internalList));
+                || (other instanceof UniqueDayMap // instanceof handles nulls
+                && internalMap.equals(((UniqueDayMap) other).internalMap));
     }
 
     @Override
     public int hashCode() {
-        return internalList.hashCode();
+        return internalMap.hashCode();
     }
 
     private boolean daysAreUnique(List<Day> days) {
@@ -115,4 +116,7 @@ public class UniqueDayList implements Iterable<Day> {
         return true;
     }
 
+    public void addConsumptionToDay(Day dayConsumed) {
+        // replace day in hashmap with our dayConsumed.
+    }
 }

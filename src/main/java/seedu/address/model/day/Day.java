@@ -39,6 +39,20 @@ public class Day {
         return dailyFoodLog;
     }
 
+    public static boolean isValidDate(String test) {
+        return true;
+        // else throw exceptions
+    }
+
+    public boolean isSameDay(Day otherDay) {
+        if (otherDay == this) {
+            return true;
+        }
+
+        return otherDay != null
+                && otherDay.getLocalDate().equals(getLocalDate());
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

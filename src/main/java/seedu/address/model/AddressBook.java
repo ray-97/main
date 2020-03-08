@@ -6,8 +6,7 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.day.Day;
-import seedu.address.model.day.UniqueDayList;
-import seedu.address.model.food.Food;
+import seedu.address.model.day.UniqueDayMap;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -18,7 +17,7 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
-    private final UniqueDayList days;
+    private final UniqueDayMap days;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -29,7 +28,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
-        days = new UniqueDayList();
+        days = new UniqueDayMap();
     }
 
     public AddressBook() {}
@@ -53,9 +52,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         days.add(day);
     }
 
-    public void addConsumption(Day before, Day after) {
+    public void addConsumptionToDay(Day dayConsumed) {
         // uniquedaylist handles consumption and changes to that day
-        days.addConsumption(before, after);
+        days.addConsumptionToDay(dayConsumed);
     }
 
     // simply returns uniquedaylist as unmodifiable observable list
