@@ -51,7 +51,6 @@ public class ParserUtil {
         return new Name(trimmedName);
     }
 
-
     public static Food parseFood(String food) throws ParseException {
         requireNonNull(food);
         String trimmedFood = food.trim();

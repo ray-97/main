@@ -17,6 +17,7 @@ public class UniqueDayList implements Iterable<Day> {
     private final ObservableList<Day> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
+    // let Day be same if same local date.
     public boolean contains(Day toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::equals);

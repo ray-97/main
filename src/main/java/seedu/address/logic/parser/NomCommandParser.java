@@ -28,15 +28,23 @@ public class NomCommandParser implements Parser<NomCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION);
+        // need to include remaining prefixes in case user accidentally include unwanted prefixes.
 
-        Index index;
+        // parse for food. then make new day based on parsed stuff
 
-        // we need to have something to parse for date
-        EditDayDescriptor editDayDescriptor = new EditDayDescriptor();
-        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editDayDescriptor.addToDailyFoodLog(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
-        }
 
+
+//        // we need to have something to parse for date
+//        EditDayDescriptor editDayDescriptor = new EditDayDescriptor();
+//        // throw exception if there is no name
+//        // parseFood(Food, parsePortion(...))
+//        editDayDescriptor.addToDailyFoodLog(ParserUtil.parseFood(argMultimap.getValue(PREFIX_NAME).get()));
+//        if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
+//            editDayDescriptor.setLocalDate();
+//        }
+
+        // date item + constructed item
+        return new NomCommand();
     }
 
 }

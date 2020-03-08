@@ -21,13 +21,15 @@ public class NomCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s on %";
 
-    private final Food toConsume;
     private final Day dayConsumed;
+    // private final EditDayDescriptor editDayDescriptor;
+    private final Day dayAfterConsuming;
 
-    public NomCommand(Food food, Day day) {
-        requireNonNull(food);
-        toConsume = food;
-        dayConsumed = day;
+    public NomCommand(Day dayConsumed, Day dayAfterConsuming) {
+        requireNonNull(dayConsumed);
+        this.dayConsumed = dayConsumed;
+        this.dayAfterConsuming = dayAfterConsuming;
+        // this.editDayDescriptor = editDayDescriptor;
     }
 
     @Override
@@ -43,47 +45,44 @@ public class NomCommand extends Command {
         // return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         }
     }
-    // I'm modifying days by adding food. Hence I am editing day, nothing to do with food here but adding.
-    // Afterwards, we need to handle adding to dailyfoodlist, if we have duplicate food, manipulate the portion.
 
-
-    // do we want to change these 2 to be under EditDayDescriptor class if we have edEat command?
-
-    private static Person createEditedDay(Day DayToEdit, EditDayDescriptor editDayDescriptor) {
-        assert personToEdit != null;
-
-        Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
-    }
-
-    public static class EditDayDescriptor {
-        private LocalDate localDate;
-        private DailyFoodLog dailyFoodLog;
-
-        public EditDayDescriptor() {}
-
-        public EditDayDescriptor(EditDayDescriptor toCopy) {
-            setLocalDate(toCopy.localDate);
-            setDailyFoodLog(toCopy.dailyFoodLog);
-        }
-
-        public void setLocalDate(LocalDate localDate) {
-            this.localDate = localDate;
-            // this.foodlist = foodlist?
-        }
-
-        // maybe useful if we decide to have edit.
-        public void setDailyFoodLog(DailyFoodLog dailyFoodLog) {
-            this.dailyFoodLog = dailyFoodLog;
-        }
-
-        public void addToDailyFoodLog(Food food) {
-            dailyFoodLog = dailyFoodLog.add(food);
-        }
+//    // do we want to change these 2 to be under EditDayDescriptor class if we have edEat command?
+//
+//    private static Person createEditedDay(Day DayToEdit, EditDayDescriptor editDayDescriptor) {
+//        assert personToEdit != null;
+//
+//        Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
+//        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
+//        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
+//        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+//        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+//
+//        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+//    }
+//
+//    public static class EditDayDescriptor {
+//        private LocalDate localDate;
+//        private DailyFoodLog dailyFoodLog;
+//
+//        public EditDayDescriptor() {}
+//
+//        public EditDayDescriptor(EditDayDescriptor toCopy) {
+//            setLocalDate(toCopy.localDate);
+//            setDailyFoodLog(toCopy.dailyFoodLog);
+//        }
+//
+//        public void setLocalDate(LocalDate localDate) {
+//            this.localDate = localDate;
+//            // this.foodlist = foodlist?
+//        }
+//
+//        // maybe useful if we decide to have edit.
+//        public void setDailyFoodLog(DailyFoodLog dailyFoodLog) {
+//            this.dailyFoodLog = dailyFoodLog;
+//        }
+//
+//        public void addToDailyFoodLog(Food food) {
+//            dailyFoodLog = dailyFoodLog.add(food);
+//        }
 
 }
