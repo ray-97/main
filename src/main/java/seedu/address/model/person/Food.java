@@ -4,6 +4,10 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Objects;
 
+/**
+ * Represents a Food
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
 public class Food {
 
     // Identity fields
@@ -57,8 +61,11 @@ public class Food {
     }
 
 
+    /**
+     * Returns true if both food items are of the same name
+     */
     public boolean isSameFood(Food otherFood) {
-        if (otherFood == this) {  // truth be told idk what this does
+        if (otherFood == this) {
             return true;
         }
 

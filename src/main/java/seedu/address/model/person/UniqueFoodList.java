@@ -11,6 +11,17 @@ import javafx.collections.ObservableList;
 import seedu.address.model.person.exceptions.DuplicateFoodException;
 import seedu.address.model.person.exceptions.FoodNotFoundException;
 
+/**
+ * A list of food that enforces uniqueness between its elements and does not allow nulls.
+ * A food is considered unique by comparing using {@code Person#isSamePerson(Person)}. As such, adding and updating of
+ * food uses Person#isSamePerson(Person) for equality so as to ensure that the person being added or updated is
+ * unique in terms of identity in the UniqueFoodList. However, the removal of a food uses Person#equals(Object) so
+ * as to ensure that the person with exactly the same fields will be removed.
+ *
+ * Supports a minimal set of list operations.
+ *
+ * @see Person#isSamePerson(Person)
+ */
 public class UniqueFoodList implements Iterable<Food> {
 
     private final ObservableList<Food> internalList = FXCollections.observableArrayList();
