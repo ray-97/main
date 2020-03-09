@@ -19,15 +19,15 @@ import seedu.address.model.tag.Tag;
 
 public class NomCommand extends Command {
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s on %";
+    public static final String MESSAGE_SUCCESS = "Food consumed: %1$s on %";
 
     private final Day dayConsumed;
-    // private final EditDayDescriptor editDayDescriptor;
+    private final Food foodConsumed;
 
-    public NomCommand(Day dayConsumed) {
+    public NomCommand(Day dayConsumed, Food foodConsumed) {
         requireNonNull(dayConsumed);
         this.dayConsumed = dayConsumed;
-        // this.editDayDescriptor = editDayDescriptor;
+        this.foodConsumed = foodConsumed;
     }
     // Flow from GUI: mainwindow -> executeCommand handling help and exit <- logic.execute(commandResult),
     // and also interacts with AB storage(which gets AB from model) <- ABparser results commandResult
@@ -38,14 +38,12 @@ public class NomCommand extends Command {
         requireNonNull(model);
         if (!model.hasDay(dayConsumed)) {
             model.addDay(dayConsumed);
-        } // execute only passes in the corrected item to be edited in model. so parser needs to create dayAfterConsuming
-        // parser uses descriptor, which is fed to command to createEditedDay.
-        // createEditedDay, then feed it to model.
-        // here we update the model with updated day, with updated log
-        model.addConsumptionToDay(dayConsumed);
-        // return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         }
-    }
+        model.addConsumption(dayConsumed);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed, dayConsumed.getLocalDate()));
+        }
+
+}
 
 //    // do we want to change these 2 to be under EditDayDescriptor class if we have edEat command?
 //
@@ -86,4 +84,3 @@ public class NomCommand extends Command {
 //            dailyFoodLog = dailyFoodLog.add(food);
 //        }
 
-}

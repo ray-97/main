@@ -27,7 +27,13 @@ public class NomCommandParser implements Parser<NomCommand> {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
-    public NomCommand parse(String args, Model model) throws ParseException {
+    private final Model model;
+
+    public NomCommandParser(Model model) {
+        this.model = model;
+    }
+
+    public NomCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION);
@@ -59,7 +65,7 @@ public class NomCommandParser implements Parser<NomCommand> {
 //        }
 
         // date item + constructed item
-        return new NomCommand(dayConsumed);
+        return new NomCommand(dayConsumed, food);
     }
 
 }

@@ -58,7 +58,7 @@ public class AddressBookParser {
             return new StomachCommandParser().parse(arguments);
 
         case NomCommandParser.COMMAND_WORD:
-            return new NomCommandParser().parse(arguments, Model);
+            return new NomCommandParser(model).parse(arguments);
 
         case VomitCommandParser.COMMAND_WORD:
             return new VomitCommandParser().parse(arguments);

@@ -57,9 +57,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         return days.getDayByDate(date);
     }
 
-    public void addConsumptionToDay(Day dayConsumed) {
+    public void addConsumption(Day dayConsumed) {
         // uniquedaylist handles consumption and changes to that day
-        days.addConsumptionToDay(dayConsumed);
+        days.addConsumption(dayConsumed);
     }
 
     // simply returns uniquedaylist as unmodifiable observable list

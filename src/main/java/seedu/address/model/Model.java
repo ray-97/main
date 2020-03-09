@@ -81,11 +81,9 @@ public interface Model {
 
     void addDay(Day day);
 
-    void addConsumption(Day before, Day after);
-
     Day getDayByDate(LocalDate date);
 
-    void addConsumptionToDay(Day dayConsumed);
+    void addConsumption(Day dayConsumed);
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
