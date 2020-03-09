@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -124,6 +125,11 @@ public class ModelManager implements Model {
     @Override
     public void addDay(Day day) {
         addressBook.addDay(day);
+    }
+
+    @Override
+    public Day getDayByDate(LocalDate date) {
+        return addressBook.getDayByDate(date);
     }
 
     @Override

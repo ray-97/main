@@ -24,6 +24,10 @@ public class UniqueDayMap {
         return internalMap.stream().anyMatch(toCheck::equals);
     }
 
+    public Day getDayByDate(LocalDate date) {
+        return internalMap.get(date);
+    }
+
     public void add(Day toAdd) {
         requireNonNull(toAdd);
 //        if (contains(toAdd)) {

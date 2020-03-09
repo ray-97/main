@@ -16,7 +16,9 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.NomCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Model;
 import seedu.address.model.day.Day;
+import seedu.address.model.food.Food;
 
 public class NomCommandParser implements Parser<NomCommand> {
 
@@ -25,7 +27,7 @@ public class NomCommandParser implements Parser<NomCommand> {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
-    public NomCommand parse(String args) throws ParseException {
+    public NomCommand parse(String args, Model model) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION);
@@ -40,10 +42,13 @@ public class NomCommandParser implements Parser<NomCommand> {
             dayConsumed = dayConsumed.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
             // figure out how exceptions are handled for AB3.
         }
-        // dayToAdd = retrieve COPY from uniquedaymap
-        if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
-            dayConsumed.//create method in Day, to add food to dailyFoodLog depending on portion size.
+        if (model.getDayByDate(dayConsumed.getLocalDate()) != null) {
+            dayConsumed = model.getDayByDate(dayConsumed.getLocalDate());
         }
+
+        double portion = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
+        Food food = ParserUtil.parseFood(argMultimap.getValue(PREFIX_NAME).get());
+        dayConsumed = dayConsumed.consume(food);
 
 //        // we need to have something to parse for date
 //        // throw exception if there is no name

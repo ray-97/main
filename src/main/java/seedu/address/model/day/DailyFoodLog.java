@@ -18,19 +18,25 @@ public class DailyFoodLog {
     }
 
     // it is this log's job to check if items with same food name. + portion if same.
-    public DailyFoodLog add(Food food) {
-        List<Food> newFoodList = new ArrayList<>(foods);
-        // if newFoodList have food with same name/description, then increase the portion
-        // else
-        newFoodList.add(food);
-        return new DailyFoodLog(newFoodList);
+    public DailyFoodLog add(Food foodToAdd) {
+        List<Food> foods = new ArrayList<>();
+        for (Food food:this.foods) {
+            foods.add(food.copy());
+        }
+        if (foods.contains(foodToAdd)) {
+            Food existingFood = foods.get(foods.indexOf(foodToAdd));
+            double difference = foodToAdd.getPortion() - existingFood.getPortion();
+            foods.set(foods.indexOf(foodToAdd), existingFood.setPortion(difference));
+        } else {
+            foods.add(foodToAdd);
+        }
+        return new DailyFoodLog(foods);
     }
 
     public DailyFoodLog copy() {
         List<Food> foods = new ArrayList<>();
         for (Food food:this.foods) {
-            foods.add(food);
-            // foods.add(food.copy()); when zx done.
+            foods.add(food.copy());
         }
         return new DailyFoodLog(foods);
     }

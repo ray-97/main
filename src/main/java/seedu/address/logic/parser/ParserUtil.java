@@ -70,6 +70,25 @@ public class ParserUtil {
         }
     }
 
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static double parsePortion(String portion) {
+        requireNonNull(portion);
+        String trimmedPortion = portion.trim();
+        double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
+        return value;
+    }
+
     public static Food parseFood(String food) throws ParseException {
         requireNonNull(food);
         String trimmedFood = food.trim();
