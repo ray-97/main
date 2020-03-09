@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javafx.collections.ObservableList;
@@ -52,9 +53,13 @@ public class AddressBook implements ReadOnlyAddressBook {
         days.add(day);
     }
 
-    public void addConsumptionToDay(Day dayConsumed) {
+    public Day getDayByDate(LocalDate date) {
+        return days.getDayByDate(date);
+    }
+
+    public void addConsumption(Day dayConsumed) {
         // uniquedaylist handles consumption and changes to that day
-        days.addConsumptionToDay(dayConsumed);
+        days.addConsumption(dayConsumed);
     }
 
     // simply returns uniquedaylist as unmodifiable observable list

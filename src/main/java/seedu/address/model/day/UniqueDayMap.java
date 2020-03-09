@@ -15,51 +15,14 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
 public class UniqueDayMap {
 
     private final ObservableMap<LocalDate,Day> internalMap = FXCollections.observableHashMap();
-//    private final ObservableList<Day> internalUnmodifiableList =
-//            FXCollections.unmodifiableObservableList(internalList);
 
-    // let Day be same if same local date.
-    public boolean contains(Day toCheck) {
-        requireNonNull(toCheck);
-        return internalMap.stream().anyMatch(toCheck::equals);
+    public Day getDayByDate(LocalDate date) {
+        return internalMap.get(date);
     }
 
-    public void add(Day toAdd) {
-        requireNonNull(toAdd);
-//        if (contains(toAdd)) {
-//            throw new DuplicateDayException();
-//        }
-        internalMap.add(toAdd);
-    }
-
-    public void setDay(Day target, Day editedDay) {
-        requireAllNonNull(target, editedDay);
-
-        int index = internalMap.indexOf(target);
-//        if (index == -1) {
-//            throw new DayNotFoundException();
-//        }
-//
-//        if (!target.equals(editedDay) && contains(editedDay)) {
-//            throw new DuplicateDayException();
-//        }
-
-        internalMap.set(index, editedDay);
-    }
-
-    public void addConsumption(Day before, Day after) {
-        requireAllNonNull(before, after);
-
-        int index = internalMap.indexOf(before);
-        if (index == -1) {
-            throw new PersonNotFoundException();
-        }
-
-        if (!before.equals(after) && contains(after)) {
-            throw new DuplicatePersonException();
-        }
-
-        internalMap.set(index, after);
+    public void addConsumption(Day dayToAdd) {
+        requireAllNonNull(dayToAdd);
+        internalMap.put(dayToAdd.getLocalDate(), dayToAdd);
     }
 
     public void remove(Day toRemove) {
@@ -68,30 +31,6 @@ public class UniqueDayMap {
 //            throw new DayNotFoundException();
 //        }
     }
-
-    public void setDays(UniqueDayMap replacement) {
-        requireNonNull(replacement);
-        internalMap.setAll(replacement.internalMap);
-    }
-
-    // overloaded
-    public void setDays(List<Day> days) {
-        requireAllNonNull(days);
-//        if (!daysAreUnique(days)) {
-//            throw new DuplicateDayException();
-//        }
-
-        internalMap.setAll(days);
-    }
-
-//    public ObservableList<Day> asUnmodifiableObservableList() {
-//        return internalUnmodifiableList;
-//    }
-
-//    @Override
-//    public Iterator<Day> iterator() {
-//        return internalMap.iterator();
-//    }
 
     @Override
     public boolean equals(Object other) {
@@ -116,7 +55,4 @@ public class UniqueDayMap {
         return true;
     }
 
-    public void addConsumptionToDay(Day dayConsumed) {
-        // replace day in hashmap with our dayConsumed.
-    }
 }

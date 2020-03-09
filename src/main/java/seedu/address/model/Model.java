@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -80,9 +81,9 @@ public interface Model {
 
     void addDay(Day day);
 
-    void addConsumption(Day before, Day after);
+    Day getDayByDate(LocalDate date);
 
-    void addConsumptionToDay(Day dayConsumed);
+    void addConsumption(Day dayConsumed);
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();

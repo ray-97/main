@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +25,12 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+
+    private static final String DATE_PATTERN ="yyyy-MM-dd";
+    private static final String MESSAGE_INVALID_DATE = String.format(
+            "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -50,6 +58,35 @@ public class ParserUtil {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return new Name(trimmedName);
+    }
+
+    public static LocalDate parseDate(String date) throws ParseException {
+        requireNonNull(date);
+        String trimmedDate = date.trim();
+        try {
+            return LocalDate.parse(date, formatter);
+        } catch (Exception e) {
+            throw new ParseException("");
+        }
+    }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static double parsePortion(String portion) {
+        requireNonNull(portion);
+        String trimmedPortion = portion.trim();
+        double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
+        return value;
     }
 
     public static Food parseFood(String food) throws ParseException {
