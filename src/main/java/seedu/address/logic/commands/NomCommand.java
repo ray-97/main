@@ -29,6 +29,9 @@ public class NomCommand extends Command {
         this.dayConsumed = dayConsumed;
         // this.editDayDescriptor = editDayDescriptor;
     }
+    // Flow from GUI: mainwindow -> executeCommand handling help and exit <- logic.execute(commandResult),
+    // and also interacts with AB storage(which gets AB from model) <- ABparser results commandResult
+    // <- respective parser with feedback in commandResult -> passes Day into model -> model gives Day to save in AB model
 
     @Override
     public CommandResult execute(Model model) throws CommandException {

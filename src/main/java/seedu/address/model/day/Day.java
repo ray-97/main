@@ -3,6 +3,7 @@ package seedu.address.model.day;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
@@ -37,6 +38,11 @@ public class Day {
 
     public DailyFoodLog getDailyFoodLog() {
         return dailyFoodLog;
+    }
+
+    public Day setDate(LocalDate date) {
+        // do exception checking for invalid date? or catch LocalDate.parse?
+        return new Day(date, this.dailyFoodLog.copy());
     }
 
     public static boolean isValidDate(String test) {

@@ -37,7 +37,7 @@ public class NomCommandParser implements Parser<NomCommand> {
         // parse for food. then make new day based on parsed stuff
         Day dayConsumed = new Day();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
-            dayConsumed = dayConsumed.setDate(PREFIX_DATE);
+            dayConsumed = dayConsumed.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
             // figure out how exceptions are handled for AB3.
         }
         // dayToAdd = retrieve COPY from uniquedaymap

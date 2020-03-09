@@ -26,4 +26,13 @@ public class DailyFoodLog {
         return new DailyFoodLog(newFoodList);
     }
 
+    public DailyFoodLog copy() {
+        List<Food> foods = new ArrayList<>();
+        for (Food food:this.foods) {
+            foods.add(food);
+            // foods.add(food.copy()); when zx done.
+        }
+        return new DailyFoodLog(foods);
+    }
+
 }
