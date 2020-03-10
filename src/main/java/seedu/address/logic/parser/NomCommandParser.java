@@ -38,10 +38,13 @@ public class NomCommandParser implements Parser<NomCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION);
         // need to include remaining prefixes in case user accidentally include unwanted prefixes.
-        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)
-                || !argMultimap.getPreamble().isEmpty()) {
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)) {
             // throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, NomCommand.MESSAGE_USAGE));
         }
+
+        // if what we parsed are not correct, could be because of multimap not separating prefixes
+        // that were not tokenized.
+
         // parse for food. then make new day based on parsed stuff
         Day dayConsumed = new Day();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
@@ -51,9 +54,11 @@ public class NomCommandParser implements Parser<NomCommand> {
         if (model.getDayByDate(dayConsumed.getLocalDate()) != null) {
             dayConsumed = model.getDayByDate(dayConsumed.getLocalDate());
         }
-
-        double portion = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
-        Food food = ParserUtil.parseFood(argMultimap.getValue(PREFIX_NAME).get());
+        double portion = 1;
+        if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
+            portion = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
+        }
+        Food food = ParserUtil.parseFood(argMultimap.getValue(PREFIX_NAME).get()).setPortion(portion);
         dayConsumed = dayConsumed.consume(food);
 
 //        // we need to have something to parse for date
@@ -65,7 +70,8 @@ public class NomCommandParser implements Parser<NomCommand> {
 //        }
 
         // date item + constructed item
-        return new NomCommand(dayConsumed, food);
+
+
     }
 
 }

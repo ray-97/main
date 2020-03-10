@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -86,6 +87,15 @@ public class ParserUtil {
         requireNonNull(portion);
         String trimmedPortion = portion.trim();
         double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
+        return value;
+    }
+
+    public static OptionalInt parsePosition(String position) {
+        requireNonNull(position);
+        String trimmedPosition = position.trim();
+        OptionalInt value = isNumeric(trimmedPosition)
+                ? OptionalInt.of(Integer.parseInt(trimmedPosition))
+                : OptionalInt.empty();
         return value;
     }
 
@@ -171,4 +181,5 @@ public class ParserUtil {
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
+
 }

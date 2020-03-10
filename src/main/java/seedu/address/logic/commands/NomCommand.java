@@ -19,7 +19,8 @@ import seedu.address.model.tag.Tag;
 
 public class NomCommand extends Command {
 
-    public static final String MESSAGE_SUCCESS = "Food consumed: %1$s on %";
+    public static final String MESSAGE_SUCCESS = "%d portion of %s was consumed on %s";
+    public static final String COMMAND_WORD = "nom";
 
     private final Day dayConsumed;
     private final Food foodConsumed;
@@ -40,7 +41,8 @@ public class NomCommand extends Command {
             model.addDay(dayConsumed);
         }
         model.addConsumption(dayConsumed);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed, dayConsumed.getLocalDate()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed.getPortion(),
+                foodConsumed, dayConsumed.getLocalDate()));
         }
 
 }

@@ -25,7 +25,6 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private final FilteredList<Day> filteredDays;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -38,8 +37,7 @@ public class ModelManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        filteredDays = new FilteredList<>(this.addressBook.getDayList());
+        filteredPersons = new FilteredList<>(this.addressBook.getPersonList()); // only to return a list that cannot be modified.
     }
 
     public ModelManager() {
@@ -139,6 +137,8 @@ public class ModelManager implements Model {
 
     //=========== Filtered Person List Accessors =============================================================
 
+    // yet this the predicate was set to always return true? filters nothing?
+
     /**
      * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
      * {@code versionedAddressBook}
@@ -146,10 +146,6 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
-    }
-
-    public ObservableList<Day> getFilteredDayList() {
-        return filteredDays;
     }
 
     @Override

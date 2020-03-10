@@ -44,15 +44,6 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //// list overwrite operations
 
-    public boolean hasDay(Day day) {
-        requireNonNull(day);
-        return days.contains(day);
-    }
-
-    public void addDay(Day day) {
-        days.add(day);
-    }
-
     public Day getDayByDate(LocalDate date) {
         return days.getDayByDate(date);
     }
@@ -65,9 +56,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     // simply returns uniquedaylist as unmodifiable observable list
     // uniquedaylist itself has an observable list, but here we making use of its property as
     // an iterable.
-    public ObservableList<Day> getDayList() {
-        return days.asUnmodifiableObservableList();
-    }
 
     /**
      * Replaces the contents of the person list with {@code persons}.
