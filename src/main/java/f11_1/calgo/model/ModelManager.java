@@ -14,7 +14,7 @@ import f11_1.calgo.commons.core.LogsCenter;
 import f11_1.calgo.model.food.Food;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the food record data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
