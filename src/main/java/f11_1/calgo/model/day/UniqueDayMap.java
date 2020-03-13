@@ -1,15 +1,13 @@
 package f11_1.calgo.model.day;
 
+import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 public class UniqueDayMap {
 
@@ -22,13 +20,6 @@ public class UniqueDayMap {
     public void addConsumption(Day dayToAdd) {
         requireAllNonNull(dayToAdd);
         internalMap.put(dayToAdd.getLocalDate(), dayToAdd);
-    }
-
-    public void remove(Day toRemove) {
-        requireNonNull(toRemove);
-//        if (!internalList.remove(toRemove)) {
-//            throw new DayNotFoundException();
-//        }
     }
 
     @Override

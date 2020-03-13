@@ -1,42 +1,43 @@
 package f11_1.calgo.model.day;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import seedu.address.model.food.Food;
+import f11_1.calgo.model.food.Food;
 
 public class DailyFoodLog {
 
-    private final List<Food> foods;
+    private final HashMap<Food, Double> foods;;
 
     public DailyFoodLog() {
-        foods = new ArrayList<>();
+        foods = new HashMap<>();
     }
 
-    public DailyFoodLog(List<Food> foods) {
+    public DailyFoodLog(HashMap<Food, Double> foods) {
         this.foods = foods;
     }
 
     // it is this log's job to check if items with same food name. + portion if same.
-    public DailyFoodLog add(Food foodToAdd) {
-        List<Food> foods = new ArrayList<>();
-        for (Food food:this.foods) {
-            foods.add(food.copy());
+    // adapted from Vineeth.
+    public DailyFoodLog add(Food foodToAdd, double quantity) {
+        HashMap<Food, Double> foods = new HashMap<Food, Double>();
+        for (Food food : this.foods.keySet()) {
+            foods.put(food.copy(), this.foods.get(food));
         }
-        if (foods.contains(foodToAdd)) {
-            Food existingFood = foods.get(foods.indexOf(foodToAdd));
-            double difference = foodToAdd.getPortion() - existingFood.getPortion();
-            foods.set(foods.indexOf(foodToAdd), existingFood.setPortion(difference));
+        if (foods.containsKey(foodToAdd)) {
+            foods.put(foodToAdd, quantity + foods.get(foodToAdd));
         } else {
-            foods.add(foodToAdd);
+            foods.put(foodToAdd, quantity);
         }
         return new DailyFoodLog(foods);
     }
 
+    // adapted from Vineeth.
     public DailyFoodLog copy() {
-        List<Food> foods = new ArrayList<>();
-        for (Food food:this.foods) {
-            foods.add(food.copy());
+        HashMap<Food, Double> foods = new HashMap<>();
+        for (Food food: this.foods.keySet()) {
+            foods.put(food, this.foods.get(food));
         }
         return new DailyFoodLog(foods);
     }

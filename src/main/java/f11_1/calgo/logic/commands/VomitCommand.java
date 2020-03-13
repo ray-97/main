@@ -1,6 +1,5 @@
 package f11_1.calgo.logic.commands;
 
-import seedu.address.commons.core.index.Index;
 
 public class VomitCommand extends Command {
 

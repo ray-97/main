@@ -1,12 +1,11 @@
 package f11_1.calgo.model.day;
 
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-import seedu.address.model.food.Food;
-
+import f11_1.calgo.model.food.Food;
 
 public class Day {
     // Identity fields

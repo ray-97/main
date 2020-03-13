@@ -39,11 +39,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-<<<<<<< HEAD:src/main/java/seedu/address/logic/LogicManager.java
-        Command command = addressBookParser.parseCommand(commandText, model);
-=======
-        Command command = foodRecordParser.parseCommand(commandText);
->>>>>>> workingbranchfor1.2:src/main/java/f11_1/calgo/logic/LogicManager.java
+        Command command = foodRecordParser.parseCommand(commandText, model);
         commandResult = command.execute(model);
 
         try {

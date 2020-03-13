@@ -6,21 +6,10 @@ import static f11_1.calgo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-<<<<<<< HEAD:src/main/java/seedu/address/logic/parser/AddressBookParser.java
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.ExitCommand;
-import seedu.address.logic.commands.FindCommand;
-import seedu.address.logic.commands.HelpCommand;
 import f11_1.calgo.logic.commands.NomCommand;
 import f11_1.calgo.logic.commands.StomachCommand;
 import f11_1.calgo.logic.commands.VomitCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model;
-=======
+
 import f11_1.calgo.logic.commands.AddCommand;
 import f11_1.calgo.logic.commands.ClearCommand;
 import f11_1.calgo.logic.commands.Command;
@@ -31,7 +20,7 @@ import f11_1.calgo.logic.commands.FindCommand;
 import f11_1.calgo.logic.commands.HelpCommand;
 import f11_1.calgo.logic.commands.ListCommand;
 import f11_1.calgo.logic.parser.exceptions.ParseException;
->>>>>>> workingbranchfor1.2:src/main/java/f11_1/calgo/logic/parser/FoodRecordParser.java
+import f11_1.calgo.model.Model;
 
 /**
  * Parses user input.
@@ -70,7 +59,7 @@ public class FoodRecordParser {
             return new DeleteCommandParser().parse(arguments);
 
         case StomachCommand.COMMAND_WORD:
-            return new StomachCommandParser().parse(arguments);
+            return new StomachCommandParser(model).parse(arguments);
 
         case NomCommand.COMMAND_WORD:
             return new NomCommandParser(model).parse(arguments);
