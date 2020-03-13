@@ -1,4 +1,4 @@
-= AddressBook Level 3 - User Guide
+= Calgo - User Guide
 :site-section: UserGuide
 :toc:
 :toc-title:
@@ -12,33 +12,36 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level3
+:repoURL: https://github.com/AY1920S2-CS2103T-F11-1/main
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `Team F11-1`      Since: `March 2020`      Licence: `MIT`
 
 == Introduction
 
-AddressBook Level 3 (AB3) is for those who *prefer to use a desktop app for managing contacts*. More importantly, AB3 is *optimized for those who prefer to work with a Command Line Interface* (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps. Interested? Jump to the <<Quick Start>> to get started. Enjoy!
+Calgo is an *all-in-one calorie tracker* with deliverable insights to ensure that you are always one step ahead in your fitness goals.
+
+* For the modern day user who prefers to use a *desktop application*, Calgo's *Command Line Interface (CLI)* works seamlessly with its *Graphical User Interface (GUI)* to provide fast and accurate usage while presenting results with visual depth and clarity.
+* Fast typists would therefore greatly benefit from not only the speed of processing their input via the CLI but also the input correction methods of Calgo.
 
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Address Book.
+.  Download the latest `calgo.jar` link:{repoURL}/releases[here].
+.  Copy the file to the folder you want to use as the home folder for your Calgo application.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
 image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
+.  You can try experimenting to see the results for yourself! Some example commands:
 
-* *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Address Book.
-* **`delete`**`3` : deletes the 3rd contact shown in the current list
-* *`exit`* : exits the app
+* *`list`* : lists all Food items currently recorded in the Food Records.
+* **`update**n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the Food Records if there is currently no Food called 'kiwi' inside it, with its details saved as: 125 calorie, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
+* **`find`**`banana` : finds the entry banana in the Food Records and returns its details if available; otherwise an error message will be shown.
+* *`exit`* : exits the Calgo application
 
-.  Refer to <<Features>> for details of each command.
+.  Refer to <<Features>> section below for details of each command.
 
 [[Features]]
 == Features
@@ -46,116 +49,222 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-* Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/kiwi`.
+* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/kiwi t/favourite fruit` or as `n/kiwi`.
+* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be left empty, or used as `t/favourite`, `t/favourite t/green` etc.
+* Parameters can be in any order e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` is also acceptable.
 ====
 
-=== Viewing help : `help`
+=== Displaying help : `help`
 
-Format: `help`
+Displays a guide for all available commands in Calgo.
 
-=== Adding a person: `add`
+****
+* This will display all available commands, in alphabetical order
+* If only a specific command is wanted, `help` can used with a keyword.
+****
 
-Adds a person to the address book +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Format: `help [KEYWORD]`
+
+Examples:
+
+* `help` +
+This command will display all available commands, along with their associated command format and a brief description of the command's purpose.
+* `help list` +
+This command will display only available commands containing the keyword 'list'.
+
+=== Updating the current Food Record : `update`
+
+Updates a Food Item in the Food Record.
+
+****
+* If Food Item is not present in the Food Record, this will create a new Food Item with all the nutritional details specified
+* If Food Item is already present in the Food Record, this will override that Food Item with the nutritional details specified by user
+****
+
+Format: `update n/NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
+
+Examples:
+
+* `update n/pizza cal/200 p/10 c/200` +
+This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calorie, 10g of protein, 200g of carbohydrates.
+* `update n/pizza cal/100 p/10 c/100 f/30` +
+As pizza is already in the user’s food preset, this command overrides the nutritional details of pizza with 200Cal calorie, 10g of protein, 200g of carbohydrates and 20g of fats.
+
 
 [TIP]
-A person can have any number of tags (including 0)
+You can leave any of the protein, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
 
-Examples:
+=== Deleting a Food Item from current Food Record: `delete`
+Deletes the specified Food Item from the Food Record.
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+Format: `delete n/NAME`
 
-=== Listing all persons : `list`
+Example:
 
-Shows a list of all persons in the address book. +
+* `delete n/pizza` +
+Deletes pizza from the Food Record
+
+
+=== Listing all Food items in Calgo's current Food Record : `list`
+
+Shows a list of all Food items in the Food Records, with their respective nutritional values of calorie, protein, carbohydrates, and fats. +
 Format: `list`
 
-=== Editing a person : `edit`
+=== Showing all food items consumed on a particular day : `stomach`
 
-Edits an existing person in the address book. +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+Displays a list of food items along side how many portions have been consumed on that day.
+For a more detailed statistical report with nutritional values of food consumed, see `report` command.
+
+Format: `stomach [d/DATE]`
 
 ****
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index *must be a positive integer* 1, 2, 3, ...
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person's tags by typing `t/` without specifying any tags after it.
+* If a date is not provided, Calgo will take it that the user wishes to see food consumed today.
+* `d/` prefix will still have to be present, but the user can choose not to provide any values.
+* Date follows yyyy-mm-dd format.
 ****
 
 Examples:
 
-* `edit 1 p/91234567 e/johndoe@example.com` +
-Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-* `edit 2 n/Betsy Crower t/` +
-Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+* `stomach d/2020-03-04`
+Displays a list of food user has consumed on 2020-03-04.
 
-=== Locating persons by name: `find`
+* `stomach d/` +
+Displays a list of food user has consumed today.
 
-Finds persons whose names contain any of the given keywords. +
+=== Consuming food on a certain day : `nom`
+
+Adds a food item into the log which keeps track of what the user has eaten on that day.
+
+Format: `nom [n/NAME] [d/DATE] [portion/PORTION]`
+
+****
+* If a date is not provided, Calgo will take it that the user ate the food today.
+* `d/` prefix will still have to be present, but the user can choose not to provide any values.
+* Date follows yyyy-mm-dd format.
+* User can check how much nutritional content each type of food content by checking the existing list of food.
+* Ad-hoc consumption of food coming to you in v1.3 for flexibility should user be lazy to create a food items +
+which differs from existing ones/rarely eats. Also marked as ad-hoc since it does not exists in food record in case user
+have other plans in the future.
+* In v1.3, food items tagged with mood values will be displayed separately.
+****
+
+Examples:
+
+* `nom n/chicken d/2020-03-04 portion/1.5` +
+Adds 1.5 portion of chicken to the log tracking user's consumption on 4th March 2020.
+* `nom n/apple pie d/ portion/2` +
+Adds 2 portion of apple pie to the log tracking user's consumption today.
+
+=== Deleting something consumed on a certain day : `vomit`
+
+Deletes a food item that a user has previously added to the log tracking consumption on that day.
+
+Format: `vomit [num/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]`
+
+****
+* Deletes a portion of food at the specified `INDEX_OF_FOOD`.
+* The index refers to the index number shown in the displayed consumption list.
+* The index *must be a positive integer*: 1, 2, 3, ...
+* If no portion is specified, the whole entry is deleted.
+* If user specified a portion greater than what he has consumed, the entire entry will be deleted.
+* If no date is specified, Calgo takes it as the date is today.
+* Date follows yyyy-mm-dd format.
+****
+
+Examples:
+
+* `stomach` +
+`vomit num/2 d/ portion/` +
+Deletes the second food consumed today in the consumption log displayed using `stomach` command.
+
+* `vomit num/1 d/2020-03-04 portion/3` +
+Deletes 3 portions of of the first food item consumed on 2020-03-04.
+
+=== Exporting the current Food Record : `export`
+
+Provides a human-readable text file (FoodRecords.txt) in the target folder (default: same folder as the Calgo application), containing all Food item records including name, calorie, and nutritional values.
+
+* Calgo data is saved in the application automatically after any command that changes the data. There is no need to save manually. +
+* However, to obtain a more readable form of this data, use the `export` command.
+
+Format: `export [location/LOCATION]`
+
+=== Getting Food items by keywords or Food item values : `find`
+
+Finds all Food items whose names contain any of the keyword(s), even as an incompletely-spelled word (e.g. by mistake).
+
+* Alternatively, Food items can also be found by entering a specific value of its attributes, i.e. Calories, Proteins, Carbohydrates, or Fats. +
+Format: `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]`
+
+* Otherwise, an error message will be shown.
+
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
 ****
-* The search is case insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* The search is case insensitive. e.g `Kiwi` will match `kiwi`
+* The order of the keywords does not matter. e.g. `Grilled Cheeseburger` will match `Cheeseburger Grilled`
+* Incompletely-spelled words will be matched to all Food items containing the incompletely-spelled word. e.g. `Kiw` will match `Kiwi`
+* Food items matching at least one keyword (even if it is spelt incomplete) will be returned (i.e. `OR` search). e.g. `Ki Juice` results can include `Kiwi Ice Cream`, `Orange Juice`, `Kiki Brand Lemonade`
+* Finding by specific Food attribute values would filter out all matching Food items satisfying the criteria. e.g. `cal/90 c/10` results can include `KG Biscuit`, `Apple Slices` which have 90 calorie and 10 grams of carbohydrates.
 ****
 
 Examples:
 
-* `find John` +
-Returns `john` and `John Doe`
-* `find Betsy Tim John` +
-Returns any person having names `Betsy`, `Tim`, or `John`
+* `find kiwi` +
+Returns `kiwi` and `kiwi juice`
+* `find `cal/100 p/25` +
+Returns `chocolate protein powder shake` and `ON protein milkshake` which have 100 calorie and 25 grams of protein
+* `find` +
+Returns an error message
 
-// tag::delete[]
-=== Deleting a person : `delete`
+=== Setting a dietary goal: `goal`
 
-Deletes the specified person from the address book. +
-Format: `delete INDEX`
+Sets a numerical goal for the desired number of calorie to be consumed in a day. +
+
+This goal will be used to provide helpful insights for users in the Report. +
+
+Format: `goal [g/GOAL]`
+
+Example:
+
+* `goal 2800` +
+Sets the desired number of calorie to be consumed to be 2800.
+
+
+=== Generating insights : `report`
+Given a date, the command generates a document (in pdf format) of relevant insights about the user's food consumption pattern of the same date.
 
 ****
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index *must be a positive integer* 1, 2, 3, ...
+* The report includes the following insights:
+** All Food items consumed on the given date. For each Food item, the following information will be included:
+*** Quantity consumed, for instance 3 servings.
+*** Number of calorie consumed from the Food item.
+*** Amount of carbohydrates, protein and fats consumed from the Food item.
+
+** The user's most liked Food item.
+** The total number of calorie consumed in that day.
+** The total number of carbohydrates, protein and fats consumed in that day.
+** A curated Food plan that includes Food items, that includes a healthy quantity of the user's favourite Food, while ensuring it meets user's dietary goal.
 ****
 
-Examples:
+Example:
 
-* `list` +
-`delete 2` +
-Deletes the 2nd person in the address book.
-* `find Betsy` +
-`delete 1` +
-Deletes the 1st person in the results of the `find` command.
+* report `27-03-2020` +
+This generates a pdf containing the above-mentioned insights made on the consumption of  Food by the user, on 27th of March 2020.
 
-// end::delete[]
+// todo: add Screenshot of report
+// todo: Graphical Report
+
 === Clearing all entries : `clear`
 
-Clears all entries from the address book. +
+Clears all entries from the Food Record. +
 Format: `clear`
 
 === Exiting the program : `exit`
 
 Exits the program. +
 Format: `exit`
-
-=== Saving the data
-
-Address book data are saved in the hard disk automatically after any command that changes the data. +
-There is no need to save manually.
-
-// tag::dataencryption[]
-=== Encrypting data files `[coming in v2.0]`
-
-_{explain how the user can enable/disable data encryption}_
-// end::dataencryption[]
 
 == FAQ
 
@@ -164,14 +273,21 @@ _{explain how the user can enable/disable data encryption}_
 
 == Command Summary
 
-* *Add* `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +
-e.g. `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 * *Clear* : `clear`
-* *Delete* : `delete INDEX` +
-e.g. `delete 3`
-* *Edit* : `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +
-e.g. `edit 2 n/James Lee e/jameslee@example.com`
-* *Find* : `find KEYWORD [MORE_KEYWORDS]` +
-e.g. `find James Jake`
+* *Update* : `update n/NAME cal/CALORIES [p/PROTEINS] [p/PROTEINS] [c/CARBS] [f/FATS]`
+* *Delete* : `delete n/NAME` +
+e.g. `delete pizza`
+* *Find* : `find KEYWORD [MORE_KEYWORDS]` *OR* `find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
+e.g. `find strawberry jam` *OR* +
+`find cal/100 f/10`
 * *List* : `list`
+* *Stomach* : stomach [d/DATE] +
+eg. `stomach d/` *OR* `stomach d/2020-03-04`
+* *Nom* : nom [n/NAME] [d/DATE] [portion/PORTION] +
+eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken d/ portion/`
+* *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
+eg. `vomit num/1 d/2020-03-04 portion/3` *OR* `num/2 d/ portion/`
+* *Export* : `export` *OR* `export location /C:\Users\eugen\OneDrive\Desktop\`
+* *Goal* : `goal [g/GOAL]`
+* *Report* : `report [Date in dd-mm-yyyy]`
 * *Help* : `help`
