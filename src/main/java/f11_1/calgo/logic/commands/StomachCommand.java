@@ -9,7 +9,7 @@ public class StomachCommand extends Command {
 
     public static final String COMMAND_WORD = "stomach";
 
-    public static final String MESSAGE_SUCCESS = "Listed all food consumed on %s";
+    public static final String MESSAGE_SUCCESS = "Display all food consumed"; // on %s
 
     @Override
     public CommandResult execute(Model model) {
@@ -19,5 +19,3 @@ public class StomachCommand extends Command {
     }
 
 }
-
-// list is in personlist view component in mainwindow, which takes in a filteredlist (an observable list).

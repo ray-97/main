@@ -11,7 +11,9 @@ import f11_1.calgo.model.day.UniqueDayMap;
 import f11_1.calgo.model.food.Food;
 import f11_1.calgo.model.food.Name;
 import f11_1.calgo.model.food.UniqueFoodList;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 /**
  * Wraps all data at the food record level
@@ -131,6 +133,15 @@ public class FoodRecord implements ReadOnlyFoodRecord {
     public ObservableList<Food> getFoodList() {
         return foodList.asUnmodifiableObservableList();
     }
+
+//    @Override
+//    public ObservableMap<Food, Double> getDailyLog(Day day) {
+//        ObservableMap<Food, Double> dailyLog = FXCollections.observableHashMap();
+//        for (Food food: day.getDailyFoodLog().getFoods().keySet()) {
+//            dailyLog.put(food, day.getPortion(food));
+//        }
+//        return FXCollections.unmodifiableObservableMap(dailyLog);
+//    }
 
     @Override
     public boolean equals(Object other) {

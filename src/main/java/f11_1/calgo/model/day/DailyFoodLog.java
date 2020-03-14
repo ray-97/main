@@ -1,28 +1,26 @@
 package f11_1.calgo.model.day;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.OptionalDouble;
 
 import f11_1.calgo.model.food.Food;
 
 public class DailyFoodLog {
 
-    private final HashMap<Food, Double> foods;;
+    private final LinkedHashMap<Food, Double> foods;;
 
     public DailyFoodLog() {
-        foods = new HashMap<>();
+        foods = new LinkedHashMap<>();
     }
 
-    public DailyFoodLog(HashMap<Food, Double> foods) {
+    public DailyFoodLog(LinkedHashMap<Food, Double> foods) {
         this.foods = foods;
     }
 
     // it is this log's job to check if items with same food name. + portion if same.
     // adapted from Vineeth.
     public DailyFoodLog add(Food foodToAdd, double quantity) {
-        HashMap<Food, Double> foods = new HashMap<Food, Double>();
+        LinkedHashMap<Food, Double> foods = new LinkedHashMap<Food, Double>();
         for (Food food : this.foods.keySet()) {
             foods.put(food.copy(), this.foods.get(food));
         }
@@ -35,7 +33,7 @@ public class DailyFoodLog {
     }
 
     public DailyFoodLog remove(Food foodToRemove, OptionalDouble quantity) {
-        HashMap<Food, Double> foods = new HashMap<>();
+        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
         for (Food food : this.foods.keySet()) {
             foods.put(food.copy(), this.foods.get(food));
         }
@@ -53,13 +51,21 @@ public class DailyFoodLog {
         return new DailyFoodLog(foods);
     }
 
+    public LinkedHashMap<Food, Double> getFoods() {
+        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
+        for (Food food: this.foods.keySet()) {
+            foods.put(food, this.foods.get(food));
+        }
+        return foods;
+    }
+
     public double getPortion(Food food) {
         return foods.get(food);
     }
 
     // adapted from Vineeth.
     public DailyFoodLog copy() {
-        HashMap<Food, Double> foods = new HashMap<>();
+        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
         for (Food food: this.foods.keySet()) {
             foods.put(food, this.foods.get(food));
         }

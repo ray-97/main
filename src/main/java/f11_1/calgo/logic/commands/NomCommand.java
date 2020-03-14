@@ -3,15 +3,26 @@ package f11_1.calgo.logic.commands;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
-import f11_1.calgo.logic.commands.exceptions.CommandException;
+import f11_1.calgo.logic.parser.CliSyntax;
 import f11_1.calgo.model.Model;
 import f11_1.calgo.model.day.Day;
 import f11_1.calgo.model.food.Food;
 
 public class NomCommand extends Command {
 
-    public static final String MESSAGE_SUCCESS = "%d portion of %s was consumed on %s";
     public static final String COMMAND_WORD = "nom";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the food record. "
+            + "Parameters: "
+            + CliSyntax.PREFIX_NAME + "NAME "
+            + CliSyntax.PREFIX_DATE + "DATE"
+            + CliSyntax.PREFIX_PORTION + "PORTION\n"
+            + "Example: " + COMMAND_WORD + " "
+            + CliSyntax.PREFIX_NAME + "Kiwi "
+            + CliSyntax.PREFIX_DATE + "2020-14-03 "
+            + CliSyntax.PREFIX_PORTION + "2 ";
+
+    public static final String MESSAGE_SUCCESS = "Successfully consumed %1$s"; // %d portion of %s was consumed on %s
 
     private final Day dayConsumed;
     private final Food foodConsumed;
@@ -21,20 +32,24 @@ public class NomCommand extends Command {
         this.dayConsumed = dayConsumed;
         this.foodConsumed = foodConsumed;
     }
-    // Flow from GUI: mainwindow -> executeCommand handling help and exit <- logic.execute(commandResult),
-    // and also interacts with AB storage(which gets AB from model) <- ABparser results commandResult
-    // <- respective parser with feedback in commandResult -> passes Day into model -> model gives Day to save in AB model
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    public CommandResult execute(Model model) {
         requireNonNull(model);
         if (!model.hasDay(dayConsumed)) {
             model.addDay(dayConsumed);
         }
         model.addConsumption(dayConsumed);
-        // needs some way to get portion.
-        return new CommandResult(String.format(MESSAGE_SUCCESS, dayConsumed.getPortion(foodConsumed),
-                foodConsumed, dayConsumed.getLocalDate()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed));
+                // , dayConsumed.getPortion(foodConsumed), dayConsumed.getLocalDate()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof NomCommand // instanceof handles nulls
+                && foodConsumed.equals(((NomCommand) other).foodConsumed)
+                && dayConsumed.equals(((NomCommand) other).dayConsumed));
     }
 
 }

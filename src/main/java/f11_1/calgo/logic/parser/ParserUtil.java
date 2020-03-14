@@ -25,13 +25,13 @@ import f11_1.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-
     private static final String DATE_PATTERN ="yyyy-MM-dd";
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
+    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     private static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
-
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+    private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or nothing";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -65,9 +65,9 @@ public class ParserUtil {
         requireNonNull(date);
         String trimmedDate = date.trim();
         try {
-            return LocalDate.parse(date, formatter);
+            return LocalDate.parse(trimmedDate, formatter);
         } catch (Exception e) {
-            throw new ParseException("");
+            throw new ParseException(MESSAGE_INVALID_DATE);
         }
     }
 
@@ -83,9 +83,13 @@ public class ParserUtil {
         return true;
     }
 
-    public static double parsePortion(String portion) {
+    public static double parsePortion(String portion) throws ParseException {
         requireNonNull(portion);
         String trimmedPortion = portion.trim();
+        boolean isInvalidPortion = !isNumeric(trimmedPortion) && trimmedPortion.length() > 0;
+        if (!isInvalidPortion) {
+            throw new ParseException(MESSAGE_INVALID_PORTION);
+        }
         double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
         return value;
     }
@@ -96,15 +100,9 @@ public class ParserUtil {
         OptionalInt value = isNumeric(trimmedPosition)
                 ? OptionalInt.of(Integer.parseInt(trimmedPosition))
                 : OptionalInt.empty();
+        // need to check with "filteredList" that displays food, whether to throw exception.
         return value;
     }
-
-//    public static Food parseFood(String food) throws ParseException {
-//        requireNonNull(food);
-//        String trimmedFood = food.trim();
-//        // dummy method without validation
-//        return new Food(trimmedFood);
-//    }
 
     /**
      * Parses a {@code String calorie} into a {@code Calorie}.

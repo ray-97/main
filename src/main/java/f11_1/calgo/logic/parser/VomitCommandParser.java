@@ -1,9 +1,14 @@
 package f11_1.calgo.logic.parser;
 
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
 import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_DATE;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_FAT;
 import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_NAME;
 import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_PORTION;
 import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_POSITION;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_TAG;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
@@ -27,16 +32,16 @@ public class VomitCommandParser implements Parser<VomitCommand> {
     public VomitCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_POSITION, PREFIX_PORTION, PREFIX_DATE);
-        // are we supposed to include all existing prefixes then see if the ones interested are present?
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION,
+                        PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT,
+                        PREFIX_POSITION, PREFIX_TAG);
 
-        Day dayVommited = new Day();
+        Day dayVomited = new Day();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
-            dayVommited = dayVommited.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
-            // figure out how exceptions are handled for AB3.
+            dayVomited = dayVomited.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
         }
         OptionalDouble portion = OptionalDouble.empty();
-        if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
+        if (argMultimap.getValue(PREFIX_PORTION).isPresent()) { // we need to check if "" is present
             double parsedValue = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
             portion = OptionalDouble.of(parsedValue);
         }
@@ -45,12 +50,11 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         if (argMultimap.getValue(PREFIX_POSITION).isPresent()) {
             IndexOfFood = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
         }
-        // now we got portion, figure out how to deal with food. extract from daily log, then use num and portion!
         Optional<Food> optionalFood = model.getFoodByName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
 
-        dayVommited = dayVommited.vomit(optionalFood.get(), portion);
-        return new VomitCommand(dayVommited, optionalFood.get());
+        dayVomited = dayVomited.vomit(optionalFood.get(), portion);
+        return new VomitCommand(dayVomited, optionalFood.get());
     }
 
 }
