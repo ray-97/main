@@ -59,7 +59,7 @@ public class FoodRecordParser {
             return new DeleteCommandParser().parse(arguments);
 
         case StomachCommand.COMMAND_WORD:
-            return new StomachCommandParser(model).parse(arguments);
+            return new StomachCommand();
 
         case NomCommand.COMMAND_WORD:
             return new NomCommandParser(model).parse(arguments);

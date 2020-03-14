@@ -1,28 +1,20 @@
 package f11_1.calgo.logic.parser;
 
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_DATE;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_NAME;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_PORTION;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_POSITION;
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_POSITION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PORTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.EditCommand;
 import f11_1.calgo.logic.commands.VomitCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model;
+import f11_1.calgo.logic.parser.exceptions.ParseException;
+import f11_1.calgo.model.Model;
 import f11_1.calgo.model.day.Day;
-import seedu.address.model.food.Food;
+import f11_1.calgo.model.food.Food;
 
 public class VomitCommandParser implements Parser<VomitCommand> {
 
@@ -38,9 +30,9 @@ public class VomitCommandParser implements Parser<VomitCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_POSITION, PREFIX_PORTION, PREFIX_DATE);
         // are we supposed to include all existing prefixes then see if the ones interested are present?
 
-        Day dayConsumed = new Day();
+        Day dayVommited = new Day();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
-            dayConsumed = dayConsumed.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
+            dayVommited = dayVommited.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
             // figure out how exceptions are handled for AB3.
         }
         OptionalDouble portion = OptionalDouble.empty();
@@ -54,10 +46,11 @@ public class VomitCommandParser implements Parser<VomitCommand> {
             IndexOfFood = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
         }
         // now we got portion, figure out how to deal with food. extract from daily log, then use num and portion!
-        Food food = setPortion(portion);
-        dayConsumed = dayConsumed.consume(food);
+        Optional<Food> optionalFood = model.getFoodByName(
+                ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
 
-        return new VomitCommand(model, );
+        dayVommited = dayVommited.vomit(optionalFood.get(), portion);
+        return new VomitCommand(dayVommited, optionalFood.get());
     }
 
 }

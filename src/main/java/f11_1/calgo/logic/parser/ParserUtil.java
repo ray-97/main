@@ -10,17 +10,6 @@ import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Stream;
 
-<<<<<<< HEAD:src/main/java/seedu/address/logic/parser/ParserUtil.java
-import seedu.address.commons.core.index.Index;
-import seedu.address.commons.util.StringUtil;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.food.Food;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Phone;
-import seedu.address.model.tag.Tag;
-=======
 import f11_1.calgo.commons.core.index.Index;
 import f11_1.calgo.commons.util.StringUtil;
 import f11_1.calgo.logic.parser.exceptions.ParseException;
@@ -30,7 +19,6 @@ import f11_1.calgo.model.food.Protein;
 import f11_1.calgo.model.food.Fat;
 import f11_1.calgo.model.food.Name;
 import f11_1.calgo.model.tag.Tag;
->>>>>>> workingbranchfor1.2:src/main/java/f11_1/calgo/logic/parser/ParserUtil.java
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -111,12 +99,12 @@ public class ParserUtil {
         return value;
     }
 
-    public static Food parseFood(String food) throws ParseException {
-        requireNonNull(food);
-        String trimmedFood = food.trim();
-        // dummy method without validation
-        return new Food(trimmedFood);
-    }
+//    public static Food parseFood(String food) throws ParseException {
+//        requireNonNull(food);
+//        String trimmedFood = food.trim();
+//        // dummy method without validation
+//        return new Food(trimmedFood);
+//    }
 
     /**
      * Parses a {@code String calorie} into a {@code Calorie}.

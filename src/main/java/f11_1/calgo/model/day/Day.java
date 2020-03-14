@@ -4,6 +4,9 @@ import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.OptionalDouble;
+
+import javax.swing.text.html.Option;
 
 import f11_1.calgo.model.food.Food;
 
@@ -45,8 +48,16 @@ public class Day {
         return new Day(date, dailyFoodLog.copy());
     }
 
-    public Day consume(Food food) {
-        return new Day(localDate, dailyFoodLog.add(food));
+    public Day consume(Food food, double quantity) {
+        return new Day(localDate, dailyFoodLog.add(food, quantity));
+    }
+
+    public Day vomit(Food food, OptionalDouble quantity) {
+        return new Day(localDate, dailyFoodLog.remove(food, quantity));
+    }
+
+    public double getPortion(Food food) {
+        return dailyFoodLog.getPortion(food);
     }
 
     public static boolean isValidDate(String test) {

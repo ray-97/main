@@ -1,9 +1,13 @@
-package seedu.address.logic.commands;
+package f11_1.calgo.logic.commands;
 
+import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
-import java.time.LocalDate;
-import java.util.Set;
+import f11_1.calgo.commons.util.CollectionUtil;
+import f11_1.calgo.logic.commands.exceptions.CommandException;
+import f11_1.calgo.model.Model;
+import f11_1.calgo.model.day.Day;
+import f11_1.calgo.model.food.Food;
 
 public class NomCommand extends Command {
 
@@ -14,7 +18,7 @@ public class NomCommand extends Command {
     private final Food foodConsumed;
 
     public NomCommand(Day dayConsumed, Food foodConsumed) {
-        requireNonNull(dayConsumed);
+        requireAllNonNull(dayConsumed, foodConsumed);
         this.dayConsumed = dayConsumed;
         this.foodConsumed = foodConsumed;
     }
@@ -29,7 +33,8 @@ public class NomCommand extends Command {
             model.addDay(dayConsumed);
         }
         model.addConsumption(dayConsumed);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed.getPortion(),
+        // needs some way to get portion.
+        return new CommandResult(String.format(MESSAGE_SUCCESS, dayConsumed.getPortion(foodConsumed),
                 foodConsumed, dayConsumed.getLocalDate()));
     }
 

@@ -1,24 +1,17 @@
 package f11_1.calgo.logic.parser;
 
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_DATE;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_NAME;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_PORTION;
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PORTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.EditCommand;
+import java.util.Optional;
+
 import f11_1.calgo.logic.commands.NomCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model;
+import f11_1.calgo.logic.parser.exceptions.ParseException;
+import f11_1.calgo.model.Model;
 import f11_1.calgo.model.day.Day;
-import seedu.address.model.food.Food;
+import f11_1.calgo.model.food.Food;
 
 public class NomCommandParser implements Parser<NomCommand> {
 
@@ -58,8 +51,13 @@ public class NomCommandParser implements Parser<NomCommand> {
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
             portion = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
         }
-        Food food = ParserUtil.parseFood(argMultimap.getValue(PREFIX_NAME).get()).setPortion(portion);
-        dayConsumed = dayConsumed.consume(food);
+        Optional<Food> optionalFood = model.getFoodByName(
+                ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+        if (!optionalFood.isPresent()) {
+            // throw exception saying no food.
+        }
+        dayConsumed.consume(optionalFood.get(), portion);
+        return new NomCommand(dayConsumed, optionalFood.get());
 
 //        // we need to have something to parse for date
 //        // throw exception if there is no name
@@ -75,3 +73,9 @@ public class NomCommandParser implements Parser<NomCommand> {
     }
 
 }
+
+/*
+concerns:
+1. argmultimap
+2. exception flow
+ */

@@ -1,8 +1,12 @@
 package f11_1.calgo.model;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.function.Predicate;
 
+import f11_1.calgo.model.day.Day;
+import f11_1.calgo.model.food.Name;
 import javafx.collections.ObservableList;
 import f11_1.calgo.commons.core.GuiSettings;
 import f11_1.calgo.model.food.Food;
@@ -75,6 +79,16 @@ public interface Model {
      * The food identity of {@code editedFood} must not be the same as another existing food in the food record.
      */
     void setFood(Food target, Food editedFood);
+
+    Optional<Food> getFoodByName(Name parseName);
+
+    boolean hasDay(Day dayConsumed);
+
+    void addDay(Day dayConsumed);
+
+    void addConsumption(Day dayConsumed);
+
+    Day getDayByDate(LocalDate localDate);
 
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();

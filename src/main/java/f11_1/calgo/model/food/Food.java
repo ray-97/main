@@ -86,6 +86,11 @@ public class Food {
                 && otherFood.getCalorie().equals(getCalorie());
     }
 
+    // for zx
+    public boolean hasName(Name name) {
+        return name.equals(getName());
+    }
+
     /**
      * Returns true if both foods have the same name and data fields.
      * This defines a stronger notion of equality between two foods.

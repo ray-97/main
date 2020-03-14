@@ -17,9 +17,17 @@ public class UniqueDayMap {
         return internalMap.get(date);
     }
 
-    public void addConsumption(Day dayToAdd) {
-        requireAllNonNull(dayToAdd);
-        internalMap.put(dayToAdd.getLocalDate(), dayToAdd);
+    public boolean hasDay(Day day) {
+        return internalMap.containsKey(day.getLocalDate());
+    }
+
+    public void addDay(Day day) {
+        internalMap.put(day.getLocalDate(), day);
+    }
+
+    public void addConsumption(Day dayAfterConsumption) {
+        requireAllNonNull(dayAfterConsumption);
+        internalMap.put(dayAfterConsumption.getLocalDate(), dayAfterConsumption);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package f11_1.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import seedu.address.model.Model;
+import f11_1.calgo.model.Model;
+
 
 public class StomachCommand extends Command {
 
@@ -19,3 +19,5 @@ public class StomachCommand extends Command {
     }
 
 }
+
+// list is in personlist view component in mainwindow, which takes in a filteredlist (an observable list).
