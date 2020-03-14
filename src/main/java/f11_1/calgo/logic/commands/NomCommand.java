@@ -3,7 +3,6 @@ package f11_1.calgo.logic.commands;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
-import f11_1.calgo.commons.util.CollectionUtil;
 import f11_1.calgo.logic.commands.exceptions.CommandException;
 import f11_1.calgo.model.Model;
 import f11_1.calgo.model.day.Day;

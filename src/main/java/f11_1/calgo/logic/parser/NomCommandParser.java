@@ -58,6 +58,15 @@ public class NomCommandParser implements Parser<NomCommand> {
         }
         dayConsumed.consume(optionalFood.get(), portion);
         return new NomCommand(dayConsumed, optionalFood.get());
+    }
+
+}
+
+/*
+concerns:
+1. argmultimap
+2. exception flow
+*/
 
 //        // we need to have something to parse for date
 //        // throw exception if there is no name
@@ -67,15 +76,4 @@ public class NomCommandParser implements Parser<NomCommand> {
 //            editDayDescriptor.setLocalDate();
 //        }
 
-        // date item + constructed item
-
-
-    }
-
-}
-
-/*
-concerns:
-1. argmultimap
-2. exception flow
- */
+// date item + constructed item
