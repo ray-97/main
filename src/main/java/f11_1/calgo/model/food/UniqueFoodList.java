@@ -5,6 +5,7 @@ import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import f11_1.calgo.commons.util.CollectionUtil;
 import f11_1.calgo.model.food.exceptions.DuplicateFoodException;
@@ -96,6 +97,16 @@ public class UniqueFoodList implements Iterable<Food> {
         }
 
         internalList.setAll(foods);
+    }
+
+    // for zx
+    public Optional<Food> getFoodByName(Name name) {
+        for (Food food:internalList) {
+            if (food.hasName(name)) {
+                return Optional.of(food);
+            }
+        }
+        return Optional.empty();
     }
 
     /**

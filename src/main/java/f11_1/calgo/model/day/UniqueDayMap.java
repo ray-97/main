@@ -1,16 +1,13 @@
 package f11_1.calgo.model.day;
 
-import static java.util.Objects.requireNonNull;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
+import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
-import java.util.Iterator;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import f11_1.calgo.model.food.exceptions.DuplicateFoodException;
-import f11_1.calgo.model.food.exceptions.FoodNotFoundException;
 
 public class UniqueDayMap {
 
@@ -20,16 +17,17 @@ public class UniqueDayMap {
         return internalMap.get(date);
     }
 
-    public void addConsumption(Day dayToAdd) {
-        requireAllNonNull(dayToAdd);
-        internalMap.put(dayToAdd.getLocalDate(), dayToAdd);
+    public boolean hasDay(Day day) {
+        return internalMap.containsKey(day.getLocalDate());
     }
 
-    public void remove(Day toRemove) {
-        requireNonNull(toRemove);
-//        if (!internalList.remove(toRemove)) {
-//            throw new DayNotFoundException();
-//        }
+    public void addDay(Day day) {
+        internalMap.put(day.getLocalDate(), day);
+    }
+
+    public void addConsumption(Day dayAfterConsumption) {
+        requireAllNonNull(dayAfterConsumption);
+        internalMap.put(dayAfterConsumption.getLocalDate(), dayAfterConsumption);
     }
 
     @Override
@@ -54,4 +52,5 @@ public class UniqueDayMap {
         }
         return true;
     }
+
 }

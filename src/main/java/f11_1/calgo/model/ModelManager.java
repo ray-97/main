@@ -4,10 +4,15 @@ import static java.util.Objects.requireNonNull;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import f11_1.calgo.model.day.Day;
+import f11_1.calgo.model.food.Name;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.collections.transformation.FilteredList;
 import f11_1.calgo.commons.core.GuiSettings;
 import f11_1.calgo.commons.core.LogsCenter;
@@ -112,6 +117,31 @@ public class ModelManager implements Model {
         foodRecord.setFood(target, editedFood);
     }
 
+    @Override
+    public Optional<Food> getFoodByName(Name name) {
+        return foodRecord.getFoodByName(name);
+    }
+
+    @Override
+    public boolean hasDay(Day day) {
+        return foodRecord.hasDay(day);
+    }
+
+    @Override
+    public void addDay(Day day) {
+        foodRecord.addDay(day);
+    }
+
+    @Override
+    public void addConsumption(Day dayAfterConsumption) {
+        foodRecord.addConsumption(dayAfterConsumption);
+    }
+
+    @Override
+    public Day getDayByDate(LocalDate localDate) {
+        return foodRecord.getDayByDate(localDate);
+    }
+
     //=========== Filtered Food Record Accessors =============================================================
 
     /**
@@ -128,6 +158,12 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredFoods.setPredicate(predicate);
     }
+
+//    @Override
+//    public ObservableMap<Food, Double> getDailyLog() {
+//        FilteredList
+//        return
+//    }
 
     @Override
     public boolean equals(Object obj) {

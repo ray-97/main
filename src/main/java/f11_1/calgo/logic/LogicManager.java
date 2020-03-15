@@ -39,7 +39,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = foodRecordParser.parseCommand(commandText);
+        Command command = foodRecordParser.parseCommand(commandText, model);
         commandResult = command.execute(model);
 
         try {
@@ -60,6 +60,11 @@ public class LogicManager implements Logic {
     public ObservableList<Food> getFilteredFoodRecord() {
         return model.getFilteredFoodRecord();
     }
+
+//    @Override
+//    public ObservableList<Food> getFilteredDailyList() {
+//
+//    }
 
     @Override
     public Path getFoodRecordFilePath() {

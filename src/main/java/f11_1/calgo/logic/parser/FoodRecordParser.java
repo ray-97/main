@@ -6,6 +6,10 @@ import static f11_1.calgo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import f11_1.calgo.logic.commands.NomCommand;
+import f11_1.calgo.logic.commands.StomachCommand;
+import f11_1.calgo.logic.commands.VomitCommand;
+
 import f11_1.calgo.logic.commands.AddCommand;
 import f11_1.calgo.logic.commands.ClearCommand;
 import f11_1.calgo.logic.commands.Command;
@@ -16,6 +20,7 @@ import f11_1.calgo.logic.commands.FindCommand;
 import f11_1.calgo.logic.commands.HelpCommand;
 import f11_1.calgo.logic.commands.ListCommand;
 import f11_1.calgo.logic.parser.exceptions.ParseException;
+import f11_1.calgo.model.Model;
 
 /**
  * Parses user input.
@@ -34,7 +39,7 @@ public class FoodRecordParser {
      * @return the command based on the user input
      * @throws ParseException if the user input does not conform the expected format
      */
-    public Command parseCommand(String userInput) throws ParseException {
+    public Command parseCommand(String userInput, Model model) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -52,6 +57,15 @@ public class FoodRecordParser {
 
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
+
+        case StomachCommand.COMMAND_WORD:
+            return new StomachCommand();
+
+        case NomCommand.COMMAND_WORD:
+            return new NomCommandParser(model).parse(arguments);
+
+        case VomitCommand.COMMAND_WORD:
+            return new VomitCommandParser(model).parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();

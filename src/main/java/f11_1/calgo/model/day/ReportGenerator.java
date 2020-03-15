@@ -17,6 +17,7 @@ public class ReportGenerator {
         this.relevantData = inputDay.getDailyFoodLog();
     }
 
+    // todo: check if this violates Law of Demeter
     public String generateInsights() {
         StringBuilder report = new StringBuilder();
         int totalCalories = 0;
@@ -26,8 +27,8 @@ public class ReportGenerator {
 
         report.append(String.format("%-20s %-20s %-20s%n", "Food", "Quantity", "Calories"));
         report.append(String.format("%-20s %-20s %-20s%n", "--------------", "--------------", "--------------"));
-        for (Food food : relevantData.getFoods()) {
-            double quantity = relevantData.getQuantity(food);
+        for (Food food : relevantData.getFoods().keySet()) {
+            double quantity = relevantData.getPortion(food);
             double currCalories = quantity * (double) Integer.parseInt(food.getCalorie().value);
             totalCalories += Integer.parseInt(food.getCalorie().value);
             totalProteins += Integer.parseInt(food.getProtein().value);

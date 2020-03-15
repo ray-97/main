@@ -2,9 +2,13 @@ package f11_1.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.OptionalInt;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import f11_1.calgo.commons.core.index.Index;
 import f11_1.calgo.commons.util.StringUtil;
@@ -21,7 +25,13 @@ import f11_1.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
+    private static final String DATE_PATTERN ="yyyy-MM-dd";
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    private static final String MESSAGE_INVALID_DATE = String.format(
+            "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
+    private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or nothing";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -49,6 +59,49 @@ public class ParserUtil {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return new Name(trimmedName);
+    }
+
+    public static LocalDate parseDate(String date) throws ParseException {
+        requireNonNull(date);
+        String trimmedDate = date.trim();
+        try {
+            return LocalDate.parse(trimmedDate, formatter);
+        } catch (Exception e) {
+            throw new ParseException(MESSAGE_INVALID_DATE);
+        }
+    }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static double parsePortion(String portion) throws ParseException {
+        requireNonNull(portion);
+        String trimmedPortion = portion.trim();
+        boolean isInvalidPortion = !isNumeric(trimmedPortion) && trimmedPortion.length() > 0;
+        if (!isInvalidPortion) {
+            throw new ParseException(MESSAGE_INVALID_PORTION);
+        }
+        double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
+        return value;
+    }
+
+    public static OptionalInt parsePosition(String position) {
+        requireNonNull(position);
+        String trimmedPosition = position.trim();
+        OptionalInt value = isNumeric(trimmedPosition)
+                ? OptionalInt.of(Integer.parseInt(trimmedPosition))
+                : OptionalInt.empty();
+        // need to check with "filteredList" that displays food, whether to throw exception.
+        return value;
     }
 
     /**
@@ -137,4 +190,9 @@ public class ParserUtil {
         }
         return tagSet;
     }
+
+    public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
 }

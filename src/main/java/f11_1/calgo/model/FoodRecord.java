@@ -2,11 +2,18 @@ package f11_1.calgo.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
+import f11_1.calgo.model.day.Day;
+import f11_1.calgo.model.day.UniqueDayMap;
 import f11_1.calgo.model.food.Food;
+import f11_1.calgo.model.food.Name;
 import f11_1.calgo.model.food.UniqueFoodList;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 /**
  * Wraps all data at the food record level
@@ -15,7 +22,7 @@ import javafx.collections.ObservableList;
 public class FoodRecord implements ReadOnlyFoodRecord {
 
     private final UniqueFoodList foodList;
-
+    private final UniqueDayMap days;
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
      * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
@@ -25,6 +32,7 @@ public class FoodRecord implements ReadOnlyFoodRecord {
      */
     {
         foodList = new UniqueFoodList();
+        days = new UniqueDayMap();
     }
 
     public FoodRecord() {}
@@ -95,6 +103,26 @@ public class FoodRecord implements ReadOnlyFoodRecord {
 
     //// util methods
 
+    public Optional<Food> getFoodByName(Name name) {
+        return foodList.getFoodByName(name);
+    }
+
+    public void addDay(Day day) {
+        days.addDay(day);
+    }
+
+    public boolean hasDay(Day day) {
+        return days.hasDay(day);
+    }
+
+    public Day getDayByDate(LocalDate date) {
+        return days.getDayByDate(date);
+    }
+
+    public void addConsumption(Day dayAfterConsumption) {
+        days.addConsumption(dayAfterConsumption);
+    }
+
     @Override
     public String toString() {
         return foodList.asUnmodifiableObservableList().size() + " foods";
@@ -105,6 +133,15 @@ public class FoodRecord implements ReadOnlyFoodRecord {
     public ObservableList<Food> getFoodList() {
         return foodList.asUnmodifiableObservableList();
     }
+
+//    @Override
+//    public ObservableMap<Food, Double> getDailyLog(Day day) {
+//        ObservableMap<Food, Double> dailyLog = FXCollections.observableHashMap();
+//        for (Food food: day.getDailyFoodLog().getFoods().keySet()) {
+//            dailyLog.put(food, day.getPortion(food));
+//        }
+//        return FXCollections.unmodifiableObservableMap(dailyLog);
+//    }
 
     @Override
     public boolean equals(Object other) {
