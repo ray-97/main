@@ -9,6 +9,7 @@ import java.util.OptionalDouble;
 import javax.swing.text.html.Option;
 
 import f11_1.calgo.model.food.Food;
+import javafx.collections.ObservableList;
 
 public class Day {
     // Identity fields
@@ -64,6 +65,10 @@ public class Day {
         return true;
         // else throw exceptions
     }
+
+//    public ObservableList<Food> getFilteredDailyList() {
+//        return dailyFoodLog.getAsFilteredList();
+//    }
 
     public boolean isSameDay(Day otherDay) {
         if (otherDay == this) {

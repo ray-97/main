@@ -3,11 +3,13 @@ package f11_1.calgo.model;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
 import f11_1.calgo.model.day.Day;
 import f11_1.calgo.model.day.UniqueDayMap;
+import f11_1.calgo.model.food.ConsumedFood;
 import f11_1.calgo.model.food.Food;
 import f11_1.calgo.model.food.Name;
 import f11_1.calgo.model.food.UniqueFoodList;
@@ -134,14 +136,10 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         return foodList.asUnmodifiableObservableList();
     }
 
-//    @Override
-//    public ObservableMap<Food, Double> getDailyLog(Day day) {
-//        ObservableMap<Food, Double> dailyLog = FXCollections.observableHashMap();
-//        for (Food food: day.getDailyFoodLog().getFoods().keySet()) {
-//            dailyLog.put(food, day.getPortion(food));
-//        }
-//        return FXCollections.unmodifiableObservableMap(dailyLog);
-//    }
+    @Override
+    public ObservableList<ConsumedFood> getDailyList(LocalDate date) {
+        return days.getDailyListByDate(date);
+    }
 
     @Override
     public boolean equals(Object other) {

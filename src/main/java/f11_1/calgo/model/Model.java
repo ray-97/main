@@ -6,10 +6,12 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import f11_1.calgo.model.day.Day;
+import f11_1.calgo.model.food.ConsumedFood;
 import f11_1.calgo.model.food.Name;
 import javafx.collections.ObservableList;
 import f11_1.calgo.commons.core.GuiSettings;
 import f11_1.calgo.model.food.Food;
+import javafx.collections.ObservableMap;
 
 /**
  * The API of the Model component.
@@ -17,6 +19,7 @@ import f11_1.calgo.model.food.Food;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Food> PREDICATE_SHOW_ALL_FOODS = unused -> true;
+    Predicate<ConsumedFood> PREDICATE_SHOW_ALL_CONSUMED_FOODS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -98,4 +101,9 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredFoodRecord(Predicate<Food> predicate);
+
+
+    ObservableList<ConsumedFood> getCurrentFilteredDailyList();
+
+    void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date);
 }

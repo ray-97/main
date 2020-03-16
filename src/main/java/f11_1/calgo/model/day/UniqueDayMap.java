@@ -3,16 +3,22 @@ package f11_1.calgo.model.day;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 import java.util.List;
 
+import f11_1.calgo.model.food.ConsumedFood;
+import f11_1.calgo.model.food.Food;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
 public class UniqueDayMap {
 
-    private final ObservableMap<LocalDate,Day> internalMap = FXCollections.observableHashMap();
+    private final ObservableMap<LocalDate, Day> internalMap = FXCollections.observableHashMap();
 
+    // these methods have to change internal list as well
     public Day getDayByDate(LocalDate date) {
         return internalMap.get(date);
     }
@@ -28,6 +34,16 @@ public class UniqueDayMap {
     public void addConsumption(Day dayAfterConsumption) {
         requireAllNonNull(dayAfterConsumption);
         internalMap.put(dayAfterConsumption.getLocalDate(), dayAfterConsumption);
+    }
+
+    public ObservableList<ConsumedFood> getDailyListByDate(LocalDate date) {
+        ObservableList<ConsumedFood> internalList = FXCollections.observableArrayList();
+        LinkedHashMap<Food, Double> foods= internalMap.get(date).getDailyFoodLog().getFoods();
+        // assuming it is only a wrapper and still refers to same internalList
+        for (Food food : foods.keySet()) {
+            internalList.add(new ConsumedFood(food, foods.get(food), date));
+        }
+        return internalList;
     }
 
     @Override
