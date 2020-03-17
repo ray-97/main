@@ -5,6 +5,7 @@ import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import f11_1.calgo.commons.util.CollectionUtil;
 import f11_1.calgo.model.food.exceptions.DuplicateFoodException;
@@ -48,6 +49,7 @@ public class UniqueFoodList implements Iterable<Food> {
         }
         internalList.add(toAdd);
     }
+
 
     /**
      * Replaces the food {@code target} in the list with {@code editedFood}.
@@ -96,6 +98,14 @@ public class UniqueFoodList implements Iterable<Food> {
         }
 
         internalList.setAll(foods);
+    }
+
+    /**
+     * Returns the existing Food in the list
+     * The food must currently exist in the list.
+     */
+    public Food getExistingFood(Food toGet) {
+        return internalList.stream().filter(toGet::isSameFood).findFirst().get();
     }
 
     /**

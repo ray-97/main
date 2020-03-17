@@ -57,6 +57,9 @@ public interface Model {
      */
     boolean hasFood(Food food);
 
+    /** Returns the existing Food item in FoodRecord */
+    Food getExistingFood(Food toAdd);
+
     /**
      * Deletes the given food.
      * The person must exist in the food record.
@@ -84,4 +87,6 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredFoodRecord(Predicate<Food> predicate);
+
+
 }

@@ -6,15 +6,7 @@ import static f11_1.calgo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import f11_1.calgo.logic.commands.AddCommand;
-import f11_1.calgo.logic.commands.ClearCommand;
-import f11_1.calgo.logic.commands.Command;
-import f11_1.calgo.logic.commands.DeleteCommand;
-import f11_1.calgo.logic.commands.EditCommand;
-import f11_1.calgo.logic.commands.ExitCommand;
-import f11_1.calgo.logic.commands.FindCommand;
-import f11_1.calgo.logic.commands.HelpCommand;
-import f11_1.calgo.logic.commands.ListCommand;
+import f11_1.calgo.logic.commands.*;
 import f11_1.calgo.logic.parser.exceptions.ParseException;
 
 /**
@@ -44,11 +36,8 @@ public class FoodRecordParser {
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
 
-        case AddCommand.COMMAND_WORD:
-            return new AddCommandParser().parse(arguments);
-
-        case EditCommand.COMMAND_WORD:
-            return new EditCommandParser().parse(arguments);
+        case UpdateCommand.COMMAND_WORD:
+            return new UpdateCommandParser().parse(arguments);
 
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);

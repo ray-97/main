@@ -94,6 +94,11 @@ public class ModelManager implements Model {
         return foodRecord.hasFood(food);
     }
 
+    public Food getExistingFood(Food toGet) {
+        requireNonNull(toGet);
+        return foodRecord.getExistingFood(toGet);
+    }
+
     @Override
     public void deleteFood(Food target) {
         foodRecord.removeFood(target);

@@ -78,8 +78,7 @@ public class Food {
         }
 
         return otherFood != null
-                && otherFood.getName().equals(getName())
-                && otherFood.getCalorie().equals(getCalorie());
+                && otherFood.getName().equals(getName());
     }
 
     /**
