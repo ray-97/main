@@ -1,9 +1,7 @@
 package f11_1.calgo.model.day;
 
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
-import static java.util.Objects.requireNonNull;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,10 +36,14 @@ public class UniqueDayMap {
 
     public ObservableList<ConsumedFood> getDailyListByDate(LocalDate date) {
         ObservableList<ConsumedFood> internalList = FXCollections.observableArrayList();
-        LinkedHashMap<Food, Double> foods= internalMap.get(date).getDailyFoodLog().getFoods();
-        // assuming it is only a wrapper and still refers to same internalList
-        for (Food food : foods.keySet()) {
-            internalList.add(new ConsumedFood(food, foods.get(food), date));
+        try {
+            LinkedHashMap<Food, Double> foods= internalMap.get(date).getDailyFoodLog().getFoods();
+            // assuming it is only a wrapper and still refers to same internalList
+            for (Food food : foods.keySet()) {
+                internalList.add(new ConsumedFood(food, foods.get(food), date));
+            }
+        } catch (NullPointerException e) {
+            return FXCollections.observableArrayList();
         }
         return internalList;
     }

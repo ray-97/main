@@ -115,7 +115,7 @@ public class MainWindow extends UiPart<Stage> {
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         dailyListPanel = new DailyListPanel(logic.getFilteredDailyList());
-        dailyListPanelPlaceholder.getChildren().add(dailyListPanel.getRoot());
+        dailyListPanelPlaceholder.getChildren().add(dailyListPanel.getRoot()); // stackpane's getChildren is null?
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
