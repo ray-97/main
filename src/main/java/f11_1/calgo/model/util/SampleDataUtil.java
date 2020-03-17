@@ -41,7 +41,7 @@ public class SampleDataUtil {
         };
     }
 
-    public static ReadOnlyFoodRecord getSampleAddressBook() {
+    public static ReadOnlyFoodRecord getSampleFoodRecord() {
         FoodRecord sampleAb = new FoodRecord();
         for (Food sampleFood : getSampleFoods()) {
             sampleAb.addFood(sampleFood);
