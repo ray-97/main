@@ -13,7 +13,7 @@ import f11_1.calgo.model.tag.Tag;
  * Represents a Food in the food record.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Food {
+public class Food implements Comparable<Food> {
 
     // Identity field
     private final Name name;
@@ -142,4 +142,18 @@ public class Food {
     public String toString(boolean isCalledforReport) {
         return this.getName().toString();
     }
+
+    /**
+     * Compares names of Food objects for lexicographic order.
+     *
+     * @param other the other Food.
+     * @return a value representing the lexicopgraphic order.
+     */
+    @Override
+    public int compareTo(Food other) {
+        String currentName = this.getName().toString();
+        String otherName = other.getName().toString();
+        return currentName.compareTo(otherName);
+    }
+
 }

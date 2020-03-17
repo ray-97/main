@@ -3,6 +3,8 @@ package f11_1.calgo.model.food;
 import static java.util.Objects.requireNonNull;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +50,7 @@ public class UniqueFoodList implements Iterable<Food> {
             throw new DuplicateFoodException();
         }
         internalList.add(toAdd);
+        Collections.sort(internalList);
     }
 
 
