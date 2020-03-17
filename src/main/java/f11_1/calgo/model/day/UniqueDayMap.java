@@ -19,10 +19,14 @@ public class UniqueDayMap {
     // these methods have to change internal list as well
     public Day getDayByDate(LocalDate date) {
         return internalMap.get(date);
-    }
+    } // return with empty food list if day not present?
 
     public boolean hasDay(Day day) {
         return internalMap.containsKey(day.getLocalDate());
+    }
+
+    public boolean hasDate(LocalDate date) {
+        return internalMap.containsKey(date);
     }
 
     public void addDay(Day day) {

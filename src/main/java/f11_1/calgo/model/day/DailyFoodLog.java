@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.OptionalDouble;
 
 import f11_1.calgo.model.food.Food;
-import javafx.collections.ObservableList;
 
 public class DailyFoodLog {
 
