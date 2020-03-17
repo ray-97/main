@@ -104,10 +104,8 @@ public interface Model {
      */
     void updateFilteredFoodRecord(Predicate<Food> predicate);
 
-
     ObservableList<ConsumedFood> getCurrentFilteredDailyList();
 
     void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date);
-
 
 }
