@@ -21,7 +21,7 @@ public class NomCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_NAME + "Kiwi "
             + CliSyntax.PREFIX_DATE + "2020-14-03 "
-            + CliSyntax.PREFIX_PORTION + "2 ";
+            + CliSyntax.PREFIX_PORTION + "2";
 
     public static final String MESSAGE_SUCCESS = "Successfully consumed %1$s"; // %d portion of %s was consumed on %s
 

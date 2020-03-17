@@ -29,7 +29,8 @@ public class StringUtil {
 
         String preppedWord = word.trim();
         AppUtil.checkArgument(!preppedWord.isEmpty(), "Word parameter cannot be empty");
-        AppUtil.checkArgument(preppedWord.split("\\s+").length == 1, "Word parameter should be a single word");
+        AppUtil.checkArgument(preppedWord.split("\\s+").length == 1,
+                "Word parameter should be a single word");
 
         String preppedSentence = sentence;
         String[] wordsInPreppedSentence = preppedSentence.split("\\s+");
