@@ -2,8 +2,11 @@ package life.calgo.model.food;
 
 import java.time.LocalDate;
 
+/**
+ * To represent food objects that have been consumed by the user
+ */
 public class ConsumedFood extends Food {
-//fOR zx
+
     private final LocalDate date;
     private final double portion;
 
@@ -21,5 +24,4 @@ public class ConsumedFood extends Food {
     public LocalDate getDate() {
         return this.date;
     }
-    // getDateAsString method?
 }

@@ -9,6 +9,9 @@ import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
 import life.calgo.model.food.Food;
 
+/**
+ * Updates Food Record with a given food object
+ */
 public class UpdateCommand extends Command {
     public static final String COMMAND_WORD = "update";
 

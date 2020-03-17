@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import life.calgo.model.ReadOnlyUserPrefs;
-import life.calgo.model.UserPrefs;
 import life.calgo.commons.exceptions.DataConversionException;
 import life.calgo.commons.util.JsonUtil;
+import life.calgo.model.ReadOnlyUserPrefs;
+import life.calgo.model.UserPrefs;
 
 /**
  * A class to access UserPrefs stored in the hard disk as a json file

@@ -1,9 +1,8 @@
 package life.calgo.model.food;
 
-import life.calgo.commons.util.AppUtil;
-
 import static java.util.Objects.requireNonNull;
-import static life.calgo.commons.util.AppUtil.checkArgument;
+
+import life.calgo.commons.util.AppUtil;
 
 /**
  * Represents a Foods's caloric content in the Food Records.

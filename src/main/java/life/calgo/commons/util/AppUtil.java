@@ -2,8 +2,8 @@ package life.calgo.commons.util;
 
 import static java.util.Objects.requireNonNull;
 
-import life.calgo.MainApp;
 import javafx.scene.image.Image;
+import life.calgo.MainApp;
 
 /**
  * A container for App specific utility functions

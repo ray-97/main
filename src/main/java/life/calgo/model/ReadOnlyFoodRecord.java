@@ -2,9 +2,10 @@ package life.calgo.model;
 
 import java.time.LocalDate;
 
+import javafx.collections.ObservableList;
+
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
-import javafx.collections.ObservableList;
 
 /**
  * Unmodifiable view of a food record.

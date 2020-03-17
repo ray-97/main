@@ -2,8 +2,8 @@ package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import life.calgo.model.Model;
 import life.calgo.model.FoodRecord;
+import life.calgo.model.Model;
 
 /**
  * Clears the food record.

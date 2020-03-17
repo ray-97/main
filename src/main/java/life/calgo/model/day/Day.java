@@ -1,15 +1,17 @@
 package life.calgo.model.day;
 
-import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.OptionalDouble;
 
-import life.calgo.model.food.Food;
 import life.calgo.commons.util.CollectionUtil;
+import life.calgo.model.food.Food;
 
+/**
+ * A data structure to map the food consumed and its portioned to the relevant date
+ */
 public class Day {
+    // todo: remove Day class and make other classes compatible with LocalDate instead
     // Identity fields
     private final LocalDate localDate;
 
@@ -59,16 +61,21 @@ public class Day {
         return dailyFoodLog.getPortion(food);
     }
 
-    public static boolean isValidDate(String test) {
-        return true;
-        // else throw exceptions
-    }
+    // public static boolean isValidDate(String test) {
+    //     return true;
+    //     else throw exceptions
+    // }
 
-//    public ObservableList<Food> getFilteredDailyList() {
-//        return dailyFoodLog.getAsFilteredList();
-//    }
+    // public ObservableList<Food> getFilteredDailyList() {
+    //     return dailyFoodLog.getAsFilteredList();
+    // }
 
-    public boolean isSameDay(Day otherDay) {
+    /**
+     * Checks if 2 Day objects have the same date
+     * @param otherDay the Day object to compare to
+     * @return true if both day objects have same date
+     */
+    public boolean isSameDate(Day otherDay) {
         if (otherDay == this) {
             return true;
         }

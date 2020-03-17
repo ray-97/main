@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
+import life.calgo.commons.exceptions.DataConversionException;
 import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
-import life.calgo.commons.exceptions.DataConversionException;
 
 /**
  * Represents a storage for {@link UserPrefs}.

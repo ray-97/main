@@ -2,14 +2,15 @@ package life.calgo.logic;
 
 import java.nio.file.Path;
 
-import life.calgo.model.Model;
-import life.calgo.model.food.ConsumedFood;
 import javafx.collections.ObservableList;
+
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.logic.commands.CommandResult;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
+import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 
 /**

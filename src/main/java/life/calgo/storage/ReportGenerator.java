@@ -11,7 +11,7 @@ import life.calgo.model.day.Day;
 import life.calgo.model.food.Food;
 
 /**
- * Responsible for generating aggregated statistics of the user's consumption patterns on a given day.
+ * Responsible for generating statistics of the user's consumption patterns on a given day.
  */
 public class ReportGenerator {
     private static final Logger logger = LogsCenter.getLogger(ReportGenerator.class);
@@ -36,6 +36,10 @@ public class ReportGenerator {
         }
     }
 
+    /**
+     * Driver method for generation of comprehensive report of consumption patterns
+     * @return a boolean value that is true only if report has been successfully generated
+     */
     public boolean generateReport() {
         printHeader();
         printSeparator();
@@ -48,17 +52,22 @@ public class ReportGenerator {
         return file.exists() && (file.length() != 0); // success check
     }
 
-
+    /**
+     * Writes the meta-information of the report
+     */
     public void printHeader() {
         String title = "Report of Consumption Pattern on " + this.queryDay.getLocalDate().toString();
         printWriter.println(title);
     }
 
+    /**
+     * Writes relevant statistics related to each food quantity consumed in the given day
+     */
     public void printFoodwiseStatistics() {
         printWriter.println("Food-wise Statistics:");
         printWriter.println(String.format("%-20s %-20s %-20s", "    Food", "   Quantity", "   Calories"));
         DailyFoodLog foodLog = queryDay.getDailyFoodLog();
-        for (Food food : foodLog.getFoods().keySet()) {
+        for (Food food : foodLog.getFoods()) {
             double portion = foodLog.getPortion(food);
             double currCalories = portion * (double) Integer.parseInt(food.getCalorie().value);
             totalCalories += currCalories;
@@ -70,18 +79,27 @@ public class ReportGenerator {
         }
     }
 
+    /**
+     * Writes aggregated statistics of all food items consumed in the given day
+     */
     public void printAggregateStatistics() {
         printWriter.println("Aggregate Statistics:");
-        printWriter.println(String.format("%s %-20s %-20s %-20s", "Total Calories in kcal", "| Total Protein in grams"
-                , "| Total Carbohydrates in grams", "| Total Fats in grams"));
+        printWriter.println(String.format("%s %-20s %-20s %-20s", "Total Calories in kcal", "| Total Protein in grams",
+                "| Total Carbohydrates in grams", "| Total Fats in grams"));
         printWriter.println(String.format("     %-25.0f %-26.0f %-28.0f %.0f", totalCalories, totalProteins,
                 totalCarbs, totalFats));
     }
 
+    /**
+     * Writes the actionable insights a user can take based on user consumption patterns for the given day
+     */
     public void printFooter() {
         printWriter.println("This marks the end of your report. More insights coming up in v1.3.");
     }
 
+    /**
+     * Writes a line break
+     */
     public void printSeparator() {
         printWriter.println("--------------------------------------------------------------------------------"
                 + "-----------------------------");

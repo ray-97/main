@@ -1,11 +1,15 @@
 package life.calgo.ui;
 
-import life.calgo.model.food.ConsumedFood;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 
+import life.calgo.model.food.ConsumedFood;
+
+/**
+ * Responsible for displaying each consumed food item
+ */
 public class ConsumedFoodCard extends UiPart<Region> {
 
     private static final String FXML = "DailyListCard.fxml";

@@ -7,7 +7,9 @@ import java.time.LocalDate;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
 
-
+/**
+ * Displays all food consumed on a given day
+ */
 public class StomachCommand extends Command {
 
     public static final String COMMAND_WORD = "stomach";
@@ -32,5 +34,4 @@ public class StomachCommand extends Command {
                 date);
         return new CommandResult(MESSAGE_SUCCESS);
     }
-
 }

@@ -1,14 +1,16 @@
 package life.calgo.logic.commands;
 
-import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
+import life.calgo.commons.util.CollectionUtil;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
 import life.calgo.model.day.Day;
 import life.calgo.model.food.Food;
-import life.calgo.commons.util.CollectionUtil;
 
+/**
+ * Updates the food consumed on a given day
+ */
 public class NomCommand extends Command {
 
     public static final String COMMAND_WORD = "nom";
@@ -45,7 +47,7 @@ public class NomCommand extends Command {
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 dayConsumed.getLocalDate()); // updates display
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed));
-                // , dayConsumed.getPortion(foodConsumed), dayConsumed.getLocalDate()));
+        // , dayConsumed.getPortion(foodConsumed), dayConsumed.getLocalDate()));
     }
 
     @Override
@@ -55,5 +57,4 @@ public class NomCommand extends Command {
                 && foodConsumed.equals(((NomCommand) other).foodConsumed)
                 && dayConsumed.equals(((NomCommand) other).dayConsumed));
     }
-
 }

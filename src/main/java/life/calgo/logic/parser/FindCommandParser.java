@@ -2,10 +2,10 @@ package life.calgo.logic.parser;
 
 import java.util.Arrays;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.FindCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.food.NameContainsKeywordsPredicate;
-import life.calgo.commons.core.Messages;
 
 /**
  * Parses input arguments and creates a new FindCommand object

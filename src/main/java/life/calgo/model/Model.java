@@ -5,12 +5,13 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import javafx.collections.ObservableList;
+
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.model.day.Day;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
-import javafx.collections.ObservableList;
 
 /**
  * The API of the Model component.

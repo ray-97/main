@@ -1,7 +1,7 @@
 package life.calgo.logic.commands;
 
-import life.calgo.model.Model;
 import life.calgo.logic.commands.exceptions.CommandException;
+import life.calgo.model.Model;
 
 /**
  * Represents a command with hidden internal logic and the ability to be executed.

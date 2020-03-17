@@ -2,14 +2,18 @@ package life.calgo.ui;
 
 import java.util.logging.Logger;
 
-import life.calgo.commons.core.LogsCenter;
-import life.calgo.model.food.ConsumedFood;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
+import life.calgo.commons.core.LogsCenter;
+import life.calgo.model.food.ConsumedFood;
+
+/**
+ * Responsible for displaying food consumed in a given day.
+ */
 public class DailyListPanel extends UiPart<Region> {
 
     private static final String FXML = "DailyListPanel.fxml";
@@ -24,7 +28,9 @@ public class DailyListPanel extends UiPart<Region> {
         dailyListView.setCellFactory(listView -> new DailyListPanel.DailyListViewCell());
     }
 
-
+    /**
+     * Responsible for containing the display of each food item consumed in the given day.
+     */
     class DailyListViewCell extends ListCell<ConsumedFood> {
         @Override
         protected void updateItem(ConsumedFood food, boolean empty) {
@@ -38,5 +44,4 @@ public class DailyListPanel extends UiPart<Region> {
             }
         }
     }
-
 }

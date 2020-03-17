@@ -1,14 +1,12 @@
 package life.calgo.model.food;
 
-import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import life.calgo.model.tag.Tag;
 import life.calgo.commons.util.CollectionUtil;
+import life.calgo.model.tag.Tag;
 
 /**
  * Represents a Food in the food record.
@@ -32,7 +30,7 @@ public class Food implements Comparable<Food> {
      * Every field must be present and not null.
      */
     public Food(Name name, Calorie calorie, Protein protein, Carbohydrate carbohydrate, Fat fat, Set<Tag> tags) {
-        CollectionUtil.requireAllNonNull(name, calorie, protein, carbohydrate, fat,tags);
+        CollectionUtil.requireAllNonNull(name, calorie, protein, carbohydrate, fat, tags);
         this.name = name;
         this.calorie = calorie;
         this.protein = protein;

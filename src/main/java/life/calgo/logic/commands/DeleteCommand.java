@@ -2,9 +2,9 @@ package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
-import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.food.Food;
 
 /**

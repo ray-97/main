@@ -2,12 +2,13 @@ package life.calgo.ui;
 
 import java.util.logging.Logger;
 
-import life.calgo.MainApp;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import life.calgo.MainApp;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.commons.util.StringUtil;
 import life.calgo.logic.Logic;

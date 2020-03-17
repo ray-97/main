@@ -3,6 +3,7 @@ package life.calgo.logic.parser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.ClearCommand;
 import life.calgo.logic.commands.Command;
 import life.calgo.logic.commands.DeleteCommand;
@@ -17,7 +18,6 @@ import life.calgo.logic.commands.UpdateCommand;
 import life.calgo.logic.commands.VomitCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
-import life.calgo.commons.core.Messages;
 
 /**
  * Parses user input.
