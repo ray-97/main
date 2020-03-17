@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import f11_1.calgo.logic.commands.NomCommand;
+import f11_1.calgo.logic.commands.ReportCommand;
 import f11_1.calgo.logic.commands.StomachCommand;
 import f11_1.calgo.logic.commands.VomitCommand;
 
@@ -66,6 +67,9 @@ public class FoodRecordParser {
 
         case VomitCommand.COMMAND_WORD:
             return new VomitCommandParser(model).parse(arguments);
+
+        case ReportCommand.COMMAND_WORD:
+            return new ReportCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();

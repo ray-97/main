@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import f11_1.calgo.model.day.Day;
 import f11_1.calgo.model.food.Name;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.collections.transformation.FilteredList;
 import f11_1.calgo.commons.core.GuiSettings;
 import f11_1.calgo.commons.core.LogsCenter;
