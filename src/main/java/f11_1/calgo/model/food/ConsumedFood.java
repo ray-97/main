@@ -18,4 +18,8 @@ public class ConsumedFood extends Food {
         return this.portion;
     }
 
+    public LocalDate getDate() {
+        return this.date;
+    }
+    // getDateAsString method?
 }
