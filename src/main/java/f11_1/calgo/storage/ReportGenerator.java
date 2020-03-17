@@ -67,7 +67,8 @@ public class ReportGenerator {
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
-            printWriter.println(String.format("%-20s %-20f %-20f", food.toString(), portion, currCalories));
+            printWriter.println(String.format("%-20s %-20f %-20f", food.toString(true),
+                    portion, currCalories));
         }
     }
 

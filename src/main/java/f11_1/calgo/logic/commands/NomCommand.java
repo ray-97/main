@@ -38,8 +38,9 @@ public class NomCommand extends Command {
         requireNonNull(model);
         if (!model.hasDay(dayConsumed)) {
             model.addDay(dayConsumed);
+        } else {
+            model.addConsumption(dayConsumed);
         }
-        model.addConsumption(dayConsumed);
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed));
                 // , dayConsumed.getPortion(foodConsumed), dayConsumed.getLocalDate()));
     }

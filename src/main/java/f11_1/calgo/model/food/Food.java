@@ -137,4 +137,10 @@ public class Food {
         return builder.toString();
     }
 
+    /*
+     * Overloaded toString method for report purposes
+     */
+    public String toString(boolean isCalledforReport) {
+        return this.getName().toString();
+    }
 }
