@@ -58,7 +58,6 @@ public class StorageManager implements Storage {
 
     @Override
     public Optional<ReadOnlyFoodRecord> readFoodRecord(Path filePath) throws DataConversionException, IOException {
-        System.out.println("DABIAN");
         logger.fine("Attempting to read data from file: " + filePath);
         return foodRecordStorage.readFoodRecord(filePath);
     }

@@ -44,9 +44,7 @@ class JsonAdaptedFood {
                            @JsonProperty("carbohydrate (g)") String carbohydrate,
                            @JsonProperty("fat (g)") String fat,
                            @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
-
-        System.out.println("NWJIFNEINRFIOJN#FOIN#IORD");
-
+        
         this.name = name;
         this.calorie = calorie;
         this.protein = protein;
