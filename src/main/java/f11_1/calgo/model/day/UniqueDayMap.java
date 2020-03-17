@@ -3,6 +3,7 @@ package f11_1.calgo.model.day;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -10,11 +11,11 @@ import f11_1.calgo.model.food.ConsumedFood;
 import f11_1.calgo.model.food.Food;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 public class UniqueDayMap {
 
-    private final ObservableMap<LocalDate, Day> internalMap = FXCollections.observableHashMap();
+    private final HashMap<LocalDate, Day> internalMap = new HashMap<>();
+
 
     // these methods have to change internal list as well
     public Day getDayByDate(LocalDate date) {
@@ -47,8 +48,9 @@ public class UniqueDayMap {
                 internalList.add(new ConsumedFood(food, foods.get(food), date));
             }
         } catch (NullPointerException e) {
-            return FXCollections.observableArrayList();
+            return internalList;
         }
+        // internalList.add(new ConsumedFood());
         return internalList;
     }
 

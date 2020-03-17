@@ -56,7 +56,7 @@ public class NomCommandParser implements Parser<NomCommand> {
         if (!optionalFood.isPresent()) {
             throw new ParseException(MESSAGE_EMPTY_NAME);
         }
-        dayConsumed.consume(optionalFood.get(), portion);
+        dayConsumed = dayConsumed.consume(optionalFood.get(), portion);
         return new NomCommand(dayConsumed, optionalFood.get());
     }
 

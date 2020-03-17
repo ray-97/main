@@ -2,6 +2,12 @@ package f11_1.calgo.ui;
 
 import java.util.logging.Logger;
 
+import f11_1.calgo.commons.core.GuiSettings;
+import f11_1.calgo.commons.core.LogsCenter;
+import f11_1.calgo.logic.Logic;
+import f11_1.calgo.logic.commands.CommandResult;
+import f11_1.calgo.logic.commands.exceptions.CommandException;
+import f11_1.calgo.logic.parser.exceptions.ParseException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -10,12 +16,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import f11_1.calgo.commons.core.GuiSettings;
-import f11_1.calgo.commons.core.LogsCenter;
-import f11_1.calgo.logic.Logic;
-import f11_1.calgo.logic.commands.CommandResult;
-import f11_1.calgo.logic.commands.exceptions.CommandException;
-import f11_1.calgo.logic.parser.exceptions.ParseException;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -114,8 +114,8 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new PersonListPanel(logic.getFilteredFoodRecord());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
-        dailyListPanel = new DailyListPanel(logic.getFilteredDailyList());
-        // dailyListPanelPlaceholder.getChildren().add(dailyListPanel.getRoot()); // stackpane's getChildren is null?
+        dailyListPanel = new DailyListPanel(logic.getFilteredDailyList()); // logic.getFilteredDailyList()
+        dailyListPanelPlaceholder.getChildren().add(dailyListPanel.getRoot()); // stackpane's getChildren is null?
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());

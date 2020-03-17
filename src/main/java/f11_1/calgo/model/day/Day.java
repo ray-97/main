@@ -6,10 +6,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.OptionalDouble;
 
-import javax.swing.text.html.Option;
-
 import f11_1.calgo.model.food.Food;
-import javafx.collections.ObservableList;
 
 public class Day {
     // Identity fields
@@ -103,9 +100,8 @@ public class Day {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(localDate);
-        // can append food in list once implemented
-        // or other stats
+        builder.append(localDate)
+        .append(dailyFoodLog);
         return builder.toString();
     }
 }

@@ -17,6 +17,14 @@ public class DailyFoodLog {
         this.foods = foods;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Food food : foods.keySet()) {
+            sb.append(food);
+        }
+        return sb.toString();
+    }
+
     // it is this log's job to check if items with same food name. + portion if same.
     // adapted from Vineeth.
     public DailyFoodLog add(Food foodToAdd, double quantity) {
