@@ -29,6 +29,13 @@ class JsonAdaptedTag {
     }
 
     /**
+     * Dummy constructor for JsonAdaptedTag class.
+     */
+    public JsonAdaptedTag() {
+        tagName = "";
+    }
+
+    /**
      * Converts this Jackson-friendly adapted tag object into the model's {@code Tag} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted tag.

@@ -47,6 +47,7 @@ public class UniqueDayMap {
             for (Food food : foods.keySet()) {
                 internalList.add(new ConsumedFood(food, foods.get(food), date));
             }
+            System.out.println(internalList.size());
         } catch (NullPointerException e) {
             return internalList;
         }

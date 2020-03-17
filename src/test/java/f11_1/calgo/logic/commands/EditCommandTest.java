@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Test;
 
 import f11_1.calgo.commons.core.Messages;
 import f11_1.calgo.commons.core.index.Index;
-import f11_1.calgo.logic.commands.EditCommand.EditFoodDescriptor;
 import f11_1.calgo.model.FoodRecord;
 import f11_1.calgo.model.Model;
 import f11_1.calgo.model.ModelManager;

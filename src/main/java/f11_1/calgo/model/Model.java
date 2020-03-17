@@ -5,13 +5,12 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import f11_1.calgo.commons.core.GuiSettings;
 import f11_1.calgo.model.day.Day;
 import f11_1.calgo.model.food.ConsumedFood;
+import f11_1.calgo.model.food.Food;
 import f11_1.calgo.model.food.Name;
 import javafx.collections.ObservableList;
-import f11_1.calgo.commons.core.GuiSettings;
-import f11_1.calgo.model.food.Food;
-import javafx.collections.ObservableMap;
 
 /**
  * The API of the Model component.
@@ -64,6 +63,9 @@ public interface Model {
      */
     boolean hasFood(Food food);
 
+    /** Returns the existing Food item in FoodRecord */
+    Food getExistingFood(Food toAdd);
+
     /**
      * Deletes the given food.
      * The person must exist in the food record.
@@ -106,4 +108,6 @@ public interface Model {
     ObservableList<ConsumedFood> getCurrentFilteredDailyList();
 
     void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date);
+
+
 }

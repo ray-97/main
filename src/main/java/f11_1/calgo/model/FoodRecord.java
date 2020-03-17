@@ -103,6 +103,14 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         foodList.remove(key);
     }
 
+    /**
+     * Returns the existing Food object in Food Record
+     */
+    public Food getExistingFood(Food toGet) {
+        requireNonNull(toGet);
+        return foodList.getExistingFood(toGet);
+    }
+
     //// util methods
 
     public Optional<Food> getFoodByName(Name name) {
