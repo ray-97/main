@@ -37,7 +37,7 @@
                            <Insets bottom="10.0" left="15.0" right="10.0" top="5.0" />
                         </padding>
                      </HBox>
-                     <TextArea fx:id="commandMessage" prefHeight="200.0" prefWidth="200.0" text="Command Help" />
+                     <TextArea fx:id="commandMessage" text="Command Help" />
                   </children>
                </VBox>
             </children></AnchorPane>
