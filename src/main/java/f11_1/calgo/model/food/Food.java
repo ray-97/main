@@ -60,6 +60,10 @@ public class Food {
         return fat;
     }
 
+    public Food copy() {
+        return new Food(name, calorie, protein, carbohydrate, fat, tags);
+    }
+
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -79,6 +83,11 @@ public class Food {
 
         return otherFood != null
                 && otherFood.getName().equals(getName());
+    }
+
+    // for zx
+    public boolean hasName(Name name) {
+        return name.equals(getName());
     }
 
     /**

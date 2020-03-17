@@ -100,6 +100,16 @@ public class UniqueFoodList implements Iterable<Food> {
         internalList.setAll(foods);
     }
 
+    // for zx
+    public Optional<Food> getFoodByName(Name name) {
+        for (Food food:internalList) {
+            if (food.hasName(name)) {
+                return Optional.of(food);
+            }
+        }
+        return Optional.empty();
+    }
+
     /**
      * Returns the existing Food in the list
      * The food must currently exist in the list.

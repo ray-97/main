@@ -4,9 +4,14 @@ import static java.util.Objects.requireNonNull;
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import f11_1.calgo.model.day.Day;
+import f11_1.calgo.model.food.ConsumedFood;
+import f11_1.calgo.model.food.Name;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import f11_1.calgo.commons.core.GuiSettings;
@@ -22,6 +27,7 @@ public class ModelManager implements Model {
     private final FoodRecord foodRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
+    private FilteredList<ConsumedFood> currentFilteredDailyList;
 
     /**
      * Initializes a ModelManager with the given foodRecord and userPrefs.
@@ -35,6 +41,7 @@ public class ModelManager implements Model {
         this.foodRecord = new FoodRecord(readOnlyFoodRecord);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredFoods = new FilteredList<>(this.foodRecord.getFoodList());
+        currentFilteredDailyList = new FilteredList<>(this.foodRecord.getDailyList(LocalDate.now()));
     }
 
     public ModelManager() {
@@ -117,6 +124,34 @@ public class ModelManager implements Model {
         foodRecord.setFood(target, editedFood);
     }
 
+    // methods need to update
+    @Override
+    public Optional<Food> getFoodByName(Name name) {
+        return foodRecord.getFoodByName(name);
+    }
+
+    @Override
+    public boolean hasDay(Day day) {
+        return foodRecord.hasDay(day);
+    }
+
+    @Override
+    public void addDay(Day day) {
+        foodRecord.addDay(day);
+    }
+
+    @Override
+    public void addConsumption(Day dayAfterConsumption) {
+        foodRecord.addConsumption(dayAfterConsumption);
+    }
+
+    @Override
+    public Day getDayByDate(LocalDate localDate) {
+        return foodRecord.getDayByDate(localDate);
+    }
+
+    // stomach changes the day.
+
     //=========== Filtered Food Record Accessors =============================================================
 
     /**
@@ -132,6 +167,18 @@ public class ModelManager implements Model {
     public void updateFilteredFoodRecord(Predicate<Food> predicate) {
         requireNonNull(predicate);
         filteredFoods.setPredicate(predicate);
+    }
+
+    @Override
+    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
+        return currentFilteredDailyList;
+    }
+
+    @Override
+    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) {
+        requireNonNull(predicate);
+        currentFilteredDailyList = new FilteredList<>(foodRecord.getDailyList(date));
+        currentFilteredDailyList.setPredicate(predicate);
     }
 
     @Override

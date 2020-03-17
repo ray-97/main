@@ -7,10 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static f11_1.calgo.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.function.Predicate;
 
+import f11_1.calgo.model.day.Day;
+import f11_1.calgo.model.food.Name;
 import f11_1.calgo.testutil.Assert;
 import f11_1.calgo.testutil.FoodBuilder;
 import org.junit.jupiter.api.Test;
@@ -146,6 +150,31 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredFoodRecord(Predicate<Food> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Optional<Food> getFoodByName(Name parseName) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasDay(Day dayConsumed) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addDay(Day dayConsumed) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addConsumption(Day dayConsumed) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Day getDayByDate(LocalDate localDate) {
             throw new AssertionError("This method should not be called.");
         }
     }

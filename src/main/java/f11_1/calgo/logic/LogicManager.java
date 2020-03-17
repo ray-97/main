@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
+import f11_1.calgo.model.food.ConsumedFood;
 import javafx.collections.ObservableList;
 import f11_1.calgo.commons.core.GuiSettings;
 import f11_1.calgo.commons.core.LogsCenter;
@@ -39,7 +40,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = foodRecordParser.parseCommand(commandText);
+        Command command = foodRecordParser.parseCommand(commandText, model);
         commandResult = command.execute(model);
 
         try {
@@ -59,6 +60,12 @@ public class LogicManager implements Logic {
     @Override
     public ObservableList<Food> getFilteredFoodRecord() {
         return model.getFilteredFoodRecord();
+    }
+
+    @Override
+    public ObservableList<ConsumedFood> getFilteredDailyList() {
+        System.out.println(model.getCurrentFilteredDailyList().size());
+        return model.getCurrentFilteredDailyList();
     }
 
     @Override
