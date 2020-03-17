@@ -4,15 +4,15 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import life.calgo.model.food.Fat;
-import life.calgo.model.food.Protein;
-import life.calgo.model.tag.Tag;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.food.Calorie;
 import life.calgo.model.food.Carbohydrate;
+import life.calgo.model.food.Fat;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
-import life.calgo.model.food.Calorie;
+import life.calgo.model.food.Protein;
+import life.calgo.model.tag.Tag;
 
 /**
  * Contains utility methods for populating {@code FoodRecord} with sample data.

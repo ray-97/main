@@ -2,12 +2,15 @@ package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import life.calgo.commons.util.CollectionUtil;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.Model;
 import life.calgo.model.day.Day;
 import life.calgo.model.food.Food;
-import life.calgo.commons.util.CollectionUtil;
 
+/**
+ * Command to decrement quantity of consumption of a food item from a given day
+ */
 public class VomitCommand extends Command {
 
     public static final String COMMAND_WORD = "vomit";
@@ -33,6 +36,6 @@ public class VomitCommand extends Command {
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 dayVomited.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodVomited));
-                // dayVomited.getPortion(foodVomited), foodVomited, dayVomited.getLocalDate()));
+        // dayVomited.getPortion(foodVomited), foodVomited, dayVomited.getLocalDate()));
     }
 }

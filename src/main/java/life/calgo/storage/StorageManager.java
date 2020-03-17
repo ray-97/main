@@ -5,11 +5,11 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import life.calgo.model.ReadOnlyUserPrefs;
-import life.calgo.model.UserPrefs;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.commons.exceptions.DataConversionException;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.ReadOnlyUserPrefs;
+import life.calgo.model.UserPrefs;
 
 /**
  * Manages storage of FoodRecord data in local storage.

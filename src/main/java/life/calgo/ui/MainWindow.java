@@ -2,12 +2,6 @@ package life.calgo.ui;
 
 import java.util.logging.Logger;
 
-import life.calgo.commons.core.GuiSettings;
-import life.calgo.commons.core.LogsCenter;
-import life.calgo.logic.Logic;
-import life.calgo.logic.commands.CommandResult;
-import life.calgo.logic.commands.exceptions.CommandException;
-import life.calgo.logic.parser.exceptions.ParseException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -16,6 +10,13 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import life.calgo.commons.core.GuiSettings;
+import life.calgo.commons.core.LogsCenter;
+import life.calgo.logic.Logic;
+import life.calgo.logic.commands.CommandResult;
+import life.calgo.logic.commands.exceptions.CommandException;
+import life.calgo.logic.parser.exceptions.ParseException;
 
 /**
  * The Main Window. Provides the basic application layout containing

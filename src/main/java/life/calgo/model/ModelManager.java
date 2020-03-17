@@ -9,14 +9,15 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
-import life.calgo.model.day.Day;
-import life.calgo.model.food.ConsumedFood;
-import life.calgo.model.food.Name;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
+import life.calgo.model.day.Day;
+import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
+import life.calgo.model.food.Name;
 
 /**
  * Represents the in-memory model of the food record data.

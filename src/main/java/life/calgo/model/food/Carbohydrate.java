@@ -1,7 +1,6 @@
 package life.calgo.model.food;
 
 import static java.util.Objects.requireNonNull;
-import static life.calgo.commons.util.AppUtil.checkArgument;
 
 import life.calgo.commons.util.AppUtil;
 

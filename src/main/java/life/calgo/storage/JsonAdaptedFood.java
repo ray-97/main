@@ -13,9 +13,9 @@ import life.calgo.commons.exceptions.IllegalValueException;
 import life.calgo.model.food.Calorie;
 import life.calgo.model.food.Carbohydrate;
 import life.calgo.model.food.Fat;
-import life.calgo.model.food.Protein;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
+import life.calgo.model.food.Protein;
 import life.calgo.model.tag.Tag;
 
 /**
@@ -44,7 +44,6 @@ class JsonAdaptedFood {
                            @JsonProperty("carbohydrate") String carbohydrate,
                            @JsonProperty("fat") String fat,
                            @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
-        
         this.name = name;
         this.calorie = calorie;
         this.protein = protein;
@@ -107,7 +106,8 @@ class JsonAdaptedFood {
         final Protein modelProtein = new Protein(protein);
 
         if (carbohydrate == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Carbohydrate.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Carbohydrate.class.getSimpleName()));
         }
         if (!Carbohydrate.isValidCarbohydrate(carbohydrate)) {
             throw new IllegalValueException(Carbohydrate.MESSAGE_CONSTRAINTS);

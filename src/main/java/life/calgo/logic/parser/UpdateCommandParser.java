@@ -5,20 +5,21 @@ import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.UpdateCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
-import life.calgo.model.tag.Tag;
-import life.calgo.commons.core.Messages;
 import life.calgo.model.food.Calorie;
 import life.calgo.model.food.Carbohydrate;
 import life.calgo.model.food.Fat;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 import life.calgo.model.food.Protein;
+import life.calgo.model.tag.Tag;
 
+/**
+ *  Parses input arguments and creates a new UpdateCommand object
+ */
 public class UpdateCommandParser implements Parser<UpdateCommand> {
-
-
     /**
      * Parses the given {@code String} of arguments in the context of the UpdateCommand
      * and returns an UpdateCommand object for execution.
@@ -41,8 +42,8 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
         Name name = ParserUtil.parseName(argMultimap.getValue(CliSyntax.PREFIX_NAME).get());
         Calorie calorie = ParserUtil.parseCalorie(argMultimap.getValue(CliSyntax.PREFIX_CALORIES).get());
         Protein protein = ParserUtil.parseProtein(argMultimap.getValue(CliSyntax.PREFIX_PROTEIN).get());
-        Carbohydrate carbohydrate = ParserUtil.
-                parseCarbohydrate(argMultimap.getValue(CliSyntax.PREFIX_CARBOHYDRATE).get());
+        Carbohydrate carbohydrate = ParserUtil
+                .parseCarbohydrate(argMultimap.getValue(CliSyntax.PREFIX_CARBOHYDRATE).get());
         Fat fat = ParserUtil.parseFat(argMultimap.getValue(CliSyntax.PREFIX_FAT).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(CliSyntax.PREFIX_TAG));
 
@@ -56,7 +57,6 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
      * {@code ArgumentMultimap}.
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

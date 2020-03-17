@@ -1,10 +1,11 @@
 package life.calgo.ui;
 
-import life.calgo.logic.Logic;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
+
+import life.calgo.logic.Logic;
 import life.calgo.logic.commands.CommandResult;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;

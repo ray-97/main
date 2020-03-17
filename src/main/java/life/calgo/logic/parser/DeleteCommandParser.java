@@ -1,20 +1,20 @@
 package life.calgo.logic.parser;
 
-import static life.calgo.logic.parser.CliSyntax.*;
+import static life.calgo.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.DeleteCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
-import life.calgo.model.tag.Tag;
-import life.calgo.commons.core.Messages;
 import life.calgo.model.food.Calorie;
 import life.calgo.model.food.Carbohydrate;
 import life.calgo.model.food.Fat;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 import life.calgo.model.food.Protein;
+import life.calgo.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new DeleteCommand object
@@ -24,7 +24,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the DeleteCommand
      * and returns a DeleteCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * @throws ParseException if the user input does not conform to the expected format
      */
     public DeleteCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
@@ -56,5 +56,4 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     private static boolean isNamePrefixPresent(ArgumentMultimap argumentMultimap, Prefix prefix) {
         return argumentMultimap.getValue(prefix).isPresent();
     }
-
 }

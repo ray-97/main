@@ -2,20 +2,26 @@ package life.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
-import life.calgo.logic.commands.ReportCommand;
-import life.calgo.logic.parser.exceptions.ParseException;
-import life.calgo.commons.core.Messages;
+import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
 
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
+import life.calgo.commons.core.Messages;
+import life.calgo.logic.commands.ReportCommand;
+import life.calgo.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input date in order to create a new ReportCommand object.
+ * Parses input arguments in order to create a new ReportCommand object.
  */
 public class ReportCommandParser implements Parser<ReportCommand> {
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the ReportCommand
+     * @param args a String of arguments provided by user
+     * @return a ReportCommand object for execution
+     * @throws ParseException if user does not conform to expected format
+     */
     public ReportCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =

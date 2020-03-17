@@ -6,13 +6,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.collections.ObservableList;
+
 import life.calgo.model.day.Day;
 import life.calgo.model.day.UniqueDayMap;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 import life.calgo.model.food.UniqueFoodList;
-import javafx.collections.ObservableList;
 
 /**
  * Wraps all data at the food record level

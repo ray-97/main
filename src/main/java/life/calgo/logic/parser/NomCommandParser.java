@@ -1,5 +1,7 @@
 package life.calgo.logic.parser;
 
+import static java.util.Objects.requireNonNull;
+
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
@@ -9,17 +11,19 @@ import static life.calgo.logic.parser.CliSyntax.PREFIX_PORTION;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_POSITION;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_TAG;
-import static java.util.Objects.requireNonNull;
 
 import java.util.Optional;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.NomCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.day.Day;
 import life.calgo.model.food.Food;
-import life.calgo.commons.core.Messages;
 
+/**
+ * Parses input arguments in order to create a new NomCommand object
+ */
 public class NomCommandParser implements Parser<NomCommand> {
 
     public static final String MESSAGE_EMPTY_NAME = "Name should not be empty";
@@ -30,6 +34,12 @@ public class NomCommandParser implements Parser<NomCommand> {
         this.model = model;
     }
 
+    /**
+     * Parses the given {@code String} of arguments in the context of the NomCommand
+     * @param args a String of arguments provided by user
+     * @return a NomCommand object for execution
+     * @throws ParseException if user does not conform to expected format
+     */
     public NomCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
@@ -59,5 +69,4 @@ public class NomCommandParser implements Parser<NomCommand> {
         dayConsumed = dayConsumed.consume(optionalFood.get(), portion);
         return new NomCommand(dayConsumed, optionalFood.get());
     }
-
 }

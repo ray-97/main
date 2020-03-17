@@ -15,9 +15,9 @@ import life.calgo.commons.util.StringUtil;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.food.Calorie;
 import life.calgo.model.food.Carbohydrate;
-import life.calgo.model.food.Protein;
 import life.calgo.model.food.Fat;
 import life.calgo.model.food.Name;
+import life.calgo.model.food.Protein;
 import life.calgo.model.tag.Tag;
 
 /**
@@ -25,10 +25,10 @@ import life.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
-    private static final String DATE_PATTERN ="yyyy-MM-dd";
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
-
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
     private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or nothing";
@@ -61,6 +61,12 @@ public class ParserUtil {
         return new Name(trimmedName);
     }
 
+    /**
+     * Instantiate LocalDate object from date represented in String
+     * @param date date in String representation
+     * @return LocalDate object with date equivalent to that expressed in argument
+     * @throws ParseException if given String date is in invalid format
+     */
     public static LocalDate parseDate(String date) throws ParseException {
         requireNonNull(date);
         String trimmedDate = date.trim();
@@ -71,6 +77,11 @@ public class ParserUtil {
         }
     }
 
+    /**
+     * returns true if given String can be parsed as a number
+     * @param strNum a String argument to be parsed as a number
+     * @return true if the input can be parsed as a number
+     */
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
             return false;
@@ -83,6 +94,12 @@ public class ParserUtil {
         return true;
     }
 
+    /**
+     * parses String portion as a double
+     * @param portion a String representation of portion argument
+     * @return double representation of portion argument
+     * @throws ParseException if given argument cannot be parsed as a number
+     */
     public static double parsePortion(String portion) throws ParseException {
         requireNonNull(portion);
         String trimmedPortion = portion.trim();
@@ -94,6 +111,12 @@ public class ParserUtil {
         return value;
     }
 
+    /**
+     * Parses given String representation of position into an OptionalInt
+     * Position refers to index the food object has in food record display
+     * @param position String representation of position
+     * @return OptionalInt representation of position
+     */
     public static OptionalInt parsePosition(String position) {
         requireNonNull(position);
         String trimmedPosition = position.trim();

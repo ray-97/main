@@ -1,19 +1,18 @@
 package life.calgo.model.food;
 
 import static java.util.Objects.requireNonNull;
-import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import life.calgo.commons.util.CollectionUtil;
 import life.calgo.model.food.exceptions.DuplicateFoodException;
 import life.calgo.model.food.exceptions.FoodNotFoundException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  * A list of food that enforces uniqueness between its elements and does not allow nulls.

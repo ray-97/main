@@ -1,9 +1,8 @@
 package life.calgo.model.tag;
 
-import life.calgo.commons.util.AppUtil;
-
 import static java.util.Objects.requireNonNull;
-import static life.calgo.commons.util.AppUtil.checkArgument;
+
+import life.calgo.commons.util.AppUtil;
 
 /**
  * Represents a Tag in the food record.

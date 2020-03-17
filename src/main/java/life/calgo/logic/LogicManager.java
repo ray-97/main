@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-import life.calgo.model.food.ConsumedFood;
 import javafx.collections.ObservableList;
+
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.commands.Command;
@@ -15,6 +15,7 @@ import life.calgo.logic.parser.FoodRecordParser;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.storage.Storage;
 

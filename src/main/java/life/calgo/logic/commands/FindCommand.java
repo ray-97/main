@@ -2,8 +2,8 @@ package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import life.calgo.model.Model;
 import life.calgo.commons.core.Messages;
+import life.calgo.model.Model;
 import life.calgo.model.food.NameContainsKeywordsPredicate;
 
 /**

@@ -5,8 +5,10 @@ import static java.util.Objects.requireNonNull;
 import java.io.IOException;
 import java.net.URL;
 
-import life.calgo.MainApp;
 import javafx.fxml.FXMLLoader;
+
+import life.calgo.MainApp;
+
 
 /**
  * Represents a distinct part of the UI. e.g. Windows, dialogs, panels, status bars, etc.
