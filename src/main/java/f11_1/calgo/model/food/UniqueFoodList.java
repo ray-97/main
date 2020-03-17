@@ -50,6 +50,7 @@ public class UniqueFoodList implements Iterable<Food> {
         internalList.add(toAdd);
     }
 
+
     /**
      * Replaces the food {@code target} in the list with {@code editedFood}.
      * {@code target} must exist in the list.
@@ -107,6 +108,14 @@ public class UniqueFoodList implements Iterable<Food> {
             }
         }
         return Optional.empty();
+    }
+
+    /**
+     * Returns the existing Food in the list
+     * The food must currently exist in the list.
+     */
+    public Food getExistingFood(Food toGet) {
+        return internalList.stream().filter(toGet::isSameFood).findFirst().get();
     }
 
     /**

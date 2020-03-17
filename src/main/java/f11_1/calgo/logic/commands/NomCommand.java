@@ -41,6 +41,8 @@ public class NomCommand extends Command {
         } else {
             model.addConsumption(dayConsumed);
         }
+        model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
+                dayConsumed.getLocalDate()); // updates display
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed));
                 // , dayConsumed.getPortion(foodConsumed), dayConsumed.getLocalDate()));
     }

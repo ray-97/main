@@ -1,15 +1,14 @@
 package f11_1.calgo.logic.commands;
 
-import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
+
+import java.time.LocalDate;
 
 import f11_1.calgo.logic.commands.exceptions.CommandException;
 import f11_1.calgo.logic.parser.CliSyntax;
 import f11_1.calgo.model.Model;
 import f11_1.calgo.model.day.Day;
 import f11_1.calgo.storage.ReportGenerator;
-
-import java.time.LocalDate;
 
 /**
  * Generates a report of all the food consumed by User on any given day.

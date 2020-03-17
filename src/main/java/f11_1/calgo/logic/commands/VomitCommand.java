@@ -31,6 +31,8 @@ public class VomitCommand extends Command {
             model.addDay(dayVomited);
         }
         model.addConsumption(dayVomited);
+        model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
+                dayVomited.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodVomited));
                 // dayVomited.getPortion(foodVomited), foodVomited, dayVomited.getLocalDate()));
     }

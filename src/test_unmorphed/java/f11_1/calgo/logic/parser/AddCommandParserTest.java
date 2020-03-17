@@ -29,7 +29,6 @@ import f11_1.calgo.testutil.FoodBuilder;
 import f11_1.calgo.testutil.TypicalPersons;
 import org.junit.jupiter.api.Test;
 
-import f11_1.calgo.logic.commands.AddCommand;
 import f11_1.calgo.model.food.Calorie;
 import f11_1.calgo.model.food.Fat;
 import f11_1.calgo.model.food.Protein;

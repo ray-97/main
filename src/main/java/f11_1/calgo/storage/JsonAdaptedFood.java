@@ -40,10 +40,11 @@ class JsonAdaptedFood {
     @JsonCreator
     public JsonAdaptedFood(@JsonProperty("name") String name,
                            @JsonProperty("calorie") String calorie,
-                           @JsonProperty("protein (g)") String protein,
-                           @JsonProperty("carbohydrate (g)") String carbohydrate,
-                           @JsonProperty("fat (g)") String fat,
+                           @JsonProperty("protein") String protein,
+                           @JsonProperty("carbohydrate") String carbohydrate,
+                           @JsonProperty("fat") String fat,
                            @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
+        
         this.name = name;
         this.calorie = calorie;
         this.protein = protein;

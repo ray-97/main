@@ -6,8 +6,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.OptionalDouble;
 
-import javax.swing.text.html.Option;
-
 import f11_1.calgo.model.food.Food;
 
 public class Day {
@@ -65,6 +63,10 @@ public class Day {
         // else throw exceptions
     }
 
+//    public ObservableList<Food> getFilteredDailyList() {
+//        return dailyFoodLog.getAsFilteredList();
+//    }
+
     public boolean isSameDay(Day otherDay) {
         if (otherDay == this) {
             return true;
@@ -99,8 +101,6 @@ public class Day {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(localDate);
-        // can append food in list once implemented
-        // or other stats
         return builder.toString();
     }
 }

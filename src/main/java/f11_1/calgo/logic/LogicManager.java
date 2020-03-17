@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
+import f11_1.calgo.model.food.ConsumedFood;
 import javafx.collections.ObservableList;
 import f11_1.calgo.commons.core.GuiSettings;
 import f11_1.calgo.commons.core.LogsCenter;
@@ -61,10 +62,11 @@ public class LogicManager implements Logic {
         return model.getFilteredFoodRecord();
     }
 
-//    @Override
-//    public ObservableList<Food> getFilteredDailyList() {
-//
-//    }
+    @Override
+    public ObservableList<ConsumedFood> getFilteredDailyList() {
+        System.out.println(model.getCurrentFilteredDailyList().size());
+        return model.getCurrentFilteredDailyList();
+    }
 
     @Override
     public Path getFoodRecordFilePath() {

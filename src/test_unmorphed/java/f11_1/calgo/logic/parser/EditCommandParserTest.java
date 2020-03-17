@@ -31,8 +31,6 @@ import f11_1.calgo.testutil.TypicalIndexes;
 import org.junit.jupiter.api.Test;
 
 import f11_1.calgo.commons.core.index.Index;
-import f11_1.calgo.logic.commands.EditCommand;
-import f11_1.calgo.logic.commands.EditCommand.EditFoodDescriptor;
 import f11_1.calgo.model.food.Calorie;
 import f11_1.calgo.model.food.Fat;
 import f11_1.calgo.model.food.Protein;

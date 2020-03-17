@@ -1,24 +1,33 @@
 package f11_1.calgo.model.day;
 
 import static f11_1.calgo.commons.util.CollectionUtil.requireAllNonNull;
-import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
+import f11_1.calgo.model.food.ConsumedFood;
+import f11_1.calgo.model.food.Food;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
+import javafx.collections.ObservableList;
 
 public class UniqueDayMap {
 
-    private final ObservableMap<LocalDate,Day> internalMap = FXCollections.observableHashMap();
+    private final HashMap<LocalDate, Day> internalMap = new HashMap<>();
 
+
+    // these methods have to change internal list as well
     public Day getDayByDate(LocalDate date) {
         return internalMap.get(date);
-    }
+    } // return with empty food list if day not present?
 
     public boolean hasDay(Day day) {
         return internalMap.containsKey(day.getLocalDate());
+    }
+
+    public boolean hasDate(LocalDate date) {
+        return internalMap.containsKey(date);
     }
 
     public void addDay(Day day) {
@@ -28,6 +37,22 @@ public class UniqueDayMap {
     public void addConsumption(Day dayAfterConsumption) {
         requireAllNonNull(dayAfterConsumption);
         internalMap.put(dayAfterConsumption.getLocalDate(), dayAfterConsumption);
+    }
+
+    public ObservableList<ConsumedFood> getDailyListByDate(LocalDate date) {
+        ObservableList<ConsumedFood> internalList = FXCollections.observableArrayList();
+        try {
+            LinkedHashMap<Food, Double> foods= internalMap.get(date).getDailyFoodLog().getFoods();
+            // assuming it is only a wrapper and still refers to same internalList
+            for (Food food : foods.keySet()) {
+                internalList.add(new ConsumedFood(food, foods.get(food), date));
+            }
+            System.out.println(internalList.size());
+        } catch (NullPointerException e) {
+            return internalList;
+        }
+        // internalList.add(new ConsumedFood());
+        return internalList;
     }
 
     @Override

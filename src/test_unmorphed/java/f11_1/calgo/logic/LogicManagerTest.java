@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import f11_1.calgo.logic.commands.AddCommand;
 import f11_1.calgo.logic.commands.CommandResult;
 import f11_1.calgo.logic.commands.ListCommand;
 import f11_1.calgo.logic.commands.exceptions.CommandException;
