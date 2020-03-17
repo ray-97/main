@@ -23,7 +23,8 @@ public class ReportCommandParser implements Parser<ReportCommand> {
 
         if (!arePrefixesPresent(argMultimap, PREFIX_DATE)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, ReportCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT,
+                    ReportCommand.MESSAGE_USAGE));
         }
 
         // at this breakpoint, PREFIX_DATE is present in args

@@ -7,7 +7,6 @@ import java.util.Set;
 
 import life.calgo.logic.commands.DeleteCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
-import f11_1.calgo.model.food.*;
 import life.calgo.model.tag.Tag;
 import life.calgo.commons.core.Messages;
 import life.calgo.model.food.Calorie;
@@ -33,7 +32,8 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
 
         if (!isNamePrefixPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT,
+                    DeleteCommand.MESSAGE_USAGE));
         }
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());

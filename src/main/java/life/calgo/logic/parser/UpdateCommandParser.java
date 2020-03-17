@@ -7,7 +7,6 @@ import java.util.stream.Stream;
 
 import life.calgo.logic.commands.UpdateCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
-import f11_1.calgo.model.food.*;
 import life.calgo.model.tag.Tag;
 import life.calgo.commons.core.Messages;
 import life.calgo.model.food.Calorie;
@@ -26,22 +25,24 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public UpdateCommand parse(String args) throws ParseException {
-        System.out.println("I AM BEING PARSED");
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_NAME, CliSyntax.PREFIX_CALORIES,
-                        CliSyntax.PREFIX_PROTEIN, CliSyntax.PREFIX_CARBOHYDRATE, CliSyntax.PREFIX_FAT, CliSyntax.PREFIX_TAG);
+                        CliSyntax.PREFIX_PROTEIN, CliSyntax.PREFIX_CARBOHYDRATE,
+                        CliSyntax.PREFIX_FAT, CliSyntax.PREFIX_TAG);
         if (!arePrefixesPresent(argMultimap, CliSyntax.PREFIX_NAME, CliSyntax.PREFIX_CALORIES,
                 CliSyntax.PREFIX_PROTEIN, CliSyntax.PREFIX_FAT, CliSyntax.PREFIX_CARBOHYDRATE)
                 || !argMultimap.getPreamble().isEmpty()) {
             // if not all prefixes are present then throw error
-            throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, UpdateCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT,
+                    UpdateCommand.MESSAGE_USAGE));
         }
 
         Name name = ParserUtil.parseName(argMultimap.getValue(CliSyntax.PREFIX_NAME).get());
         Calorie calorie = ParserUtil.parseCalorie(argMultimap.getValue(CliSyntax.PREFIX_CALORIES).get());
         Protein protein = ParserUtil.parseProtein(argMultimap.getValue(CliSyntax.PREFIX_PROTEIN).get());
-        Carbohydrate carbohydrate = ParserUtil.parseCarbohydrate(argMultimap.getValue(CliSyntax.PREFIX_CARBOHYDRATE).get());
+        Carbohydrate carbohydrate = ParserUtil.
+                parseCarbohydrate(argMultimap.getValue(CliSyntax.PREFIX_CARBOHYDRATE).get());
         Fat fat = ParserUtil.parseFat(argMultimap.getValue(CliSyntax.PREFIX_FAT).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(CliSyntax.PREFIX_TAG));
 

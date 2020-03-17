@@ -1,7 +1,5 @@
 package life.calgo.logic.commands;
 
-
-import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static java.util.Objects.requireNonNull;
 
 import life.calgo.logic.commands.exceptions.CommandException;
