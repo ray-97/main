@@ -13,14 +13,14 @@ import f11_1.calgo.model.food.Food;
 /**
  * Panel containing the list of persons.
  */
-public class PersonListPanel extends UiPart<Region> {
-    private static final String FXML = "PersonListPanel.fxml";
-    private final Logger logger = LogsCenter.getLogger(PersonListPanel.class);
+public class FoodListPanel extends UiPart<Region> {
+    private static final String FXML = "FoodListPanel.fxml";
+    private final Logger logger = LogsCenter.getLogger(FoodListPanel.class);
 
     @FXML
     private ListView<Food> personListView;
 
-    public PersonListPanel(ObservableList<Food> foodList) {
+    public FoodListPanel(ObservableList<Food> foodList) {
         super(FXML);
         personListView.setItems(foodList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
@@ -38,7 +38,7 @@ public class PersonListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new PersonCard(food, getIndex() + 1).getRoot());
+                setGraphic(new FoodCard(food, getIndex() + 1).getRoot());
             }
         }
     }

@@ -69,24 +69,24 @@ public class MainApp extends Application {
     }
 
     /**
-     * Returns a {@code ModelManager} with the data from {@code storage}'s address book and {@code userPrefs}. <br>
-     * The data from the sample address book will be used instead if {@code storage}'s address book is not found,
-     * or an empty address book will be used instead if errors occur when reading {@code storage}'s address book.
+     * Returns a {@code ModelManager} with the data from {@code storage}'s food record and {@code userPrefs}. <br>
+     * The data from the sample food record will be used instead if {@code storage}'s food record is not found,
+     * or an empty food record will be used instead if errors occur when reading {@code storage}'s food record.
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
-        Optional<ReadOnlyFoodRecord> addressBookOptional;
+        Optional<ReadOnlyFoodRecord> foodRecordOptional;
         ReadOnlyFoodRecord initialData;
         try {
-            addressBookOptional = storage.readFoodRecord();
-            if (!addressBookOptional.isPresent()) {
-                logger.info("Data file not found. Will be starting with a sample AddressBook");
+            foodRecordOptional = storage.readFoodRecord();
+            if (!foodRecordOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with a sample FoodRecord");
             }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+            initialData = foodRecordOptional.orElseGet(SampleDataUtil::getSampleFoodRecord);
         } catch (DataConversionException e) {
-            logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
+            logger.warning("Data file not in the correct format. Will be starting with an empty FoodRecord");
             initialData = new FoodRecord();
         } catch (IOException e) {
-            logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
+            logger.warning("Problem while reading from the file. Will be starting with an empty FoodRecord");
             initialData = new FoodRecord();
         }
 
