@@ -45,3 +45,4 @@ public class DailyListPanel extends UiPart<Region> {
         }
     }
 }
+
