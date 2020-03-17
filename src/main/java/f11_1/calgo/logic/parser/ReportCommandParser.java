@@ -9,7 +9,6 @@ import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
 import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_TAG;
 import static java.util.Objects.requireNonNull;
 
-import f11_1.calgo.logic.commands.AddCommand;
 import f11_1.calgo.logic.commands.ReportCommand;
 import f11_1.calgo.logic.parser.exceptions.ParseException;
 import f11_1.calgo.model.day.Day;

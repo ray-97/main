@@ -65,7 +65,8 @@ public class ReportGenerator {
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
-            printWriter.println(String.format("%-20s %-20f %-20f", food.toString(), portion, currCalories));
+            printWriter.println(String.format("   %-22s %-20.0f %-20.0f", food.toString(true),
+                    portion, currCalories));
         }
     }
 
@@ -73,7 +74,7 @@ public class ReportGenerator {
         printWriter.println("Aggregate Statistics:");
         printWriter.println(String.format("%s %-20s %-20s %-20s", "Total Calories in kcal", "| Total Protein in grams"
                 , "| Total Carbohydrates in grams", "| Total Fats in grams"));
-        printWriter.println(String.format("     %-25f %-26f %-28f %f", totalCalories, totalProteins,
+        printWriter.println(String.format("     %-25.0f %-26.0f %-28.0f %.0f", totalCalories, totalProteins,
                 totalCarbs, totalFats));
     }
 

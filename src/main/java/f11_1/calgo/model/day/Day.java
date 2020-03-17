@@ -100,8 +100,7 @@ public class Day {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append(localDate)
-        .append(dailyFoodLog);
+        builder.append(localDate);
         return builder.toString();
     }
 }
