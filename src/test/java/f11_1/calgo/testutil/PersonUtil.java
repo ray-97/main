@@ -8,8 +8,6 @@ import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
 
-import f11_1.calgo.logic.commands.AddCommand;
-import f11_1.calgo.logic.commands.EditCommand.EditFoodDescriptor;
 import f11_1.calgo.model.food.Food;
 import f11_1.calgo.model.tag.Tag;
 

@@ -4,7 +4,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import f11_1.calgo.logic.commands.EditCommand.EditFoodDescriptor;
 import f11_1.calgo.model.food.Fat;
 import f11_1.calgo.model.food.Protein;
 import f11_1.calgo.model.food.Food;

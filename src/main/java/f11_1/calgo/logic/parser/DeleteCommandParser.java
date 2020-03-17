@@ -2,17 +2,11 @@ package f11_1.calgo.logic.parser;
 
 import static f11_1.calgo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static f11_1.calgo.logic.parser.CliSyntax.*;
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import f11_1.calgo.commons.core.index.Index;
 import f11_1.calgo.logic.commands.DeleteCommand;
-import f11_1.calgo.logic.commands.EditCommand;
-import f11_1.calgo.logic.commands.FindCommand;
 import f11_1.calgo.logic.parser.exceptions.ParseException;
 import f11_1.calgo.model.food.*;
 import f11_1.calgo.model.tag.Tag;
@@ -30,8 +24,6 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
     public DeleteCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME);
-
-        Name foodName;
 
         if (!isNamePrefixPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
