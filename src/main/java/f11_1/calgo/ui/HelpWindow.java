@@ -79,7 +79,7 @@ public class HelpWindow extends UiPart<Stage> {
             + HELP_EXIT_MESSAGE;
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
-    private static final String FXML = "HelpWindow2.fxml";
+    private static final String FXML = "HelpWindow.fxml";
 
     @FXML
     private Button copyButton;
