@@ -15,6 +15,7 @@ import javafx.collections.transformation.FilteredList;
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
@@ -25,6 +26,7 @@ import life.calgo.model.food.Name;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private DailyGoal targetDailyCalories;
     private final FoodRecord foodRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
@@ -125,7 +127,7 @@ public class ModelManager implements Model {
         foodRecord.setFood(target, editedFood);
     }
 
-    // methods need to update
+    //=========== Day Model classes================================================================================
     @Override
     public Optional<Food> getFoodByName(Name name) {
         return foodRecord.getFoodByName(name);
@@ -156,7 +158,31 @@ public class ModelManager implements Model {
         return foodRecord.getLogByDate(localDate);
     }
 
-    // stomach changes the day.
+    /**
+     * Updates ModelManager's DailyGoal to the new targetDailyCalories
+     * @param targetDailyCalories the new targetted number of calories to consume each day by user
+     * @return the updated DailyGoal object
+     */
+    public DailyGoal updateDailyGoal(int targetDailyCalories) {
+        if (isGoalMade()) {
+            this.targetDailyCalories = this.targetDailyCalories.updateDailyGoal(targetDailyCalories);
+        } else {
+            this.targetDailyCalories = new DailyGoal(targetDailyCalories);
+        }
+        return this.targetDailyCalories;
+    }
+
+    /**
+     * Checks if goal already exists
+     * @return true if there is already some goal
+     */
+    public boolean isGoalMade() {
+        return this.targetDailyCalories != null;
+    }
+
+    public DailyGoal getDailyGoal() {
+        return this.targetDailyCalories;
+    }
 
     //=========== Filtered Food Record Accessors =============================================================
 

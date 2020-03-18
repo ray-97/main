@@ -9,6 +9,7 @@ import life.calgo.logic.commands.Command;
 import life.calgo.logic.commands.DeleteCommand;
 import life.calgo.logic.commands.ExitCommand;
 import life.calgo.logic.commands.FindCommand;
+import life.calgo.logic.commands.GoalCommand;
 import life.calgo.logic.commands.HelpCommand;
 import life.calgo.logic.commands.ListCommand;
 import life.calgo.logic.commands.NomCommand;
@@ -72,6 +73,9 @@ public class FoodRecordParser {
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
+
+        case GoalCommand.COMMAND_WORD:
+            return new GoalCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
