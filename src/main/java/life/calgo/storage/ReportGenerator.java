@@ -24,7 +24,7 @@ public class ReportGenerator {
 
     public ReportGenerator(DailyFoodLog queryLog) {
         this.queryLog = queryLog; //changes here
-        this.file = new File(queryLog.toString() + "_report.txt");
+        this.file = new File(queryLog.getLocalDate().toString() + "_report.txt");
         try {
             this.printWriter = new PrintWriter(file);
         } catch (FileNotFoundException e) {
