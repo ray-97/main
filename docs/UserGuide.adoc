@@ -224,7 +224,7 @@ Sets a numerical goal for the desired number of calorie to be consumed in a day.
 
 This goal will be used to provide helpful insights for users in the Report. +
 
-Format: `goal [g/GOAL]`
+Format: `goal GOAL`
 
 Example:
 
@@ -288,6 +288,6 @@ eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken d/ portion/`
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
 eg. `vomit num/1 d/2020-03-04 portion/3` *OR* `num/2 d/ portion/`
 * *Export* : `export` *OR* `export location /C:\Users\eugen\OneDrive\Desktop\`
-* *Goal* : `goal [g/GOAL]`
+* *Goal* : `goal GOAL`
 * *Report* : `report [Date in dd-mm-yyyy]`
 * *Help* : `help`

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.Food;
 
 /**
@@ -21,11 +22,15 @@ public class ReportGenerator {
     private double totalProteins = 0.0;
     private double totalCarbs = 0.0;
     private double totalFats = 0.0;
+    private DailyGoal userGoal;
 
-    public ReportGenerator(DailyFoodLog queryLog) {
-        this.queryLog = queryLog; //changes here
-        this.file = new File(queryLog.getLocalDate().toString() + "_report.txt");
+    public ReportGenerator(DailyFoodLog queryLog, DailyGoal userGoal) {
+        this.queryLog = queryLog;
+        this.userGoal = userGoal;
+        this.file = new File("reports/" + queryLog.getLocalDate().toString() + "_report.txt");
         try {
+            this.file.getParentFile().mkdirs();
+            this.file.createNewFile();
             this.printWriter = new PrintWriter(file);
         } catch (FileNotFoundException e) {
             // happens when there is an error in opening or creating the file
@@ -46,6 +51,11 @@ public class ReportGenerator {
         printSeparator();
         printAggregateStatistics();
         printSeparator();
+        // if goal exists
+        if (this.userGoal != null) {
+            printInsights();
+            printSeparator();
+        }
         printFooter();
         printWriter.close();
         return file.exists() && (file.length() != 0); // success check
@@ -58,6 +68,13 @@ public class ReportGenerator {
         String title = "Report of Consumption Pattern on " + this.queryLog.getLocalDate().toString();
         // assert title != null : "Title is null"; or System.out.println(printWriter == null);
         printWriter.println(title);
+        if (userGoal == null) {
+            printWriter.println("You did not set any goal for daily caloric intake yet.");
+        } else {
+            String userGoal = "You have set a goal to consume at most " + this.userGoal.getTargetDailyCalories()
+                    + " calories in a day.";
+            printWriter.println(userGoal);
+        }
     }
 
     /**
@@ -93,8 +110,25 @@ public class ReportGenerator {
     /**
      * Writes the actionable insights a user can take based on user consumption patterns for the given day
      */
+    public void printInsights() {
+        // compare method returns -1 if left argument < right argument and 0 if left argument == right argument
+        boolean isGoalAchieved = Double.compare(this.totalCalories, this.userGoal.getTargetDailyCalories()) <= 0;
+        if (isGoalAchieved) {
+            printWriter.println("You have achieved your goal! Congratulations. Keep up the great work"
+                    + " and you will definitely\n"
+                    + "make tremendous improvements in your health and fitness.");
+        } else {
+            printWriter.println("You did not manage to achieve your goal today. You may want to re-design"
+                    + " your diet plan so that\n"
+                    + "you can make improvements in your health and fitness!");
+        }
+    }
+
+    /**
+     * Writes the concluding remarks in the report
+     */
     public void printFooter() {
-        printWriter.println("This marks the end of your report. More insights coming up in v1.3.");
+        printWriter.println("This marks the end of your report. Actionable insights coming up in v1.3.");
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
@@ -96,6 +97,12 @@ public interface Model {
     void updateLog(DailyFoodLog logAfterConsumption);
 
     DailyFoodLog getLogByDate(LocalDate localDate);
+
+    public DailyGoal updateDailyGoal(int targetDailyCalories);
+
+    public boolean isGoalMade();
+
+    public DailyGoal getDailyGoal();
 
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();

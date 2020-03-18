@@ -26,8 +26,8 @@ public class ReportCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_DATE + "2020-05-27";
 
-    public static final String MESSAGE_REPORT_SUCCESS = "Successfully generated a report. Check in the same folder "
-            + "as jar file.";
+    public static final String MESSAGE_REPORT_SUCCESS = "Successfully generated a report in the /reports folder "
+            + "for the following date: %tF" + ".";
 
     public static final String MESSAGE_REPORT_FAILURE = "Did not manage to generate report.";
 
@@ -40,17 +40,16 @@ public class ReportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        if (!model.hasLogWithSameDate(queryDate)) { //changes here
+        if (!model.hasLogWithSameDate(queryDate)) {
             throw new CommandException(MESSAGE_REPORT_FAILURE);
         }
         DailyFoodLog queryLog = model.getLogByDate(this.queryDate);
-        ReportGenerator reportGenerator = new ReportGenerator(queryLog); //changes here
+        ReportGenerator reportGenerator = new ReportGenerator(queryLog, model.getDailyGoal());
         boolean isGenerated = reportGenerator.generateReport();
-        // todo: use String.format and regex to make MESSAGE_SUCCESS able to show date as well
         if (!isGenerated) {
             throw new CommandException(MESSAGE_REPORT_FAILURE);
         }
-        return new CommandResult(MESSAGE_REPORT_SUCCESS);
+        return new CommandResult(String.format(MESSAGE_REPORT_SUCCESS, this.queryDate));
     }
 
     @Override
