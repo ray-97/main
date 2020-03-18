@@ -14,7 +14,7 @@ import javafx.collections.transformation.FilteredList;
 
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
-import life.calgo.model.day.Day;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
@@ -28,7 +28,7 @@ public class ModelManager implements Model {
     private final FoodRecord foodRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
-    private FilteredList<ConsumedFood> currentFilteredDailyList;
+    private final FilteredList<ConsumedFood> currentFilteredDailyList;
 
     /**
      * Initializes a ModelManager with the given foodRecord and userPrefs.
@@ -42,7 +42,7 @@ public class ModelManager implements Model {
         this.foodRecord = new FoodRecord(readOnlyFoodRecord);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredFoods = new FilteredList<>(this.foodRecord.getFoodList());
-        currentFilteredDailyList = new FilteredList<>(this.foodRecord.getDailyList(LocalDate.now()));
+        currentFilteredDailyList = new FilteredList<>(this.foodRecord.getDailyList());
     }
 
     public ModelManager() {
@@ -132,23 +132,28 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasDay(Day day) {
-        return foodRecord.hasDay(day);
+    public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
+        return foodRecord.hasLogWithSameDate(foodLog);
     }
 
     @Override
-    public void addDay(Day day) {
-        foodRecord.addDay(day);
+    public boolean hasLogWithSameDate(LocalDate date) {
+        return foodRecord.hasLogWithSameDate(new DailyFoodLog().setDate(date));
     }
 
     @Override
-    public void addConsumption(Day dayAfterConsumption) {
-        foodRecord.addConsumption(dayAfterConsumption);
+    public void addLog(DailyFoodLog foodLog) {
+        foodRecord.addLog(foodLog);
     }
 
     @Override
-    public Day getDayByDate(LocalDate localDate) {
-        return foodRecord.getDayByDate(localDate);
+    public void updateLog(DailyFoodLog logToUpdate) {
+        foodRecord.updateLog(logToUpdate);
+    }
+
+    @Override
+    public DailyFoodLog getLogByDate(LocalDate localDate) {
+        return foodRecord.getLogByDate(localDate);
     }
 
     // stomach changes the day.
@@ -178,7 +183,7 @@ public class ModelManager implements Model {
     @Override
     public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) {
         requireNonNull(predicate);
-        currentFilteredDailyList = new FilteredList<>(foodRecord.getDailyList(date));
+        foodRecord.setDailyList(date);
         currentFilteredDailyList.setPredicate(predicate);
     }
 

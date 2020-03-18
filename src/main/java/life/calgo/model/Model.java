@@ -6,9 +6,8 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
-
 import life.calgo.commons.core.GuiSettings;
-import life.calgo.model.day.Day;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
@@ -88,13 +87,15 @@ public interface Model {
 
     Optional<Food> getFoodByName(Name parseName);
 
-    boolean hasDay(Day dayConsumed);
+    boolean hasLogWithSameDate(DailyFoodLog foodLog);
 
-    void addDay(Day dayConsumed);
+    boolean hasLogWithSameDate(LocalDate date);
 
-    void addConsumption(Day dayConsumed);
+    void addLog(DailyFoodLog foodLog);
 
-    Day getDayByDate(LocalDate localDate);
+    void updateLog(DailyFoodLog logAfterConsumption);
+
+    DailyFoodLog getLogByDate(LocalDate localDate);
 
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();
@@ -105,10 +106,8 @@ public interface Model {
      */
     void updateFilteredFoodRecord(Predicate<Food> predicate);
 
-
     ObservableList<ConsumedFood> getCurrentFilteredDailyList();
 
     void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date);
-
 
 }

@@ -1,10 +1,11 @@
 package life.calgo.ui;
 
+import java.time.format.DateTimeFormatter;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-
 import life.calgo.model.food.ConsumedFood;
 
 /**
@@ -13,6 +14,9 @@ import life.calgo.model.food.ConsumedFood;
 public class ConsumedFoodCard extends UiPart<Region> {
 
     private static final String FXML = "DailyListCard.fxml";
+
+    private static final String DATE_PATTERN = "E, dd-MMM-yyyy";
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     public final ConsumedFood consumedFood;
 
@@ -26,15 +30,18 @@ public class ConsumedFoodCard extends UiPart<Region> {
     private Label portion;
     @FXML
     private Label totalCalorie;
+    @FXML
+    private Label date;
 
     public ConsumedFoodCard(ConsumedFood consumedFood, int displayedIndex) {
         super((FXML));
         this.consumedFood = consumedFood;
         id.setText(displayedIndex + ". ");
         name.setText(consumedFood.getName().fullName);
-        portion.setText(String.valueOf(consumedFood.getPortion()));
+        portion.setText("Portions consumed: " + consumedFood.getPortion());
         double calorieFromPortions = consumedFood.getPortion() * Double.parseDouble(consumedFood.getCalorie().value);
-        totalCalorie.setText(String.valueOf(calorieFromPortions));
+        totalCalorie.setText("Total calories: " + calorieFromPortions);
+        date.setText("Date: " + formatter.format(consumedFood.getDate()));
     }
 
     @Override

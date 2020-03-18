@@ -7,22 +7,22 @@ import java.time.LocalDate;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
-import life.calgo.model.day.Day;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.storage.ReportGenerator;
 
 /**
- * Generates a report of all the food consumed by User on any given day.
- * Day is in YYYY-MM-DD format.
+ * Generates a report of all the food consumed by User on any given date.
+ * Date is in YYYY-MM-DD format.
  */
 public class ReportCommand extends Command {
 
     public static final String COMMAND_WORD = "report";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Generates a report containing statistics of "
-            + "all foods consumed on any given day and saves the report in a .txt file in the same folder as"
+            + "all foods consumed on any given date and saves the report in a .txt file in the same folder as"
             + " jar file.\n "
             + "Parameters: "
-            + CliSyntax.PREFIX_DATE + "DATE"
+            + CliSyntax.PREFIX_DATE + "DATE "
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_DATE + "2020-05-27";
 
@@ -40,11 +40,11 @@ public class ReportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        if (!model.hasDay(new Day(queryDate))) {
+        if (!model.hasLogWithSameDate(queryDate)) { //changes here
             throw new CommandException(MESSAGE_REPORT_FAILURE);
         }
-        Day queryDay = model.getDayByDate(this.queryDate);
-        ReportGenerator reportGenerator = new ReportGenerator(queryDay);
+        DailyFoodLog queryLog = model.getLogByDate(this.queryDate);
+        ReportGenerator reportGenerator = new ReportGenerator(queryLog); //changes here
         boolean isGenerated = reportGenerator.generateReport();
         // todo: use String.format and regex to make MESSAGE_SUCCESS able to show date as well
         if (!isGenerated) {

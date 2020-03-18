@@ -1,7 +1,6 @@
 package life.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
@@ -18,7 +17,7 @@ import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.NomCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
-import life.calgo.model.day.Day;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
 /**
@@ -26,7 +25,7 @@ import life.calgo.model.food.Food;
  */
 public class NomCommandParser implements Parser<NomCommand> {
 
-    public static final String MESSAGE_EMPTY_NAME = "Name should not be empty";
+    public static final String MESSAGE_EMPTY_NAME = "You can't eat that, you have to name a food that exists";
 
     private final Model model;
 
@@ -50,12 +49,12 @@ public class NomCommandParser implements Parser<NomCommand> {
             throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, NomCommand.MESSAGE_USAGE));
         }
 
-        Day dayConsumed = new Day();
+        DailyFoodLog foodLog = new DailyFoodLog();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
-            dayConsumed = dayConsumed.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
+            foodLog = foodLog.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
         }
-        if (model.getDayByDate(dayConsumed.getLocalDate()) != null) {
-            dayConsumed = model.getDayByDate(dayConsumed.getLocalDate());
+        if (model.hasLogWithSameDate(foodLog)) {
+            foodLog = model.getLogByDate(foodLog.getLocalDate());
         }
         double portion = 1;
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
@@ -66,7 +65,7 @@ public class NomCommandParser implements Parser<NomCommand> {
         if (!optionalFood.isPresent()) {
             throw new ParseException(MESSAGE_EMPTY_NAME);
         }
-        dayConsumed = dayConsumed.consume(optionalFood.get(), portion);
-        return new NomCommand(dayConsumed, optionalFood.get());
+        foodLog = foodLog.consume(optionalFood.get(), portion);
+        return new NomCommand(foodLog, optionalFood.get());
     }
 }

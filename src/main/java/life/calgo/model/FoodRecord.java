@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import javafx.collections.ObservableList;
-
-import life.calgo.model.day.Day;
-import life.calgo.model.day.UniqueDayMap;
+import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.day.UniqueDateToLogMap;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
@@ -22,7 +21,7 @@ import life.calgo.model.food.UniqueFoodList;
 public class FoodRecord implements ReadOnlyFoodRecord {
 
     private final UniqueFoodList foodList;
-    private final UniqueDayMap days;
+    private final UniqueDateToLogMap dateToLogMap;
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
      * between constructors. See https://docs.oracle.com/javase/tutorial/java/javaOO/initial.html
@@ -32,7 +31,7 @@ public class FoodRecord implements ReadOnlyFoodRecord {
      */
     {
         foodList = new UniqueFoodList();
-        days = new UniqueDayMap();
+        dateToLogMap = new UniqueDateToLogMap();
     }
 
     public FoodRecord() {}
@@ -115,20 +114,20 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         return foodList.getFoodByName(name);
     }
 
-    public void addDay(Day day) {
-        days.addDay(day);
+    public void addLog(DailyFoodLog foodLog) {
+        dateToLogMap.addLog(foodLog);
     }
 
-    public boolean hasDay(Day day) {
-        return days.hasDay(day);
+    public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
+        return dateToLogMap.hasLogWithSameDate(foodLog);
     }
 
-    public Day getDayByDate(LocalDate date) {
-        return days.getDayByDate(date);
+    public DailyFoodLog getLogByDate(LocalDate date) {
+        return dateToLogMap.getLogByDate(date);
     }
 
-    public void addConsumption(Day dayAfterConsumption) {
-        days.addConsumption(dayAfterConsumption);
+    public void updateLog(DailyFoodLog logAfterConsumption) {
+        dateToLogMap.updateLog(logAfterConsumption);
     }
 
     @Override
@@ -143,8 +142,13 @@ public class FoodRecord implements ReadOnlyFoodRecord {
     }
 
     @Override
-    public ObservableList<ConsumedFood> getDailyList(LocalDate date) {
-        return days.getDailyListByDate(date);
+    public ObservableList<ConsumedFood> getDailyList() {
+        return dateToLogMap.asUnmodifiableDailyList();
+    }
+
+    @Override
+    public void setDailyList(LocalDate date) {
+        dateToLogMap.setDailyList(date);
     }
 
     @Override

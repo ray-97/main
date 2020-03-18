@@ -1,7 +1,6 @@
 package life.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
@@ -16,16 +15,20 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.VomitCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
-import life.calgo.model.day.Day;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
 /**
  * Parses input arguments and creates a new VomitCommand object
  */
 public class VomitCommandParser implements Parser<VomitCommand> {
+
+    public static final String MESSAGE_FOOD_NOT_IN_LOG = "You cannot vomit something that's not in your stomach!";
+    public static final String MESSAGE_NONEXISTENT_LOG = "You have not eaten on %s yet!";
 
     private final Model model;
 
@@ -45,10 +48,14 @@ public class VomitCommandParser implements Parser<VomitCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION,
                         PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT,
                         PREFIX_POSITION, PREFIX_TAG);
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)) {
+            throw new ParseException(
+                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, VomitCommand.MESSAGE_USAGE));
+        }
 
-        Day dayVomited = new Day();
+        DailyFoodLog foodLog = new DailyFoodLog();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
-            dayVomited = dayVomited.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
+            foodLog = foodLog.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
         }
         OptionalDouble portion = OptionalDouble.empty();
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) { // we need to check if "" is present
@@ -59,12 +66,21 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         OptionalInt indexOfFood = OptionalInt.empty();
         if (argMultimap.getValue(PREFIX_POSITION).isPresent()) {
             indexOfFood = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
-        }
+        } // after GUI
         Optional<Food> optionalFood = model.getFoodByName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+        if (!model.hasLogWithSameDate(foodLog)) {
+            throw new ParseException(String.format(MESSAGE_NONEXISTENT_LOG, foodLog.getLocalDate()));
+        }
+        foodLog = model.getLogByDate(foodLog.getLocalDate());
+        try {
+            foodLog = foodLog.vomit(optionalFood.get(), portion);
+        } catch (IllegalArgumentException e) {
+            // when food item does not exist in log
+            throw new ParseException(MESSAGE_FOOD_NOT_IN_LOG);
+        }
 
-        dayVomited = dayVomited.vomit(optionalFood.get(), portion);
-        return new VomitCommand(dayVomited, optionalFood.get());
+        return new VomitCommand(foodLog, optionalFood.get());
     }
 
 }

@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.model.day.DailyFoodLog;
-import life.calgo.model.day.Day;
 import life.calgo.model.food.Food;
 
 /**
@@ -15,7 +14,7 @@ import life.calgo.model.food.Food;
  */
 public class ReportGenerator {
     private static final Logger logger = LogsCenter.getLogger(ReportGenerator.class);
-    private Day queryDay;
+    private DailyFoodLog queryLog; //changes here
     private File file;
     private PrintWriter printWriter;
     private double totalCalories = 0.0;
@@ -23,9 +22,9 @@ public class ReportGenerator {
     private double totalCarbs = 0.0;
     private double totalFats = 0.0;
 
-    public ReportGenerator(Day queryDay) {
-        this.queryDay = queryDay;
-        this.file = new File(queryDay.toString() + "_report.txt");
+    public ReportGenerator(DailyFoodLog queryLog) {
+        this.queryLog = queryLog; //changes here
+        this.file = new File(queryLog.getLocalDate().toString() + "_report.txt");
         try {
             this.printWriter = new PrintWriter(file);
         } catch (FileNotFoundException e) {
@@ -56,7 +55,8 @@ public class ReportGenerator {
      * Writes the meta-information of the report
      */
     public void printHeader() {
-        String title = "Report of Consumption Pattern on " + this.queryDay.getLocalDate().toString();
+        String title = "Report of Consumption Pattern on " + this.queryLog.getLocalDate().toString();
+        // assert title != null : "Title is null"; or System.out.println(printWriter == null);
         printWriter.println(title);
     }
 
@@ -66,7 +66,7 @@ public class ReportGenerator {
     public void printFoodwiseStatistics() {
         printWriter.println("Food-wise Statistics:");
         printWriter.println(String.format("%-20s %-20s %-20s", "    Food", "   Quantity", "   Calories"));
-        DailyFoodLog foodLog = queryDay.getDailyFoodLog();
+        DailyFoodLog foodLog = queryLog; //changes here
         for (Food food : foodLog.getFoods()) {
             double portion = foodLog.getPortion(food);
             double currCalories = portion * (double) Integer.parseInt(food.getCalorie().value);

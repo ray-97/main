@@ -70,6 +70,9 @@ public class ParserUtil {
     public static LocalDate parseDate(String date) throws ParseException {
         requireNonNull(date);
         String trimmedDate = date.trim();
+        if (trimmedDate.equals("")) {
+            return LocalDate.now();
+        }
         try {
             return LocalDate.parse(trimmedDate, formatter);
         } catch (Exception e) {
@@ -87,6 +90,7 @@ public class ParserUtil {
             return false;
         }
         try {
+            System.out.println(strNum);
             double d = Double.parseDouble(strNum);
         } catch (NumberFormatException nfe) {
             return false;
@@ -104,7 +108,7 @@ public class ParserUtil {
         requireNonNull(portion);
         String trimmedPortion = portion.trim();
         boolean isInvalidPortion = !isNumeric(trimmedPortion) && trimmedPortion.length() > 0;
-        if (!isInvalidPortion) {
+        if (isInvalidPortion) {
             throw new ParseException(MESSAGE_INVALID_PORTION);
         }
         double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
