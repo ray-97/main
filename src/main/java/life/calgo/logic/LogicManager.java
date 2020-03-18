@@ -65,7 +65,6 @@ public class LogicManager implements Logic {
 
     @Override
     public ObservableList<ConsumedFood> getFilteredDailyList() {
-        System.out.println(model.getCurrentFilteredDailyList().size());
         return model.getCurrentFilteredDailyList();
     }
 

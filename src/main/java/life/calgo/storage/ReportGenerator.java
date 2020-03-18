@@ -56,7 +56,7 @@ public class ReportGenerator {
      */
     public void printHeader() {
         String title = "Report of Consumption Pattern on " + this.queryLog.getLocalDate().toString();
-        // assert title != null : "Title is null"; or System.out.println(title);
+        // assert title != null : "Title is null"; or System.out.println(printWriter == null);
         printWriter.println(title);
     }
 
