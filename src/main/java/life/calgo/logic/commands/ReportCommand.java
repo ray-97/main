@@ -22,7 +22,7 @@ public class ReportCommand extends Command {
             + "all foods consumed on any given date and saves the report in a .txt file in the same folder as"
             + " jar file.\n "
             + "Parameters: "
-            + CliSyntax.PREFIX_DATE + "DATE"
+            + CliSyntax.PREFIX_DATE + "DATE "
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_DATE + "2020-05-27";
 

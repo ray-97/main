@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.VomitCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
@@ -47,6 +48,10 @@ public class VomitCommandParser implements Parser<VomitCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION,
                         PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT,
                         PREFIX_POSITION, PREFIX_TAG);
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)) {
+            throw new ParseException(
+                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, VomitCommand.MESSAGE_USAGE));
+        }
 
         DailyFoodLog foodLog = new DailyFoodLog();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {

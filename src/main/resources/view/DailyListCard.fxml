@@ -29,6 +29,7 @@
         </HBox>
         <Label fx:id="portion" styleClass="cell_small_label" text="\$portion" />
         <Label fx:id="totalCalorie" styleClass="cell_small_label" text="\$totalCalorie" />
+        <Label fx:id="date" styleClass="cell_small_label" text="\$date" />
     </VBox>
     <rowConstraints>
         <RowConstraints />

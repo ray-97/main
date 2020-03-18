@@ -18,11 +18,11 @@ public class NomCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the food record. "
             + "Parameters: "
             + CliSyntax.PREFIX_NAME + "NAME "
-            + CliSyntax.PREFIX_DATE + "DATE"
+            + CliSyntax.PREFIX_DATE + "DATE "
             + CliSyntax.PREFIX_PORTION + "PORTION\n"
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_NAME + "Kiwi "
-            + CliSyntax.PREFIX_DATE + "2020-14-03 "
+            + CliSyntax.PREFIX_DATE + "2020-03-14 "
             + CliSyntax.PREFIX_PORTION + "2";
 
     public static final String MESSAGE_SUCCESS = "Successfully consumed %1$s"; // %d portion of %s was consumed on %s
