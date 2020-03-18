@@ -18,7 +18,7 @@ public class HelpWindow extends UiPart<Stage> {
 
     public static final String HELP_UPDATE_MESSAGE = "update:\n"
             + "Updates a Food Item in the Food Record, or creates a new Food Item if one isn't already present.\n"
-            + "Format: update n/NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]\n\n";
+            + "Format: update n/NAME cal/CALORIES p/PROTEINS c/CARBS f/FATS\n\n";
     public static final String HELP_DELETE_MESSAGE = "delete:\n"
             + "Deletes the specified Food Item from the Food Record.\n"
             + "Format: delete n/NAME\n\n";
@@ -50,7 +50,7 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String HELP_GOAL_MESSAGE = "goal:\n"
             + "Sets a numerical goal for the desired number of calories to be consumed in a day.\n"
             + "This goal will be used to provide helpful insights for users in the Report.\n"
-            + "Format: goal [g/GOAL]\n\n";
+            + "Format: goal GOAL\n\n";
     public static final String HELP_REPORT_MESSAGE = "report:\n"
             + "Given a date, the command generates a document (in pdf format) of relevant insights about\n"
             + "the user’s food consumption pattern of the same date.\n"
