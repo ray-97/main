@@ -69,7 +69,8 @@ public class ReportGenerator {
         // assert title != null : "Title is null"; or System.out.println(printWriter == null);
         printWriter.println(title);
         if (userGoal == null) {
-            printWriter.println("You did not set any goal for daily caloric intake yet.");
+            printWriter.println("You did not set any goal for daily caloric intake yet."
+                    + " If you want to generate actionable insights, please set one!");
         } else {
             String userGoal = "You have set a goal to consume at most " + this.userGoal.getTargetDailyCalories()
                     + " calories in a day.";
@@ -112,6 +113,7 @@ public class ReportGenerator {
      */
     public void printInsights() {
         // compare method returns -1 if left argument < right argument and 0 if left argument == right argument
+        printWriter.println("Actionable Insights:");
         boolean isGoalAchieved = Double.compare(this.totalCalories, this.userGoal.getTargetDailyCalories()) <= 0;
         if (isGoalAchieved) {
             printWriter.println("You have achieved your goal! Congratulations. Keep up the great work"
