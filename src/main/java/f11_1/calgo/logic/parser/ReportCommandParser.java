@@ -1,24 +1,14 @@
 package f11_1.calgo.logic.parser;
 
 import static f11_1.calgo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_FAT;
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_NAME;
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_TAG;
+import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_DATE;
 import static java.util.Objects.requireNonNull;
 
-import f11_1.calgo.logic.commands.AddCommand;
-import f11_1.calgo.logic.commands.ReportCommand;
-import f11_1.calgo.logic.parser.exceptions.ParseException;
-import f11_1.calgo.model.day.Day;
-
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.stream.Stream;
 
-import static f11_1.calgo.logic.parser.CliSyntax.PREFIX_DATE;
+import f11_1.calgo.logic.commands.ReportCommand;
+import f11_1.calgo.logic.parser.exceptions.ParseException;
 
 /**
  * Parses input date in order to create a new ReportCommand object.
