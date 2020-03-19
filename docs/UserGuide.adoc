@@ -37,7 +37,7 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  You can try experimenting to see the results for yourself! Some example commands:
 
 * *`list`* : lists all Food items currently recorded in the Food Records.
-* **`update**n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the Food Records if there is currently no Food called 'kiwi' inside it, with its details saved as: 125 calories, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
+* **`update**n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the Food Records if there is currently no Food called 'kiwi' inside it, with its details saved as: 125 calorie, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
 * **`find`**`banana` : finds the entry banana in the Food Records and returns its details if available; otherwise an error message will be shown.
 * *`exit`* : exits the Calgo application
 
@@ -87,13 +87,13 @@ Format: `update n/NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
 Examples:
 
 * `update n/pizza cal/200 p/10 c/200` +
-This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calories, 10g of protein, 200g of carbohydrates.
+This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calorie, 10g of protein, 200g of carbohydrates.
 * `update n/pizza cal/100 p/10 c/100 f/30` +
-As pizza is already in the user’s food preset, this command overrides the nutritional details of pizza with 200Cal calories, 10g of protein, 200g of carbohydrates and 20g of fats.
+As pizza is already in the user’s food preset, this command overrides the nutritional details of pizza with 200Cal calorie, 10g of protein, 200g of carbohydrates and 20g of fats.
 
 
 [TIP]
-You can leave any of the proteins, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
+You can leave any of the protein, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
 
 === Deleting a Food Item from current Food Record: `delete`
 Deletes the specified Food Item from the Food Record.
@@ -108,7 +108,7 @@ Deletes pizza from the Food Record
 
 === Listing all Food items in Calgo's current Food Record : `list`
 
-Shows a list of all Food items in the Food Records, with their respective nutritional values of calories, proteins, carbohydrates, and fats. +
+Shows a list of all Food items in the Food Records, with their respective nutritional values of calorie, protein, carbohydrates, and fats. +
 Format: `list`
 
 === Showing all food items consumed on a particular day : `stomach`
@@ -183,7 +183,7 @@ Deletes 3 portions of of the first food item consumed on 2020-03-04.
 
 === Exporting the current Food Record : `export`
 
-Provides a human-readable text file (FoodRecords.txt) in the target folder (default: same folder as the Calgo application), containing all Food item records including name, calories, and nutritional values.
+Provides a human-readable text file (FoodRecords.txt) in the target folder (default: same folder as the Calgo application), containing all Food item records including name, calorie, and nutritional values.
 
 * Calgo data is saved in the application automatically after any command that changes the data. There is no need to save manually. +
 * However, to obtain a more readable form of this data, use the `export` command.
@@ -206,7 +206,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Grilled Cheeseburger` will match `Cheeseburger Grilled`
 * Incompletely-spelled words will be matched to all Food items containing the incompletely-spelled word. e.g. `Kiw` will match `Kiwi`
 * Food items matching at least one keyword (even if it is spelt incomplete) will be returned (i.e. `OR` search). e.g. `Ki Juice` results can include `Kiwi Ice Cream`, `Orange Juice`, `Kiki Brand Lemonade`
-* Finding by specific Food attribute values would filter out all matching Food items satisfying the criteria. e.g. `cal/90 c/10` results can include `KG Biscuit`, `Apple Slices` which have 90 calories and 10 grams of carbohydrates.
+* Finding by specific Food attribute values would filter out all matching Food items satisfying the criteria. e.g. `cal/90 c/10` results can include `KG Biscuit`, `Apple Slices` which have 90 calorie and 10 grams of carbohydrates.
 ****
 
 Examples:
@@ -214,22 +214,22 @@ Examples:
 * `find kiwi` +
 Returns `kiwi` and `kiwi juice`
 * `find `cal/100 p/25` +
-Returns `chocolate protein powder shake` and `ON protein milkshake` which have 100 calories and 25 grams of protein
+Returns `chocolate protein powder shake` and `ON protein milkshake` which have 100 calorie and 25 grams of protein
 * `find` +
 Returns an error message
 
 === Setting a dietary goal: `goal`
 
-Sets a numerical goal for the desired number of calories to be consumed in a day. +
+Sets a numerical goal for the desired number of calorie to be consumed in a day. +
 
 This goal will be used to provide helpful insights for users in the Report. +
 
-Format: `goal [g/GOAL]`
+Format: `goal GOAL`
 
 Example:
 
 * `goal 2800` +
-Sets the desired number of calories to be consumed to be 2800.
+Sets the desired number of calorie to be consumed to be 2800.
 
 
 === Generating insights : `report`
@@ -239,12 +239,12 @@ Given a date, the command generates a document (in pdf format) of relevant insig
 * The report includes the following insights:
 ** All Food items consumed on the given date. For each Food item, the following information will be included:
 *** Quantity consumed, for instance 3 servings.
-*** Number of calories consumed from the Food item.
-*** Amount of carbohydrates, proteins and fats consumed from the Food item.
+*** Number of calorie consumed from the Food item.
+*** Amount of carbohydrates, protein and fats consumed from the Food item.
 
 ** The user's most liked Food item.
-** The total number of calories consumed in that day.
-** The total number of carbohydrates, proteins and fats consumed in that day.
+** The total number of calorie consumed in that day.
+** The total number of carbohydrates, protein and fats consumed in that day.
 ** A curated Food plan that includes Food items, that includes a healthy quantity of the user's favourite Food, while ensuring it meets user's dietary goal.
 ****
 
@@ -288,6 +288,6 @@ eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken d/ portion/`
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
 eg. `vomit num/1 d/2020-03-04 portion/3` *OR* `num/2 d/ portion/`
 * *Export* : `export` *OR* `export location /C:\Users\eugen\OneDrive\Desktop\`
-* *Goal* : `goal [g/GOAL]`
+* *Goal* : `goal GOAL`
 * *Report* : `report [Date in dd-mm-yyyy]`
 * *Help* : `help`
