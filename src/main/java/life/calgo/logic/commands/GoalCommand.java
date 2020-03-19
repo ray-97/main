@@ -18,6 +18,15 @@ public class GoalCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Successfully updated your daily caloric goal to %1$d.";
 
+    public static final String MESSAGE_FAILURE_TYPE = "Please key in a non-zero whole number for your "
+            + "daily caloric goal.";
+
+    public static final String MESSAGE_FAILURE_NEGATIVE = "Please key in a positive whole number for your "
+            + "daily caloric goal.";
+
+    public static final String MESSAGE_WARNING = "That is a really low goal to set. Warning: You may suffer from"
+            + " malnutrition. Don't worry! Calgo is here to help you build healthier eating habits.";
+
     private final int numCaloriesDaily;
 
     public GoalCommand(int numberCaloriesDaily) {
@@ -28,6 +37,9 @@ public class GoalCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateDailyGoal(this.numCaloriesDaily);
+        if (this.numCaloriesDaily <= 1000) {
+            return new CommandResult(MESSAGE_WARNING);
+        }
         return new CommandResult(String.format(MESSAGE_SUCCESS, numCaloriesDaily));
     }
 
