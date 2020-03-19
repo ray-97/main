@@ -112,6 +112,9 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
+                + "do remember to set a daily calorie goal using the goal command!";
+
         foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
         personListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
 
@@ -126,6 +129,8 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        resultDisplay.setFeedbackToUser(GREETING_MESSAGE);
     }
 
     /**
