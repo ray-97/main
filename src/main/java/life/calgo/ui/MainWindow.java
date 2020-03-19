@@ -25,6 +25,8 @@ import life.calgo.logic.parser.exceptions.ParseException;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    private static final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
+            + "do remember to set a daily calorie goal using the goal command!";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -112,9 +114,6 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
-                + "do remember to set a daily calorie goal using the goal command!";
-
         foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
         personListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
 
