@@ -114,15 +114,20 @@ public class ReportGenerator {
     public void printInsights() {
         // compare method returns -1 if left argument < right argument and 0 if left argument == right argument
         printWriter.println("Actionable Insights:");
-        boolean isGoalAchieved = Double.compare(this.totalCalories, this.userGoal.getTargetDailyCalories()) <= 0;
+        boolean isGoalAchieved = (int) calculateRemainingCalories() >= 0;
+
         if (isGoalAchieved) {
             printWriter.println("You have achieved your goal! Congratulations. Keep up the great work"
                     + " and you will definitely\n"
                     + "make tremendous improvements in your health and fitness.");
+            printWriter.println("You have consumed " + String.format("%.0f", calculateRemainingCalories())
+                    + " fewer calories than your target. Great job!");
         } else {
             printWriter.println("You did not manage to achieve your goal today. You may want to re-design"
                     + " your diet plan so that\n"
                     + "you can make improvements in your health and fitness!");
+            printWriter.println("You have exceeded " + String.format("%.0f", Math.abs(calculateRemainingCalories()))
+                    + " calories more than your target. Time to hit the gym!");
         }
     }
 
@@ -139,5 +144,13 @@ public class ReportGenerator {
     public void printSeparator() {
         printWriter.println("--------------------------------------------------------------------------------"
                 + "-----------------------------");
+    }
+
+    /**
+     * Calculates number of calories remaining for user to meet goal
+     * @return the number of calories remaining for user to meet goal
+     */
+    public double calculateRemainingCalories() {
+        return userGoal.getTargetDailyCalories() - totalCalories;
     }
 }
