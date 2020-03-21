@@ -40,7 +40,7 @@ public class ModelManager implements Model {
         requireAllNonNull(readOnlyFoodRecord, userPrefs, readOnlyGoal);
 
         logger.fine("Initializing with food record: " + readOnlyFoodRecord + " and user prefs " + userPrefs
-        + " and goal " + readOnlyGoal);
+                + " and goal " + readOnlyGoal);
 
         this.foodRecord = new FoodRecord(readOnlyFoodRecord);
         this.userPrefs = new UserPrefs(userPrefs);

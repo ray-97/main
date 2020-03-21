@@ -1,18 +1,18 @@
 package life.calgo.storage;
 
-import life.calgo.commons.core.LogsCenter;
-import life.calgo.commons.exceptions.DataConversionException;
-import life.calgo.commons.exceptions.IllegalValueException;
-import life.calgo.commons.util.FileUtil;
-import life.calgo.commons.util.JsonUtil;
-import life.calgo.model.ReadOnlyGoal;
+import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static java.util.Objects.requireNonNull;
+import life.calgo.commons.core.LogsCenter;
+import life.calgo.commons.exceptions.DataConversionException;
+import life.calgo.commons.exceptions.IllegalValueException;
+import life.calgo.commons.util.FileUtil;
+import life.calgo.commons.util.JsonUtil;
+import life.calgo.model.ReadOnlyGoal;
 
 /**
  * A class to access Daily Goal data stored as a json file on the hard disk.

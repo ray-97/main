@@ -8,12 +8,12 @@ import life.calgo.model.ReadOnlyGoal;
  * Represents the daily number of calories the user is aiming to consume.
  */
 public class DailyGoal implements ReadOnlyGoal {
-    private int targetDailyCalories;
-
     public static final int DUMMY_VALUE = 0;
 
     public static final String MESSAGE_CONSTRAINTS = "Daily caloric goals should be positive integers. "
             + "The general rule of thumb is 2000 calories for females and 2500 calories for males.";
+
+    private int targetDailyCalories;
 
     public DailyGoal(int numCalories) {
         this.targetDailyCalories = numCalories;

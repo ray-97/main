@@ -1,12 +1,12 @@
 package life.calgo.storage;
 
-import life.calgo.commons.exceptions.DataConversionException;
-import life.calgo.model.day.DailyGoal;
-import life.calgo.model.ReadOnlyGoal;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
+
+import life.calgo.commons.exceptions.DataConversionException;
+import life.calgo.model.ReadOnlyGoal;
+import life.calgo.model.day.DailyGoal;
 
 /**
  * Represents a storage for {@link DailyGoal}.

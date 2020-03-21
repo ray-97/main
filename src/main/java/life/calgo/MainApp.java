@@ -15,10 +15,25 @@ import life.calgo.commons.util.ConfigUtil;
 import life.calgo.commons.util.StringUtil;
 import life.calgo.logic.Logic;
 import life.calgo.logic.LogicManager;
-import life.calgo.model.*;
+
+import life.calgo.model.FoodRecord;
+import life.calgo.model.Model;
+import life.calgo.model.ModelManager;
+import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.ReadOnlyGoal;
+import life.calgo.model.ReadOnlyUserPrefs;
+import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.util.SampleDataUtil;
-import life.calgo.storage.*;
+
+import life.calgo.storage.FoodRecordStorage;
+import life.calgo.storage.GoalStorage;
+import life.calgo.storage.JsonFoodRecordStorage;
+import life.calgo.storage.JsonGoalStorage;
+import life.calgo.storage.JsonUserPrefsStorage;
+import life.calgo.storage.Storage;
+import life.calgo.storage.StorageManager;
+import life.calgo.storage.UserPrefsStorage;
 import life.calgo.ui.Ui;
 import life.calgo.ui.UiManager;
 

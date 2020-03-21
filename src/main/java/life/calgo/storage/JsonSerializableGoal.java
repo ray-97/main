@@ -3,7 +3,9 @@ package life.calgo.storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+
 import javafx.collections.ObservableList;
+
 import life.calgo.commons.exceptions.IllegalValueException;
 import life.calgo.model.ReadOnlyGoal;
 import life.calgo.model.day.DailyGoal;

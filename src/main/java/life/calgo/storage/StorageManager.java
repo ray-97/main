@@ -2,7 +2,6 @@ package life.calgo.storage;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -12,8 +11,6 @@ import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.ReadOnlyGoal;
 import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
-
-import javax.xml.crypto.Data;
 
 /**
  * Manages storage of FoodRecord data in local storage.
