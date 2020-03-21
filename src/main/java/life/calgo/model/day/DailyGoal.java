@@ -20,13 +20,23 @@ public class DailyGoal implements ReadOnlyGoal {
     }
 
     public DailyGoal(ReadOnlyGoal readOnlyGoal) {
-        this.targetDailyCalories = readOnlyGoal.getGoal().get(0);
+        this.targetDailyCalories = convertToInteger(readOnlyGoal);
     }
 
     public DailyGoal() {
         this.targetDailyCalories = DUMMY_VALUE;
     }
 
+    /**
+     * Converts a readOnlyGoal to its integer value.
+     * @param readOnlyGoal a readOnlyGoal meant for GUI.
+     * @return an integer representing number of calories to consume in a day, set by user.
+     */
+    public static int convertToInteger(ReadOnlyGoal readOnlyGoal) {
+        ObservableList<Integer> goalList = readOnlyGoal.getGoal();
+        assert goalList.size() == 1 : "There is a wrong number of goals in the storage.";
+        return goalList.get(0);
+    }
     /**
      * Changes <code>targetDailyCalories</code>  to <code>newTarget</code>
      * @param newTarget the new desired number of calories to consume each day

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
-import javafx.collections.ObservableList;
-
 import life.calgo.commons.exceptions.IllegalValueException;
 import life.calgo.model.ReadOnlyGoal;
 import life.calgo.model.day.DailyGoal;
@@ -32,9 +30,7 @@ class JsonSerializableGoal {
      * @param source future changes to this will not affect the created {@code JsonSerializableGoal}.
      */
     public JsonSerializableGoal(ReadOnlyGoal source) {
-        ObservableList<Integer> goalList = source.getGoal();
-        assert goalList.size() == 1 : "There is the wrong number of goals in the storage.";
-        this.goal = new JsonAdaptedGoal(source.getGoal().get(0));
+        this.goal = new JsonAdaptedGoal(DailyGoal.convertToInteger(source));
     }
 
     /**
