@@ -76,13 +76,4 @@ public class JsonFoodRecordStorage implements FoodRecordStorage {
         FileUtil.createIfMissing(filePath);
         JsonUtil.saveJsonFile(new JsonSerializableFoodRecord(foodRecord), filePath);
     }
-
-
-    public void savedDailyGoal(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException {
-        requireNonNull(foodRecord);
-        requireNonNull(filePath);
-
-        FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableFoodRecord(foodRecord), filePath);
-    }
 }

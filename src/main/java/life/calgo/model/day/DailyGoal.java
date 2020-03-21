@@ -6,6 +6,9 @@ package life.calgo.model.day;
 public class DailyGoal {
     private int targetDailyCalories;
 
+    public static final String MESSAGE_CONSTRAINTS = "Daily caloric goals should be positive integers. "
+            + "The general rule of thumb is 2000 calories for females and 2500 calories for males.";
+
     public DailyGoal(int numCalories) {
         this.targetDailyCalories = numCalories;
     }
@@ -17,6 +20,10 @@ public class DailyGoal {
      */
     public DailyGoal updateDailyGoal(int newTarget) {
         return new DailyGoal(newTarget);
+    }
+
+    public static boolean isValidGoal(int targetDailyCalories) {
+        return targetDailyCalories > 0;
     }
 
     public int getTargetDailyCalories() {
