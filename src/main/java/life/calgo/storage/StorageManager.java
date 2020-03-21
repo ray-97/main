@@ -2,14 +2,18 @@ package life.calgo.storage;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.commons.exceptions.DataConversionException;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.ReadOnlyGoal;
 import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
+
+import javax.xml.crypto.Data;
 
 /**
  * Manages storage of FoodRecord data in local storage.
@@ -19,11 +23,14 @@ public class StorageManager implements Storage {
     private static final Logger logger = LogsCenter.getLogger(StorageManager.class);
     private FoodRecordStorage foodRecordStorage;
     private UserPrefsStorage userPrefsStorage;
+    private GoalStorage goalStorage;
 
-    public StorageManager(FoodRecordStorage foodRecordStorage, UserPrefsStorage userPrefsStorage) {
+    public StorageManager(FoodRecordStorage foodRecordStorage, UserPrefsStorage userPrefsStorage,
+                          GoalStorage goalStorage) {
         super();
         this.foodRecordStorage = foodRecordStorage;
         this.userPrefsStorage = userPrefsStorage;
+        this.goalStorage = goalStorage;
     }
 
     // ================ UserPrefs methods ==============================
@@ -73,4 +80,32 @@ public class StorageManager implements Storage {
         foodRecordStorage.saveFoodRecord(foodRecord, filePath);
     }
 
+    // ============= Goal methods =======================================
+
+    @Override
+    public Path getGoalFilePath() {
+        return goalStorage.getGoalFilePath();
+    }
+
+    @Override
+    public Optional<ReadOnlyGoal> readGoal() throws DataConversionException, IOException {
+        return readGoal(goalStorage.getGoalFilePath());
+    }
+
+    @Override
+    public Optional<ReadOnlyGoal> readGoal(Path filePath) throws DataConversionException, IOException {
+        logger.fine("Attempting to read from file: " + filePath);
+        return goalStorage.readGoal(filePath);
+    }
+
+    @Override
+    public void saveGoal(ReadOnlyGoal goal) throws IOException {
+        saveGoal(goal, goalStorage.getGoalFilePath());
+    }
+
+    @Override
+    public void saveGoal(ReadOnlyGoal goal, Path filePath) throws IOException {
+        logger.fine("Attempting to write data to file: " + filePath);
+        goalStorage.saveGoal(goal, filePath);
+    }
 }

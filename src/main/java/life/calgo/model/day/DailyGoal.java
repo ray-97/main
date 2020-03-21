@@ -1,9 +1,13 @@
 package life.calgo.model.day;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import life.calgo.model.ReadOnlyGoal;
+
 /**
  * Represents the daily number of calories the user is aiming to consume.
  */
-public class DailyGoal {
+public class DailyGoal implements ReadOnlyGoal {
     private int targetDailyCalories;
 
     public static final String MESSAGE_CONSTRAINTS = "Daily caloric goals should be positive integers. "
@@ -32,6 +36,12 @@ public class DailyGoal {
     @Override
     public String toString() {
         return "Target number of calories to consume: " + String.valueOf(this.targetDailyCalories);
+    }
+
+    public ObservableList<Integer> getGoal() {
+        ObservableList<Integer> goalList = FXCollections.observableArrayList();
+        goalList.add(targetDailyCalories);
+        return FXCollections.unmodifiableObservableList(goalList);
     }
 }
 

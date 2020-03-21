@@ -22,12 +22,7 @@ import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.util.SampleDataUtil;
-import life.calgo.storage.FoodRecordStorage;
-import life.calgo.storage.JsonFoodRecordStorage;
-import life.calgo.storage.JsonUserPrefsStorage;
-import life.calgo.storage.Storage;
-import life.calgo.storage.StorageManager;
-import life.calgo.storage.UserPrefsStorage;
+import life.calgo.storage.*;
 import life.calgo.ui.Ui;
 import life.calgo.ui.UiManager;
 
@@ -57,7 +52,8 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         FoodRecordStorage foodRecordStorage = new JsonFoodRecordStorage(userPrefs.getFoodRecordFilePath());
-        storage = new StorageManager(foodRecordStorage, userPrefsStorage);
+        GoalStorage goalStorage = new JsonGoalStorage(userPrefs.getGoalFilePath());
+        storage = new StorageManager(foodRecordStorage, userPrefsStorage, goalStorage);
 
         initLogging(config);
 
