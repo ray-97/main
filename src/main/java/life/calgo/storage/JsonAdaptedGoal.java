@@ -24,7 +24,7 @@ class JsonAdaptedGoal {
      * Dummy constructor for JsonAdaptedTag class.
      */
     public JsonAdaptedGoal() {
-        this.dailyGoal = -1;
+        this.dailyGoal = 0;
     }
 
     /**
