@@ -1,7 +1,5 @@
 package life.calgo.model.day;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import life.calgo.model.ReadOnlyGoal;
 
 /**
@@ -20,23 +18,13 @@ public class DailyGoal implements ReadOnlyGoal {
     }
 
     public DailyGoal(ReadOnlyGoal readOnlyGoal) {
-        this.targetDailyCalories = convertToInteger(readOnlyGoal);
+        this.targetDailyCalories = readOnlyGoal.getGoal();
     }
 
     public DailyGoal() {
         this.targetDailyCalories = DUMMY_VALUE;
     }
 
-    /**
-     * Converts a readOnlyGoal to its integer value.
-     * @param readOnlyGoal a readOnlyGoal meant for GUI.
-     * @return an integer representing number of calories to consume in a day, set by user.
-     */
-    public static int convertToInteger(ReadOnlyGoal readOnlyGoal) {
-        ObservableList<Integer> goalList = readOnlyGoal.getGoal();
-        assert goalList.size() == 1 : "There is a wrong number of goals in the storage.";
-        return goalList.get(0);
-    }
     /**
      * Changes <code>targetDailyCalories</code>  to <code>newTarget</code>
      * @param newTarget the new desired number of calories to consume each day
@@ -58,10 +46,8 @@ public class DailyGoal implements ReadOnlyGoal {
         return "Target number of calories to consume: " + String.valueOf(this.targetDailyCalories);
     }
 
-    public ObservableList<Integer> getGoal() {
-        ObservableList<Integer> goalList = FXCollections.observableArrayList();
-        goalList.add(targetDailyCalories);
-        return FXCollections.unmodifiableObservableList(goalList);
+    public Integer getGoal() {
+        return targetDailyCalories;
     }
 }
 

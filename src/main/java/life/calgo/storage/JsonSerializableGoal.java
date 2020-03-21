@@ -30,7 +30,7 @@ class JsonSerializableGoal {
      * @param source future changes to this will not affect the created {@code JsonSerializableGoal}.
      */
     public JsonSerializableGoal(ReadOnlyGoal source) {
-        this.goal = new JsonAdaptedGoal(DailyGoal.convertToInteger(source));
+        this.goal = new JsonAdaptedGoal(source.getGoal());
     }
 
     /**
