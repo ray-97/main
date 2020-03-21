@@ -15,7 +15,7 @@ import life.calgo.commons.util.JsonUtil;
 import life.calgo.model.ReadOnlyFoodRecord;
 
 /**
- * A class to access AddressBook data stored as a json file on the hard disk.
+ * A class to access FoodRecord data stored as a json file on the hard disk.
  */
 public class JsonFoodRecordStorage implements FoodRecordStorage {
 
@@ -69,12 +69,20 @@ public class JsonFoodRecordStorage implements FoodRecordStorage {
      *
      * @param filePath location of the data. Cannot be null.
      */
-    public void saveFoodRecord(ReadOnlyFoodRecord addressBook, Path filePath) throws IOException {
-        requireNonNull(addressBook);
+    public void saveFoodRecord(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException {
+        requireNonNull(foodRecord);
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        JsonUtil.saveJsonFile(new JsonSerializableFoodRecord(addressBook), filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableFoodRecord(foodRecord), filePath);
     }
 
+
+    public void savedDailyGoal(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException {
+        requireNonNull(foodRecord);
+        requireNonNull(filePath);
+
+        FileUtil.createIfMissing(filePath);
+        JsonUtil.saveJsonFile(new JsonSerializableFoodRecord(foodRecord), filePath);
+    }
 }

@@ -68,9 +68,9 @@ public class StorageManager implements Storage {
     }
 
     @Override
-    public void saveFoodRecord(ReadOnlyFoodRecord addressBook, Path filePath) throws IOException {
+    public void saveFoodRecord(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
-        foodRecordStorage.saveFoodRecord(addressBook, filePath);
+        foodRecordStorage.saveFoodRecord(foodRecord, filePath);
     }
 
 }
