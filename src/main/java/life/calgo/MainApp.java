@@ -15,12 +15,8 @@ import life.calgo.commons.util.ConfigUtil;
 import life.calgo.commons.util.StringUtil;
 import life.calgo.logic.Logic;
 import life.calgo.logic.LogicManager;
-import life.calgo.model.FoodRecord;
-import life.calgo.model.Model;
-import life.calgo.model.ModelManager;
-import life.calgo.model.ReadOnlyFoodRecord;
-import life.calgo.model.ReadOnlyUserPrefs;
-import life.calgo.model.UserPrefs;
+import life.calgo.model.*;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.util.SampleDataUtil;
 import life.calgo.storage.*;
 import life.calgo.ui.Ui;
@@ -72,6 +68,9 @@ public class MainApp extends Application {
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         Optional<ReadOnlyFoodRecord> foodRecordOptional;
         ReadOnlyFoodRecord initialData;
+        Optional<ReadOnlyGoal> goalOptional;
+        ReadOnlyGoal goal;
+
         try {
             foodRecordOptional = storage.readFoodRecord();
             if (!foodRecordOptional.isPresent()) {
@@ -86,7 +85,20 @@ public class MainApp extends Application {
             initialData = new FoodRecord();
         }
 
-        return new ModelManager(initialData, userPrefs);
+        try {
+            goalOptional = storage.readGoal();
+            if (!goalOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with no goal set.");
+            }
+            goal = goalOptional.orElse(new DailyGoal(DailyGoal.DUMMY_VALUE));
+        } catch (DataConversionException e) {
+            logger.warning("Data file not in the correct format. Will be starting with no goal set.");
+            goal = new DailyGoal(DailyGoal.DUMMY_VALUE);
+        } catch (IOException e) {
+            logger.warning("Problem while reading from the goal file. Will be starting with no goal set.");
+            goal = new DailyGoal(DailyGoal.DUMMY_VALUE);
+        }
+        return new ModelManager(initialData, userPrefs, goal);
     }
 
     private void initLogging(Config config) {
