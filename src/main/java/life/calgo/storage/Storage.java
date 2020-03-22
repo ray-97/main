@@ -12,7 +12,7 @@ import life.calgo.model.UserPrefs;
 /**
  * API of the Storage component
  */
-public interface Storage extends FoodRecordStorage, UserPrefsStorage {
+public interface Storage extends FoodRecordStorage, UserPrefsStorage, GoalStorage {
 
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException;

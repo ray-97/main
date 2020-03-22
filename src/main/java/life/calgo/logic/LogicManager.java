@@ -46,6 +46,7 @@ public class LogicManager implements Logic {
 
         try {
             storage.saveFoodRecord(model.getFoodRecord());
+            storage.saveGoal(model.getDailyGoal());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }

@@ -35,20 +35,22 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given foodRecord and userPrefs.
      */
-    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyUserPrefs userPrefs, ReadOnlyGoal readOnlyGoal) {
         super();
-        requireAllNonNull(readOnlyFoodRecord, userPrefs);
+        requireAllNonNull(readOnlyFoodRecord, userPrefs, readOnlyGoal);
 
-        logger.fine("Initializing with food record: " + readOnlyFoodRecord + " and user prefs " + userPrefs);
+        logger.fine("Initializing with food record: " + readOnlyFoodRecord + " and user prefs " + userPrefs
+                + " and goal " + readOnlyGoal);
 
         this.foodRecord = new FoodRecord(readOnlyFoodRecord);
         this.userPrefs = new UserPrefs(userPrefs);
+        this.targetDailyCalories = new DailyGoal(readOnlyGoal);
         filteredFoods = new FilteredList<>(this.foodRecord.getFoodList());
         currentFilteredDailyList = new FilteredList<>(this.foodRecord.getDailyList());
     }
 
     public ModelManager() {
-        this(new FoodRecord(), new UserPrefs());
+        this(new FoodRecord(), new UserPrefs(), new DailyGoal());
     }
 
     //=========== UserPrefs ==================================================================================
