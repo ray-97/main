@@ -192,7 +192,7 @@ Deletes 3 portions of of the first food item consumed on 2020-03-04.
 
 === Exporting the Current Food Record into a Reference Sheet : `export`
 
-Should you feel the need to obtain a portable version of the current Food Record entries, the `export` command provides an editable text file (FoodRecords.txt) in the same folder as Calgo. +
+Should you feel the need to obtain a portable version of the current Food Record entries, the `export` command provides an editable text file (FoodRecords.txt) in the exports folder. +
 
 * FoodRecords.txt shows the Food Record in alphabetical order of names, and includes the corresponding details of each Food item.
 
@@ -229,7 +229,7 @@ Examples:
 Returns `kiwi` and `kiwi juice`
 * `find p/25` +
 Returns `chocolate protein powder shake` and `vanilla protein milkshake` which have 25 and 20 grams of protein respectively.
-* `find food_item_not_in_food_record` +
+* `find n/food_item_not_in_food_record` +
 Returns a message showing 0 Food items listed.
 
 === Setting a dietary goal: `goal`

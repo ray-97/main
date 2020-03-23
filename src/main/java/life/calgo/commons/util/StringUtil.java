@@ -40,10 +40,17 @@ public class StringUtil {
         // only return true if either they are the exact equivalent ignoring casing,
         // or the word is contained as a substring in any of the sentence's words
         return Arrays.stream(wordsInPreppedSentence)
-                .anyMatch(preppedWord::equalsIgnoreCase) ||
-                containsSubstringWord(wordsInPreppedSentence, preppedWord);
+                .anyMatch(preppedWord::equalsIgnoreCase)
+                || containsSubstringWord(wordsInPreppedSentence, preppedWord);
     }
 
+    /**
+     * Returns true if the String array contains at least one String containing the substring.
+     *
+     * @param words the String array to search in.
+     * @param substringWord the substring to find in the Strings from the String array.
+     * @return whether the String array contains at least one String containing the substring.
+     */
     private static boolean containsSubstringWord(String[] words, String substringWord) {
         for (String word: words) {
             if (word.toLowerCase().contains(substringWord.toLowerCase())) {
