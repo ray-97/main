@@ -31,7 +31,7 @@ public class ParserUtil {
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
-    private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or nothing";
+    private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be

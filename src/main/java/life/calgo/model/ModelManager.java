@@ -130,6 +130,7 @@ public class ModelManager implements Model {
     }
 
     //=========== Day Model classes================================================================================
+
     @Override
     public Optional<Food> getFoodByName(Name name) {
         return foodRecord.getFoodByName(name);

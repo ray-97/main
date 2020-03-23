@@ -102,7 +102,7 @@ public class UniqueFoodList implements Iterable<Food> {
         internalList.setAll(foods);
     }
 
-    // for zx
+    // used in Update command
     public Optional<Food> getFoodByName(Name name) {
         for (Food food:internalList) {
             if (food.hasName(name)) {
