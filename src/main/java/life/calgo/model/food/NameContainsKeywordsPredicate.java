@@ -15,6 +15,7 @@ public class NameContainsKeywordsPredicate implements Predicate<Food> {
         this.keywords = keywords;
     }
 
+    // Used in find command: edit StringUtil.containsWordIgnoreCase to change find behavior
     @Override
     public boolean test(Food food) {
         return keywords.stream()
