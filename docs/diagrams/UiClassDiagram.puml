@@ -49,7 +49,7 @@ CommandBox --|> UiPart
 FoodListPanel --|> UiPart
 FoodCard --|> UiPart
 DailyListPanel --|> UiPart
-ConsumedFoodCard --|> UiPart
+ConsumedFoodCard ---|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow -down-|> UiPart
 
