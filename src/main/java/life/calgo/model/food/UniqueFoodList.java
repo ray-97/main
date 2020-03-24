@@ -71,6 +71,7 @@ public class UniqueFoodList implements Iterable<Food> {
         }
 
         internalList.set(index, editedFood);
+        Collections.sort(internalList);
     }
 
     /**
@@ -87,6 +88,7 @@ public class UniqueFoodList implements Iterable<Food> {
     public void setFoods(UniqueFoodList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
+        Collections.sort(internalList);
     }
 
     /**
@@ -100,9 +102,10 @@ public class UniqueFoodList implements Iterable<Food> {
         }
 
         internalList.setAll(foods);
+        Collections.sort(internalList);
     }
 
-    // for zx
+    // used in Update command
     public Optional<Food> getFoodByName(Name name) {
         for (Food food:internalList) {
             if (food.hasName(name)) {
@@ -113,7 +116,7 @@ public class UniqueFoodList implements Iterable<Food> {
     }
 
     /**
-     * Returns the existing Food in the list
+     * Returns the existing Food in the list.
      * The food must currently exist in the list.
      */
     public Food getExistingFood(Food toGet) {
