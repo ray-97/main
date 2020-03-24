@@ -4,21 +4,35 @@ skinparam arrowThickness 1.1
 skinparam arrowColor STORAGE_COLOR
 skinparam classBackgroundColor STORAGE_COLOR
 
+package "Storage Component"{
 Interface Storage <<Interface>>
 Interface UserPrefsStorage <<Interface>>
-Interface AddressBookStorage <<Interface>>
+Interface FoodRecordStorage <<Interface>>
+Interface GoalStorage <<Interface>>
 
 Class StorageManager
 Class JsonUserPrefsStorage
-Class JsonAddressBookStorage
+Class JsonFoodRecordStorage
+Class JsonGoalStorage
+Class JsonSerializableGoal
+Class JsonAdaptedGoal
 
-StorageManager .left.|> Storage
-StorageManager o-right-> UserPrefsStorage
-StorageManager o--> AddressBookStorage
+Class ReportGenerator
+Class ExportGenerator
 
-JsonUserPrefsStorage .left.|> UserPrefsStorage
-JsonAddressBookStorage .left.|> AddressBookStorage
-JsonAddressBookStorage .down.> JsonSerializableAddressBookStorage
-JsonSerializableAddressBookStorage .right.> JsonSerializablePerson
-JsonSerializablePerson .right.> JsonAdaptedTag
+StorageManager .up.|> Storage
+StorageManager o--> UserPrefsStorage
+StorageManager o--> FoodRecordStorage
+StorageManager o--> GoalStorage
+
+JsonGoalStorage .up.|> GoalStorage
+JsonGoalStorage ..> JsonSerializableGoal
+JsonSerializableGoal ..> JsonAdaptedGoal
+
+JsonUserPrefsStorage .up.|> UserPrefsStorage
+JsonFoodRecordStorage .up.|> FoodRecordStorage
+JsonFoodRecordStorage .down.> JsonSerializableFoodRecord
+JsonSerializableFoodRecord .down.> JsonAdaptedFood
+JsonAdaptedFood .right.> JsonAdaptedTag
+}
 @enduml
