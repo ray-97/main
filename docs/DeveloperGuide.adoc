@@ -79,7 +79,7 @@ image::UiClassDiagram.png[]
 
 *API* : link:{repoURL}/tree/master/src/main/java/life/calgo/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `FoodListPanel`, `DailyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/blob/master/src/main/java/life/calgo/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/blob/master/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -117,17 +117,17 @@ NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X
 .Structure of the Model Component
 image::ModelClassDiagram.png[]
 
-*API* : link:{repoURL}/src/main/java/seedu/protein/model/Model.java[`Model.java`]
+*API* : link:{repoURL}/blob/master/src/main/java/life/calgo/model/Model.java[`Model.java`]
 
 The `Model`,
 
 * stores a `UserPref` object that represents the user's preferences.
-* stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
+* stores the Food Record data.
+* exposes both unmodifiable `ObservableList<Food>` and `ObservableList<ConsumedFood>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
 [NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
+As a more OOP model, we can store a `Tag` list in `Food Record`, which `Food` can reference. This would allow `Food Record` to only require one `Tag` object per unique `Tag`, instead of each `Food` needing their own `Tag` object. An example of how such a model may look like is given below. +
  +
 image:BetterModelClassDiagram.png[]
 
@@ -321,6 +321,16 @@ _{More to be added as development proceeds and is always ongoing}_
 == Use Cases
 
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
+
+[discrete]
+=== Use case: obtain reference for app's commands
+
+*MSS*
+
+1.  User requests for a guide on the app's commands
+2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
++
+Use case ends.
 
 [discrete]
 === Use case: `find` `Food` item by keyword (which can be an incomplete word)
