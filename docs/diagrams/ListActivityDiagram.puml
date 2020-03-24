@@ -1,0 +1,11 @@
+@startuml
+scale 300 height
+scale 175 width
+
+(*) --> "Update Food f"
+--> "Lexicographically Sort Food Record"
+--> "Execute List Command"
+--> "Obtain All Sorted Food Entries"
+--> "Display Sorted Food Entries to User"
+-->(*)
+@enduml
