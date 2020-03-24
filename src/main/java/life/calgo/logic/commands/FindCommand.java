@@ -15,8 +15,8 @@ public class FindCommand extends Command {
     public static final String COMMAND_WORD = "find";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all foods which names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
+            + "the specified keywords (case-insensitive) or with a lower nutritional value than the one stated.\n"
+            + "Parameters (at least 1): [n/NAME] [cal/CALORIES] [p/PROTEIN] [c/CARBOHYDRATES] [f/FATS]\n"
             + "Example: " + COMMAND_WORD + " happy chicken mcchicken";
 
     private final NameContainsKeywordsPredicate predicate;

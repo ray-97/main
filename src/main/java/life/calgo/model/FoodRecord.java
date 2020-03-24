@@ -59,7 +59,6 @@ public class FoodRecord implements ReadOnlyFoodRecord {
      */
     public void resetData(ReadOnlyFoodRecord newData) {
         requireNonNull(newData);
-
         setFoodList(newData.getFoodList());
     }
 
@@ -90,6 +89,7 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         requireNonNull(editedFood);
 
         foodList.setFood(target, editedFood);
+
     }
 
     /**
@@ -101,7 +101,7 @@ public class FoodRecord implements ReadOnlyFoodRecord {
     }
 
     /**
-     * Returns the existing Food object in Food Record
+     * Returns the existing Food object in Food Record.
      */
     public Food getExistingFood(Food toGet) {
         requireNonNull(toGet);
@@ -130,10 +130,18 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         dateToLogMap.updateLog(logAfterConsumption);
     }
 
+    /**
+     * Returns a line-by-line representation of the FoodRecord, displaying all its details.
+     *
+     * @return the line-by-line representation of the FoodRecord.
+     */
     @Override
     public String toString() {
-        return foodList.asUnmodifiableObservableList().size() + " foods";
-        // TODO: refine later
+        String result = "";
+        for (Food f: foodList.asUnmodifiableObservableList()) {
+            result += f + "\n";
+        }
+        return result;
     }
 
     @Override
