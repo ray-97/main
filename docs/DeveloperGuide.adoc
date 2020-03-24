@@ -358,6 +358,15 @@ _{More to be added}_
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
+=== Use case: obtain reference for app's commands
+
+*MSS*
+
+1.  User requests for a guide on the app's commands
+2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
++
+Use case ends.
+
 === Use case: find Food item by name
 
 *MSS*
