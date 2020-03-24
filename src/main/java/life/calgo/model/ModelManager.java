@@ -26,11 +26,11 @@ import life.calgo.model.food.Name;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private DailyGoal targetDailyCalories;
     private final FoodRecord foodRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
     private final FilteredList<ConsumedFood> currentFilteredDailyList;
+    private DailyGoal targetDailyCalories;
 
     /**
      * Initializes a ModelManager with the given foodRecord and userPrefs.
@@ -130,6 +130,7 @@ public class ModelManager implements Model {
     }
 
     //=========== Day Model classes================================================================================
+
     @Override
     public Optional<Food> getFoodByName(Name name) {
         return foodRecord.getFoodByName(name);

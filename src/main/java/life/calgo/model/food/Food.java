@@ -84,7 +84,12 @@ public class Food implements Comparable<Food> {
                 && otherFood.getName().equals(getName());
     }
 
-    // for zx
+    /**
+     * Returns true if the current Food object has the same Name as the argument.
+     *
+     * @param name the name we want to check against the current Food object.
+     * @return whether or not the current Food object has the same Name as the given.
+     */
     public boolean hasName(Name name) {
         return name.equals(getName());
     }
@@ -135,8 +140,11 @@ public class Food implements Comparable<Food> {
         return builder.toString();
     }
 
-    /*
-     * Overloaded toString method for report purposes
+    /**
+     * Overloaded toString method for report purposes.
+     *
+     * @param isCalledforReport whether or not current Food is involved in a Report.
+     * @return String representation of the Food's Name.
      */
     public String toString(boolean isCalledforReport) {
         return this.getName().toString();
