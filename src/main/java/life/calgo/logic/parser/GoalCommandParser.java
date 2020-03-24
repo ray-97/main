@@ -10,8 +10,8 @@ import life.calgo.logic.parser.exceptions.ParseException;
 public class GoalCommandParser implements Parser<GoalCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the GoalCommand
-     * and returns a GoalCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * and returns a GoalCommand object for execution
+     * @throws ParseException if the user input does not conform the expected format or is less than or equal to 0
      */
     public GoalCommand parse(String args) throws ParseException {
         String trimmedArgs = args.trim();
@@ -25,10 +25,12 @@ public class GoalCommandParser implements Parser<GoalCommand> {
         try {
             targetCalories = Integer.parseInt(splitArgs[1]);
         } catch (NumberFormatException e) {
-            throw new ParseException(
-                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, GoalCommand.MESSAGE_USAGE)
-            );
+            throw new ParseException(GoalCommand.MESSAGE_FAILURE_TYPE);
         }
+        if (targetCalories <= 0) {
+            throw new ParseException(GoalCommand.MESSAGE_FAILURE_NEGATIVE);
+        }
+
         return new GoalCommand(targetCalories);
     }
 }

@@ -25,6 +25,8 @@ import life.calgo.logic.parser.exceptions.ParseException;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
+    private static final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
+            + "do remember to set a daily calorie goal using the goal command!";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -126,6 +128,8 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        resultDisplay.setFeedbackToUser(GREETING_MESSAGE);
     }
 
     /**

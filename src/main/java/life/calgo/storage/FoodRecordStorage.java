@@ -41,6 +41,6 @@ public interface FoodRecordStorage {
     /**
      * @see #saveFoodRecord(ReadOnlyFoodRecord)
      */
-    void saveFoodRecord(ReadOnlyFoodRecord addressBook, Path filePath) throws IOException;
+    void saveFoodRecord(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException;
 
 }
