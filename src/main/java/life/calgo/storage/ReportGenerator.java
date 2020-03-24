@@ -15,7 +15,7 @@ import life.calgo.model.food.Food;
  */
 public class ReportGenerator {
     private static final Logger logger = LogsCenter.getLogger(ReportGenerator.class);
-    private DailyFoodLog queryLog; //changes here
+    private DailyFoodLog queryLog; // changes here
     private File file;
     private PrintWriter printWriter;
     private double totalCalories = 0.0;
