@@ -153,6 +153,35 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+//tag:: Report[]
+=== Generate Insights Feature
+This feature allows user to generate a report that contains statistics and deliverable insights based on
+user food consumption patterns.
+
+This feature can be invoked by using the `report d/DATE` command to generate a report based on the food consumed by user
+on the mentioned date.
+
+==== Implementation
+The specified feature is facilitated by `ReportGenerator` class in the `Storage` component.
+In this section, the implementation features of the `ReportGenerator` class will be further explained.
+
+`ReportGenerator` class implements the following operation:
+
+* `ReportGenerator#generateReport()` - Creates report containing an analysis of all food consumed by user on the
+given date when inputting the `report` command.
+
+Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
+
+The following sequence diagram shows how the `generateReport()` operation works:
+
+image::ReportFeatureSequenceDiagram.png[]
+
+==== Design Considerations
+
+==== Summary
+The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
+// todo
+
 // tag::undoredo[]
 === [Proposed] Undo/Redo feature
 ==== Proposed Implementation
