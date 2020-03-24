@@ -48,8 +48,8 @@ The rest of the App consists of four components.
 
 * <<Design-Ui,*`UI`*>>: The UI of the App.
 * <<Design-Logic,*`Logic`*>>: The command executor.
-* <<Design-Model,*`Model`*>>: Holds the data of the App in-memory.
-* <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk.
+* <<Design-Model,*`Model`*>>: The in-memory data that is generated during usage of the App.
+* <<Design-Storage,*`Storage`*>>: The manager of the App data that is stored in the hard disk.
 
 Each of the four components
 
@@ -98,7 +98,7 @@ image::LogicClassDiagram.png[]
 *API* :
 link:{repoURL}/src/main/java/seedu/protein/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
+.  `Logic` uses the `FoodRecordParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a food).
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
@@ -279,19 +279,24 @@ Refer to the guide <<DevOps#, here>>.
 
 *Target user profile*:
 
-* wants to have, or already has, a lifestyle of eating healthy
-* has a need to manage a significant number of Food items (finding information about each Food item, tracking consumption, etc)
+* enjoys eating food
+* wants to have, or already has healthy eating habits
+* has a need to manage a significant number of Food items (finding nutritional information about each Food item or
+tracking consumption patterns)
 * prefers desktop apps over other types
 * can type fast
 * prefers typing over mouse input
-* is reasonably comfortable using CLI apps
+* is reasonably comfortable using Command Line Interface apps
 
 *Value proposition*:
 
-* generate consumption reports and view progress and statistics
-* app tolerates incomplete inputs and produces valid entries as output
-* generate Food records as a portable file
-* manage caloric tracking faster than a typical mouse/GUI driven app
+* Health:
+** get personalised recommendations of Food to eat that helps user achieve daily caloric goal
+* Convenience:
+** manage caloric tracking faster than a typical mouse/GUI driven app
+** app tolerates incomplete inputs and produces valid entries as output
+** generate Food records as a portable file
+* Self-awareness: generate personal consumption reports and view progress and statistics
 
 [appendix]
 == User Stories
@@ -350,13 +355,14 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |=======================================================================
 
-_{More to be added}_
 
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`,
+unless specified otherwise)
 
+(The term *MSS* refers to Main Success Scenario)
 [discrete]
 === Use case: find Food item by name
 
@@ -449,12 +455,13 @@ Use case ends.
 Use case ends.
 
 [discrete]
-=== Use case: set a dietary goal.
+=== Use case: set a daily dietary goal.
 
 *MSS*
 
-1.  User sets a dietary goal for the daily number of calorie to be consumed.
-2.  Calgo stores this goal in user preferences and analyses food consumption with respect to this goal.
+1.  User sets a dietary goal for the daily number of calories to be consumed.
+2.  Calgo stores this goal in `goal.json`.
+3. Calgo uses daily dietary goal to show number of remaining calories for the current day.
 +
 Use case ends.
 
