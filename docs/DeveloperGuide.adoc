@@ -79,7 +79,7 @@ image::UiClassDiagram.png[]
 
 *API* : link:{repoURL}/src/main/java/seedu/protein/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `FoodListPanel`, `DailyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/protein/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -358,6 +358,15 @@ _{More to be added}_
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
+=== Use case: obtain reference for app's commands
+
+*MSS*
+
+1.  User requests for a guide on the app's commands
+2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
++
+Use case ends.
+
 === Use case: find Food item by name
 
 *MSS*
