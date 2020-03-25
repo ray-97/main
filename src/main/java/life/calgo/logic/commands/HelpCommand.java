@@ -16,6 +16,10 @@ public class HelpCommand extends Command {
 
     private String keyword;
 
+    public HelpCommand(){
+        // dummy
+    }
+
     public HelpCommand(String keyword) {
         this.keyword = keyword;
     }
