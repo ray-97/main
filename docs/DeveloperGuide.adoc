@@ -151,7 +151,7 @@ image::StorageClassDiagram.png[]
 
 The `Storage` component can do the following:
 
-.  can save `UserPref` objects in json format and read it back for the next session.
+. can save `UserPref` objects in json format and read it back for the next session.
 . can save `FoodRecord` data in json format and read it back for the next session.
 . generate an insights report based on user food consumption.
 . generate a user-friendly version of the current `FoodRecord`.
@@ -224,18 +224,18 @@ When adding food to be consumed, removing food, or displaying food consumed on c
 a `FilteredList` will be populated with relevant `ConsumedFood`.
 
 ==== Implementation
-The `Nom`, `Vomit` and `Stomach` commands are facilitated by the `FoodRecord`.  +
+The `nom`, `vomit` and `stomach` commands are facilitated by the `FoodRecord`.  +
 `FoodRecord` contains a `UniqueDateToLogMap`, which maps a `LocalDate` to a `DailyFoodLog`. +
 `DailyFoodLog` contains a `LinkedHashMap` storing `Food` in the sequence that they were consumed and maps those `Food` to a `Double` portion.
 
-This section covers how the `Nom` command is implemented. The `Vomit` and `Stomach` commands work in very similar way, hence their implementation is omitted for brevity.
+This section covers how the `nom` command is implemented. The `vomit` and `stomach` commands work in very similar way, hence their implementation is omitted for brevity.
 
-Given below is an example usage scenario of the `Nom` command and how the components interact at each step.
+Given below is an example usage scenario of the `nom` command and how the components interact at each step.
 
 Step 1: User enters a command, which is saved as a `String` and passed into the `LogicManager`. +
 Step 2: The `String` cascades down the layers of abstraction until `NomCommandParser` handles it and create a
 `DailyFoodLog` which reflects the consumption. +
-Step 3: A `NomCommand` is created and executed, updating both `ModelManager` and `FoodRecord` about the consumed food.
+Step 3: A `NomCommand` is created and executed, updating both `ModelManager` and `FoodRecord` about the consumed food. +
 Step 4: A `FilteredList` in `ModelManger` will then check with `FoodRecord` to create `ConsumedFood` items to display in the Graphical User Interface (GUI). +
 Step 5: The GUI automatically detects changes in `FilteredList` and refreshes to display updated content.
 
@@ -244,14 +244,10 @@ The following sequence diagram illustrates the aforementioned steps:
 .Sequence Diagram for Nom command
 image::NomSequenceDiagram.png[]
 
-The following activity diagram summarizes what happens when the user executes a Nom command.
-
-.Activity Diagram for Nom
-image::NomActivityDiagram.png[]
 
 ==== Design Considerations
 
-===== Aspect: How Nom executes
+===== Aspect: How `nom` executes
 
 * **Alternative 1 (current choice):** Create a new `DailyFoodLog` to pass into `ModelManager` and `FoodRecord`.
 ** Pros: Maintain comprehensive layers of abstraction and allows code to be easily testable.
@@ -262,6 +258,13 @@ from parser.
 ** Pros: Reduce dependencies on `ModelManager` and `FoodRecord`, and make code contained in a single class file easier to navigate.
 ** Cons: Violates layers of abstraction set in place by previous structure of AddressBook3. Violates Single Responsibility Principle and reduce
 cohesiveness of code.
+
+==== Summary
+
+The `nom` command adds a `Food` item consumed by the user into the `stomach`. The following activity diagram summarizes what happens when the user executes a `nom` command.
+
+.Activity Diagram for Nom
+image::NomActivityDiagram.png[]
 
 ===== Aspect: Data structure to support the consumption commands
 
@@ -320,6 +323,14 @@ in fact editing a `Food` item and not adding a new one in.
 ** Cons: This is more tedious for the user since more steps is required to change an existing `Food` item. On top of that, an additional command of `edit` will be required and `update`
 should be replaced with `add` for clearer user experience.
 
+==== Summary
+The `update` command is a smart command that either updates an existing `Food` item in the `FoodRecord` with new nutritional information,
+or updates a new `Food` item into the `FoodRecord`
+The following activity diagram summarises what happens when a user enters a valid `update` command:
+
+.Activity Diagram for Update command
+image::UpdateActivityDiagram.png[]
+
 //tag:: Report[]
 === Generate Insights Feature
 This feature allows user to generate a report that contains statistics and deliverable insights based on
@@ -348,6 +359,9 @@ image::ReportFeatureSequenceDiagram.png[]
 ==== Summary
 The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
 // todo
+
+
+
 
 === Logging
 
@@ -506,6 +520,7 @@ _{More to be added as development proceeds and is always ongoing}_
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
+<<<<<<< HEAD
 === Use case: find Food item by name
 === Use case: obtain reference for app's commands
 
@@ -518,6 +533,7 @@ Use case ends.
 
 [discrete]
 === Use case: `find` `Food` item by keyword (which can be an incomplete word)
+>>>>>>> 3abe701be49df3e7f9500a6b3f39d925b6f2a537
 
 *MSS*
 
