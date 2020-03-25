@@ -1,0 +1,13 @@
+@startuml
+start
+:User executes Nom command;
+
+if () then ([command is Nom])
+    :Add food specified to a DailyFoodLog;
+    :Update model and FoodRecord;
+    :Fetch data for FilteredList and update display;
+else ([else])
+    :Handle other commands;
+endif
+stop
+@enduml

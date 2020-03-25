@@ -1,8 +1,5 @@
 @startuml
 
-scale 300 height
-scale 175 width
-
 start
 :User executes update command;
 
