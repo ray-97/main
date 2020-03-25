@@ -23,6 +23,8 @@ Calgo is an *all-in-one smart calorie tracker* to ensure that you are always one
 * For the modern day user who prefers to use a *desktop application*, Calgo's *Command Line Interface (CLI)* works seamlessly with its *Graphical User Interface (GUI)* to provide fast and accurate usage while presenting results with visual depth and clarity.
 * Fast typists would therefore greatly benefit from not only the speed of processing their input via the CLI but also the input correction methods of Calgo.
 
+<<<
+
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.
@@ -42,6 +44,8 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 * *`list`* : lists all Food items currently recorded in the Food Record.
 * *`exit`* : exits the Calgo application
 
+<<<
+
 [[Features]]
 == Features
 
@@ -57,6 +61,8 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 * Parameters can be in any order, as long as the correct prefix appears before the parameter
 ** e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` gives the same functionality.
 ====
+
+<<<
 
 === Displaying help : `help`
 
@@ -85,6 +91,8 @@ Updates a Food Item in the Food Record.
 * If Food Item is already present in the Food Record, this will override that Food Item with the nutritional details specified by user
 ****
 
+<<<
+
 Format: `update n/NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
 
 Examples:
@@ -97,6 +105,8 @@ As pizza is already in the user’s food preset, this command overrides the nutr
 
 [TIP]
 You can leave any of the protein, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
+
+<<<
 
 === Deleting a Food Item from current Food Record: `delete`
 Deletes the specified Food Item from the Food Record.
@@ -140,6 +150,8 @@ Displays a list of food user has consumed on 2020-03-04.
 * `stomach` +
 Displays a list of food user has consumed today.
 
+<<<
+
 === Consuming food on a certain day : `nom`
 
 Adds a food item into the log which keeps track of what the user has eaten on that day.
@@ -162,6 +174,8 @@ Examples:
 Adds 1.5 portion of chicken to the log tracking user's consumption on 4th March 2020.
 * `nom n/apple pie portion/2` +
 Adds 2 portion of apple pie to the log tracking user's consumption today.
+
+<<<
 
 === Deleting something consumed on a certain day : `vomit`
 
@@ -188,6 +202,8 @@ Deletes the second food consumed today in the consumption log displayed using `s
 * `vomit num/1 d/2020-03-04 portion/3` +
 Deletes 3 portions of of the first food item consumed on 2020-03-04.
 
+<<<
+
 === Exporting the Current Food Record into a Reference Sheet : `export`
 
 Should you feel the need to obtain a portable version of the current Food Record entries, the `export` command provides an editable text file (FoodRecords.txt) in the exports folder. +
@@ -198,6 +214,8 @@ Should you feel the need to obtain a portable version of the current Food Record
 Calgo data is saved in the application automatically. There is no need to save manually for each session. The `export` command allows users to manually track their calories with a reference sheet of the Food entries previously entered.
 
 Format: `export`
+
+<<<
 
 === Getting Food items by Keywords in Name or Nutritional Value : `find`
 
@@ -229,6 +247,8 @@ Returns `kiwi` and `kiwi juice`
 Returns `chocolate protein powder shake` and `vanilla protein milkshake` which have 25 and 20 grams of protein respectively.
 * `find n/food_item_not_in_food_record` +
 Returns a message showing 0 Food items listed.
+
+<<<
 
 === Generating an ideal daily calorie goal: `getGoal`
 
@@ -266,6 +286,8 @@ Example:
 * `setGoal 2580` +
 Sets the desired number of calories to be consumed to be 2580.
 
+<<<
+
 === Generating insights : `report`
 Given a date, the command generates a document (in pdf format) of relevant insights about the user's food consumption
 pattern of the same date.
@@ -301,6 +323,8 @@ Format: `clear`
 
 Exits the program. +
 Format: `exit`
+
+<<<
 
 == FAQ
 
