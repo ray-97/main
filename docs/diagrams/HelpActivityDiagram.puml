@@ -1,0 +1,13 @@
+@startuml
+scale 300 height
+scale 175 width
+
+start
+:User executes Help command;
+
+if () then ([Help Window is in Focus])
+else ([else])
+    :Create Help Window;
+endif
+stop
+@enduml

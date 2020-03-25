@@ -8,6 +8,7 @@ Package Model <<Rectangle>>{
 Interface ReadOnlyFoodRecord <<Interface>>
 Interface Model <<Interface>>
 Interface ObservableList <<Interface>>
+Interface Comparable <<Interface>>
 Class FoodRecord
 Class ReadOnlyFoodRecord
 Class Model
@@ -47,6 +48,7 @@ Model .right.> ObservableList
 ModelManager o--> "1" FoodRecord
 ModelManager o-left-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
+Food .up.|> Comparable
 ConsumedFood .down.|> Food
 
 FoodRecord *--> "1" UniqueFoodList

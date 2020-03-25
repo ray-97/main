@@ -1,0 +1,89 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":FoodRecordParser" as FoodRecordParser LOGIC_COLOR
+participant ":UpdateCommandParser" as UpdateCommandParser LOGIC_COLOR
+participant "u:UpdateCommand" as UpdateCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+
+[-> LogicManager : execute("update n/Apple cal/52 p/2 c/14 f/1")
+activate LogicManager
+
+LogicManager -> FoodRecordParser : parseCommand("update n/Apple cal/52 p/2 c/14 f/1")
+activate FoodRecordParser
+
+create UpdateCommandParser
+FoodRecordParser -> UpdateCommandParser
+activate UpdateCommandParser
+
+UpdateCommandParser --> FoodRecordParser
+deactivate UpdateCommandParser
+
+FoodRecordParser -> UpdateCommandParser : parse("n/Apple cal/52 p/2 c/14 f/1")
+activate UpdateCommandParser
+
+create UpdateCommand
+UpdateCommandParser -> UpdateCommand
+activate UpdateCommand
+
+UpdateCommand --> UpdateCommandParser : u
+deactivate UpdateCommand
+
+UpdateCommandParser --> FoodRecordParser : u
+deactivate UpdateCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+UpdateCommandParser -[hidden]-> FoodRecordParser
+destroy UpdateCommandParser
+
+FoodRecordParser --> LogicManager : u
+deactivate FoodRecordParser
+
+LogicManager -> UpdateCommand : execute()
+activate UpdateCommand
+
+alt Food already exists in FoodRecord
+    UpdateCommand -> Model : getExistingFood(toAdd)
+    activate Model
+    Model --> UpdateCommand : existingFood
+    deactivate Model
+    UpdateCommand -> Model : setFood(toAdd, existingFood)
+    activate Model
+
+    Model --> UpdateCommand
+    deactivate Model
+else else
+    UpdateCommand -> Model : addFood(toAdd)
+    activate Model
+
+    Model --> UpdateCommand
+    deactivate Model
+
+
+
+end
+
+
+
+create CommandResult
+UpdateCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> UpdateCommand
+deactivate CommandResult
+
+UpdateCommand --> LogicManager : result
+deactivate UpdateCommand
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+UpdateCommand -[hidden]-> FoodRecordParser
+destroy UpdateCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml
