@@ -44,6 +44,8 @@ This component is responsible for:
 * Launching App: Initializes the other components in the correct sequence, and connects them up with each other.
 * Exiting App: Shuts down the components and invokes cleanup method where necessary.
 
+<<<
+
 <<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components.
 In particular, the `LogsCenter` class plays an important role at the architecture level:
 
@@ -66,6 +68,8 @@ For example, the `Logic` component (see the class diagram given below) defines i
 .Class Diagram of the Logic Component
 image::LogicClassDiagram.png[]
 
+<<<
+
 [discrete]
 ==== How the architecture components interact with each other
 
@@ -75,6 +79,8 @@ The _Sequence Diagram_ below shows how the components interact with each other f
 image::ArchitectureSequenceDiagram.png[]
 
 The sections below give more details of each component.
+
+<<<
 
 [[Design-Ui]]
 === UI component
@@ -92,6 +98,8 @@ The `UI` component:
 
 . Executes user commands using the `Logic` component.
 . Listens for changes to `Model` data so that the UI can be updated with the modified data.
+
+<<<
 
 [[Design-Logic]]
 === Logic component
@@ -115,6 +123,8 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 image::DeleteSequenceDiagram.png[]
 
 NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+<<<
 
 [[Design-Model]]
 === Model component
@@ -142,6 +152,8 @@ An example of how such a model may look like is given in the below diagram. +
 .Structure of the Model Component
 image::BetterModelClassDiagram.png[]
 
+<<<
+
 [[Design-Storage]]
 === Storage component
 
@@ -161,6 +173,8 @@ The `Storage` component can do the following:
 === Common classes
 
 Classes used by multiple components are in the `life.calgo.commons` package.
+
+<<<
 
 == Implementation
 
@@ -193,6 +207,8 @@ Step 3: `Logic` executes the `ListCommand` to filter out relevant `Food` entries
 Step 4: All `Food` entries are shown in the GUI. +
 Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 
+<<<
+
 ==== Design Considerations
 
 ===== Aspect: How List executes sorting operation
@@ -213,6 +229,8 @@ Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 ** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
 ** Cons: More troublesome as we to implement methods to display on the GUI. Also, the methods create a risk to violations of certain software engineering principles, if not careful. These methods are also subject to being changed which can introduce regression in the future.
 
+<<<
+
 ==== Summary
 
 `list` will make the GUI display a lexicographically sorted list of `Food` previously entered. This can be exemplified in an activity diagram below:
@@ -220,6 +238,8 @@ Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 .Activity Diagram for List command
 image::ListActivityDiagram.png[]
 // end::lexicographiclistcommand[]
+
+<<<
 
 === Food Consumption Management
 In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
@@ -233,7 +253,6 @@ The `nom`, `vomit` and `stomach` commands are facilitated by the `FoodRecord`.  
 
 This section covers how the `nom` command is implemented. The `vomit` and `stomach` commands work in very similar way, hence their implementation is omitted for brevity.
 
-
 A top-level illustration of the execution of a `nom` command is given in the sequence diagram below:
 
 image:NomSequenceDiagram.png[]
@@ -245,6 +264,7 @@ Step 3: A `NomCommand` is created and executed, updating both `ModelManager` and
 Step 4: A `FilteredList` in `ModelManger` will then check with `FoodRecord` to create `ConsumedFood` items to display in the Graphical User Interface (GUI). +
 Step 5: The GUI automatically detects changes in `FilteredList` and refreshes to display updated content.
 
+<<<
 
 ==== Design Considerations
 
@@ -260,13 +280,6 @@ from parser.
 ** Cons: Violates layers of abstraction set in place by previous structure of AddressBook3. Violates Single Responsibility Principle and reduce
 cohesiveness of code.
 
-==== Summary
-
-The `nom` command adds a `Food` item consumed by the user into the `stomach`. The following activity diagram summarizes what happens when the user executes a `nom` command.
-
-.Activity Diagram for Nom
-image::NomActivityDiagram.png[]
-
 ===== Aspect: Data structure to support the consumption commands
 
 * **Alternative 1 (current choice):** Use a single `FilteredList` to store food for any day by repopulating it each time
@@ -278,6 +291,15 @@ a consumption related command is used.
 ** Pros: Faster retrieval for display of `ConsumedFood` items. However, under practical circumstances, the difference is negligible.
 ** Cons: May have performance issue in terms of storage because it requires many lists to be stored in addition to `LinkedHashMap`
 in `DailyFoodLog` for each `LocalDate`.
+
+==== Summary
+
+The `nom` command adds a `Food` item consumed by the user into the `stomach`. The following activity diagram summarizes what happens when the user executes a `nom` command.
+
+.Activity Diagram for Nom
+image::NomActivityDiagram.png[]
+
+<<<
 
 === Updating `FoodRecord`
 This feature allows you to add a food preset with all its nutritional details into the `FoodRecord`.
@@ -303,6 +325,8 @@ The following sequence diagram shows how the update operation works in both case
 image::UpdateSequenceDiagram.png[]
 NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
+<<<
+
 ==== Design Considerations
 
 ===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
@@ -327,6 +351,8 @@ The following activity diagram summarises what happens when a user enters a vali
 .Activity Diagram for Update command
 image::UpdateActivityDiagram.png[]
 
+<<<
+
 //tag:: Report[]
 === Generate Insights Report
 This feature allows a user to generate a report that contains statistics and deliverable insights based on
@@ -346,6 +372,8 @@ In this section, the implementation features of the `ReportGenerator` class will
 given date when inputting the `report` command.
 
 Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
+
+<<<
 
 The following sequence diagram illustrates the top-level execution of the `generateReport()` operation:
 
@@ -376,6 +404,8 @@ Step 9: Using the `ReportGenerator` object, `ReportCommand` calls `#generateInsi
 Step 10: This newly generated report is saved in the `/reports` folder. If the report is successfully generated,
 the `CommandResult` is true. Otherwise, it is false. This `CommandResult` object is finally returned to `LogicManager`,
 to signify the end of the command.
+
+<<<
 
 ==== Design Considerations
 
