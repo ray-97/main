@@ -744,8 +744,6 @@ These instructions only provide a starting point for testers to work on; testers
 .. Re-launch the App by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
-
 === Deleting a `Food`
 
 . Deleting a `Food` item from the `FoodRecord`
