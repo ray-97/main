@@ -330,6 +330,40 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
 
+// tag::helpcommand[]
+=== Command guide `help` command
+
+==== Implementation
+
+As with any application with a plethora of commands, it is useful to have an in-app and offline method by which users can view the purpose and usage format of each command.
+
+This help feature is a functionality that is carried out by the FoodRecordParser to guide users on how to utilise the App's commands. The guide is displayed in a separate window, as handled by HelpWindow.
+
+With this, a top-level idea of the execution of the help command is given in the sequence diagram below:
+
+.Sequence Diagram for Help Command
+image::HelpSequenceDiagram.png[]
+// end::helpcommand[]
+
+Step 1: `LogicManager` takes in the user input of "help". +
+Step 2: `FoodRecordParser` is passed the String input and is parsed using `parseCommand`. +
+Step 3: This results in a `HelpCommand` object which is executed by the `LogicManager`. +
+Step 4: The `LogicManager` encapsulates the result as a `CommandResult` object which is passed back to the `MainWindow`. +
+Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpWindow` if it is not already being displayed. +
+Step 6: `HelpWindow` is displayed as a separate popup.
+
+==== Design consideration
+===== Aspect: How Help is displayed
+* **Alternative 1 (current choice):** `HelpWindow` is displayed as a self-contained popup.
+** Pros: User can refer to the command guide in a window separately from the main app. Additionally, no internet access is required as all information on commands are stored offline.
+** Cons: As `help` does not redirect to a url containing the most up-to-date User Guide, any changes to command functionality or addition of new commands must be updated for local display.
+* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
+** Pros: No possibility of a popup blocking the main app, and all information is contained within a single window.
+** Cons: User must use the `help` command every time they require a guide, as `ResultDisplay` will be overwritten after every command.
+
+==== Summary
+`help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
+
 == Documentation
 
 Refer to the guide <<Documentation#, here>>.
