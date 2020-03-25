@@ -155,7 +155,6 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-
 // tag::lexicographicallistcommand[]
 === Lexicographical `list` Command
 ==== Implementation
@@ -181,7 +180,7 @@ Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 
 ==== Design Considerations
 
-===== Aspect: How undo & redo executes
+===== Aspect: How List executes
 
 * **Alternative 1 (current choice):** Sort whenever `Food` is added or edited in the `Model`.
 ** Pros: Will guarantee correctness of sorting. Furthermore, since `Food` objects are sorted whenever they are added or edited one by one, each sorting operation will not be too expensive.
@@ -203,8 +202,66 @@ Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 
 `list` will make the GUI display a lexicographically sorted list of `Food` previously entered. This can be exemplified in an activity diagram below:
 
+.Activity Diagram for List command
 image::ListActivityDiagram.png[]
 // end::lexicographiclistcommand[]
+
+=== Food Consumption Management
+In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
+When adding food to be consumed, removing food, or displaying food consumed on certain days,
+a `FilteredList` will be populated with relevant `ConsumedFood`.
+
+==== Implementation
+The `Nom`, `Vomit` and `Stomach` commands are facilitated by the `FoodRecord`.  +
+`FoodRecord` contains a `UniqueDateToLogMap`, which maps a `LocalDate` to a `DailyFoodLog`. +
+`DailyFoodLog` contains a `LinkedHashMap` storing `Food` in the sequence that they were consumed and maps those `Food` to a `Double` portion.
+
+This section covers how the `Nom` command is implemented. The `Vomit` and `Stomach` commands work in very similar way, hence their implementation is omitted for brevity.
+
+Given below is an example usage scenario of the `Nom` command and how the components interact at each step.
+
+Step 1: User enters a command, which is saved as a `String` and passed into the `LogicManager`. +
+Step 2: The `String` cascades down the layers of abstraction until `NomCommandParser` handles it and create a
+`DailyFoodLog` which reflects the consumption. +
+Step 3: A `NomCommand` is created and executed, updating both `ModelManager` and `FoodRecord` about the consumed food.
+Step 4: A `FilteredList` in `ModelManger` will then check with `FoodRecord` to create `ConsumedFood` items to display in the Graphical User Interface (GUI). +
+Step 5: The GUI automatically detects changes in `FilteredList` and refreshes to display updated content.
+
+The following sequence diagram illustrates the aforementioned steps:
+
+.Sequence Diagram for Nom command
+image::NomSequenceDiagram.png[]
+
+The following activity diagram summarizes what happens when the user executes a Nom command.
+
+.Activity Diagram for Nom
+image::NomActivityDiagram.png[]
+
+==== Design Considerations
+
+===== Aspect: How Nom executes
+
+* **Alternative 1 (current choice):** Create a new `DailyFoodLog` to pass into `ModelManager` and `FoodRecord`.
+** Pros: Maintain comprehensive layers of abstraction and allows code to be easily testable.
+** Cons: Difficult for newcomers or even existing users to trace because of long execution path.
+
+* **Alternative 2:** Bypass `ModelManager` or even not use `FoodRecord` for storage of data during runtime by allowing everything to be done
+from parser.
+** Pros: Reduce dependencies on `ModelManager` and `FoodRecord`, and make code contained in a single class file easier to navigate.
+** Cons: Violates layers of abstraction set in place by previous structure of AddressBook3. Violates Single Responsibility Principle and reduce
+cohesiveness of code.
+
+===== Aspect: Aspect: Data structure to support the consumption commands
+
+* **Alternative 1 (current choice):** Use a single `FilteredList` to store food for any day by repopulating it each time
+a consumption related command is used.
+** Pros: Only uses a single `FilteredList`, so it is clear which list you are using for display.
+** Cons: May have performance issue in terms of speed when there are too many entries.
+
+* **Alternative 2:** Use a `FilteredList` for each date, to store food consumed on that date.
+** Pros: Faster retrieval for display of `ConsumedFood` items. However, under practical circumstances, the difference is negligible.
+** Cons: May have performance issue in terms of storage because it requires many lists to be stored in addition to `LinkedHashMap`
+in `DailyFoodLog` for each `LocalDate`.
 
 === Logging
 
@@ -323,6 +380,8 @@ _{More to be added as development proceeds and is always ongoing}_
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
+<<<<<<< HEAD
+=== Use case: find Food item by name
 === Use case: obtain reference for app's commands
 
 *MSS*
@@ -334,6 +393,7 @@ Use case ends.
 
 [discrete]
 === Use case: `find` `Food` item by keyword (which can be an incomplete word)
+>>>>>>> 3abe701be49df3e7f9500a6b3f39d925b6f2a537
 
 *MSS*
 
