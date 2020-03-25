@@ -155,27 +155,35 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-=== Food Consumption Manage
+=== Food Consumption Management
 In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
-
-* `VersionedAddressBook#commit()` -- Saves the current protein book state in its history.
-* `VersionedAddressBook#undo()` -- Restores the previous protein book state from its history.
-* `VersionedAddressBook#redo()` -- Restores a previously undone protein book state from its history.
+When adding food to be consumed, removing food, or displaying food consumed on certain days,
+a `FilteredList` will be populated with relevant `ConsumedFood`.
 
 ==== Implementation
 The `Nom`, `Vomit` and `Stomach` commands are facilitated by the `FoodRecord`.  +
-`FoodRecord` contains a `UniqueDateToLogMap`, which maps a `LocalDate` to a `DailyFoodLog` which contains a `LinkedHashMap`
-of the `Food` that user consumed/removed on that date.
+`FoodRecord` contains a `UniqueDateToLogMap`, which maps a `LocalDate` to a `DailyFoodLog`. +
 `DailyFoodLog` contains a `LinkedHashMap` storing `Food` in the sequence that they were consumed and maps those `Food` to a `Double` portion.
 
+This section covers how the `Nom` command is implemented. The `Vomit` and `Stomach` commands work in very similar way, hence their implementation is omitted for brevity.
 
+Given below is an example usage scenario of the `Nom` command and how the components interact at each step.
 
-The following sequence diagram shows how the nom command works:
+Step 1: User enters a command, which is saved as a `String` and passed into the `LogicManager`. +
+Step 2: The `String` cascades down the layers of abstraction until `NomCommandParser` handles it and create a
+`DailyFoodLog` which reflects the consumption. +
+Step 3: A `NomCommand` is created and executed, updating both `ModelManager` and `FoodRecord` about the consumed food.
+Step 4: A `FilteredList` in `ModelManger` will then check with `FoodRecord` to create `ConsumedFood` items to display in the Graphical User Interface (GUI). +
+Step 5: The GUI automatically detects changes in `FilteredList` and refreshes to display updated content.
 
+The following sequence diagram illustrates the aforementioned steps:
+
+.Sequence Diagram for Nom
 image::NomSequenceDiagram.png[]
 
-The following activity diagram shows what happens when the user executes a Nom command.
+The following activity diagram summarizes what happens when the user executes a Nom command.
 
+.Activity Diagram for Nom
 image::NomActivityDiagram.png[]
 
 ==== Design Considerations
@@ -200,7 +208,7 @@ a consumption related command is used.
 ** Cons: May have performance issue in terms of speed when there are too many entries.
 
 * **Alternative 2:** Use a `FilteredList` for each date, to store food consumed on that date.
-** Pros:
+** Pros: Faster retrieval for display of `ConsumedFood` items. However, under practical circumstances, the difference is negligible.
 ** Cons: May have performance issue in terms of storage because it requires many lists to be stored in addition to `LinkedHashMap`
 in `DailyFoodLog` for each `LocalDate`.
 
