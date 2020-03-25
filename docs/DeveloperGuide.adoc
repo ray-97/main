@@ -352,6 +352,12 @@ Step 4: The `LogicManager` encapsulates the result as a `CommandResult` object w
 Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpWindow` if it is not already being displayed. +
 Step 6: `HelpWindow` is displayed as a separate popup.
 
+The following activity diagram summarizes what happens when the user executes a Help command.
+
+.Activity Diagram for Help Command
+image::HelpActivityDiagram.png[]
+// end::helpcommand[]
+
 ==== Design consideration
 ===== Aspect: How Help is displayed
 * **Alternative 1 (current choice):** `HelpWindow` is displayed as a self-contained popup.
