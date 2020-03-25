@@ -64,9 +64,9 @@ image::LogicClassDiagram.png[]
 [discrete]
 ==== How the architecture components interact with each other
 
-The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete n/Apple`.
 
-.Component interactions for `delete 1` command
+.Component interactions for `delete n/Apple` command
 image::ArchitectureSequenceDiagram.png[]
 
 The sections below give more details of each component.
@@ -98,15 +98,15 @@ image::LogicClassDiagram.png[]
 *API* :
 link:{repoURL}/blob/master/src/main/java/life/calgo/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
+.  `Logic` uses the `FoodRecordParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a food).
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 .  In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete n/Apple")` API call.
 
-.Interactions Inside the Logic Component for the `delete 1` Command
+.Interactions Inside the Logic Component for the `delete n/Apple` Command
 image::DeleteSequenceDiagram.png[]
 
 NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
@@ -251,7 +251,7 @@ from parser.
 ** Cons: Violates layers of abstraction set in place by previous structure of AddressBook3. Violates Single Responsibility Principle and reduce
 cohesiveness of code.
 
-===== Aspect: Aspect: Data structure to support the consumption commands
+===== Aspect: Data structure to support the consumption commands
 
 * **Alternative 1 (current choice):** Use a single `FilteredList` to store food for any day by repopulating it each time
 a consumption related command is used.
@@ -262,6 +262,53 @@ a consumption related command is used.
 ** Pros: Faster retrieval for display of `ConsumedFood` items. However, under practical circumstances, the difference is negligible.
 ** Cons: May have performance issue in terms of storage because it requires many lists to be stored in addition to `LinkedHashMap`
 in `DailyFoodLog` for each `LocalDate`.
+
+=== Updating `FoodRecord`
+This feature allows you to add a food preset with all its nutritional details into the `FoodRecord`.
+This makes it convenient for you to keep track of your `Food` consumed in the day without having to manually key in the nutritional details every time you do so.
+
+==== Implementation
+The update mechanism is facilitated by `FoodRecord` and `UpdateCommand`. An additional operation was implemented into `FoodRecord`:
+
+* `FoodRecord#hasExistingFood()` - Checks if there is an existing `Food` in `FoodRecord` based on its name only
+
+This operation was exposed in the `Model` interface as `Model#hasExistingFood()`.
+
+The update feature first checks if there is already an existing `Food` item with the same name
+inside `FoodRecord` using the method `FoodRecord#hasExistingFood()`.
+
+If there is already an existing `Food` with the same name, the existing `Food` item will override the `Food` item inside `FoodRecord` with
+the new nutritional information provided by the user. +
+Otherwise, the new `Food` item will be added into the `FoodRecord`.
+
+The following sequence diagram shows how the update operation works in both cases:
+
+.Sequence Diagram for Update command
+image::UpdateSequenceDiagram.png[]
+NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+The following activity diagram summarises what happens when a user enters a valid `update` command:
+
+.Activity Diagram for Update command
+image::UpdateActivityDiagram.png[]
+
+==== Design Considerations
+
+Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
+
+* *Alternative 1 (current choice):* Overrides the existing `Food` item with the new `Food` item
+** Pros: No need for a separate command of `edit` to deal with existing `Food` item apart from `add` to add new `Food` item into the `FoodRecord`.
+Instead, a smarter command of `update` is used to deal with both scenarios.
+** Cons:
+This might not be intuitive for the user since the word "update" is generally assumed to be for editing something only, and not necessarily adding something.
+
+* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another function `edit` to edit the existing `Food` instead.
+** Pros: In the event where the user is unaware that there is already an existing `Food` item, this two step process will be clearer to him that he is
+in fact editing a `Food` item and not adding a new one in.
+** Cons: This is more tedious for the user since more steps is required to change an existing `Food` item. On top of that, an additional command of `edit` will be required and `update`
+should be replaced with `add` for clearer user experience.
+
+
 
 === Logging
 
@@ -569,14 +616,14 @@ _{ more test cases ... }_
 
 === Deleting a `Food`
 
-. Deleting a food while all foods are listed
+. Deleting a `Food` item from the `FoodRecord`
 
-.. Prerequisites: List all foods using the `list` command. Multiple foods in the list.
-.. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+.. Prerequisites: Launch `Calgo` succesfully and a `Food` item Apple already exists in `FoodRecord`
+.. Test case: `delete n\Apple` +
+   Expected: `Food` item Apple is deleted from `FoodRecord`. Details of the deleted `Food` shown in the status message.
 .. Test case: `delete 0` +
    Expected: No food is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect delete commands to try: `delete`, `delete n/Banana` (where `Food` banana does not exists in `FoodRecord`) +
    Expected: Similar to previous.
 
 _{ more test cases ... }_
