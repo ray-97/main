@@ -139,7 +139,8 @@ instead of each `Food` needing their own `Tag` object.
 An example of how such a model may look like is given in the below diagram. +
  +
 
-image:BetterModelClassDiagram.png[]
+.Structure of the Model Component
+image::BetterModelClassDiagram.png[]
 
 [[Design-Storage]]
 === Storage component
@@ -151,10 +152,10 @@ image::StorageClassDiagram.png[]
 
 The `Storage` component can do the following:
 
-. can save `UserPref` objects in json format and read it back for the next session.
-. can save `FoodRecord` data in json format and read it back for the next session.
-. generate an insights report based on user food consumption.
-. generate a user-friendly version of the current `FoodRecord`.
+. Saves `UserPref` objects in json format and read it back for the next session.
+. Saves `FoodRecord` data in json format and read it back for the next session.
+. Generates an insights report based on user food consumption.
+. Generates a user-friendly version of the current `FoodRecord`.
 
 [[Design-Commons]]
 === Common classes
@@ -166,18 +167,20 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 // tag::lexicographicallistcommand[]
-=== User-friendly `list` feature (Lexicographically sorted)
+=== Lexicographically-Ordered `list`
 ==== Implementation
 With a large number of `Food` objects in the App, it will be useful to see all entries sorted in lexicographic order. +
 
-The `list` command is therefore one of the most commonly used in `Calgo`,
-especially after a `find` command.
-However, it simply shows all current `Food` entries in the `Model`,
-and does not perform sorting.
+The `list` command is able to show all current `Food` entries in the `Model`.
+Therefore, it is one of the most commonly used commands in `Calgo`, especially after a `find` command.
+It may seem that the `list` command is responsible for keeping the `Food` entries sorted, however, that is not the case.
 
-Sorting by lexicographic order is done by the `UniqueFoodList`, containing `Food` which implements the `Comparable<Food>` interface. +
+Sorting `Food` objects by lexicographic order is done by the `UniqueFoodList`.
+`Food` objects are able to be sorted because the `Food` class implements the `Comparable<Food>` interface. +
 
-* `Food` objects are arranged in lexicographic order by `Name`.
+How the `UniqueFoodList` works:
+
+* Existing `Food` objects in the list are arranged in lexicographic order by `Name`.
 * `UniqueFoodList` sorts the `Food` whenever they are added or edited in the `Model`.
 
 With this, a top-level idea of the execution of the lexicographical `list` command is given in the sequence diagram below:
@@ -192,7 +195,7 @@ Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 
 ==== Design Considerations
 
-===== Aspect: How List executes
+===== Aspect: How List executes sorting operation
 
 * **Alternative 1 (current choice):** Sort whenever `Food` is added or edited in the `Model`.
 ** Pros: Will guarantee correctness of sorting. Furthermore, since `Food` objects are sorted whenever they are added or edited one by one, each sorting operation will not be too expensive.
@@ -230,19 +233,17 @@ The `nom`, `vomit` and `stomach` commands are facilitated by the `FoodRecord`.  
 
 This section covers how the `nom` command is implemented. The `vomit` and `stomach` commands work in very similar way, hence their implementation is omitted for brevity.
 
-Given below is an example usage scenario of the `nom` command and how the components interact at each step.
+
+A top-level illustration of the execution of a `nom` command is given in the sequence diagram below:
+
+image:NomSequenceDiagram.png[]
 
 Step 1: User enters a command, which is saved as a `String` and passed into the `LogicManager`. +
-Step 2: The `String` cascades down the layers of abstraction until `NomCommandParser` handles it and create a
+Step 2: The `String` cascades down the layers of abstraction until `NomCommandParser` handles it and creates a
 `DailyFoodLog` which reflects the consumption. +
 Step 3: A `NomCommand` is created and executed, updating both `ModelManager` and `FoodRecord` about the consumed food. +
 Step 4: A `FilteredList` in `ModelManger` will then check with `FoodRecord` to create `ConsumedFood` items to display in the Graphical User Interface (GUI). +
 Step 5: The GUI automatically detects changes in `FilteredList` and refreshes to display updated content.
-
-The following sequence diagram illustrates the aforementioned steps:
-
-.Sequence Diagram for Nom command
-image::NomSequenceDiagram.png[]
 
 
 ==== Design Considerations
@@ -302,14 +303,9 @@ The following sequence diagram shows how the update operation works in both case
 image::UpdateSequenceDiagram.png[]
 NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
-The following activity diagram summarises what happens when a user enters a valid `update` command:
-
-.Activity Diagram for Update command
-image::UpdateActivityDiagram.png[]
-
 ==== Design Considerations
 
-Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
+===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
 
 * *Alternative 1 (current choice):* Overrides the existing `Food` item with the new `Food` item
 ** Pros: No need for a separate command of `edit` to deal with existing `Food` item apart from `add` to add new `Food` item into the `FoodRecord`.
@@ -332,12 +328,13 @@ The following activity diagram summarises what happens when a user enters a vali
 image::UpdateActivityDiagram.png[]
 
 //tag:: Report[]
-=== Generate Insights Feature
-This feature allows user to generate a report that contains statistics and deliverable insights based on
-user food consumption patterns.
+=== Generate Insights Report
+This feature allows a user to generate a report that contains statistics and deliverable insights based on
+personal food consumption patterns.
 
-This feature can be invoked by using the `report d/DATE` command to generate a report based on the food consumed by user
-on the mentioned date.
+The functionality can be invoked by entering the `report d/DATE` command.
+This command generates a report that is based on the food consumed by
+the user on the specified date.
 
 ==== Implementation
 The specified feature is facilitated by `ReportGenerator` class in the `Storage` component.
@@ -350,17 +347,58 @@ given date when inputting the `report` command.
 
 Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
 
-The following sequence diagram shows how the `generateReport()` operation works:
+The following sequence diagram illustrates the top-level execution of the `generateReport()` operation:
 
 image::ReportFeatureSequenceDiagram.png[]
 
+Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of 27 March 2020. +
+
+Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
+
+Step 3: The `String` input is parsed by `FoodRecordParser`, which removes the "d/" prefix tag and sends
+the date input to `ReportCommandParser`. +
+
+Step 4: Once the `ReportCommandParser` checks that the given date is valid, it creates a `ReportCommand` object and
+returns it to `LogicManager`.
+
+Step 5: `LogicManager` then executes the `ReportCommand`.
+
+Step 6: From `Model`, `ReportCommand` retrieves the `DailyFoodLog` object that stores all `Food` consumed on the input date.
+
+Step 7: From `Model`, `ReportCommand` also retrieves `DailyGoal` object, which stores the daily number of calories the user wants to consume.
+
+Step 8: With the relevant objects retrieved from Steps 6 and 7, `ReportCommand` constructs a
+`ReportGenerator` object.
+
+Step 9: Using the `ReportGenerator` object, `ReportCommand` calls `#generateInsights()`, which prints metainformation
+, food-wise statistics, aggregate statistics and insights based on the `DailyFoodLog` of the input date.
+
+Step 10: This newly generated report is saved in the `/reports` folder. If the report is successfully generated,
+the `CommandResult` is true. Otherwise, it is false. This `CommandResult` object is finally returned to `LogicManager`,
+to signify the end of the command.
+
 ==== Design Considerations
+
+===== Aspect: How generate report executes
+
+* *Alternative 1 (current choice):* Print insights into a .txt file.
+
+** Pros: The implementation allows users to easily edit the contents of the report should they have realised they
+did not log in certain food items on that day.
+** Cons: Users could cheat by modifying values in the report. This defeats the purpose of the report to improve their
+self-awareness of their food consumption patterns.
+
+* *Alternative 2:* Print insights into a pdf file.
+** Pros: The insights appear more legitimate and neatly formatted.
+
+** Cons: Requires use of external libraries, which occupy memory of the App. PDF files generally require
+more memory than .txt files as well.
 
 ==== Summary
 The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
-// todo
 
-
+.Activity Diagram for Report command
+image::ReportActivityDiagram.png[]
 
 
 === Logging
@@ -520,8 +558,7 @@ _{More to be added as development proceeds and is always ongoing}_
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-<<<<<<< HEAD
-=== Use case: find Food item by name
+
 === Use case: obtain reference for app's commands
 
 *MSS*
@@ -533,7 +570,6 @@ Use case ends.
 
 [discrete]
 === Use case: `find` `Food` item by keyword (which can be an incomplete word)
->>>>>>> 3abe701be49df3e7f9500a6b3f39d925b6f2a537
 
 *MSS*
 
@@ -722,7 +758,6 @@ _{ more test cases ... }_
 .. Other incorrect delete commands to try: `delete`, `delete n/Banana` (where `Food` banana does not exists in `FoodRecord`) +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
 
 === Listing all `Food` entries
 
