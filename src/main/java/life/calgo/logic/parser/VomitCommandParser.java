@@ -9,11 +9,11 @@ import static life.calgo.logic.parser.CliSyntax.PREFIX_NAME;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_PORTION;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_POSITION;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
+import static life.calgo.logic.parser.CliSyntax.PREFIX_RATING;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
-import java.util.OptionalInt;
 
 import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.VomitCommand;
@@ -29,6 +29,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     public static final String MESSAGE_FOOD_NOT_IN_LOG = "You cannot vomit something that's not in your stomach!";
     public static final String MESSAGE_NONEXISTENT_LOG = "You have not eaten on %s yet!";
+    public static final String MESSAGE_INVALID_POSITION = "Position required an integer within range of list!";
 
     private final Model model;
 
@@ -45,7 +46,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
     public VomitCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION,
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION, PREFIX_RATING,
                         PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT,
                         PREFIX_POSITION, PREFIX_TAG);
         if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)) {
@@ -62,23 +63,22 @@ public class VomitCommandParser implements Parser<VomitCommand> {
             double parsedValue = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
             portion = OptionalDouble.of(parsedValue);
         }
-        // if empty, delete entry entirely. get portion of current food first.
-        OptionalInt indexOfFood = OptionalInt.empty();
-        if (argMultimap.getValue(PREFIX_POSITION).isPresent()) {
-            indexOfFood = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get());
-        } // after GUI
-        Optional<Food> optionalFood = model.getFoodByName(
-                ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+        int indexOfFood = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get()) - 1;
+        Optional<Food> optionalFood;
         if (!model.hasLogWithSameDate(foodLog)) {
             throw new ParseException(String.format(MESSAGE_NONEXISTENT_LOG, foodLog.getLocalDate()));
         }
         foodLog = model.getLogByDate(foodLog.getLocalDate());
         try {
-            foodLog = foodLog.vomit(optionalFood.get(), portion);
+            optionalFood = foodLog.getFoodByIndex(indexOfFood); // Can give exception due to index out of bound.
+            foodLog = foodLog.vomit(optionalFood.get(), portion); // Only through exception when user has not eaten food yet.
         } catch (IllegalArgumentException e) {
-            // when food item does not exist in log
             throw new ParseException(MESSAGE_FOOD_NOT_IN_LOG);
+        } catch (IndexOutOfBoundsException e) {
+            throw new ParseException(MESSAGE_INVALID_POSITION);
         }
+
+        assert (!optionalFood.get().equals(Optional.empty()));
 
         return new VomitCommand(foodLog, optionalFood.get());
     }

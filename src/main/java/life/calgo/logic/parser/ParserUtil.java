@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.OptionalInt;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -32,6 +31,7 @@ public class ParserUtil {
     private static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
     private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty";
+    private static final String MESSAGE_INVALID_POSITION = "Position should be an integer!";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -98,6 +98,19 @@ public class ParserUtil {
         return true;
     }
 
+    public static boolean isInteger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            System.out.println(strNum);
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * parses String portion as a double
      * @param portion a String representation of portion argument
@@ -121,14 +134,13 @@ public class ParserUtil {
      * @param position String representation of position
      * @return OptionalInt representation of position
      */
-    public static OptionalInt parsePosition(String position) {
+    public static int parsePosition(String position) throws ParseException {
         requireNonNull(position);
         String trimmedPosition = position.trim();
-        OptionalInt value = isNumeric(trimmedPosition)
-                ? OptionalInt.of(Integer.parseInt(trimmedPosition))
-                : OptionalInt.empty();
-        // need to check with "filteredList" that displays food, whether to throw exception.
-        return value;
+        if (!isInteger(trimmedPosition)) {
+            throw new ParseException(MESSAGE_INVALID_POSITION);
+        }
+        return Integer.parseInt(trimmedPosition);
     }
 
     /**

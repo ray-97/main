@@ -3,7 +3,9 @@ package life.calgo.model.day;
 import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
 
@@ -69,8 +71,6 @@ public class DailyFoodLog {
         for (Food food : this.foods.keySet()) {
             foods.put(food.copy(), this.foods.get(food));
         }
-        // todo: add assertion that foods.containsKey(foodToRemove) is always true
-        // todo: handle exception at VomitCommand#execute level
         if (!foods.containsKey(foodToRemove)) {
             throw new IllegalArgumentException();
         } else if (quantity.isEmpty()) {
@@ -83,6 +83,26 @@ public class DailyFoodLog {
         return foods;
     }
 
+    public DailyFoodLog consume(Food food, double quantity) {
+        return new DailyFoodLog(this.add(food, quantity), localDate);
+    }
+
+    public DailyFoodLog vomit(Food food, OptionalDouble quantity) {
+        return new DailyFoodLog(this.remove(food, quantity), localDate);
+    }
+
+    public DailyFoodLog updateFoodWithSameName(Food newFood) {
+        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
+        for (Food food: this.foods.keySet()) {
+            if (food.isSameFood(newFood)) {
+                foods.put(newFood, foods.get(food));
+            } else {
+                foods.put(food, foods.get(food));
+            }
+        }
+        return new DailyFoodLog(foods, localDate);
+    }
+
     /**
      * An accessor method to get the set of food objects in the data structure.
      * @return set of food objects
@@ -93,6 +113,12 @@ public class DailyFoodLog {
             foods.put(food, this.foods.get(food));
         }
         return foods.keySet();
+    }
+
+    public Optional<Food> getFoodByIndex(int index) throws IndexOutOfBoundsException {
+        ArrayList<Food> temp = new ArrayList(foods.keySet());
+        Food food = (Food) temp.get(index);
+        return Optional.of(food);
     }
 
     public DailyFoodLog setDate(LocalDate date) {
@@ -117,14 +143,6 @@ public class DailyFoodLog {
 
     public LocalDate getLocalDate() {
         return localDate;
-    }
-
-    public DailyFoodLog consume(Food food, double quantity) {
-        return new DailyFoodLog(this.add(food, quantity), localDate);
-    }
-
-    public DailyFoodLog vomit(Food food, OptionalDouble quantity) {
-        return new DailyFoodLog(this.remove(food, quantity), localDate);
     }
 
     @Override

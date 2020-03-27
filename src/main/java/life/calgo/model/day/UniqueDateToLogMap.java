@@ -42,7 +42,13 @@ public class UniqueDateToLogMap {
         internalMap.put(logAfterConsumption.getLocalDate(), logAfterConsumption);
     }
 
-    public void setDailyList(LocalDate date) {
+    public void updateMapWithFood(Food food) {
+        for (DailyFoodLog log: internalMap.values()) {
+            log.updateFoodWithSameName(food);
+        }
+    }
+
+    public void setDailyListDate(LocalDate date) {
         internalList.clear();
         Set<Food> foods = internalMap.get(date).getFoods();
         if (!foods.isEmpty()) {

@@ -117,4 +117,5 @@ public interface Model {
 
     void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date);
 
+    void updateConsumedLists(Food food);
 }

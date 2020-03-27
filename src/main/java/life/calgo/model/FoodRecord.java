@@ -130,6 +130,10 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         dateToLogMap.updateLog(logAfterConsumption);
     }
 
+    public void updateConsumedLists(Food food) {
+        dateToLogMap.updateMapWithFood(food);
+    }
+
     /**
      * Returns a line-by-line representation of the FoodRecord, displaying all its details.
      *
@@ -155,8 +159,8 @@ public class FoodRecord implements ReadOnlyFoodRecord {
     }
 
     @Override
-    public void setDailyList(LocalDate date) {
-        dateToLogMap.setDailyList(date);
+    public void setDailyListDate(LocalDate date) {
+        dateToLogMap.setDailyListDate(date);
     }
 
     @Override

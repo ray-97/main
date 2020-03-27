@@ -19,5 +19,5 @@ public interface ReadOnlyFoodRecord {
 
     ObservableList<ConsumedFood> getDailyList();
 
-    void setDailyList(LocalDate date);
+    void setDailyListDate(LocalDate date);
 }

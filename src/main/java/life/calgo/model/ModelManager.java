@@ -212,8 +212,14 @@ public class ModelManager implements Model {
     @Override
     public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) {
         requireNonNull(predicate);
-        foodRecord.setDailyList(date);
+        foodRecord.setDailyListDate(date);
         currentFilteredDailyList.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateConsumedLists(Food food) {
+        requireNonNull(food);
+        foodRecord.updateConsumedLists(food);
     }
 
     @Override

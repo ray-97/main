@@ -7,8 +7,8 @@ import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_FAT;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_NAME;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_PORTION;
-import static life.calgo.logic.parser.CliSyntax.PREFIX_POSITION;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
+import static life.calgo.logic.parser.CliSyntax.PREFIX_RATING;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Optional;
@@ -42,9 +42,8 @@ public class NomCommandParser implements Parser<NomCommand> {
     public NomCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION,
-                        PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT,
-                        PREFIX_POSITION, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION, PREFIX_RATING,
+                        PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT, PREFIX_TAG);
         if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)) {
             throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, NomCommand.MESSAGE_USAGE));
         }
@@ -66,6 +65,9 @@ public class NomCommandParser implements Parser<NomCommand> {
             throw new ParseException(MESSAGE_EMPTY_NAME);
         }
         foodLog = foodLog.consume(optionalFood.get(), portion);
+        if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
+
+        }
         return new NomCommand(foodLog, optionalFood.get());
     }
 }
