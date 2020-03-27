@@ -11,8 +11,10 @@ Class UiManager
 Class MainWindow
 Class HelpWindow
 Class ResultDisplay
-Class PersonListPanel
-Class PersonCard
+Class FoodListPanel
+Class FoodCard
+Class DailyListPanel
+Class ConsumedFoodCard
 Class StatusBarFooter
 Class CommandBox
 }
@@ -33,25 +35,31 @@ UiManager -down-> MainWindow
 MainWindow --> HelpWindow
 MainWindow *-down-> CommandBox
 MainWindow *-down-> ResultDisplay
-MainWindow *-down-> PersonListPanel
+MainWindow *-down-> FoodListPanel
+MainWindow *-down-> DailyListPanel
 MainWindow *-down-> StatusBarFooter
 
-PersonListPanel -down-> PersonCard
+FoodListPanel -down-> FoodCard
+DailyListPanel -down-> ConsumedFoodCard
 
 MainWindow -left-|> UiPart
 
 ResultDisplay --|> UiPart
 CommandBox --|> UiPart
-PersonListPanel --|> UiPart
-PersonCard --|> UiPart
+FoodListPanel --|> UiPart
+FoodCard --|> UiPart
+DailyListPanel --|> UiPart
+ConsumedFoodCard ---|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow -down-|> UiPart
 
-PersonCard ..> Model
+FoodCard ..> Model
+ConsumedFoodCard ..> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
 
-PersonListPanel -[hidden]left- HelpWindow
+DailyListPanel -[hidden]left- FoodListPanel
+FoodListPanel -[hidden]left- HelpWindow
 HelpWindow -[hidden]left- CommandBox
 CommandBox -[hidden]left- ResultDisplay
 ResultDisplay -[hidden]left- StatusBarFooter

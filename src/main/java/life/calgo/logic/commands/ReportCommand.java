@@ -8,6 +8,7 @@ import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
 import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.storage.ReportGenerator;
 
 /**
@@ -44,7 +45,8 @@ public class ReportCommand extends Command {
             throw new CommandException(MESSAGE_REPORT_FAILURE);
         }
         DailyFoodLog queryLog = model.getLogByDate(this.queryDate);
-        ReportGenerator reportGenerator = new ReportGenerator(queryLog, model.getDailyGoal());
+        DailyGoal dailyGoal = model.getDailyGoal();
+        ReportGenerator reportGenerator = new ReportGenerator(queryLog, dailyGoal);
         boolean isGenerated = reportGenerator.generateReport();
         if (!isGenerated) {
             throw new CommandException(MESSAGE_REPORT_FAILURE);

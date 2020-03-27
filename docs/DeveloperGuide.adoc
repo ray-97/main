@@ -28,48 +28,59 @@ Refer to the guide <<SettingUp#, here>>.
 .Architecture Diagram
 image::ArchitectureDiagram.png[]
 
-The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
-
 [TIP]
-The `.puml` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder.
+The `.puml` files used to create diagrams in this document can be found in
+the link:{repoURL}/tree/master/docs/diagrams/[diagrams] folder.
 Refer to the <<UsingPlantUml#, Using PlantUML guide>> to learn how to create and edit diagrams.
 
-`Main` has two classes called link:{repoURL}/src/main/java/seedu/protein/Main.java[`Main`] and link:{repoURL}/src/main/java/seedu/protein/MainApp.java[`MainApp`]. It is responsible for,
+The *_Architecture Diagram_* given above explains the high-level design of the Calgo Application. From now on, all
+instances of Calgo Application will be referred to as App.
+Given below is a quick overview of each component.
 
-* At app launch: Initializes the components in the correct sequence, and connects them up with each other.
-* At shut down: Shuts down the components and invokes cleanup method where necessary.
+The `Main` component comprises of two classes called link:{repoURL}/blob/master/src/main/java/life/calgo/Main.java[`Main`] and
+link:{repoURL}/blob/master/src/main/java/life/calgo/MainApp.java[`MainApp`].
+This component is responsible for:
+
+* Launching App: Initializes the other components in the correct sequence, and connects them up with each other.
+* Exiting App: Shuts down the components and invokes cleanup method where necessary.
+
+<<<
 
 <<Design-Commons,*`Commons`*>> represents a collection of classes used by multiple other components.
-The following class plays an important role at the architecture level:
+In particular, the `LogsCenter` class plays an important role at the architecture level:
 
-* `LogsCenter` : Used by many classes to write log messages to the App's log file.
+* `LogsCenter` : Writes log messages to the App's log file, for various classes.
 
-The rest of the App consists of four components.
+The rest of the App comprises of four components.
 
-* <<Design-Ui,*`UI`*>>: The UI of the App.
+* <<Design-Ui,*`UI`*>>: The User Interface (UI).
 * <<Design-Logic,*`Logic`*>>: The command executor.
-* <<Design-Model,*`Model`*>>: Holds the data of the App in-memory.
-* <<Design-Storage,*`Storage`*>>: Reads data from, and writes data to, the hard disk.
+* <<Design-Model,*`Model`*>>: The in-memory representation of the App data.
+* <<Design-Storage,*`Storage`*>>: The file manager for reading from and writing to the hard disk.
 
-Each of the four components
+Each of the four components:
 
-* Defines its _API_ in an `interface` with the same name as the Component.
+* Defines its _Application Programming Interface (API)_ in an `interface` with the same name as the Component.
 * Exposes its functionality using a `{Component Name}Manager` class.
 
-For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
+For example, the `Logic` component (see the class diagram given below) defines its API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
 
 .Class Diagram of the Logic Component
 image::LogicClassDiagram.png[]
 
+<<<
+
 [discrete]
 ==== How the architecture components interact with each other
 
-The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete 1`.
+The _Sequence Diagram_ below shows how the components interact with each other for the scenario where the user issues the command `delete n/Apple`.
 
-.Component interactions for `delete 1` command
+.Component interactions for `delete n/Apple` command
 image::ArchitectureSequenceDiagram.png[]
 
 The sections below give more details of each component.
+
+<<<
 
 [[Design-Ui]]
 === UI component
@@ -77,16 +88,18 @@ The sections below give more details of each component.
 .Structure of the UI Component
 image::UiClassDiagram.png[]
 
-*API* : link:{repoURL}/src/main/java/seedu/protein/ui/Ui.java[`Ui.java`]
+*API* : link:{repoURL}/tree/master/src/main/java/life/calgo/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `FoodListPanel`, `DailyListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
-The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/protein/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
+The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/blob/master/src/main/java/life/calgo/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/blob/master/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
-The `UI` component,
+The `UI` component:
 
-* Executes user commands using the `Logic` component.
-* Listens for changes to `Model` data so that the UI can be updated with the modified data.
+. Executes user commands using the `Logic` component.
+. Listens for changes to `Model` data so that the UI can be updated with the modified data.
+
+<<<
 
 [[Design-Logic]]
 === Logic component
@@ -96,20 +109,22 @@ The `UI` component,
 image::LogicClassDiagram.png[]
 
 *API* :
-link:{repoURL}/src/main/java/seedu/protein/logic/Logic.java[`Logic.java`]
+link:{repoURL}/blob/master/src/main/java/life/calgo/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
+.  `Logic` uses the `FoodRecordParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a food).
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
 .  In addition, the `CommandResult` object can also instruct the `Ui` to perform certain actions, such as displaying help to the user.
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete n/Apple")` API call.
 
-.Interactions Inside the Logic Component for the `delete 1` Command
+.Interactions Inside the Logic Component for the `delete n/Apple` Command
 image::DeleteSequenceDiagram.png[]
 
 NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+<<<
 
 [[Design-Model]]
 === Model component
@@ -117,19 +132,27 @@ NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X
 .Structure of the Model Component
 image::ModelClassDiagram.png[]
 
-*API* : link:{repoURL}/src/main/java/seedu/protein/model/Model.java[`Model.java`]
+*API* : link:{repoURL}/blob/master/src/main/java/life/calgo/model/Model.java[`Model.java`]
 
-The `Model`,
-
-* stores a `UserPref` object that represents the user's preferences.
-* stores the Address Book data.
-* exposes an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* does not depend on any of the other three components.
+. `Model` stores user's preferences in a `UserPref` object.
+. `Model` also stores Food Record data.
+. This component exposes both `ObservableList<Food>` and `ObservableList<ConsumedFood>`. The data stored in
+these two list objects is reflected in UI. Therefore, any changes made to the data in these lists are shown in the UI in
+real-time.
+. This component does not depend on any of the other three components.
 
 [NOTE]
-As a more OOP model, we can store a `Tag` list in `Address Book`, which `Person` can reference. This would allow `Address Book` to only require one `Tag` object per unique `Tag`, instead of each `Person` needing their own `Tag` object. An example of how such a model may look like is given below. +
+To make `Model` follow the Object Oriented Programming (OOP) Paradigm more closely,
+we can store a `Tag` list in `Food Record`, which `Food` objects can reference.
+This would allow `Food Record` to only require one `Tag` object per unique `Tag`,
+instead of each `Food` needing their own `Tag` object.
+An example of how such a model may look like is given in the below diagram. +
  +
-image:BetterModelClassDiagram.png[]
+
+.Structure of the Model Component
+image::BetterModelClassDiagram.png[]
+
+<<<
 
 [[Design-Storage]]
 === Storage component
@@ -137,122 +160,288 @@ image:BetterModelClassDiagram.png[]
 .Structure of the Storage Component
 image::StorageClassDiagram.png[]
 
-*API* : link:{repoURL}/src/main/java/seedu/protein/storage/Storage.java[`Storage.java`]
+*API* : link:{repoURL}/blob/master/src/main/java/life/calgo/storage/Storage.java[`Storage.java`]
 
-The `Storage` component,
+The `Storage` component can do the following:
 
-* can save `UserPref` objects in json format and read it back.
-* can save the Address Book data in json format and read it back.
+. Saves `UserPref` objects in json format and read it back for the next session.
+. Saves `FoodRecord` data in json format and read it back for the next session.
+. Generates an insights report based on user food consumption.
+. Generates a user-friendly version of the current `FoodRecord`.
 
 [[Design-Commons]]
 === Common classes
 
-Classes used by multiple components are in the `seedu.addressbook.commons` package.
+Classes used by multiple components are in the `life.calgo.commons` package.
+
+<<<
 
 == Implementation
 
 This section describes some noteworthy details on how certain features are implemented.
 
-// tag::undoredo[]
-=== [Proposed] Undo/Redo feature
-==== Proposed Implementation
+// tag::lexicographicallistcommand[]
+=== Lexicographically-Ordered `list`
+==== Implementation
+With a large number of `Food` objects in the App, it will be useful to see all entries sorted in lexicographic order. +
 
-The undo/redo mechanism is facilitated by `VersionedAddressBook`.
-It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`.
-Additionally, it implements the following operations:
+The `list` command is able to show all current `Food` entries in the `Model`.
+Therefore, it is one of the most commonly used commands in `Calgo`, especially after a `find` command.
+It may seem that the `list` command is responsible for keeping the `Food` entries sorted, however, that is not the case.
 
-* `VersionedAddressBook#commit()` -- Saves the current protein book state in its history.
-* `VersionedAddressBook#undo()` -- Restores the previous protein book state from its history.
-* `VersionedAddressBook#redo()` -- Restores a previously undone protein book state from its history.
+Sorting `Food` objects by lexicographic order is done by the `UniqueFoodList`.
+`Food` objects are able to be sorted because the `Food` class implements the `Comparable<Food>` interface. +
 
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
+How the `UniqueFoodList` works:
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+* Existing `Food` objects in the list are arranged in lexicographic order by `Name`.
+* `UniqueFoodList` sorts the `Food` whenever they are added or edited in the `Model`.
 
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial protein book state, and the `currentStatePointer` pointing to that single protein book state.
+With this, a top-level idea of the execution of the lexicographical `list` command is given in the sequence diagram below:
 
-image::UndoRedoState0.png[]
+image::ListCommandSequenceDiagram.png[]
 
-Step 2. The user executes `delete 5` command to delete the 5th food in the protein book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the protein book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted protein book state.
+Step 1: `UI` detects that the user has entered a `String`. +
+Step 2: `UI` passes this `String` into `Logic` to eventually produce a `ListCommand`. +
+Step 3: `Logic` executes the `ListCommand` to filter out relevant `Food` entries from the `Model`. +
+Step 4: All `Food` entries are shown in the GUI. +
+Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 
-image::UndoRedoState1.png[]
-
-Step 3. The user executes `add n/David ...` to add a new food. The `add` command also calls `Model#commitAddressBook()`, causing another modified protein book state to be saved into the `addressBookStateList`.
-
-image::UndoRedoState2.png[]
-
-[NOTE]
-If a command fails its execution, it will not call `Model#commitAddressBook()`, so the protein book state will not be saved into the `addressBookStateList`.
-
-Step 4. The user now decides that adding the food was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous protein book state, and restores the protein book to that state.
-
-image::UndoRedoState3.png[]
-
-[NOTE]
-If the `currentStatePointer` is at index 0, pointing to the initial protein book state, then there are no previous protein book states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the undo.
-
-The following sequence diagram shows how the undo operation works:
-
-image::UndoSequenceDiagram.png[]
-
-NOTE: The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-The `redo` command does the opposite -- it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the protein book to that state.
-
-[NOTE]
-If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest protein book state, then there are no undone protein book states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the protein book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
-
-image::UndoRedoState4.png[]
-
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all protein book states after the `currentStatePointer` will be purged. We designed it this way because it no longer makes sense to redo the `add n/David ...` command. This is the behavior that most modern desktop applications follow.
-
-image::UndoRedoState5.png[]
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-image::CommitActivityDiagram.png[]
+<<<
 
 ==== Design Considerations
 
-===== Aspect: How undo & redo executes
+===== Aspect: How List executes sorting operation
 
-* **Alternative 1 (current choice):** Saves the entire protein book.
-** Pros: Easy to implement.
-** Cons: May have performance issues in terms of memory usage.
-* **Alternative 2:** Individual command knows how to undo/redo by itself.
-** Pros: Will use less memory (e.g. for `delete`, just save the food being deleted).
-** Cons: We must ensure that the implementation of each individual command are correct.
+* **Alternative 1 (current choice):** Sort whenever `Food` is added or edited in the `Model`.
+** Pros: Will guarantee correctness of sorting. Furthermore, since `Food` objects are sorted whenever they are added or edited one by one, each sorting operation will not be too expensive.
+** Cons: We must ensure that the implementations of each individual underlying command are correct and do not interfere with the sorting process. Moreover, this may be expensive if there are many unsorted `Food` objects at once, which is seldom the case.
+* **Alternative 2:** Sort only when calling the `list` command.
+** Pros: Easier to implement, may be less computationally expensive.
+** Cons: May lead to certain bugs, especially during adding or editing such as through the `update` command. Also, not guaranteed to work when reading in from `foodrecord.json` for the next session.
 
-===== Aspect: Data structure to support the undo/redo commands
+===== Aspect: Data structure to store `Food` objects
 
-* **Alternative 1 (current choice):** Use a list to store the history of protein book states.
+* **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
+** Pros: Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually. Also, we do not need to maintain a separate list, and just reuse what is already in the codebase.
+** Cons: Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
+* **Alternative 2:** Use a simpler data structure like an `ArrayList`.
 ** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
-** Cons: Logic is duplicated twice. For example, when a new command is executed, we must remember to update both `HistoryManager` and `VersionedAddressBook`.
-* **Alternative 2:** Use `HistoryManager` for undo/redo
-** Pros: We do not need to maintain a separate list, and just reuse what is already in the codebase.
-** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things.
-// end::undoredo[]
+** Cons: More troublesome as we to implement methods to display on the GUI. Also, the methods create a risk to violations of certain software engineering principles, if not careful. These methods are also subject to being changed which can introduce regression in the future.
 
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
+<<<
 
-_{Explain here how the data encryption feature will be implemented}_
+==== Summary
 
-// end::dataencryption[]
+`list` will make the GUI display a lexicographically sorted list of `Food` previously entered. This can be exemplified in an activity diagram below:
+
+.Activity Diagram for List command
+image::ListActivityDiagram.png[]
+// end::lexicographiclistcommand[]
+
+<<<
+
+=== Food Consumption Management
+In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
+When adding food to be consumed, removing food, or displaying food consumed on certain days,
+a `FilteredList` will be populated with relevant `ConsumedFood`.
+
+==== Implementation
+The `nom`, `vomit` and `stomach` commands are facilitated by the `FoodRecord`.  +
+`FoodRecord` contains a `UniqueDateToLogMap`, which maps a `LocalDate` to a `DailyFoodLog`. +
+`DailyFoodLog` contains a `LinkedHashMap` storing `Food` in the sequence that they were consumed and maps those `Food` to a `Double` portion.
+
+This section covers how the `nom` command is implemented. The `vomit` and `stomach` commands work in very similar way, hence their implementation is omitted for brevity.
+
+A top-level illustration of the execution of a `nom` command is given in the sequence diagram below:
+
+image:NomSequenceDiagram.png[]
+
+Step 1: User enters a command, which is saved as a `String` and passed into the `LogicManager`. +
+Step 2: The `String` cascades down the layers of abstraction until `NomCommandParser` handles it and creates a
+`DailyFoodLog` which reflects the consumption. +
+Step 3: A `NomCommand` is created and executed, updating both `ModelManager` and `FoodRecord` about the consumed food. +
+Step 4: A `FilteredList` in `ModelManger` will then check with `FoodRecord` to create `ConsumedFood` items to display in the Graphical User Interface (GUI). +
+Step 5: The GUI automatically detects changes in `FilteredList` and refreshes to display updated content.
+
+<<<
+
+==== Design Considerations
+
+===== Aspect: How `nom` executes
+
+* **Alternative 1 (current choice):** Create a new `DailyFoodLog` to pass into `ModelManager` and `FoodRecord`.
+** Pros: Maintain comprehensive layers of abstraction and allows code to be easily testable.
+** Cons: Difficult for newcomers or even existing users to trace because of long execution path.
+
+* **Alternative 2:** Bypass `ModelManager` or even not use `FoodRecord` for storage of data during runtime by allowing everything to be done
+from parser.
+** Pros: Reduce dependencies on `ModelManager` and `FoodRecord`, and make code contained in a single class file easier to navigate.
+** Cons: Violates layers of abstraction set in place by previous structure of AddressBook3. Violates Single Responsibility Principle and reduce
+cohesiveness of code.
+
+===== Aspect: Data structure to support the consumption commands
+
+* **Alternative 1 (current choice):** Use a single `FilteredList` to store food for any day by repopulating it each time
+a consumption related command is used.
+** Pros: Only uses a single `FilteredList`, so it is clear which list you are using for display.
+** Cons: May have performance issue in terms of speed when there are too many entries.
+
+* **Alternative 2:** Use a `FilteredList` for each date, to store food consumed on that date.
+** Pros: Faster retrieval for display of `ConsumedFood` items. However, under practical circumstances, the difference is negligible.
+** Cons: May have performance issue in terms of storage because it requires many lists to be stored in addition to `LinkedHashMap`
+in `DailyFoodLog` for each `LocalDate`.
+
+==== Summary
+
+The `nom` command adds a `Food` item consumed by the user into the `stomach`. The following activity diagram summarizes what happens when the user executes a `nom` command.
+
+.Activity Diagram for Nom
+image::NomActivityDiagram.png[]
+
+<<<
+
+=== Updating `FoodRecord`
+This feature allows you to add a food preset with all its nutritional details into the `FoodRecord`.
+This makes it convenient for you to keep track of your `Food` consumed in the day without having to manually key in the nutritional details every time you do so.
+
+==== Implementation
+The update mechanism is facilitated by `FoodRecord` and `UpdateCommand`. An additional operation was implemented into `FoodRecord`:
+
+* `FoodRecord#hasExistingFood()` - Checks if there is an existing `Food` in `FoodRecord` based on its name only
+
+This operation was exposed in the `Model` interface as `Model#hasExistingFood()`.
+
+The update feature first checks if there is already an existing `Food` item with the same name
+inside `FoodRecord` using the method `FoodRecord#hasExistingFood()`.
+
+If there is already an existing `Food` with the same name, the existing `Food` item will override the `Food` item inside `FoodRecord` with
+the new nutritional information provided by the user. +
+Otherwise, the new `Food` item will be added into the `FoodRecord`.
+
+The following sequence diagram shows how the update operation works in both cases:
+
+.Sequence Diagram for Update command
+image::UpdateSequenceDiagram.png[]
+NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+<<<
+
+==== Design Considerations
+
+===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
+
+* *Alternative 1 (current choice):* Overrides the existing `Food` item with the new `Food` item
+** Pros: No need for a separate command of `edit` to deal with existing `Food` item apart from `add` to add new `Food` item into the `FoodRecord`.
+Instead, a smarter command of `update` is used to deal with both scenarios.
+** Cons:
+This might not be intuitive for the user since the word "update" is generally assumed to be for editing something only, and not necessarily adding something.
+
+* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another function `edit` to edit the existing `Food` instead.
+** Pros: In the event where the user is unaware that there is already an existing `Food` item, this two step process will be clearer to him that he is
+in fact editing a `Food` item and not adding a new one in.
+** Cons: This is more tedious for the user since more steps is required to change an existing `Food` item. On top of that, an additional command of `edit` will be required and `update`
+should be replaced with `add` for clearer user experience.
+
+==== Summary
+The `update` command is a smart command that either updates an existing `Food` item in the `FoodRecord` with new nutritional information,
+or updates a new `Food` item into the `FoodRecord`
+The following activity diagram summarises what happens when a user enters a valid `update` command:
+
+.Activity Diagram for Update command
+image::UpdateActivityDiagram.png[]
+
+<<<
+
+//tag:: Report[]
+=== Generate Insights Report
+This feature allows a user to generate a report that contains statistics and deliverable insights based on
+personal food consumption patterns.
+
+The functionality can be invoked by entering the `report d/DATE` command.
+This command generates a report that is based on the food consumed by
+the user on the specified date.
+
+==== Implementation
+The specified feature is facilitated by `ReportGenerator` class in the `Storage` component.
+In this section, the implementation features of the `ReportGenerator` class will be further explained.
+
+`ReportGenerator` class implements the following operation:
+
+* `ReportGenerator#generateReport()` - Creates report containing an analysis of all food consumed by user on the
+given date when inputting the `report` command.
+
+Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
+
+<<<
+
+The following sequence diagram illustrates the top-level execution of the `generateReport()` operation:
+
+image::ReportFeatureSequenceDiagram.png[]
+
+Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of 27 March 2020. +
+
+Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
+
+Step 3: The `String` input is parsed by `FoodRecordParser`, which removes the "d/" prefix tag and sends
+the date input to `ReportCommandParser`. +
+
+Step 4: Once the `ReportCommandParser` checks that the given date is valid, it creates a `ReportCommand` object and
+returns it to `LogicManager`.
+
+Step 5: `LogicManager` then executes the `ReportCommand`.
+
+Step 6: From `Model`, `ReportCommand` retrieves the `DailyFoodLog` object that stores all `Food` consumed on the input date.
+
+Step 7: From `Model`, `ReportCommand` also retrieves `DailyGoal` object, which stores the daily number of calories the user wants to consume.
+
+Step 8: With the relevant objects retrieved from Steps 6 and 7, `ReportCommand` constructs a
+`ReportGenerator` object.
+
+Step 9: Using the `ReportGenerator` object, `ReportCommand` calls `#generateInsights()`, which prints metainformation
+, food-wise statistics, aggregate statistics and insights based on the `DailyFoodLog` of the input date.
+
+Step 10: This newly generated report is saved in the `/reports` folder. If the report is successfully generated,
+the `CommandResult` is true. Otherwise, it is false. This `CommandResult` object is finally returned to `LogicManager`,
+to signify the end of the command.
+
+<<<
+
+==== Design Considerations
+
+===== Aspect: How generate report executes
+
+* *Alternative 1 (current choice):* Print insights into a .txt file.
+
+** Pros: The implementation allows users to easily edit the contents of the report should they have realised they
+did not log in certain food items on that day.
+** Cons: Users could cheat by modifying values in the report. This defeats the purpose of the report to improve their
+self-awareness of their food consumption patterns.
+
+* *Alternative 2:* Print insights into a pdf file.
+** Pros: The insights appear more legitimate and neatly formatted.
+
+** Cons: Requires use of external libraries, which occupy memory of the App. PDF files generally require
+more memory than .txt files as well.
+
+==== Summary
+The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
+
+.Activity Diagram for Report command
+image::ReportActivityDiagram.png[]
+
 
 === Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
 
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>>)
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>> below)
 * The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
 * Currently log messages are output through: `Console` and to a `.log` file.
 
 *Logging Levels*
 
-* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
+* `SEVERE` : Critical problem detected which may possibly cause the termination of the App
 * `WARNING` : Can continue, but with caution
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
@@ -260,7 +449,43 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 [[Implementation-Configuration]]
 === Configuration
 
-Certain properties of the application can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
+Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
+
+// tag::helpcommand[]
+=== Command guide `help` command
+
+==== Implementation
+
+As with any application with a plethora of commands, it is useful to have an in-app and offline method by which users can view the purpose and usage format of each command.
+
+This help feature is a functionality that is carried out by the FoodRecordParser to guide users on how to utilise the App's commands. The guide is displayed in a separate window, as handled by HelpWindow.
+
+With this, a top-level idea of the execution of the help command is given in the sequence diagram below:
+
+.Sequence Diagram for Help Command
+image::HelpSequenceDiagram.png[]
+// end::helpcommand[]
+
+Step 1: `LogicManager` takes in the user input of "help". +
+Step 2: `FoodRecordParser` is passed the String input and is parsed using `parseCommand`. +
+Step 3: This results in a `HelpCommand` object which is executed by the `LogicManager`. +
+Step 4: The `LogicManager` encapsulates the result as a `CommandResult` object which is passed back to the `MainWindow`. +
+Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpWindow` if it is not already being displayed. +
+Step 6: `HelpWindow` is displayed as a separate popup.
+
+// end::helpcommand[]
+
+==== Design consideration
+===== Aspect: How Help is displayed
+* **Alternative 1 (current choice):** `HelpWindow` is displayed as a self-contained popup.
+** Pros: User can refer to the command guide in a window separately from the main app. Additionally, no internet access is required as all information on commands are stored offline.
+** Cons: As `help` does not redirect to a url containing the most up-to-date User Guide, any changes to command functionality or addition of new commands must be updated for local display.
+* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
+** Pros: No possibility of a popup blocking the main app, and all information is contained within a single window.
+** Cons: User must use the `help` command every time they require a guide, as `ResultDisplay` will be overwritten after every command.
+
+==== Summary
+`help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
 
 == Documentation
 
@@ -281,26 +506,27 @@ Refer to the guide <<DevOps#, here>>.
 
 * wants to have, or already has, a lifestyle of eating healthy
 * has a need to manage a significant number of Food items (finding information about each Food item, tracking consumption, etc)
-* prefers desktop apps over other types
+* prefers desktop Apps over other types
 * can type fast
 * prefers typing over mouse input
-* is reasonably comfortable using CLI apps
+* is reasonably comfortable using CLI Apps
 
 *Value proposition*:
 
-* generate consumption reports and view progress and statistics
-* app tolerates incomplete inputs and produces valid entries as output
-* generate Food records as a portable file
-* manage caloric tracking faster than a typical mouse/GUI driven app
+* *Insights:* set goals, generate consumption reports and view progress and statistics
+* *Hassle-Free Convenience:* conveniently handles entry conflicts, tolerates incomplete search inputs and produces fast responses
+* *Flexibility:* generate Food records as a portable file, tracking wherever, whenever, without a device
+* *Efficiency:* manage caloric tracking faster than a typical mouse/GUI driven App
 
 [appendix]
 == User Stories
 
-Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (unlikely to have) - `*`
+Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (possible future development) - `*`
 
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
+|`* * *` |user who does not know what my food is made of |find out the nutritional composition of a particular food by name |locate details of the Food item without having to go through the entire Food record
 
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Calgo
 
@@ -308,25 +534,21 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user who may not be able to access his laptop at some time |have a copy of my past Food records |use it for physical reference
 
-|`* * *` |user who wants to save a copy of my current Food records |specify a location for the save file |have the benefit of convenience
+|`* * *` |user who wants to save a copy of my current Food records |save my file at a convenient location |easily access it
 
 |`* * *` |user who dislikes sieving through information and prefers to have only the relevant information presented |have a way to easily find what Food items I want in the records |save time and effort and not get annoyed
 
-|`* * *` |food who does not know what my food is made of |find out the nutritional composition of a particular food by name |locate details of the Food item without having to go through the entire Food record
-
-|`* * *` |lazy user who does not like typing too many tedious characters |have some form of autocomplete or input correction measure |obtain the same intended results for a search through the Food records as in the case of typing fully and correctly
-
-|`* * *` |user who cannot fully remember the Food name |have some form of autocomplete or input correction measure for incomplete keywords |obtain the possible results for a search through the Food records as in the case of typing fully and correctly
-
-|`* * *` |user who cannot fully remember the Food name |access a Food item's information by any one of its nutritional values I happen to remember |obtain a list of possible Food items that are relevant
+|`* * *` |lazy user who does not like typing too many tedious characters |find entries using incomplete words or phrases |obtain the same intended results for a search through the Food records as in the case of typing fully and correctly
 
 |`* * *` |user who dislikes memorising things |have an option to see the entire Food record |know what Food items have their data currently in the records
+
+|`* * *` |user who has many entries |view entire food record in lexicographic order |easily navigate to the entry in the record
 
 |`* * *` |user who is forgetful | be able to edit the nutritional value of a previously saved Food item in the Food record | I can edit the Food Item if I remembered a nutrition value of the Food Item wrongly previously
 
 |`* * *` |user who is busy | be able to create a list of Food records with preset nutritional values| so that I can quickly choose a Food Item with preset values and add it to my calorie tracker
 
-|`* * *` |user who don't like redundant things | see and be warned if a Food item that I am about to update my Food Record with already exists| so that I can save time and effort and not create a duplicate item in the Food record.
+|`* * *` |user who doesn't like redundant things | see and be warned if a Food item that I am about to update my Food Record with already exists| so that I can save time and effort and not create a duplicate item in the Food record.
 
 |`* * *` |user who gets bored of food easily |delete a Food item that I no longer want to eat in future from my Food records| so that I do not have so many Food items in the Food records that I no longer eat.
 
@@ -334,23 +556,27 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user who cannot decide on what to eat | obtain a list of personalised food recommendations that still align with my dietary goals | do not waste time deciding what to eat nor will I give in to impulse and eat junk food.
 
-|`* * *` |user who is interested to lose weight | find out the number of calorie I have consumed each day | can check which days I have exceed my desired number of daily calorie and exercise more to compensate.
+|`* * *` |user who is interested to lose weight | find out the number of calories I have consumed each day | can check which days I have exceed my desired number of daily calorie and exercise more to compensate.
 
 |`* * *` |user who is busy | obtain an easy-to-understand consumption report | quickly understand my food consumption patterns and make plans to rectify them accordingly.
 
-|`* * *` |user who is a fitness influencer | get a screenshot and share my daily food consumption | can inspire my followers.
-
 |`* * *` |user who remembers the big picture but not the specifics | search for a particular part of a guide | not be bothered by unnecessary information.
 
-|`* *` |forgetful user | be able to find exact command formats | so that I won't need to go through the trouble of memorising commands
+|`* *` |forgetful user | be able to lookup exact command formats | so that I won't need to go through the trouble of memorising commands
 
 |`* * *` | user who values visuals | curated information expressed in a well organised graph | intuitively understand information
 
 |`* * *` | user who values opinions | have some suggestions based on my goals and consumption patterns | know my options when I am indecisive on what to eat
 
+|`* *` |user who cannot fully remember the Food name |access a Food item's information by any one of its nutritional values I happen to remember |obtain a list of possible Food items that are relevant
+
+|`* *` |fitness influencer | get a screenshot and share my daily food consumption | can conveniently continue to inspire my followers.
+
+|`*` |user who cannot fully remember the food name |have some form of autocomplete or input correction measure for incomplete keywords |obtain the possible results for a search through the Food records as in the case of typing fully and correctly
+
 |=======================================================================
 
-_{More to be added}_
+_{More to be added as development proceeds and is always ongoing}_
 
 [appendix]
 == Use Cases
@@ -358,114 +584,125 @@ _{More to be added}_
 (For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: find Food item by name
+
+=== Use case: obtain reference for app's commands
 
 *MSS*
 
-1.  User requests to find a Food item by the `name` keyword, which can be an incomplete word
-2.  Calgo shows a list of Food items which contains `name` in any part of the name of the Food item
+1.  User requests for a guide on the app's commands
+2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
++
+Use case ends.
+
+[discrete]
+=== Use case: `find` `Food` item by keyword (which can be an incomplete word)
+
+*MSS*
+
+1.  User requests to find a `Food` item by the keyword.
+2.  `Calgo` shows a list of `Food` items which contains `name` in any part of the name of the `Food` item.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-*The Food record is empty* +
-A message indicating that no such Food item exists is shown +
-Use case ends
+*The `FoodRecord` is empty* +
+A message indicating that zero matching `Food` items exist is shown. +
+Use case ends.
 
 [discrete]
-=== Use case: find Food item by nutritional value
+=== Use case: `find` `Food` item by nutritional value
 
 *MSS*
 
-1.  User requests to find a Food item by any nutritional value of protein, carbohydrates, or fats
-2.  Calgo shows a list of Food items in the Food records which has the same nutritional values
+1.  User requests to `find` a `Food` item by a single nutritional value of `Protein`, `Carbohydrate`, or `Fat` (indicated by the prefix).
+2.  `Calgo` shows a list of `Food` items in the `FoodRecord` which has the same nutritional values.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-*The Food record is empty.* +
-A message indicating that no such Food item exists is shown. +
+*The `FoodRecord` is empty.* +
+`Calgo` shows a message indicating that 0 matching `Food` items exist. +
 Use case ends.
 
 [discrete]
-=== Use case: export current Food records
+=== Use case: `export` current `FoodRecord`
 
 *MSS*
 
-1.  User requests to export the current Food records at a target location
-2.  Calgo creates a human-readable text file containing all Food item details at the target location
+1.  User requests to `export` the current `FoodRecord`.
+2.  Calgo creates a user-friendly text file `FoodRecord.txt` containing all `Food` item details in the `exports` folder.
 +
 Use case ends.
 
 [discrete]
-=== Use case: list current Food records
+=== Use case: `list` all current `Food` entries
 
 *MSS*
 
-1.  User requests to list the current Food records
-2.  Calgo shows a list of all Food items in the current Food records
+1.  User requests to `list` all current `FoodRecord` entries.
+2.  `Calgo` shows a list of all `Food` items in the current `FoodRecord`.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-*The Food record is empty.* +
-A message indicating that the Food records are currently empty is shown. +
+*The `FoodRecord` is empty.* +
+`Calgo` shows a message indicating that the `FoodRecord` is currently empty. +
 Use case ends.
 
 [discrete]
-=== Use case: update current Food record with new Food Item
+=== Use case: `update` current `FoodRecord` with a new `Food` item
 
 *MSS*
 
-1.  User requests to add a new Food Item in the Food Records
-2.  Calgo creates and saves a new Food Item in the Food Records with nutritional information specified by user.
+1.  User requests to add a new `Food` item in the `FoodRecord`.
+2.  `Calgo` creates and saves a new `Food` item in the `FoodRecord` with nutritional information specified by user.
 +
 Use case ends.
 
 [discrete]
-=== Use case: update an existing Food Item in current Food record
+=== Use case: `update` an existing `Food` item in current `FoodRecord`
 
 *MSS*
 
-1.  User requests to edit an existing Food Item in the Food Records
-2.  Calgo replaces the existing Food Item's nutritional value with the new nutritional information in the Food Records.
+1.  User requests to edit an existing `Food` item in the `FoodRecord`.
+2.  `Calgo` replaces the existing `Food` item's nutritional values with the new information.
 +
 Use case ends.
 
 [discrete]
-=== Use case: delete an existing Food Item in current Food record
+=== Use case: `delete` an existing `Food` item in current `FoodRecord`
 
 *MSS*
 
-1.  User requests to delete an existing Food Item from the Food Records
-2.  Calgo deletes the existing Food Item in the Food Records.
+1.  User requests to delete an existing `Food` item from the `FoodRecord`
+2.  `Calgo` deletes the existing `Food` item in the `FoodRecord`.
 +
 Use case ends.
 
 [discrete]
-=== Use case: set a dietary goal.
+=== Use case: set a dietary `goal`
 
 *MSS*
 
-1.  User sets a dietary goal for the daily number of calorie to be consumed.
-2.  Calgo stores this goal in user preferences and analyses food consumption with respect to this goal.
+1.  User uses `goal` command to set a dietary `DailyGoal` for the daily number of `Calorie` s to be consumed.
+2.  `Calgo` stores this `DailyGoal` in user preferences and analyses `Food` consumption with respect to this `goal`.
 +
 Use case ends.
 
 
 [discrete]
-=== Use case: generate a report on a specific day.
+=== Use case: generate a `report` on a specific day.
 
 *MSS*
 
-1.  User requests to obtain a report on his or her food consumption pattern on a particular day.
-2.  Calgo analyses food consumed on that day and generates a document with actionable insights for the user.
+1.  User requests to obtain a `report` on his or her `Food` consumption patterns on a particular day.
+2.  Calgo analyses the `Food` consumed on that day and generates a document with actionable insights for the user.
 +
 Use case ends.
 
@@ -477,10 +714,16 @@ Use case ends.
 .  Should be able to hold up to 1000 Food items without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Calgo should work on both 32-bit and 64-bit environments.
-.  The product expects users to initially find out about Food items and their respective nutritional values for creating Food item entries.
+.  The product expects users to initially find out about Food items and their respective nutritional values for creating Food item entries for the first time.
 
 [appendix]
 == Glossary
+
+[[food]] Food::
+`Food` items entered by the user to represent a real life Food. This contains nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
+
+[[food-records]] Food Records::
+The accumulated list of all `Food` items entered by the user, containing nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
@@ -508,7 +751,7 @@ Cons:
 [appendix]
 == Instructions for Manual Testing
 
-Given below are instructions to test the app manually.
+Given below are instructions to test the App manually.
 
 [NOTE]
 These instructions only provide a starting point for testers to work on; testers are expected to do more _exploratory_ testing.
@@ -524,24 +767,28 @@ These instructions only provide a starting point for testers to work on; testers
 . Saving window preferences
 
 .. Resize the window to an optimum size. Move the window to a different location. Close the window.
-.. Re-launch the app by double-clicking the jar file. +
+.. Re-launch the App by double-clicking the jar file. +
    Expected: The most recent window size and location is retained.
 
-_{ more test cases ... }_
+=== Deleting a `Food`
 
-=== Deleting a food
+. Deleting a `Food` item from the `FoodRecord`
 
-. Deleting a food while all foods are listed
-
-.. Prerequisites: List all foods using the `list` command. Multiple foods in the list.
-.. Test case: `delete 1` +
-   Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+.. Prerequisites: Launch `Calgo` succesfully and a `Food` item Apple already exists in `FoodRecord`
+.. Test case: `delete n\Apple` +
+   Expected: `Food` item Apple is deleted from `FoodRecord`. Details of the deleted `Food` shown in the status message.
 .. Test case: `delete 0` +
    Expected: No food is deleted. Error details shown in the status message. Status bar remains the same.
-.. Other incorrect delete commands to try: `delete`, `delete x` (where x is larger than the list size) _{give more}_ +
+.. Other incorrect delete commands to try: `delete`, `delete n/Banana` (where `Food` banana does not exists in `FoodRecord`) +
    Expected: Similar to previous.
 
-_{ more test cases ... }_
+
+=== Listing all `Food` entries
+
+. Listing down all entries, regardless of previous commands
+.. Prerequisites: Launch `Calgo` successfully.
+.. Test case: `list` +
+Expected: The GUI will show all `Food` entries existing in the `FoodRecord`.
 
 === Saving data
 
