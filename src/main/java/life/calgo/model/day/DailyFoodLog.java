@@ -17,17 +17,21 @@ import life.calgo.model.food.Food;
 public class DailyFoodLog {
 
     private final LinkedHashMap<Food, Double> foods;
+    private final LinkedHashMap<Food, ArrayList<Integer>> ratings;
     private final LocalDate localDate;
 
     public DailyFoodLog() {
         foods = new LinkedHashMap<>();
+        ratings = new LinkedHashMap<>();
         localDate = LocalDate.now();
     }
 
-    public DailyFoodLog(LinkedHashMap<Food, Double> foods, LocalDate localDate) {
+    public DailyFoodLog(LinkedHashMap<Food, Double> foods,
+                        LinkedHashMap<Food, ArrayList<Integer>> ratings, LocalDate localDate) {
         requireAllNonNull(foods, localDate);
         this.foods = foods;
         this.localDate = localDate;
+        this.ratings = ratings;
     }
 
     @Override
@@ -84,11 +88,11 @@ public class DailyFoodLog {
     }
 
     public DailyFoodLog consume(Food food, double quantity) {
-        return new DailyFoodLog(this.add(food, quantity), localDate);
+        return new DailyFoodLog(this.add(food, quantity), copyRatings(), localDate);
     }
 
     public DailyFoodLog vomit(Food food, OptionalDouble quantity) {
-        return new DailyFoodLog(this.remove(food, quantity), localDate);
+        return new DailyFoodLog(this.remove(food, quantity), copyRatings(),localDate);
     }
 
     public DailyFoodLog updateFoodWithSameName(Food newFood) {
@@ -100,7 +104,7 @@ public class DailyFoodLog {
                 foods.put(food, foods.get(food));
             }
         }
-        return new DailyFoodLog(foods, localDate);
+        return new DailyFoodLog(foods, copyRatings(), localDate);
     }
 
     /**
@@ -122,11 +126,13 @@ public class DailyFoodLog {
     }
 
     public DailyFoodLog setDate(LocalDate date) {
-        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
-        for (Food food: this.foods.keySet()) {
-            foods.put(food, this.foods.get(food));
-        }
-        return new DailyFoodLog(foods, date);
+        return new DailyFoodLog(copyFoods(), copyRatings(), date);
+    }
+
+    public DailyFoodLog addRating(Food food, int rating) {
+        LinkedHashMap<Food, ArrayList<Integer>> ratings = copyRatings();
+        ratings.get(food).add(rating);
+        return new DailyFoodLog(copyFoods(), ratings, localDate);
     }
 
     /**
@@ -174,15 +180,28 @@ public class DailyFoodLog {
                 && otherLog.getLocalDate().equals(getLocalDate());
     }
 
+    public LinkedHashMap<Food, ArrayList<Integer>> copyRatings() {
+        LinkedHashMap<Food, ArrayList<Integer>> ratings = new LinkedHashMap<>();
+        for (Food food: this.ratings.keySet()) {
+            ratings.put(food, new ArrayList<>(this.ratings.get(food)));
+        }
+        return ratings;
+    }
+
+    public LinkedHashMap<Food, Double> copyFoods() {
+        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
+        for (Food food: this.foods.keySet()) {
+            foods.put(food, this.foods.get(food));
+        }
+        return foods;
+    }
+
     /**
      * A method to obtain copy of existing data structure
      * @return a copy of existing DailyFoodLog
      */
     public DailyFoodLog copy() {
-        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
-        for (Food food : this.foods.keySet()) {
-            foods.put(food, this.foods.get(food));
-        }
-        return new DailyFoodLog(foods, localDate);
+        return new DailyFoodLog(copyFoods(), copyRatings(), localDate);
     }
+
 }

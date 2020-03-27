@@ -64,9 +64,13 @@ public class NomCommandParser implements Parser<NomCommand> {
         if (!optionalFood.isPresent()) {
             throw new ParseException(MESSAGE_EMPTY_NAME);
         }
+
+        assert (!optionalFood.get().equals(Optional.empty()));
+
         foodLog = foodLog.consume(optionalFood.get(), portion);
         if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
-
+            int rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING).get());
+            foodLog = foodLog.addRating(optionalFood.get(), rating);
         }
         return new NomCommand(foodLog, optionalFood.get());
     }

@@ -32,6 +32,7 @@ public class ParserUtil {
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
     private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty";
     private static final String MESSAGE_INVALID_POSITION = "Position should be an integer!";
+    private static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -128,6 +129,21 @@ public class ParserUtil {
         return value;
     }
 
+    public static int parseRating(String rating) throws ParseException {
+        requireNonNull(rating);
+        String trimmedRating = rating.trim();
+        boolean withinRange = true;
+        int parsedInt = -1;
+        if (isInteger(trimmedRating)) {
+            parsedInt = Integer.parseInt(trimmedRating);
+            withinRange = parsedInt >= 0 && parsedInt <= 10;
+        }
+        if (!withinRange) {
+            throw new ParseException(MESSAGE_INVALID_RATING);
+        }
+        return parsedInt;
+    }
+
     /**
      * Parses given String representation of position into an OptionalInt
      * Position refers to index the food object has in food record display
@@ -137,6 +153,7 @@ public class ParserUtil {
     public static int parsePosition(String position) throws ParseException {
         requireNonNull(position);
         String trimmedPosition = position.trim();
+        // We do not check range of position here because only foods in DailyFoodLog knows.
         if (!isInteger(trimmedPosition)) {
             throw new ParseException(MESSAGE_INVALID_POSITION);
         }
