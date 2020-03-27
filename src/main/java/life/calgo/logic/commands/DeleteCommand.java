@@ -20,7 +20,7 @@ public class DeleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " pizza";
 
     public static final String MESSAGE_DELETE_FOOD_SUCCESS = "Deleted food: %1$s";
-    public static final String MESSAGE_FOOD_NOT_FOUND = "This food does not exist in the Food Records";
+    public static final String MESSAGE_FOOD_DOES_NOT_EXISTS_IN_RECORD = "This food does not exist in the Food Records";
 
 
     private final Food toDelete;
@@ -35,7 +35,7 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
 
         if (!model.hasFood(toDelete)) {
-            throw new CommandException(MESSAGE_FOOD_NOT_FOUND);
+            throw new CommandException(MESSAGE_FOOD_DOES_NOT_EXISTS_IN_RECORD);
         }
 
         Food foodToDelete = model.getExistingFood(toDelete);
