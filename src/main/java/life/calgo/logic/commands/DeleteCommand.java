@@ -17,7 +17,7 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the food identified by the name of the food in the displayed food record.\n"
             + "Parameters: " + CliSyntax.PREFIX_NAME + "NAME "
-            + "Example: " + COMMAND_WORD + " pizza";
+            + "Example: " + COMMAND_WORD + " n/pizza";
 
     public static final String MESSAGE_DELETE_FOOD_SUCCESS = "Deleted food: %1$s";
     public static final String MESSAGE_FOOD_DOES_NOT_EXISTS_IN_RECORD = "This food does not exist in the Food Records";

@@ -15,7 +15,9 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.GuiSettings;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.storage.GoalStorage;
 import life.calgo.testutil.FoodRecordBuilder;
 
 public class ModelManagerTest {
@@ -61,47 +63,48 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void setAddressBookFilePath_nullPath_throwsNullPointerException() {
+    public void setFoodRecordFilePath_nullPath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.setFoodRecordFilePath(null));
     }
 
     @Test
-    public void setAddressBookFilePath_validPath_setsAddressBookFilePath() {
-        Path path = Paths.get("address/book/file/path");
+    public void setFoodRecordFilePath_validPath_setsFoodRecordFilePath() {
+        Path path = Paths.get("food/record/file/path");
         modelManager.setFoodRecordFilePath(path);
         assertEquals(path, modelManager.getFoodRecordFilePath());
     }
 
     @Test
-    public void hasPerson_nullPerson_throwsNullPointerException() {
+    public void hasFood_nullFood_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> modelManager.hasFood(null));
     }
 
     @Test
-    public void hasPerson_personNotInAddressBook_returnsFalse() {
-        assertFalse(modelManager.hasFood(ALICE));
+    public void hasFood_foodNotInFoodRecord_returnsFalse() {
+        assertFalse(modelManager.hasFood(APPLE));
     }
 
     @Test
-    public void hasPerson_personInAddressBook_returnsTrue() {
+    public void hasFood_personInFoodRecord_returnsTrue() {
         modelManager.addFood(APPLE);
         assertTrue(modelManager.hasFood(APPLE));
     }
 
     @Test
-    public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
+    public void getFilteredFoodList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredFoodRecord().remove(0));
     }
 
     @Test
     public void equals() {
-        FoodRecord foodRecord = new FoodRecordBuilder().with(APPLE).withPerson(BA).build();
+        FoodRecord foodRecord = new FoodRecordBuilder().withFood(APPLE).withFood(BANANA_MILKSHAKE).build();
         FoodRecord differentFoodRecord = new FoodRecord();
         UserPrefs userPrefs = new UserPrefs();
+        DailyGoal dailyGoal = new DailyGoal();
 
         // same values -> returns true
-        modelManager = new ModelManager(foodRecord, userPrefs);
-        ModelManager modelManagerCopy = new ModelManager(foodRecord, userPrefs);
+        modelManager = new ModelManager(foodRecord, userPrefs, dailyGoal);
+        ModelManager modelManagerCopy = new ModelManager(foodRecord, userPrefs, dailyGoal);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -114,12 +117,12 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(5));
 
         // different addressBook -> returns false
-        assertFalse(modelManager.equals(new ModelManager(differentFoodRecord, userPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(differentFoodRecord, userPrefs, dailyGoal)));
 
         // different filteredList -> returns false
-        String[] keywords = ALICE.getName().fullName.split("\\s+");
+        String[] keywords = APPLE.getName().fullName.split("\\s+");
         modelManager.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
-        assertFalse(modelManager.equals(new ModelManager(foodRecord, userPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(foodRecord, userPrefs, dailyGoal)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredFoodRecord(PREDICATE_SHOW_ALL_FOODS);
@@ -127,6 +130,6 @@ public class ModelManagerTest {
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setFoodRecordFilePath(Paths.get("differentFilePath"));
-        assertFalse(modelManager.equals(new ModelManager(foodRecord, differentUserPrefs)));
+        assertFalse(modelManager.equals(new ModelManager(foodRecord, differentUserPrefs, dailyGoal)));
     }
 }

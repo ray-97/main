@@ -1,5 +1,5 @@
 {
-  "foodItems": [ {
+  "foods": [ {
     "name": "Valid Food",
     "calorie": "200",
     "protein": "20",

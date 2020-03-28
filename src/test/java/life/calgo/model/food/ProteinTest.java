@@ -2,10 +2,10 @@ package life.calgo.model.food;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.testutil.Assert.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 import life.calgo.testutil.Assert;
-import org.junit.jupiter.api.Test;
 
 public class ProteinTest {
 
@@ -15,23 +15,25 @@ public class ProteinTest {
     }
 
     @Test
-    public void constructor_invalidAddress_throwsIllegalArgumentException() {
-        String invalidAddress = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Protein(invalidAddress));
+    public void constructor_invalidProtein_throwsIllegalArgumentException() {
+        String invalidProtein = "";
+        Assert.assertThrows(IllegalArgumentException.class, () -> new Protein(invalidProtein));
     }
 
     @Test
-    public void isValidAddress() {
-        // null address
+    public void isValidProtein() {
+        // null fat
         Assert.assertThrows(NullPointerException.class, () -> Protein.isValidProtein(null));
 
-        // invalid addresses
+        // invalid fat
         assertFalse(Protein.isValidProtein("")); // empty string
         assertFalse(Protein.isValidProtein(" ")); // spaces only
+        assertFalse(Protein.isValidProtein("phone")); // non-numeric
+        assertFalse(Protein.isValidProtein("9011p041")); // alphabets within digits
+        assertFalse(Protein.isValidProtein("9312 1534")); // spaces within digits
 
-        // valid addresses
-        assertTrue(Protein.isValidProtein("Blk 456, Den Road, #01-355"));
-        assertTrue(Protein.isValidProtein("-")); // one character
-        assertTrue(Protein.isValidProtein("Leng Inc; 1234 Market St; San Francisco CA 2349879; USA")); // long address
+        // valid fat
+        assertTrue(Protein.isValidProtein("122"));  // normal fat number
+        assertTrue(Protein.isValidProtein("124293842033123")); // long fat numbers
     }
 }

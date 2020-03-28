@@ -63,17 +63,6 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-//    public static final EditCommand.EditFoodDescriptor DESC_APPLE;
-//    public static final EditCommand.EditFoodDescriptor DESC_   BANANA;
-
-//    static {
-//        DESC_APPLE = new EditPersonDescriptorBuilder().withName(VALID_NAME_APPLE)
-//                .withPhone(VALID_CALORIE_APPLE).withEmail(VALID_CARBOHYDRATE_APPLE).withAddress(VALID_PROTEIN_APPLE)
-//                .withTags(VALID_TAG_FRIEND).build();
-//        DESC_  BANANA = new EditPersonDescriptorBuilder().withName(VALID_NAME_  BANANA)
-//                .withPhone(VALID_CALORIE_BANANA).withEmail(VALID_CARBOHYDRATE_   BANANA).withAddress(VALID_PROTEIN_   BANANA)
-//                .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-//    }
 
     /**
      * Executes the given {@code command}, confirms that <br>

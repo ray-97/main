@@ -2,7 +2,7 @@ package life.calgo.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static life.calgo.testutil.TypicalPersons.getTypicalAddressBook;
+import static life.calgo.testutil.TypicalFoodItems.getTypicalFoodRecord;
 
 import java.nio.file.Path;
 
@@ -24,9 +24,10 @@ public class StorageManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonFoodRecordStorage addressBookStorage = new JsonFoodRecordStorage(getTempFilePath("ab"));
+        JsonFoodRecordStorage foodRecordStorage = new JsonFoodRecordStorage(getTempFilePath("fc"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonGoalStorage goalStorage = new JsonGoalStorage(getTempFilePath("goal"));
+        storageManager = new StorageManager(foodRecordStorage, userPrefsStorage, goalStorage);
     }
 
     private Path getTempFilePath(String fileName) {
@@ -48,13 +49,13 @@ public class StorageManagerTest {
     }
 
     @Test
-    public void addressBookReadSave() throws Exception {
+    public void foodRecordReadSave() throws Exception {
         /*
          * Note: This is an integration test that verifies the StorageManager is properly wired to the
          * {@link JsonAddressBookStorage} class.
          * More extensive testing of UserPref saving/reading is done in {@link JsonAddressBookStorageTest} class.
          */
-        FoodRecord original = getTypicalAddressBook();
+        FoodRecord original = getTypicalFoodRecord();
         storageManager.saveFoodRecord(original);
         ReadOnlyFoodRecord retrieved = storageManager.readFoodRecord().get();
         assertEquals(original, new FoodRecord(retrieved));

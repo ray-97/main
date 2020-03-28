@@ -1,6 +1,7 @@
 package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static life.calgo.testutil.TypicalFoodItems.getTypicalFoodRecord;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import life.calgo.model.*;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
@@ -24,13 +26,13 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.ObservableList;
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.logic.commands.exceptions.CommandException;
-import life.calgo.model.FoodRecord;
-import life.calgo.model.Model;
-import life.calgo.model.ReadOnlyFoodRecord;
-import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.food.Food;
+import life.calgo.testutil.TypicalFoodItems;
+import life.calgo.testutil.TypicalIndexes;
 
 public class UpdateCommandTest {
+
+    private Model model = new ModelManager(getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
 
     @Test
     public void constructor_nullFood_throwsNullPointerException() {
@@ -42,10 +44,10 @@ public class UpdateCommandTest {
         ModelStubAcceptingFoodAdded modelStub = new ModelStubAcceptingFoodAdded();
         Food validFood = new FoodBuilder().build();
 
-        CommandResult commandResult = new UpdateCommand(validFood).execute(modelStub);
+        CommandResult commandResult = new UpdateCommand(validFood).execute(model);
 
         assertEquals(String.format(UpdateCommand.MESSAGE_SUCCESS, validFood), commandResult.getFeedbackToUser());
-        assertEquals(Arrays.asList(validFood), modelStub.foodItemsAdded);
+        assertTrue(model.hasFood(validFood));
     }
 
     @Test
@@ -54,11 +56,12 @@ public class UpdateCommandTest {
         Food editedFood = new FoodBuilder().withProtein("222222").build();
         UpdateCommand updateCommand = new UpdateCommand(editedFood);
 
-        ModelStub modelStub = new ModelStubWithFood(validFood);
+        model.addFood(validFood);
 
-        CommandResult commandResult = updateCommand.execute(modelStub);
+        CommandResult commandResult = updateCommand.execute(model);
 
-        assertEquals(String.format(UpdateCommand.MESSAGE_SUCCESS, validFood), commandResult.getFeedbackToUser());
+        assertEquals(String.format(UpdateCommand.MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, editedFood), commandResult.getFeedbackToUser());
+        assertTrue(model.hasFood(editedFood));
     }
 
     @Test

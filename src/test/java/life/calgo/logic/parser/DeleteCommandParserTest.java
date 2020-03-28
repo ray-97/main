@@ -22,8 +22,13 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsDeleteCommand() {
-        Food food = new FoodBuilder().withName("Apple").build();
-        CommandParserTestUtil.assertParseSuccess(parser, "n/Apple", new DeleteCommand(food));
+        Food food = new FoodBuilder().withName("Apple")
+                .withCalorie("0")
+                .withProtein("0")
+                .withCarbohydrate("0")
+                .withFat("0")
+                .build();
+        CommandParserTestUtil.assertParseSuccess(parser, " n/Apple", new DeleteCommand(food));
     }
 
     @Test

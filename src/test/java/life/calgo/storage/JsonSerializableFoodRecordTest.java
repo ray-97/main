@@ -11,22 +11,22 @@ import org.junit.jupiter.api.Test;
 import life.calgo.commons.exceptions.IllegalValueException;
 import life.calgo.commons.util.JsonUtil;
 import life.calgo.model.FoodRecord;
-import life.calgo.testutil.TypicalPersons;
+import life.calgo.testutil.TypicalFoodItems;
 
-public class JsonSerializableProteinBookTest {
+public class JsonSerializableFoodRecordTest {
 
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonSerializableFoodRecordTest");
-    private static final Path TYPICAL_FOODITEMS_FILE = TEST_DATA_FOLDER.resolve("typicalFoodItemsFoodRecord.json");
+    private static final Path TYPICAL_FOOD_ITEMS_FILE = TEST_DATA_FOLDER.resolve("typicalFoodItemsFoodRecord.json");
     private static final Path INVALID_FOOD_FILE = TEST_DATA_FOLDER.resolve("invalidFoodItemFoodRecord.json");
     private static final Path DUPLICATE_FOOD_FILE = TEST_DATA_FOLDER.resolve("duplicateFoodItemFoodRecord.json");
 
     @Test
     public void toModelType_typicalFoodItemsFile_success() throws Exception {
-        JsonSerializableFoodRecord dataFromFile = JsonUtil.readJsonFile(TYPICAL_FOODITEMS_FILE,
+        JsonSerializableFoodRecord dataFromFile = JsonUtil.readJsonFile(TYPICAL_FOOD_ITEMS_FILE,
                 JsonSerializableFoodRecord.class).get();
         FoodRecord foodRecordFromFile = dataFromFile.toModelType();
-        FoodRecord typicalPersonsFoodRecord = TypicalPersons.getTypicalAddressBook();
-        assertEquals(foodRecordFromFile, typicalPersonsFoodRecord);
+        FoodRecord typicalFoodItemsFoodRecord = TypicalFoodItems.getTypicalFoodRecord();
+        assertEquals(foodRecordFromFile, typicalFoodItemsFoodRecord);
     }
 
     @Test

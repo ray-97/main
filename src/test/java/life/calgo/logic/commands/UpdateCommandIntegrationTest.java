@@ -1,12 +1,11 @@
 package life.calgo.logic.commands;
 
-import static life.calgo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import life.calgo.model.day.DailyGoal;
 import life.calgo.testutil.FoodBuilder;
 import life.calgo.testutil.TypicalFoodItems;
-import life.calgo.testutil.TypicalPersons;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,12 +39,14 @@ public class UpdateCommandIntegrationTest {
 
     @Test
     public void execute_existingFood_success() {
-        Food validFood = new FoodBuilder().build();
+        Food validFood = new FoodBuilder().withName("Almond").build();
         Food existingFood = model.getFoodRecord().getFoodList().get(0);
+
         Model expectedModel = new ModelManager(model.getFoodRecord(), new UserPrefs(), new DailyGoal());
         expectedModel.setFood(existingFood, validFood);
+
         assertCommandSuccess(new UpdateCommand(validFood), model,
-                String.format(UpdateCommand.MESSAGE_SUCCESS, validFood), expectedModel);
+                String.format(UpdateCommand.MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, validFood), expectedModel);
     }
 
 }

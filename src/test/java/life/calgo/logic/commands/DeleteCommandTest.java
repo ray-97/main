@@ -10,7 +10,7 @@ import life.calgo.model.day.DailyGoal;
 import life.calgo.testutil.FoodBuilder;
 import life.calgo.testutil.TypicalFoodItems;
 import life.calgo.testutil.TypicalIndexes;
-import life.calgo.testutil.TypicalPersons;
+
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.Messages;
@@ -46,7 +46,7 @@ public class DeleteCommandTest {
         Food food = new FoodBuilder().withName("Definitely does not exists").build();
         DeleteCommand deleteCommand = new DeleteCommand(food);
 
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
+        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_FOOD_DOES_NOT_EXISTS_IN_RECORD);
     }
 
     @Test
@@ -65,19 +65,6 @@ public class DeleteCommandTest {
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
-    @Test
-    public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showFoodAtIndex(model, TypicalIndexes.INDEX_FIRST_FOOD);
-
-        Index outOfBoundIndex = TypicalIndexes.INDEX_SECOND_FOOD;
-        Food outOfBoundFood = model.getFilteredFoodRecord().get(outOfBoundIndex.getZeroBased());
-        // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getFoodRecord().getFoodList().size());
-
-        DeleteCommand deleteCommand = new DeleteCommand(outOfBoundFood);
-
-        assertCommandFailure(deleteCommand, model, Messages.MESSAGE_FOOD_DOES_NOT_EXISTS_IN_RECORD);
-    }
 
     @Test
     public void equals() {

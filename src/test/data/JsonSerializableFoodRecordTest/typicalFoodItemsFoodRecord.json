@@ -1,7 +1,7 @@
 {
   "_comment": "FoodRecord save file which contains the same Food values as in TypicalFoodItems#getTypicalFoodRecord()",
-  "persons" : [ {
-    "name": "Apple",
+  "foods" : [ {
+    "name": "Almond",
     "calorie": "95",
     "protein": "20",
     "carbohydrate": "20",

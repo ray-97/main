@@ -4,7 +4,7 @@ import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import life.calgo.model.day.DailyGoal;
 import life.calgo.testutil.TypicalFoodItems;
-import life.calgo.testutil.TypicalPersons;
+
 import org.junit.jupiter.api.Test;
 
 import life.calgo.model.FoodRecord;

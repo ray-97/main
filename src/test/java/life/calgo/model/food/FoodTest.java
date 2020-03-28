@@ -8,7 +8,7 @@ import life.calgo.logic.commands.CommandTestUtil;
 import life.calgo.testutil.Assert;
 import life.calgo.testutil.FoodBuilder;
 import life.calgo.testutil.TypicalFoodItems;
-import life.calgo.testutil.TypicalPersons;
+
 import org.junit.jupiter.api.Test;
 
 public class FoodTest {
@@ -22,32 +22,19 @@ public class FoodTest {
     @Test
     public void isSameFood() {
         // same object -> returns true
-        assertTrue(TypicalFoodItems.APPLE.isSameFood(TypicalFoodItems.APPLE)));
+        assertTrue(TypicalFoodItems.APPLE.isSameFood(TypicalFoodItems.APPLE));
 
         // null -> returns false
         assertFalse(TypicalFoodItems.APPLE.isSameFood(null));
 
-        // different phone and email -> returns false
-        Food editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withCalorie(CommandTestUtil.VALID_PHONE_BOB).withFat(CommandTestUtil.VALID_EMAIL_BOB).build();
-        assertFalse(TypicalFoodItems.APPLE.isSameFood(editedAlice));
+        // same name, different attributes -> returns true
+        Food editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withCalorie(CommandTestUtil.VALID_CALORIE_BANANA).withFat(CommandTestUtil.VALID_PROTEIN_BANANA).build();
+        assertTrue(TypicalFoodItems.APPLE.isSameFood(editedApple));
 
         // different name -> returns false
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withName(CommandTestUtil.VALID_NAME_BOB).build();
-        assertFalse(TypicalFoodItems.APPLE.isSameFood(editedAlice));
+        editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withName(CommandTestUtil.VALID_NAME_BANANA).build();
+        assertFalse(TypicalFoodItems.APPLE.isSameFood(editedApple));
 
-        // same name, same phone, different attributes -> returns true
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withFat(CommandTestUtil.VALID_EMAIL_BOB).withProtein(CommandTestUtil.VALID_ADDRESS_BOB)
-                .withTags(CommandTestUtil.VALID_TAG_HUSBAND).build();
-        assertTrue(TypicalFoodItems.APPLE.isSameFood(editedAlice));
-
-        // same name, same email, different attributes -> returns true
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withCalorie(CommandTestUtil.VALID_PHONE_BOB).withProtein(CommandTestUtil.VALID_ADDRESS_BOB)
-                .withTags(CommandTestUtil.VALID_TAG_HUSBAND).build();
-        assertTrue(TypicalFoodItems.APPLE.isSameFood(editedAlice));
-
-        // same name, same phone, same email, different attributes -> returns true
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withProtein(CommandTestUtil.VALID_ADDRESS_BOB).withTags(CommandTestUtil.VALID_TAG_HUSBAND).build();
-        assertTrue(TypicalFoodItems.APPLE.isSameFood(editedAlice));
     }
 
     @Test
@@ -65,27 +52,32 @@ public class FoodTest {
         // different type -> returns false
         assertFalse(TypicalFoodItems.APPLE.equals(5));
 
-        // different person -> returns false
+        // different food -> returns false
         assertFalse(TypicalFoodItems.APPLE.equals(TypicalFoodItems.BANANA_MILKSHAKE));
 
         // different name -> returns false
-        Food editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withName(CommandTestUtil.VALID_NAME_BOB).build();
-        assertFalse(TypicalFoodItems.APPLE.equals(editedAlice));
+        Food editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withName(CommandTestUtil.VALID_NAME_BANANA).build();
+        assertFalse(TypicalFoodItems.APPLE.equals(editedApple));
 
-        // different phone -> returns false
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withCalorie(CommandTestUtil.VALID_PHONE_BOB).build();
-        assertFalse(TypicalFoodItems.APPLE.equals(editedAlice));
+        // same name, different calorie -> returns false
+        editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withCalorie(CommandTestUtil.VALID_CALORIE_BANANA).build();
+        assertFalse(TypicalFoodItems.APPLE.equals(editedApple));
 
-        // different email -> returns false
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withFat(CommandTestUtil.VALID_EMAIL_BOB).build();
-        assertFalse(TypicalFoodItems.APPLE.equals(editedAlice));
+        // same name, different fat -> returns false
+        editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withFat(CommandTestUtil.VALID_FAT_BANANA).build();
+        assertFalse(TypicalFoodItems.APPLE.equals(editedApple));
 
-        // different address -> returns false
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withProtein(CommandTestUtil.VALID_ADDRESS_BOB).build();
-        assertFalse(TypicalFoodItems.APPLE.equals(editedAlice));
+        // same name, different protein -> returns false
+        editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withProtein(CommandTestUtil.VALID_PROTEIN_BANANA).build();
+        assertFalse(TypicalFoodItems.APPLE.equals(editedApple));
 
-        // different tags -> returns false
-        editedAlice = new FoodBuilder(TypicalFoodItems.APPLE).withTags(CommandTestUtil.VALID_TAG_HUSBAND).build();
-        assertFalse(TypicalFoodItems.APPLE.equals(editedAlice));
+        // same name, different carbohydrate -> returns false
+        editedApple = new FoodBuilder(TypicalFoodItems.APPLE)
+                .withCarbohydrate(CommandTestUtil.VALID_CARBOHYDRATE_BANANA).build();
+        assertFalse(TypicalFoodItems.APPLE.equals(editedApple));
+
+        // same name, different tags -> returns false
+        editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withTags(CommandTestUtil.VALID_TAG_HARD).build();
+        assertFalse(TypicalFoodItems.APPLE.equals(editedApple));
     }
 }

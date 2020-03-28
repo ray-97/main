@@ -11,7 +11,7 @@ import java.util.Collections;
 
 import life.calgo.model.day.DailyGoal;
 import life.calgo.testutil.TypicalFoodItems;
-import life.calgo.testutil.TypicalPersons;
+
 import org.junit.jupiter.api.Test;
 
 import life.calgo.model.Model;
@@ -65,12 +65,12 @@ public class FindCommandTest {
 
     @Test
     public void execute_multipleKeywords_multipleFoodItemsFound() {
-        String expectedMessage = String.format(MESSAGE_FOODS_LISTED_OVERVIEW, 3);
+        String expectedMessage = String.format(MESSAGE_FOODS_LISTED_OVERVIEW, 1);
         NameContainsKeywordsPredicate predicate = preparePredicate("Kurz Banana Milkshake Kunz");
         FindCommand command = new FindCommand(predicate);
         expectedModel.updateFilteredFoodRecord(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Arrays.asList(TypicalFoodItems.APPLE, TypicalFoodItems.BANANA_MILKSHAKE, TypicalFoodItems.CHOCOLATE_BAR), model.getFilteredFoodRecord());
+        assertEquals(Arrays.asList(TypicalFoodItems.BANANA_MILKSHAKE), model.getFilteredFoodRecord());
     }
 
     /**

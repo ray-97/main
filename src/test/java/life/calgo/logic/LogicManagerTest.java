@@ -1,5 +1,6 @@
 package life.calgo.logic;
 
+import static life.calgo.commons.core.Messages.*;
 import static life.calgo.logic.commands.CommandTestUtil.NAME_DESC_APPLE;
 import static life.calgo.logic.commands.CommandTestUtil.CALORIE_DESC_APPLE;
 import static life.calgo.logic.commands.CommandTestUtil.PROTEIN_DESC_APPLE;
@@ -9,8 +10,6 @@ import static life.calgo.logic.commands.CommandTestUtil.FAT_DESC_BANANA;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static life.calgo.commons.core.Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX;
-import static life.calgo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static life.calgo.testutil.Assert.assertThrows;
 import static life.calgo.testutil.TypicalFoodItems.APPLE;
 
@@ -64,11 +63,6 @@ public class LogicManagerTest {
         assertParseException(invalidCommand, MESSAGE_UNKNOWN_COMMAND);
     }
 
-    @Test
-    public void execute_commandExecutionError_throwsCommandException() {
-        String deleteCommand = "delete 9";
-        assertCommandException(deleteCommand, MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
-    }
 
     @Test
     public void execute_validCommand_success() throws Exception {

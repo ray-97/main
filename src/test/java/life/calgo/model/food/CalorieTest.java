@@ -15,27 +15,25 @@ public class CalorieTest {
     }
 
     @Test
-    public void constructor_invalidPhone_throwsIllegalArgumentException() {
-        String invalidPhone = "";
-        Assert.assertThrows(IllegalArgumentException.class, () -> new Calorie(invalidPhone));
+    public void constructor_invalidCalorie_throwsIllegalArgumentException() {
+        String invalidCalorie = "";
+        Assert.assertThrows(IllegalArgumentException.class, () -> new Calorie(invalidCalorie));
     }
 
     @Test
-    public void isValidPhone() {
-        // null phone number
+    public void isValidCalorie() {
+        // null calorie
         Assert.assertThrows(NullPointerException.class, () -> Calorie.isValidCalorie(null));
 
-        // invalid phone numbers
+        // invalid calorie
         assertFalse(Calorie.isValidCalorie("")); // empty string
         assertFalse(Calorie.isValidCalorie(" ")); // spaces only
-        assertFalse(Calorie.isValidCalorie("91")); // less than 3 numbers
         assertFalse(Calorie.isValidCalorie("phone")); // non-numeric
         assertFalse(Calorie.isValidCalorie("9011p041")); // alphabets within digits
         assertFalse(Calorie.isValidCalorie("9312 1534")); // spaces within digits
 
-        // valid phone numbers
-        assertTrue(Calorie.isValidCalorie("911")); // exactly 3 numbers
-        assertTrue(Calorie.isValidCalorie("93121534"));
-        assertTrue(Calorie.isValidCalorie("124293842033123")); // long phone numbers
+        // valid calorie
+        assertTrue(Calorie.isValidCalorie("122"));  // normal calorie number
+        assertTrue(Calorie.isValidCalorie("124293842033123")); // long calorie numbers
     }
 }
