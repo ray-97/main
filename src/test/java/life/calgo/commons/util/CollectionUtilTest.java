@@ -1,17 +1,17 @@
 package life.calgo.commons.util;
 
+import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
-import static life.calgo.testutil.Assert.assertThrows;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import life.calgo.testutil.Assert;
 import org.junit.jupiter.api.Test;
+
+import life.calgo.testutil.Assert;
 
 public class CollectionUtilTest {
     @Test

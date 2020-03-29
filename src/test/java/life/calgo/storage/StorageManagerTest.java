@@ -1,8 +1,8 @@
 package life.calgo.storage;
 
+import static life.calgo.testutil.TypicalFoodItems.getTypicalFoodRecord;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static life.calgo.testutil.TypicalFoodItems.getTypicalFoodRecord;
 
 import java.nio.file.Path;
 

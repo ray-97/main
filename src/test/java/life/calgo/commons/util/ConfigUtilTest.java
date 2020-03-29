@@ -2,7 +2,6 @@ package life.calgo.commons.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static life.calgo.testutil.Assert.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,12 +9,13 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Level;
 
-import life.calgo.testutil.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import life.calgo.commons.core.Config;
 import life.calgo.commons.exceptions.DataConversionException;
+
+import life.calgo.testutil.Assert;
 
 public class ConfigUtilTest {
 

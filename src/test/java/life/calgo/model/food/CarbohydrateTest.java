@@ -33,7 +33,7 @@ public class CarbohydrateTest {
         assertFalse(Carbohydrate.isValidCarbohydrate("9312 1534")); // spaces within digits
 
         // valid carbohydrate
-        assertTrue(Carbohydrate.isValidCarbohydrate("122"));  // normal carbohydrate number
+        assertTrue(Carbohydrate.isValidCarbohydrate("122")); // normal carbohydrate number
         assertTrue(Carbohydrate.isValidCarbohydrate("124293842033123")); // long carbohydrate numbers
     }
 }

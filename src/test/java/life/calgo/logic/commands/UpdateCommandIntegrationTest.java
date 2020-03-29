@@ -2,17 +2,16 @@ package life.calgo.logic.commands;
 
 import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 
-import life.calgo.model.day.DailyGoal;
-import life.calgo.testutil.FoodBuilder;
-import life.calgo.testutil.TypicalFoodItems;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.Food;
+import life.calgo.testutil.FoodBuilder;
+import life.calgo.testutil.TypicalFoodItems;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code UpdateCommand}.

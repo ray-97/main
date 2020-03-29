@@ -1,9 +1,8 @@
 package life.calgo.model.tag;
 
-import static life.calgo.testutil.Assert.assertThrows;
+import org.junit.jupiter.api.Test;
 
 import life.calgo.testutil.Assert;
-import org.junit.jupiter.api.Test;
 
 public class TagTest {
 

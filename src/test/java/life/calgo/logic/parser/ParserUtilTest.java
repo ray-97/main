@@ -1,20 +1,25 @@
 package life.calgo.logic.parser;
 
-import static life.calgo.testutil.TypicalFoodItems.BANANA_MILKSHAKE;
+import static life.calgo.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
-import static life.calgo.testutil.Assert.assertThrows;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-import life.calgo.model.food.*;
-import life.calgo.testutil.Assert;
-import life.calgo.testutil.TypicalIndexes;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.logic.parser.exceptions.ParseException;
+import life.calgo.model.food.Calorie;
+import life.calgo.model.food.Carbohydrate;
+import life.calgo.model.food.Fat;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.Protein;
 import life.calgo.model.tag.Tag;
+import life.calgo.testutil.Assert;
+import life.calgo.testutil.TypicalIndexes;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "@APPLE!";

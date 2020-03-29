@@ -1,17 +1,15 @@
 package life.calgo.logic;
 
-import static life.calgo.commons.core.Messages.*;
-import static life.calgo.logic.commands.CommandTestUtil.NAME_DESC_APPLE;
+import static life.calgo.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static life.calgo.logic.commands.CommandTestUtil.CALORIE_DESC_APPLE;
-import static life.calgo.logic.commands.CommandTestUtil.PROTEIN_DESC_APPLE;
 import static life.calgo.logic.commands.CommandTestUtil.CARBOHYDRATE_DESC_APPLE;
 import static life.calgo.logic.commands.CommandTestUtil.FAT_DESC_APPLE;
-import static life.calgo.logic.commands.CommandTestUtil.FAT_DESC_BANANA;
+import static life.calgo.logic.commands.CommandTestUtil.NAME_DESC_APPLE;
+import static life.calgo.logic.commands.CommandTestUtil.PROTEIN_DESC_APPLE;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static life.calgo.testutil.Assert.assertThrows;
 import static life.calgo.testutil.TypicalFoodItems.APPLE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.file.Path;
