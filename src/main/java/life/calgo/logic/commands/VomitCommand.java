@@ -18,11 +18,11 @@ public class VomitCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the food record. "
             + "Parameters: "
-            + CliSyntax.PREFIX_NAME + "NAME "
+            + CliSyntax.PREFIX_POSITION + "POSITION "
             + CliSyntax.PREFIX_DATE + "DATE "
             + CliSyntax.PREFIX_PORTION + "PORTION\n"
             + "Example: " + COMMAND_WORD + " "
-            + CliSyntax.PREFIX_NAME + "Mango "
+            + CliSyntax.PREFIX_POSITION + "1 "
             + CliSyntax.PREFIX_DATE + "2019-01-03 "
             + CliSyntax.PREFIX_PORTION + "2";
 

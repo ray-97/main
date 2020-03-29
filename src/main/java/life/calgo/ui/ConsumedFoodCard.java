@@ -31,6 +31,8 @@ public class ConsumedFoodCard extends UiPart<Region> {
     @FXML
     private Label totalCalorie;
     @FXML
+    private Label averageRating;
+    @FXML
     private Label date;
 
     public ConsumedFoodCard(ConsumedFood consumedFood, int displayedIndex) {
@@ -40,6 +42,7 @@ public class ConsumedFoodCard extends UiPart<Region> {
         name.setText(consumedFood.getName().fullName);
         portion.setText("Portions consumed: " + consumedFood.getPortion());
         double calorieFromPortions = consumedFood.getPortion() * Double.parseDouble(consumedFood.getCalorie().value);
+        averageRating.setText("Average rating: " + consumedFood.getRating());
         totalCalorie.setText("Total calories: " + calorieFromPortions);
         date.setText("Date: " + formatter.format(consumedFood.getDate()));
     }

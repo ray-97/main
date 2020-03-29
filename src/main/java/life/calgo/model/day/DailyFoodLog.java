@@ -17,7 +17,7 @@ import life.calgo.model.food.Food;
 public class DailyFoodLog {
 
     private final LinkedHashMap<Food, Double> foods;
-    private final LinkedHashMap<Food, ArrayList<Integer>> ratings;
+    private final LinkedHashMap<Food, ArrayList<Integer>> ratings; // arraylist got nothing yet
     private final LocalDate localDate;
 
     public DailyFoodLog() {
@@ -51,14 +51,12 @@ public class DailyFoodLog {
      * @return an updated DailyFoodLog object
      */
     public LinkedHashMap<Food, Double> add(Food foodToAdd, double quantity) {
-        LinkedHashMap<Food, Double> foods = new LinkedHashMap<Food, Double>();
-        for (Food food : this.foods.keySet()) {
-            foods.put(food.copy(), this.foods.get(food));
-        }
+        LinkedHashMap<Food, Double> foods = copyFoods();
         if (foods.containsKey(foodToAdd)) {
             foods.put(foodToAdd, quantity + foods.get(foodToAdd));
         } else {
             foods.put(foodToAdd, quantity);
+            ratings.put(foodToAdd, new ArrayList<>());
         }
         return foods;
     }
@@ -70,11 +68,7 @@ public class DailyFoodLog {
      * @return an updated DailyFoodLog object
      */
     public LinkedHashMap<Food, Double> remove(Food foodToRemove, OptionalDouble quantity) {
-        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
-
-        for (Food food : this.foods.keySet()) {
-            foods.put(food.copy(), this.foods.get(food));
-        }
+        LinkedHashMap<Food, Double> foods = copyFoods();
         if (!foods.containsKey(foodToRemove)) {
             throw new IllegalArgumentException();
         } else if (quantity.isEmpty()) {
@@ -147,6 +141,19 @@ public class DailyFoodLog {
         return foods.get(food);
     }
 
+    public double getRating(Food food) {
+        return getMeanRating(food);
+    }
+
+    private double getMeanRating(Food food) {
+        OptionalDouble average =  ratings.get(food).stream().mapToInt(i -> i).average();
+        if (average.isEmpty()) {
+            return -1;
+        } else {
+             return average.getAsDouble();
+        }
+    }
+
     public LocalDate getLocalDate() {
         return localDate;
     }
@@ -183,7 +190,7 @@ public class DailyFoodLog {
     public LinkedHashMap<Food, ArrayList<Integer>> copyRatings() {
         LinkedHashMap<Food, ArrayList<Integer>> ratings = new LinkedHashMap<>();
         for (Food food: this.ratings.keySet()) {
-            ratings.put(food, new ArrayList<>(this.ratings.get(food)));
+            ratings.put(food.copy(), new ArrayList<>(this.ratings.get(food)));
         }
         return ratings;
     }
@@ -191,7 +198,7 @@ public class DailyFoodLog {
     public LinkedHashMap<Food, Double> copyFoods() {
         LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
         for (Food food: this.foods.keySet()) {
-            foods.put(food, this.foods.get(food));
+            foods.put(food.copy(), this.foods.get(food));
         }
         return foods;
     }

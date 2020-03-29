@@ -49,7 +49,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION, PREFIX_RATING,
                         PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT,
                         PREFIX_POSITION, PREFIX_TAG);
-        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_NAME)) {
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_POSITION)) {
             throw new ParseException(
                     String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, VomitCommand.MESSAGE_USAGE));
         }

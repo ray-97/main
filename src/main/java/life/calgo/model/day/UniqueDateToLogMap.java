@@ -53,8 +53,10 @@ public class UniqueDateToLogMap {
         Set<Food> foods = internalMap.get(date).getFoods();
         if (!foods.isEmpty()) {
             for (Food food : foods) {
-                double portion = internalMap.get(date).getPortion(food);
-                internalList.add(new ConsumedFood(food, portion, date));
+                DailyFoodLog foodLog = internalMap.get(date);
+                double portion = foodLog.getPortion(food);
+                double rating = foodLog.getRating(food);
+                internalList.add(new ConsumedFood(food, portion, rating, date));
             }
         }
     }
