@@ -8,7 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.function.Predicate;
 
+import javax.naming.NameNotFoundException;
+
+import life.calgo.model.food.Food;
+import life.calgo.model.food.Name;
+import life.calgo.testutil.Assert;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.model.Model;
@@ -29,9 +35,9 @@ public class FindCommandTest {
     @Test
     public void equals() {
         NameContainsKeywordsPredicate firstPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("first"));
+                new NameContainsKeywordsPredicate(new Name("Roti John"));
         NameContainsKeywordsPredicate secondPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("second"));
+                new NameContainsKeywordsPredicate(new Name("Strawberry Jam Sandwich"));
 
         FindCommand findFirstCommand = new FindCommand(firstPredicate);
         FindCommand findSecondCommand = new FindCommand(secondPredicate);
@@ -54,13 +60,10 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_zeroKeywords_noFoodFound() {
-        String expectedMessage = String.format(MESSAGE_FOODS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = preparePredicate(" ");
-        FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredFoodRecord(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredFoodRecord());
+    public void execute_zeroKeywords_nameExceptionThrown() {
+        Assert.assertThrows(IllegalArgumentException.class,
+                "Names should only contain alphanumeric characters and spaces, and it should not be blank",
+                () -> preparePredicate(" "));
     }
 
     @Test
@@ -77,6 +80,6 @@ public class FindCommandTest {
      * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
      */
     private NameContainsKeywordsPredicate preparePredicate(String userInput) {
-        return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+        return new NameContainsKeywordsPredicate(new Name(userInput));
     }
 }

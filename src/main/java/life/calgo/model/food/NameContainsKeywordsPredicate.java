@@ -1,5 +1,7 @@
 package life.calgo.model.food;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -11,11 +13,12 @@ import life.calgo.commons.util.StringUtil;
 public class NameContainsKeywordsPredicate implements Predicate<Food> {
     private final List<String> keywords;
 
-    public NameContainsKeywordsPredicate(List<String> keywords) {
+    public NameContainsKeywordsPredicate(Name name) {
+        String[] nameKeywords = name.fullName.split("\\s+");
+        ArrayList<String> keywords = new ArrayList<>(Arrays.asList(nameKeywords));
         this.keywords = keywords;
     }
 
-    // Used in find command: edit StringUtil.containsWordIgnoreCase to change find behavior
     @Override
     public boolean test(Food food) {
         return keywords.stream()

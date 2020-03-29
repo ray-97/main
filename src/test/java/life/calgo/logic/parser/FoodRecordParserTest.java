@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import life.calgo.model.food.Name;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.Messages;
@@ -68,10 +69,10 @@ public class FoodRecordParserTest {
 
     @Test
     public void parseCommand_find() throws Exception {
-        List<String> keywords = Arrays.asList("foo", "bar", "baz");
+        String keywords = "Hamburger and Fries";
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")), model);
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords)), command);
+                FindCommand.COMMAND_WORD + " n/" + keywords, model);
+        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(new Name(keywords))), command);
     }
 
     @Test

@@ -107,14 +107,13 @@ public class CommandTestUtil {
     }
     /**
      * Updates {@code model}'s filtered list to show only the food at the given {@code targetIndex} in the
-     * {@code model}'s address book.
+     * {@code model}'s Food Record.
      */
     public static void showFoodAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredFoodRecord().size());
 
         Food food = model.getFilteredFoodRecord().get(targetIndex.getZeroBased());
-        final String[] splitName = food.getName().fullName.split("\\s+");
-        model.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(food.getName()));
 
         assertEquals(1, model.getFilteredFoodRecord().size());
     }

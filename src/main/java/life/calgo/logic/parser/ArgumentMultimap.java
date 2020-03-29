@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Stores mapping of prefixes to their respective arguments.
@@ -57,4 +58,25 @@ public class ArgumentMultimap {
     public String getPreamble() {
         return getValue(new Prefix("")).orElse("");
     }
+
+    /**
+     * Returns true if the argument multimap contains only 1 user input field, of 1 Prefix.
+     *
+     * @return whether the argument multimap contains only 1 user input field, of 1 Prefix.
+     */
+    public boolean containsSingleUserInputField() {
+        // the command word itself takes up one entry apart from the prefix's mapping
+        // therefore, the actual size is not 1, but 2 for a single user input field for 1 Prefix.
+        if (this.argMultimap.size() != 2) {
+            return false;
+        }
+        for (List<String> stringList : this.argMultimap.values()) {
+            if (stringList.size() > 1) {
+                // single input, single field entry
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

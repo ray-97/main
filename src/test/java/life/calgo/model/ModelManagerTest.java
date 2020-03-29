@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import life.calgo.model.food.Name;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.GuiSettings;
@@ -120,8 +121,8 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(differentFoodRecord, userPrefs, dailyGoal)));
 
         // different filteredList -> returns false
-        String[] keywords = APPLE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
+        Name keywords = APPLE.getName();
+        modelManager.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(keywords));
         assertFalse(modelManager.equals(new ModelManager(foodRecord, userPrefs, dailyGoal)));
 
         // resets modelManager to initial state for upcoming tests

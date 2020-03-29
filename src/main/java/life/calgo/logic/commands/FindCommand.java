@@ -2,9 +2,14 @@ package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.function.Predicate;
+
 import life.calgo.commons.core.Messages;
 import life.calgo.model.Model;
+import life.calgo.model.food.Food;
 import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.ProteinContainsKeywordsPredicate;
+import life.calgo.model.food.TagContainsKeywordsPredicate;
 
 /**
  * Finds and lists all food in food record whose name contains any of the argument keywords.
@@ -14,14 +19,15 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all foods which names contain any of "
-            + "the specified keywords (case-insensitive) or with a lower nutritional value than the one stated.\n"
-            + "Parameters (at least 1): [n/NAME] [cal/CALORIES] [p/PROTEIN] [c/CARBOHYDRATES] [f/FATS]\n"
-            + "Example: " + COMMAND_WORD + " happy chicken mcchicken";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all entries containing any of "
+            + "the specified keywords in the Name or one of their Tags, or match the  specified nutritional value.\n"
+            + "Choose 1 of the following parameters: [n/NAME] [cal/CALORIES] [p/PROTEIN] [c/CARBOHYDRATES] [f/FATS] "
+            + "[t/TAG]. NAME and TAG are case-insensitive. \n"
+            + "Example: " + COMMAND_WORD + " cal/150";
 
-    private final NameContainsKeywordsPredicate predicate;
+    private final Predicate<Food> predicate;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate) {
+    public FindCommand(Predicate<Food> predicate) {
         this.predicate = predicate;
     }
 
@@ -35,8 +41,8 @@ public class FindCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof FindCommand // instanceof handles nulls
-                && predicate.equals(((FindCommand) other).predicate)); // state check
+        return other == this
+                || (other instanceof FindCommand
+                && predicate.equals(((FindCommand) other).predicate));
     }
 }
