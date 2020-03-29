@@ -69,4 +69,11 @@ public class UpdateCommand extends Command {
 
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UpdateCommand // instanceof handles nulls
+                && toAdd.equals(((UpdateCommand) other).toAdd));
+    }
+
 }
