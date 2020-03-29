@@ -4,6 +4,7 @@ import static life.calgo.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.DeleteCommand;
@@ -46,14 +47,13 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
         Food food = new Food(name, calorie, protein, carbohydrate, fat, tagList);
 
         return new DeleteCommand(food);
-
     }
 
     /**
      * Returns true if the name prefix is present {@code Optional} values in the given
      * {@code ArgumentMultimap}.
      */
-    private static boolean isNamePrefixPresent(ArgumentMultimap argumentMultimap, Prefix prefix) {
-        return argumentMultimap.getValue(prefix).isPresent();
+    private static boolean isNamePrefixPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }
