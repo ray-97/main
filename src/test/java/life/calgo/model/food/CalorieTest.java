@@ -2,10 +2,11 @@ package life.calgo.model.food;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.testutil.Assert.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 import life.calgo.testutil.Assert;
-import org.junit.jupiter.api.Test;
+
 
 public class CalorieTest {
 
@@ -33,7 +34,7 @@ public class CalorieTest {
         assertFalse(Calorie.isValidCalorie("9312 1534")); // spaces within digits
 
         // valid calorie
-        assertTrue(Calorie.isValidCalorie("122"));  // normal calorie number
+        assertTrue(Calorie.isValidCalorie("122")); // normal calorie number
         assertTrue(Calorie.isValidCalorie("124293842033123")); // long calorie numbers
     }
 }

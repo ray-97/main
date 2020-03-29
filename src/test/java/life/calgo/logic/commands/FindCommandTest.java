@@ -1,30 +1,30 @@
 package life.calgo.logic.commands;
 
+import static life.calgo.commons.core.Messages.MESSAGE_FOODS_LISTED_OVERVIEW;
+import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.commons.core.Messages.MESSAGE_FOODS_LISTED_OVERVIEW;
-import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 
 import java.util.Arrays;
 import java.util.Collections;
-
-import life.calgo.model.day.DailyGoal;
-import life.calgo.testutil.TypicalFoodItems;
 
 import org.junit.jupiter.api.Test;
 
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.testutil.TypicalFoodItems;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
     private Model model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
-    private Model expectedModel = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+    private Model expectedModel = new ModelManager(
+            TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
 
     @Test
     public void equals() {

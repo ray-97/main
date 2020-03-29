@@ -2,13 +2,11 @@ package life.calgo.logic.parser;
 
 import static life.calgo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import life.calgo.model.food.Food;
-import life.calgo.testutil.FoodBuilder;
-import life.calgo.testutil.TypicalIndexes;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.logic.commands.DeleteCommand;
-
+import life.calgo.model.food.Food;
+import life.calgo.testutil.FoodBuilder;
 /**
  * As we are only doing white-box testing, our test cases do not cover path variations
  * outside of the DeleteCommand code. For example, inputs "1" and "1 abc" take the
@@ -33,6 +31,7 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-        CommandParserTestUtil.assertParseFailure(parser, "1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        CommandParserTestUtil.assertParseFailure(
+                parser, "1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
     }
 }

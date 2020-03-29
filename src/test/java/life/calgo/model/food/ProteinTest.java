@@ -33,7 +33,7 @@ public class ProteinTest {
         assertFalse(Protein.isValidProtein("9312 1534")); // spaces within digits
 
         // valid fat
-        assertTrue(Protein.isValidProtein("122"));  // normal fat number
+        assertTrue(Protein.isValidProtein("122")); // normal fat number
         assertTrue(Protein.isValidProtein("124293842033123")); // long fat numbers
     }
 }

@@ -3,21 +3,19 @@ package life.calgo.model.food;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.testutil.Assert.assertThrows;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 import life.calgo.logic.commands.CommandTestUtil;
+import life.calgo.model.food.exceptions.DuplicateFoodException;
+import life.calgo.model.food.exceptions.FoodNotFoundException;
 import life.calgo.testutil.Assert;
 import life.calgo.testutil.FoodBuilder;
 import life.calgo.testutil.TypicalFoodItems;
-
-import org.junit.jupiter.api.Test;
-
-import life.calgo.model.food.exceptions.DuplicateFoodException;
-import life.calgo.model.food.exceptions.FoodNotFoundException;
 
 public class UniqueFoodListTest {
 
@@ -71,7 +69,8 @@ public class UniqueFoodListTest {
 
     @Test
     public void setFood_targetFoodNotInList_throwsFoodNotFoundException() {
-        Assert.assertThrows(FoodNotFoundException.class, () -> uniqueFoodList.setFood(TypicalFoodItems.APPLE, TypicalFoodItems.APPLE));
+        Assert.assertThrows(FoodNotFoundException.class, () ->
+                uniqueFoodList.setFood(TypicalFoodItems.APPLE, TypicalFoodItems.APPLE));
     }
 
     @Test
@@ -108,7 +107,8 @@ public class UniqueFoodListTest {
     public void setFood_editedFoodHasNonUniqueIdentity_throwsDuplicateFoodException() {
         uniqueFoodList.add(TypicalFoodItems.APPLE);
         uniqueFoodList.add(TypicalFoodItems.BANANA_MILKSHAKE);
-        Assert.assertThrows(DuplicateFoodException.class, () -> uniqueFoodList.setFood(TypicalFoodItems.APPLE, TypicalFoodItems.BANANA_MILKSHAKE));
+        Assert.assertThrows(DuplicateFoodException.class, () ->
+                uniqueFoodList.setFood(TypicalFoodItems.APPLE, TypicalFoodItems.BANANA_MILKSHAKE));
     }
 
     @Test

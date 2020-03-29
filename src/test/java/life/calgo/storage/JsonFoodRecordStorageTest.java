@@ -2,20 +2,23 @@ package life.calgo.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static life.calgo.testutil.Assert.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import life.calgo.testutil.Assert;
-import life.calgo.testutil.TypicalFoodItems;
 import org.junit.jupiter.api.Test;
+
 import org.junit.jupiter.api.io.TempDir;
 
 import life.calgo.commons.exceptions.DataConversionException;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.ReadOnlyFoodRecord;
+
+import life.calgo.testutil.Assert;
+import life.calgo.testutil.TypicalFoodItems;
+
+
 
 public class JsonFoodRecordStorageTest {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "data", "JsonFoodRecordStorageTest");
@@ -55,7 +58,8 @@ public class JsonFoodRecordStorageTest {
 
     @Test
     public void readFoodRecord_invalidAndValidFoodFoodRecord_throwDataConversionException() {
-        Assert.assertThrows(DataConversionException.class, () -> readFoodRecord("invalidAndValidFoodItemFoodRecord.json"));
+        Assert.assertThrows(
+                DataConversionException.class, () -> readFoodRecord("invalidAndValidFoodItemFoodRecord.json"));
     }
 
     @Test

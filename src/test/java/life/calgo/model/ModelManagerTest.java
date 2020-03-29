@@ -1,12 +1,13 @@
 package life.calgo.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static life.calgo.model.Model.PREDICATE_SHOW_ALL_FOODS;
 import static life.calgo.testutil.Assert.assertThrows;
 import static life.calgo.testutil.TypicalFoodItems.APPLE;
 import static life.calgo.testutil.TypicalFoodItems.BANANA_MILKSHAKE;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.NameContainsKeywordsPredicate;
-import life.calgo.storage.GoalStorage;
 import life.calgo.testutil.FoodRecordBuilder;
 
 public class ModelManagerTest {

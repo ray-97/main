@@ -6,9 +6,9 @@ import java.util.Set;
 import life.calgo.model.food.Calorie;
 import life.calgo.model.food.Carbohydrate;
 import life.calgo.model.food.Fat;
-import life.calgo.model.food.Protein;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
+import life.calgo.model.food.Protein;
 import life.calgo.model.tag.Tag;
 import life.calgo.model.util.SampleDataUtil;
 

@@ -2,14 +2,13 @@ package life.calgo.model.food;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.testutil.Assert.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 import life.calgo.logic.commands.CommandTestUtil;
 import life.calgo.testutil.Assert;
 import life.calgo.testutil.FoodBuilder;
 import life.calgo.testutil.TypicalFoodItems;
-
-import org.junit.jupiter.api.Test;
 
 public class FoodTest {
 
@@ -28,7 +27,9 @@ public class FoodTest {
         assertFalse(TypicalFoodItems.APPLE.isSameFood(null));
 
         // same name, different attributes -> returns true
-        Food editedApple = new FoodBuilder(TypicalFoodItems.APPLE).withCalorie(CommandTestUtil.VALID_CALORIE_BANANA).withFat(CommandTestUtil.VALID_PROTEIN_BANANA).build();
+        Food editedApple = new FoodBuilder(TypicalFoodItems.APPLE)
+                .withCalorie(CommandTestUtil.VALID_CALORIE_BANANA)
+                .withFat(CommandTestUtil.VALID_PROTEIN_BANANA).build();
         assertTrue(TypicalFoodItems.APPLE.isSameFood(editedApple));
 
         // different name -> returns false

@@ -5,30 +5,30 @@ import static life.calgo.testutil.TypicalFoodItems.getTypicalFoodRecord;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import life.calgo.model.*;
-import life.calgo.model.day.DailyFoodLog;
-import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
-import life.calgo.model.food.Name;
-import life.calgo.testutil.Assert;
-import life.calgo.testutil.FoodBuilder;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import life.calgo.commons.core.GuiSettings;
-import life.calgo.logic.commands.exceptions.CommandException;
+import life.calgo.model.FoodRecord;
+import life.calgo.model.Model;
+import life.calgo.model.ModelManager;
+import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.ReadOnlyUserPrefs;
+import life.calgo.model.UserPrefs;
+import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.day.DailyGoal;
+import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
-import life.calgo.testutil.TypicalFoodItems;
-import life.calgo.testutil.TypicalIndexes;
+import life.calgo.model.food.Name;
+import life.calgo.testutil.Assert;
+import life.calgo.testutil.FoodBuilder;
 
 public class UpdateCommandTest {
 
@@ -60,7 +60,8 @@ public class UpdateCommandTest {
 
         CommandResult commandResult = updateCommand.execute(model);
 
-        assertEquals(String.format(UpdateCommand.MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, editedFood), commandResult.getFeedbackToUser());
+        assertEquals(String.format(UpdateCommand.MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, editedFood),
+                commandResult.getFeedbackToUser());
         assertTrue(model.hasFood(editedFood));
     }
 

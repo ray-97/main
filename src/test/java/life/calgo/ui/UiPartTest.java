@@ -1,8 +1,8 @@
 package life.calgo.ui;
 
+import static life.calgo.testutil.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static life.calgo.testutil.Assert.assertThrows;
 
 import java.net.URL;
 import java.nio.file.Path;

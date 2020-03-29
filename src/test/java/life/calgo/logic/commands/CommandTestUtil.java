@@ -1,26 +1,25 @@
 package life.calgo.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static life.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
+import static life.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_FAT;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_NAME;
-import static life.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
+import static life.calgo.logic.parser.CliSyntax.PREFIX_PROTEIN;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_TAG;
-import static life.calgo.testutil.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import life.calgo.testutil.Assert;
 import life.calgo.commons.core.index.Index;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.Model;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
 import life.calgo.model.food.Food;
+import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.testutil.Assert;
 
 /**
  * Contains helper methods for testing commands.
@@ -56,7 +55,7 @@ public class CommandTestUtil {
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "Choco&"; // '&' not allowed in names
     public static final String INVALID_CALORIE_DESC = " " + PREFIX_CALORIES + "1a"; // 'a' not allowed in calorie
     public static final String INVALID_PROTEIN_DESC = " " + PREFIX_PROTEIN; // empty string not allowed for protein
-    public static final String INVALID_CARBOHYDRATE_DESC = " " + PREFIX_CARBOHYDRATE + "bob"; // only integers allowed for carbohydrate
+    public static final String INVALID_CARBOHYDRATE_DESC = " " + PREFIX_CARBOHYDRATE + "bob"; // only integers allowed
     public static final String INVALID_FAT_DESC = " " + PREFIX_FAT; // empty string not allowed for fat
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "#^#^#*#*"; // symbols not allowed in tags
 

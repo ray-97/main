@@ -7,8 +7,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import life.calgo.testutil.FoodBuilder;
 import org.junit.jupiter.api.Test;
+
+import life.calgo.testutil.FoodBuilder;
 
 public class NameContainsKeywordsPredicateTest {
 

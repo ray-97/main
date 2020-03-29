@@ -1,24 +1,22 @@
 package life.calgo.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static life.calgo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static life.calgo.logic.commands.CommandTestUtil.showFoodAtIndex;
-
-import life.calgo.model.day.DailyGoal;
-import life.calgo.testutil.FoodBuilder;
-import life.calgo.testutil.TypicalFoodItems;
-import life.calgo.testutil.TypicalIndexes;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.Messages;
-import life.calgo.commons.core.index.Index;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.Food;
+import life.calgo.testutil.FoodBuilder;
+import life.calgo.testutil.TypicalFoodItems;
+import life.calgo.testutil.TypicalIndexes;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for
@@ -42,7 +40,7 @@ public class DeleteCommandTest {
     }
 
     @Test
-    public void execute__nonExistingFoodDelete_throwsCommandException() {
+    public void execute_nonExistingFoodDelete_throwsCommandException() {
         Food food = new FoodBuilder().withName("Definitely does not exists").build();
         DeleteCommand deleteCommand = new DeleteCommand(food);
 

@@ -33,7 +33,7 @@ public class FatTest {
         assertFalse(Fat.isValidFat("9312 1534")); // spaces within digits
 
         // valid fat
-        assertTrue(Fat.isValidFat("122"));  // normal fat number
+        assertTrue(Fat.isValidFat("122")); // normal fat number
         assertTrue(Fat.isValidFat("124293842033123")); // long fat numbers
     }
 }
