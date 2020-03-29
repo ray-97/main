@@ -11,14 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
-import life.calgo.model.food.Name;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
 import life.calgo.testutil.FoodRecordBuilder;
 
 public class ModelManagerTest {

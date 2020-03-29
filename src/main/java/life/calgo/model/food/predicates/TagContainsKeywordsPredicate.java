@@ -1,10 +1,11 @@
-package life.calgo.model.food;
+package life.calgo.model.food.predicates;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 import life.calgo.commons.util.StringUtil;
+import life.calgo.model.food.Food;
 import life.calgo.model.tag.Tag;
 
 /**

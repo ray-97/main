@@ -3,13 +3,10 @@ package life.calgo.model.food;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import life.calgo.testutil.Assert;
 import org.junit.jupiter.api.Test;
 
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
+import life.calgo.testutil.Assert;
 import life.calgo.testutil.FoodBuilder;
 
 public class NameContainsKeywordsPredicateTest {
@@ -26,7 +23,8 @@ public class NameContainsKeywordsPredicateTest {
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        NameContainsKeywordsPredicate firstPredicateCopy = new NameContainsKeywordsPredicate(firstPredicateKeywordsName);
+        NameContainsKeywordsPredicate firstPredicateCopy =
+                new NameContainsKeywordsPredicate(firstPredicateKeywordsName);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -62,8 +60,8 @@ public class NameContainsKeywordsPredicateTest {
     public void test_nameDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
         Assert.assertThrows(IllegalArgumentException.class,
-                "Names should only contain alphanumeric characters and spaces, and it should not be blank",
-                () -> new NameContainsKeywordsPredicate(new Name("")));
+                "Names should only contain alphanumeric characters and spaces, "
+                + "and it should not be blank", () -> new NameContainsKeywordsPredicate(new Name("")));
 
         // Non-matching keyword
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(new Name("Chocolate"));

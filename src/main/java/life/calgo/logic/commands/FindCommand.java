@@ -7,9 +7,6 @@ import java.util.function.Predicate;
 import life.calgo.commons.core.Messages;
 import life.calgo.model.Model;
 import life.calgo.model.food.Food;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
-import life.calgo.model.food.ProteinContainsKeywordsPredicate;
-import life.calgo.model.food.TagContainsKeywordsPredicate;
 
 /**
  * Finds and lists all food in food record whose name contains any of the argument keywords.

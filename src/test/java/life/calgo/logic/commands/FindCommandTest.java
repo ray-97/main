@@ -7,22 +7,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.function.Predicate;
 
-import javax.naming.NameNotFoundException;
-
-import life.calgo.model.food.Food;
-import life.calgo.model.food.Name;
-import life.calgo.testutil.Assert;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
+import life.calgo.testutil.Assert;
 import life.calgo.testutil.TypicalFoodItems;
+
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
@@ -62,8 +58,8 @@ public class FindCommandTest {
     @Test
     public void execute_zeroKeywords_nameExceptionThrown() {
         Assert.assertThrows(IllegalArgumentException.class,
-                "Names should only contain alphanumeric characters and spaces, and it should not be blank",
-                () -> preparePredicate(" "));
+                "Names should only contain alphanumeric characters and spaces, "
+                        + "and it should not be blank", () -> preparePredicate(" "));
     }
 
     @Test

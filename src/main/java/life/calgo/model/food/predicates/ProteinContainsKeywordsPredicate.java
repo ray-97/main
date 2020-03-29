@@ -1,8 +1,10 @@
-package life.calgo.model.food;
+package life.calgo.model.food.predicates;
 
 import java.util.function.Predicate;
 
 import life.calgo.commons.util.StringUtil;
+import life.calgo.model.food.Food;
+import life.calgo.model.food.Protein;
 
 /**
  * Tests that a {@code Food}'s {@code Protein} matches the {@code Protein} keyword given.

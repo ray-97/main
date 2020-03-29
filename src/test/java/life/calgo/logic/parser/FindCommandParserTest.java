@@ -2,13 +2,11 @@ package life.calgo.logic.parser;
 
 import static life.calgo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.Arrays;
-
-import life.calgo.model.food.Name;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.logic.commands.FindCommand;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
 

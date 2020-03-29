@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import life.calgo.commons.core.index.Index;
@@ -18,7 +17,7 @@ import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.Model;
 import life.calgo.model.food.Food;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
 import life.calgo.testutil.Assert;
 
 /**

@@ -3,11 +3,6 @@ package life.calgo.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import life.calgo.model.food.Name;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.Messages;
@@ -22,7 +17,8 @@ import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.food.Food;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
 import life.calgo.testutil.Assert;
 import life.calgo.testutil.FoodBuilder;
 import life.calgo.testutil.FoodUtil;

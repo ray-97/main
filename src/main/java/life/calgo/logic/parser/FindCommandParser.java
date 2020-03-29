@@ -9,17 +9,17 @@ import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.FindCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.food.Calorie;
-import life.calgo.model.food.CalorieContainsKeywordsPredicate;
 import life.calgo.model.food.Carbohydrate;
-import life.calgo.model.food.CarbohydrateContainsKeywordsPredicate;
 import life.calgo.model.food.Fat;
-import life.calgo.model.food.FatContainsKeywordsPredicate;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
 import life.calgo.model.food.Protein;
-import life.calgo.model.food.ProteinContainsKeywordsPredicate;
-import life.calgo.model.food.TagContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.CalorieContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.CarbohydrateContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.FatContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.ProteinContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.TagContainsKeywordsPredicate;
 import life.calgo.model.tag.Tag;
 
 /**
