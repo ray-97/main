@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import life.calgo.commons.core.index.Index;
@@ -18,7 +17,7 @@ import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.Model;
 import life.calgo.model.food.Food;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
 import life.calgo.testutil.Assert;
 
 /**
@@ -107,14 +106,13 @@ public class CommandTestUtil {
     }
     /**
      * Updates {@code model}'s filtered list to show only the food at the given {@code targetIndex} in the
-     * {@code model}'s address book.
+     * {@code model}'s Food Record.
      */
     public static void showFoodAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredFoodRecord().size());
 
         Food food = model.getFilteredFoodRecord().get(targetIndex.getZeroBased());
-        final String[] splitName = food.getName().fullName.split("\\s+");
-        model.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
+        model.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(food.getName()));
 
         assertEquals(1, model.getFilteredFoodRecord().size());
     }

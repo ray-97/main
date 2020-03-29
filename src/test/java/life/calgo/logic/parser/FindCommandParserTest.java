@@ -2,12 +2,11 @@ package life.calgo.logic.parser;
 
 import static life.calgo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.Test;
 
 import life.calgo.logic.commands.FindCommand;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
 
 public class FindCommandParserTest {
 
@@ -23,11 +22,11 @@ public class FindCommandParserTest {
     public void parse_validArgs_returnsFindCommand() {
         // no leading and trailing whitespaces
         FindCommand expectedFindCommand =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
-        CommandParserTestUtil.assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
+                new FindCommand(new NameContainsKeywordsPredicate(new Name("Strawberry Jam")));
+        CommandParserTestUtil.assertParseSuccess(parser, "find n/Strawberry Jam", expectedFindCommand);
 
         // multiple whitespaces between keywords
-        CommandParserTestUtil.assertParseSuccess(parser, " \n Alice \n \t Bob  \t", expectedFindCommand);
+        CommandParserTestUtil.assertParseSuccess(parser, "find n/  Strawberry   Jam  ", expectedFindCommand);
     }
 
 }

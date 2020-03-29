@@ -218,6 +218,13 @@ public class ParserUtil {
         return tagSet;
     }
 
+    /**
+     * Returns whether all Prefixes appear in the Argument Multimap.
+     *
+     * @param argumentMultimap the Argument Multimap we search each Prefix through.
+     * @param prefixes Each Prefix we need to search for matches.
+     * @return whether every Prefix appears in the Argument Multimap.
+     */
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
