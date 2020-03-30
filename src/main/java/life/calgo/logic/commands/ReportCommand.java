@@ -27,7 +27,7 @@ public class ReportCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_DATE + "2020-05-27";
 
-    public static final String MESSAGE_REPORT_SUCCESS = "Successfully generated a report in the /reports folder "
+    public static final String MESSAGE_REPORT_SUCCESS = "Successfully generated a report in the data/reports folder "
             + "for the following date: %tF" + ".";
 
     public static final String MESSAGE_REPORT_FAILURE = "Did not manage to generate report.";
