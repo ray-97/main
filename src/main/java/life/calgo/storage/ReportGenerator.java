@@ -15,7 +15,7 @@ import life.calgo.model.food.Food;
  */
 public class ReportGenerator {
     private static final Logger logger = LogsCenter.getLogger(ReportGenerator.class);
-    private DailyFoodLog queryLog; //changes here
+    private DailyFoodLog queryLog; // changes here
     private File file;
     private PrintWriter printWriter;
     private double totalCalories = 0.0;
@@ -46,16 +46,9 @@ public class ReportGenerator {
      */
     public boolean generateReport() {
         printHeader();
-        printSeparator();
         printFoodwiseStatistics();
-        printSeparator();
         printAggregateStatistics();
-        printSeparator();
-        // if goal exists
-        if (this.userGoal != null) {
-            printInsights();
-            printSeparator();
-        }
+        printInsights();
         printFooter();
         printWriter.close();
         return file.exists() && (file.length() != 0); // success check
@@ -76,6 +69,7 @@ public class ReportGenerator {
                     + " calories in a day.";
             printWriter.println(userGoal);
         }
+        printSeparator();
     }
 
     /**
@@ -95,6 +89,7 @@ public class ReportGenerator {
             printWriter.println(String.format("   %-22s %-20.0f %-20.0f", food.toString(true),
                     portion, currCalories));
         }
+        printSeparator();
     }
 
     /**
@@ -106,6 +101,7 @@ public class ReportGenerator {
                 "| Total Carbohydrates in grams", "| Total Fats in grams"));
         printWriter.println(String.format("     %-25.0f %-26.0f %-28.0f %.0f", totalCalories, totalProteins,
                 totalCarbs, totalFats));
+        printSeparator();
     }
 
     /**
@@ -113,23 +109,26 @@ public class ReportGenerator {
      */
     public void printInsights() {
         // compare method returns -1 if left argument < right argument and 0 if left argument == right argument
-        printWriter.println("Actionable Insights:");
-        boolean isGoalAchieved = (int) calculateRemainingCalories() >= 0;
+        if (userGoal.getTargetDailyCalories() != DailyGoal.DUMMY_VALUE) {
+            printWriter.println("Your Insights:");
+            boolean isGoalAchieved = (int) calculateRemainingCalories() >= 0;
 
-        if (isGoalAchieved) {
-            printWriter.println("You have achieved your goal! Congratulations. Keep up the great work"
-                    + " and you will definitely\n"
-                    + "make tremendous improvements in your health and fitness.");
-            printEmptyLine();
-            printWriter.println("You have consumed " + String.format("%.0f", calculateRemainingCalories())
-                    + " fewer calories than your target. Great job!");
-        } else {
-            printWriter.println("You did not manage to achieve your goal today. You may want to re-design"
-                    + " your diet plan so that\n"
-                    + "you can make improvements in your health and fitness!");
-            printEmptyLine();
-            printWriter.println("You have exceeded " + String.format("%.0f", Math.abs(calculateRemainingCalories()))
-                    + " calories more than your target. Time to hit the gym!");
+            if (isGoalAchieved) {
+                printWriter.println("You have achieved your goal! Congratulations. Keep up the great work"
+                        + " and you will definitely\n"
+                        + "make tremendous improvements in your health and fitness.");
+                printEmptyLine();
+                printWriter.println("You have consumed " + String.format("%.0f", calculateRemainingCalories())
+                        + " fewer calories than your target. Great job!");
+            } else {
+                printWriter.println("You did not manage to achieve your goal today. You may want to re-design"
+                        + " your diet plan so that\n"
+                        + "you can make improvements in your health and fitness!");
+                printEmptyLine();
+                printWriter.println("You have exceeded " + String.format("%.0f", Math.abs(calculateRemainingCalories()))
+                        + " calories more than your target. Time to hit the gym!");
+            }
+            printSeparator();
         }
     }
 
@@ -137,7 +136,7 @@ public class ReportGenerator {
      * Writes the concluding remarks in the report
      */
     public void printFooter() {
-        printWriter.println("This marks the end of your report. Actionable insights coming up in v1.3.");
+        printWriter.println("This marks the end of your report. Personalised insights coming up in v1.3.");
     }
 
     /**
