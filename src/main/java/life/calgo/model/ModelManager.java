@@ -129,7 +129,7 @@ public class ModelManager implements Model {
         foodRecord.setFood(target, editedFood);
     }
 
-    //=========== Day Model classes================================================================================
+    // Day Model classes
 
     @Override
     public Optional<Food> getFoodByName(Name name) {
@@ -187,7 +187,7 @@ public class ModelManager implements Model {
         return this.targetDailyCalories;
     }
 
-    //=========== Filtered Food Record Accessors =============================================================
+    // Filtered Food Record Accessors
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of

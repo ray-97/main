@@ -23,9 +23,9 @@ public class ProteinContainsKeywordsPredicate implements Predicate<Food> {
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof ProteinContainsKeywordsPredicate // instanceof handles nulls
-                && keyword.equals(((ProteinContainsKeywordsPredicate) other).keyword)); // state check
+        return other == this
+                || (other instanceof ProteinContainsKeywordsPredicate
+                && keyword.equals(((ProteinContainsKeywordsPredicate) other).keyword));
     }
 
 }

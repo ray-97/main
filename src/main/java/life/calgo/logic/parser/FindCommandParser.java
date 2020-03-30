@@ -44,9 +44,10 @@ public class FindCommandParser implements Parser<FindCommand> {
                 ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_NAME, CliSyntax.PREFIX_CALORIES,
                         CliSyntax.PREFIX_PROTEIN, CliSyntax.PREFIX_CARBOHYDRATE,
                         CliSyntax.PREFIX_FAT, CliSyntax.PREFIX_TAG);
+        assert (argMultimap != null) : "The current ArgumentMultimap is null.";
 
         // argMultimap should contain only 1 prefix at this point
-        Predicate pred = generateFindCommandPredicate(argMultimap);
+        Predicate<Food> pred = generateFindCommandPredicate(argMultimap);
 
         return new FindCommand(pred);
 
@@ -66,8 +67,21 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         // below are the specific checks for the single Prefix of the Argument Multimap am
-        // Left in this manner for future development of Prefix-specific features for find,
-        // such as showing for different values rather than exact values.
+        return generateSpecificPredicate(am);
+
+    }
+
+    /**
+     * Creates the Prefix-specific Predicate that produces a particular find command result.
+     *
+     * @param am the ArgumentMultimap we search through for the Prefix.
+     * @return the Prefix-specific Predicate that produces a particular find command result.
+     * @throws ParseException when no allowed Prefix is present.
+     */
+    private final Predicate<Food> generateSpecificPredicate(ArgumentMultimap am) throws ParseException {
+
+        // each specific Prefix produces a specific class of Predicate<Food>
+
         if (arePrefixesPresent(am, CliSyntax.PREFIX_NAME)) {
             Name name = ParserUtil.parseName(am.getValue(CliSyntax.PREFIX_NAME).get());
             return new NameContainsKeywordsPredicate(name);
@@ -98,8 +112,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             return new TagContainsKeywordsPredicate(tagList);
         }
 
-        return null; // should never arrive here; gives an error in Console (Indicating "does not exist")
-
+        // should never arrive here
+        throw new ParseException("Please try again, with a different input following the correct format.");
     }
 
 }
