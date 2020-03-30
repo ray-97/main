@@ -1,0 +1,50 @@
+{
+  "_comment": "FoodRecord save file which contains the same Food values as in TypicalFoodItems#getTypicalFoodRecord()",
+  "foods" : [ {
+    "name": "Almond",
+    "calorie": "95",
+    "protein": "20",
+    "carbohydrate": "20",
+    "fat": "10",
+    "tagged" : [ "fruit" ]
+  }, {
+    "name": "Banana Milkshake",
+    "calorie": "200",
+    "protein": "10",
+    "carbohydrate": "40",
+    "fat": "15",
+    "tagged" : [ "dairy" ]
+  }, {
+    "name" : "Chocolate Bar",
+    "calorie": "300",
+    "protein": "12",
+    "carbohydrate": "90",
+    "fat": "30",
+    "tagged" : [ "snack" ]
+  }, {
+    "name" : "Duck Rice",
+    "calorie": "238",
+    "protein": "20",
+    "carbohydrate": "120",
+    "fat": "20",
+    "tagged" : [ "favourite" ]
+  }, {
+    "name" : "Egg Omelette",
+    "calorie": "233",
+    "protein": "25",
+    "carbohydrate": "10",
+    "fat": "14"
+  }, {
+    "name" : "Fish and Chips",
+    "calorie": "400",
+    "protein": "30",
+    "carbohydrate": "20",
+    "fat": "40"
+  }, {
+    "name" : "Granola",
+    "calorie": "300",
+    "protein": "10",
+    "carbohydrate": "40",
+    "fat": "3"
+  } ]
+}

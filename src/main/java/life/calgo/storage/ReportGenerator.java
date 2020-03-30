@@ -27,7 +27,7 @@ public class ReportGenerator {
     public ReportGenerator(DailyFoodLog queryLog, DailyGoal userGoal) {
         this.queryLog = queryLog;
         this.userGoal = userGoal;
-        this.file = new File("reports/" + queryLog.getLocalDate().toString() + "_report.txt");
+        this.file = new File("data/reports/" + queryLog.getLocalDate().toString() + "_report.txt");
         try {
             this.file.getParentFile().mkdirs();
             this.file.createNewFile();
