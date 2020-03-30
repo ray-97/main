@@ -46,7 +46,7 @@ public class FindCommandParser implements Parser<FindCommand> {
                         CliSyntax.PREFIX_FAT, CliSyntax.PREFIX_TAG);
 
         // argMultimap should contain only 1 prefix at this point
-        Predicate pred = generateFindCommandPredicate(argMultimap);
+        Predicate<Food> pred = generateFindCommandPredicate(argMultimap);
 
         return new FindCommand(pred);
 
