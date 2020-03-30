@@ -60,6 +60,29 @@ public class StringUtil {
         return false;
     }
 
+    // Used in find command
+
+    /**
+     * Returns if the Food has the stated nutritional value.
+     *
+     * @param origin the Food's nutritional value.
+     * @param query the stated nutritional value of the same type.
+     * @return whether the Food has the stated nutritional value.
+     */
+    public static boolean containsNutritionalValueEqualTo(String origin, String query) {
+        requireNonNull(origin);
+        requireNonNull(query);
+        String preppedQueryString = query.trim();
+        AppUtil.checkArgument(!preppedQueryString.isEmpty(), "Query parameter cannot be empty");
+        AppUtil.checkArgument(preppedQueryString.split("\\s+").length == 1,
+                "Your nutritional value query should be a single value");
+
+        int preppedQueryValue = Integer.parseInt(preppedQueryString);
+        int preppedOriginValue = Integer.parseInt(origin);
+
+        return (preppedOriginValue == preppedQueryValue);
+    }
+
     /**
      * Returns a detailed message of the t, including the stack trace.
      */

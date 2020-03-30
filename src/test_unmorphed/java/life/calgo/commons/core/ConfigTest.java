@@ -1,4 +1,4 @@
-package f11_1.calgo.commons.core;
+package java.life.calgo.commons.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

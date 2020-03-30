@@ -33,10 +33,8 @@ public class UpdateCommand extends Command {
             + CliSyntax.PREFIX_TAG + "Green "
             + CliSyntax.PREFIX_TAG + "Sweet";
 
-
     public static final String MESSAGE_SUCCESS = "Updated all foods into Food Records %1$s";
     public static final String MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS = "Updated existing food item in Food Record %1$s";
-
 
     private final Food toAdd;
 
@@ -48,12 +46,10 @@ public class UpdateCommand extends Command {
         toAdd = food;
     }
 
-
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Food> lastShowFoodList = model.getFilteredFoodRecord();
-
 
         if (model.hasFood(toAdd)) {
             Food existingFood = model.getExistingFood(toAdd);
@@ -66,6 +62,13 @@ public class UpdateCommand extends Command {
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         }
 
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UpdateCommand // instanceof handles nulls
+                && toAdd.equals(((UpdateCommand) other).toAdd));
     }
 
 }
