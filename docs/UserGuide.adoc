@@ -216,7 +216,7 @@ Deletes 3 portions of of the first food item consumed on 2020-03-04.
 === Exporting the Current `Food Record` into a Reference Sheet : `export`
 
 Obtaining a copy of the `Food Record` entries may be useful for situations like sharing or printing.
-Should you feel the need to obtain a portable version of the current `Food Record` entries, the `export` command provides an editable text file (FoodRecords.txt) in the exports folder. +
+Should you feel the need to obtain a portable version of the current `Food Record` entries, the `export` command provides an editable text file (FoodRecords.txt) in the `data/exports` folder. +
 
 * FoodRecords.txt shows the `Food Record` in alphabetical order of names, and includes the corresponding details of each Food item neatly in a table.
 
@@ -352,16 +352,19 @@ Format: `exit`
 * *Delete* : `delete n/NAME` +
 e.g. `delete pizza`
 * *Find* : `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
-e.g. `find strawberry jam` *OR* +
-`find cal/100 f/10`
+e.g. `find cal/100` *OR* +
+ `find n/Kiwi Chilli`
 * *List* : `list`
 * *Stomach* : stomach [d/DATE] +
-eg. `stomach` *OR* `stomach d/2020-03-04`
+eg. `stomach` *OR* +
+`stomach d/2020-03-04`
 * *Nom* : nom [n/NAME] [d/DATE] [portion/PORTION] +
-eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken`
+eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* +
+`nom n/chicken`
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
-eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* `vomit num/chicken`
-* *Export* : `export` *OR* `export location /C:\Users\eugen\OneDrive\Desktop\`
+eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
+`vomit num/chicken`
+* *Export* : `export`
 * *getGoal* : `getGoal a/AGE g/GENDER h/HEIGHT w/WEIGHT i/IDEAL_WEIGHT d/TARGET_DATE e/WEEKLY_EXERCISE_TIME`
 eg. `getGoal a/23 g/M h/170 w/57.2 i/65 d/2020-12-31 e/5`t
 * *setGoal* : `setGoal GOAL`

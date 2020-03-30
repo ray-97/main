@@ -645,7 +645,7 @@ Use case ends.
 *MSS*
 
 1.  User requests to `export` the current `FoodRecord`.
-2.  Calgo creates a user-friendly text file `FoodRecord.txt` containing all `Food` item details in the `exports` folder.
+2.  Calgo creates a user-friendly text file `FoodRecord.txt` containing all `Food` item details in the `data/exports` folder.
 +
 Use case ends.
 
