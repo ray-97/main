@@ -144,9 +144,6 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
-    /**
-     * Opens the help window or focuses on it if it's already opened.
-     */
     @FXML
     public void handleHelp() {
         if (!helpWindow.isShowing()) {
@@ -154,6 +151,17 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             helpWindow.focus();
         }
+    }
+
+    /**
+     * Opens the help window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleHelpHelper(String commandGuide) {
+        // Check if HelpWindow content is required content
+        helpWindow.setGuide(commandGuide);
+
+        handleHelp();
     }
 
     void show() {
@@ -188,7 +196,7 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
-                handleHelp();
+                handleHelpHelper(commandResult.getFeedbackToUser());
             }
 
             if (commandResult.isExit()) {
