@@ -40,7 +40,7 @@ public class DailyFoodLog {
         for (Food food : foods.keySet()) {
             sb.append(food);
         }
-        sb.append(localDate);
+        sb.append(" " + localDate);
         return sb.toString();
     }
 
@@ -69,12 +69,12 @@ public class DailyFoodLog {
      */
     public LinkedHashMap<Food, Double> remove(Food foodToRemove, OptionalDouble quantity) {
         LinkedHashMap<Food, Double> foods = copyFoods();
+        boolean isQuantityTooMuch = quantity.getAsDouble() >= foods.get(foodToRemove);
         if (!foods.containsKey(foodToRemove)) {
             throw new IllegalArgumentException();
-        } else if (quantity.isEmpty()) {
+        } else if (quantity.isEmpty() || isQuantityTooMuch) {
             foods.remove(foodToRemove);
-        } else if (quantity.getAsDouble() >= foods.get(foodToRemove)) {
-            foods.remove(foodToRemove);
+            ratings.put(foodToRemove, new ArrayList<>()); // Reset ratings when vomit all.
         } else {
             foods.put(foodToRemove, foods.get(foodToRemove) - quantity.getAsDouble());
         }

@@ -16,9 +16,11 @@ import life.calgo.commons.util.StringUtil;
 import life.calgo.logic.Logic;
 import life.calgo.logic.LogicManager;
 
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
+import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.ReadOnlyGoal;
 import life.calgo.model.ReadOnlyUserPrefs;
@@ -26,8 +28,10 @@ import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.util.SampleDataUtil;
 
+import life.calgo.storage.ConsumptionRecordStorage;
 import life.calgo.storage.FoodRecordStorage;
 import life.calgo.storage.GoalStorage;
+import life.calgo.storage.JsonConsumptionRecordStorage;
 import life.calgo.storage.JsonFoodRecordStorage;
 import life.calgo.storage.JsonGoalStorage;
 import life.calgo.storage.JsonUserPrefsStorage;
@@ -63,8 +67,10 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         FoodRecordStorage foodRecordStorage = new JsonFoodRecordStorage(userPrefs.getFoodRecordFilePath());
+        ConsumptionRecordStorage consumptionRecordStorage = new JsonConsumptionRecordStorage(
+                userPrefs.getConsumptionRecordFilePath());
         GoalStorage goalStorage = new JsonGoalStorage(userPrefs.getGoalFilePath());
-        storage = new StorageManager(foodRecordStorage, userPrefsStorage, goalStorage);
+        storage = new StorageManager(foodRecordStorage, consumptionRecordStorage, userPrefsStorage, goalStorage);
 
         initLogging(config);
 
@@ -83,6 +89,8 @@ public class MainApp extends Application {
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         Optional<ReadOnlyFoodRecord> foodRecordOptional;
         ReadOnlyFoodRecord initialData;
+        Optional<ReadOnlyConsumptionRecord> consumptionRecordOptional;
+        ReadOnlyConsumptionRecord consumptionData;
         Optional<ReadOnlyGoal> goalOptional;
         ReadOnlyGoal goal;
 
@@ -101,6 +109,20 @@ public class MainApp extends Application {
         }
 
         try {
+            consumptionRecordOptional = storage.readConsumptionRecord();
+            if (!consumptionRecordOptional.isPresent()) {
+                logger.info("Data file not found. Will be starting with no consumption data.");
+            }
+            consumptionData = consumptionRecordOptional.orElse(new ConsumptionRecord());
+        } catch (DataConversionException e) {
+            logger.warning("Data file not in the correct format. Will be starting with no consumption data.");
+            consumptionData = new ConsumptionRecord();
+        } catch (IOException e) {
+            logger.warning("Problem while reading from file. Will be starting with no consumption data.");
+            consumptionData = new ConsumptionRecord();
+        }
+
+        try {
             goalOptional = storage.readGoal();
             if (!goalOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with no goal set.");
@@ -113,7 +135,9 @@ public class MainApp extends Application {
             logger.warning("Problem while reading from the goal file. Will be starting with no goal set.");
             goal = new DailyGoal(DailyGoal.DUMMY_VALUE);
         }
-        return new ModelManager(initialData, userPrefs, goal);
+        System.out.println("checkpoint5");
+        System.out.println(consumptionData);
+        return new ModelManager(initialData, consumptionData, userPrefs, goal);
     }
 
     private void initLogging(Config config) {

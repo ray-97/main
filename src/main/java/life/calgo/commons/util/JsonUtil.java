@@ -11,17 +11,22 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.KeyDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.commons.exceptions.DataConversionException;
+import life.calgo.storage.JsonAdaptedFood;
 
 /**
  * Converts a Java object instance to JSON and vice versa
@@ -37,7 +42,9 @@ public class JsonUtil {
             .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
             .registerModule(new SimpleModule("SimpleModule")
                     .addSerializer(Level.class, new ToStringSerializer())
-                    .addDeserializer(Level.class, new LevelDeserializer(Level.class)));
+                    .addDeserializer(Level.class, new LevelDeserializer(Level.class))
+                    .addKeySerializer(JsonAdaptedFood.class, new JsonAdaptedFoodKeySerializer())
+                    .addKeyDeserializer(JsonAdaptedFood.class, new JsonAdaptedFoodKeyDeserializer()));
 
     static <T> void serializeObjectToJsonFile(Path jsonFile, T objectToSerialize) throws IOException {
         FileUtil.writeToFile(jsonFile, toJsonString(objectToSerialize));
@@ -137,6 +144,25 @@ public class JsonUtil {
         @Override
         public Class<Level> handledType() {
             return Level.class;
+        }
+    }
+
+    private static class JsonAdaptedFoodKeySerializer extends JsonSerializer<JsonAdaptedFood> {
+        @Override
+        public void serialize(JsonAdaptedFood value, JsonGenerator gen, SerializerProvider serializers)
+                throws IOException, JsonProcessingException {
+            // StringWriter writer = new StringWriter();
+            // objectMapper.writeValue(writer, value);
+            //gen.writeFieldName(writer.toString());
+            gen.writeFieldName(toJsonString(value));
+        }
+    }
+
+    private static class JsonAdaptedFoodKeyDeserializer extends KeyDeserializer {
+        @Override
+        public JsonAdaptedFood deserializeKey(String key, DeserializationContext context)
+                throws IOException, JsonProcessingException {
+            return fromJsonString(key, JsonAdaptedFood.class);
         }
     }
 

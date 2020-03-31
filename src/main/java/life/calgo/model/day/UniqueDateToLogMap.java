@@ -3,11 +3,14 @@ package life.calgo.model.day;
 import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 
@@ -33,6 +36,14 @@ public class UniqueDateToLogMap {
         internalMap.put(foodLog.getLocalDate(), foodLog);
     }
 
+    public String toString() {
+        String sb = "";
+        for (DailyFoodLog dfl: internalMap.values()) {
+            sb += dfl.toString();
+        }
+        return sb;
+    }
+
     /**
      * updates internal key-value pair by updating the value of the given date key
      * @param logAfterConsumption the updated day object after consuming a certain food
@@ -48,9 +59,12 @@ public class UniqueDateToLogMap {
         }
     }
 
-    public void setDailyListDate(LocalDate date) {
+    public void setDailyListDate(LocalDate date) throws CommandException {
         internalList.clear();
-        Set<Food> foods = internalMap.get(date).getFoods();
+        if (!internalMap.containsKey(date)) {
+            throw new CommandException(String.format("You have not consumed anything on %s yet", date));
+        }
+        Set<Food> foods = internalMap.get(date).getFoods(); // null internalMap? or internalMap.get(date) null
         if (!foods.isEmpty()) {
             for (Food food : foods) {
                 DailyFoodLog foodLog = internalMap.get(date);
@@ -59,6 +73,10 @@ public class UniqueDateToLogMap {
                 internalList.add(new ConsumedFood(food, portion, rating, date));
             }
         }
+    }
+
+    public List<DailyFoodLog> getDailyFoodLogs() {
+        return new ArrayList<>(internalMap.values());
     }
 
     /**

@@ -15,6 +15,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
     private Path foodRecordFilePath = Paths.get("data" , "foodrecord.json");
+    private Path consumptionRecordFilePath = Paths.get("data", "consumptionrecord.json");
     private Path goalFilePath = Paths.get("data", "goal.json");
 
     /**
@@ -50,6 +51,10 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     public Path getFoodRecordFilePath() {
         return foodRecordFilePath;
+    }
+
+    public Path getConsumptionRecordFilePath() {
+        return consumptionRecordFilePath;
     }
 
     public Path getGoalFilePath() {

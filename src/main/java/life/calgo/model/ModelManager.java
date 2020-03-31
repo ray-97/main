@@ -14,6 +14,7 @@ import javafx.collections.transformation.FilteredList;
 
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
@@ -27,6 +28,7 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final FoodRecord foodRecord;
+    private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
     private final FilteredList<ConsumedFood> currentFilteredDailyList;
@@ -35,22 +37,24 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given foodRecord and userPrefs.
      */
-    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyUserPrefs userPrefs, ReadOnlyGoal readOnlyGoal) {
+    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyConsumptionRecord readOnlyConsumptionRecord,
+                        ReadOnlyUserPrefs userPrefs, ReadOnlyGoal readOnlyGoal) {
         super();
-        requireAllNonNull(readOnlyFoodRecord, userPrefs, readOnlyGoal);
+        requireAllNonNull(readOnlyFoodRecord, readOnlyConsumptionRecord, userPrefs, readOnlyGoal);
 
         logger.fine("Initializing with food record: " + readOnlyFoodRecord + " and user prefs " + userPrefs
                 + " and goal " + readOnlyGoal);
 
         this.foodRecord = new FoodRecord(readOnlyFoodRecord);
+        this.consumptionRecord = new ConsumptionRecord(readOnlyConsumptionRecord);
         this.userPrefs = new UserPrefs(userPrefs);
         this.targetDailyCalories = new DailyGoal(readOnlyGoal);
         filteredFoods = new FilteredList<>(this.foodRecord.getFoodList());
-        currentFilteredDailyList = new FilteredList<>(this.foodRecord.getDailyList());
+        currentFilteredDailyList = new FilteredList<>(this.consumptionRecord.getDailyList());
     }
 
     public ModelManager() {
-        this(new FoodRecord(), new UserPrefs(), new DailyGoal());
+        this(new FoodRecord(), new ConsumptionRecord(), new UserPrefs(), new DailyGoal());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -96,6 +100,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ReadOnlyConsumptionRecord getConsumptionRecord() {
+        return consumptionRecord;
+    }
+
+    @Override
     public void setFoodRecord(ReadOnlyFoodRecord foodRecord) {
         this.foodRecord.resetData(foodRecord);
     }
@@ -138,27 +147,27 @@ public class ModelManager implements Model {
 
     @Override
     public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
-        return foodRecord.hasLogWithSameDate(foodLog);
+        return consumptionRecord.hasLogWithSameDate(foodLog);
     }
 
     @Override
     public boolean hasLogWithSameDate(LocalDate date) {
-        return foodRecord.hasLogWithSameDate(new DailyFoodLog().setDate(date));
+        return consumptionRecord.hasLogWithSameDate(new DailyFoodLog().setDate(date));
     }
 
     @Override
     public void addLog(DailyFoodLog foodLog) {
-        foodRecord.addLog(foodLog);
+        consumptionRecord.addLog(foodLog);
     }
 
     @Override
     public void updateLog(DailyFoodLog logToUpdate) {
-        foodRecord.updateLog(logToUpdate);
+        consumptionRecord.updateLog(logToUpdate);
     }
 
     @Override
     public DailyFoodLog getLogByDate(LocalDate localDate) {
-        return foodRecord.getLogByDate(localDate);
+        return consumptionRecord.getLogByDate(localDate);
     }
 
     /**
@@ -210,16 +219,17 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) {
+    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date)
+            throws CommandException {
         requireNonNull(predicate);
-        foodRecord.setDailyListDate(date);
+        consumptionRecord.setDailyListDate(date);
         currentFilteredDailyList.setPredicate(predicate);
     }
 
     @Override
     public void updateConsumedLists(Food food) {
         requireNonNull(food);
-        foodRecord.updateConsumedLists(food);
+        consumptionRecord.updateConsumedLists(food);
     }
 
     @Override

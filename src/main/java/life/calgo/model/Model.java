@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import life.calgo.commons.core.GuiSettings;
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
@@ -50,6 +51,8 @@ public interface Model {
      * Sets the user prefs' food record file path.
      */
     void setFoodRecordFilePath(Path addressBookFilePath);
+
+    ReadOnlyConsumptionRecord getConsumptionRecord();
 
     /**
      * Replaces food record data with the data in {@code foodRecord}.
@@ -115,7 +118,7 @@ public interface Model {
 
     ObservableList<ConsumedFood> getCurrentFilteredDailyList();
 
-    void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date);
+    void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) throws CommandException;
 
     void updateConsumedLists(Food food);
 }

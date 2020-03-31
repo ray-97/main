@@ -3,6 +3,7 @@ package life.calgo.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import life.calgo.commons.util.CollectionUtil;
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
 import life.calgo.model.day.DailyFoodLog;
@@ -37,7 +38,7 @@ public class NomCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (!model.hasLogWithSameDate(foodlog)) {
             model.addLog(foodlog);

@@ -91,7 +91,6 @@ public class ParserUtil {
             return false;
         }
         try {
-            System.out.println(strNum);
             double d = Double.parseDouble(strNum);
         } catch (NumberFormatException nfe) {
             return false;
@@ -104,7 +103,6 @@ public class ParserUtil {
             return false;
         }
         try {
-            System.out.println(strNum);
             int d = Integer.parseInt(strNum);
         } catch (NumberFormatException nfe) {
             return false;
