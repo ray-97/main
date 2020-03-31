@@ -168,7 +168,7 @@ public class MainWindow extends UiPart<Stage> {
         double remainingCalories = logic.getRemainingCalories();
         if (remainingCalories < 0.0) {
             remainingCaloriesDisplay.setCaloriesOfUser(String.format(NEGATIVE_CALORIES_MESSAGE,
-                    (int) remainingCalories));
+                    (int) (remainingCalories * -1)));
         } else {
             remainingCaloriesDisplay.setCaloriesOfUser(String.format(POSITIVE_CALORIES_MESSAGE,
                     (int) remainingCalories));
