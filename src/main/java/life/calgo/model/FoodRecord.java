@@ -44,7 +44,7 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         resetData(toBeCopied);
     }
 
-    //// list overwrite operations
+    // list overwrite operations
 
     /**
      * Replaces the contents of the food list with {@code foods}.
@@ -62,7 +62,7 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         setFoodList(newData.getFoodList());
     }
 
-    //// food-level operations
+    // food-level operations
 
     /**
      * Returns true if a food with the same identity as {@code food} exists in the food record.
@@ -108,7 +108,7 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         return foodList.getExistingFood(toGet);
     }
 
-    //// util methods
+    // util methods
 
     public Optional<Food> getFoodByName(Name name) {
         return foodList.getFoodByName(name);

@@ -47,6 +47,7 @@ public class JsonFoodRecordStorage implements FoodRecordStorage {
 
         Optional<JsonSerializableFoodRecord> jsonFoodRecord = JsonUtil.readJsonFile(
                 filePath, JsonSerializableFoodRecord.class);
+
         if (!jsonFoodRecord.isPresent()) {
             return Optional.empty();
         }

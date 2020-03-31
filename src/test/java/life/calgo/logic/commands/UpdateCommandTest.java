@@ -223,7 +223,10 @@ public class UpdateCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-
+        @Override
+        public double getRemainingCalories(LocalDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

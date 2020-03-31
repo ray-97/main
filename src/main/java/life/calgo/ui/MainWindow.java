@@ -27,6 +27,8 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
     private static final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
             + "do remember to set a daily calorie goal using the goal command!";
+    private static final String POSITIVE_CALORIES_MESSAGE = "You can consume %s more calories today.";
+    private static final String NEGATIVE_CALORIES_MESSAGE = "You have consumed %s more calories than your goal today.";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -37,6 +39,8 @@ public class MainWindow extends UiPart<Stage> {
     private FoodListPanel foodListPanel;
     private DailyListPanel dailyListPanel;
     private ResultDisplay resultDisplay;
+    private GoalDisplay goalDisplay;
+    private RemainingCaloriesDisplay remainingCaloriesDisplay;
     private HelpWindow helpWindow;
 
     @FXML
@@ -56,6 +60,12 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private StackPane goalDisplayPlaceholder;
+
+    @FXML
+    private StackPane caloriesDisplayPlaceholder;
 
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -123,13 +133,46 @@ public class MainWindow extends UiPart<Stage> {
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
+        goalDisplay = new GoalDisplay();
+        goalDisplayPlaceholder.getChildren().add(goalDisplay.getRoot());
+
+        remainingCaloriesDisplay = new RemainingCaloriesDisplay();
+        caloriesDisplayPlaceholder.getChildren().add(remainingCaloriesDisplay.getRoot());
+
+        resultDisplay.setFeedbackToUser(GREETING_MESSAGE);
+
+        fillGoal();
+
+        fillRemainingCalories();
+
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-        resultDisplay.setFeedbackToUser(GREETING_MESSAGE);
+
+    }
+
+    /**
+     * Fills Goal stack pane with daily goal data.
+     */
+    void fillGoal() {
+        goalDisplay.setGoalOfUser(logic.getDailyGoal().toString());
+    }
+
+    /**
+     * Fills remaining calories pane with number of remaining calories for the day.
+     */
+    void fillRemainingCalories() {
+        double remainingCalories = logic.getRemainingCalories();
+        if (remainingCalories < 0.0) {
+            remainingCaloriesDisplay.setCaloriesOfUser(String.format(NEGATIVE_CALORIES_MESSAGE,
+                    (int) (remainingCalories * -1)));
+        } else {
+            remainingCaloriesDisplay.setCaloriesOfUser(String.format(POSITIVE_CALORIES_MESSAGE,
+                    (int) remainingCalories));
+        }
     }
 
     /**
@@ -194,6 +237,8 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+            fillGoal();
+            fillRemainingCalories();
 
             if (commandResult.isShowHelp()) {
                 handleHelpHelper(commandResult.getFeedbackToUser());
