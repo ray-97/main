@@ -19,6 +19,7 @@ import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
+import life.calgo.storage.ReportGenerator;
 
 /**
  * Represents the in-memory model of the food record data.
@@ -185,6 +186,22 @@ public class ModelManager implements Model {
 
     public DailyGoal getDailyGoal() {
         return this.targetDailyCalories;
+    }
+
+    public double getRemainingCalories(LocalDate date) {
+        DailyGoal goal = getDailyGoal();
+        DailyFoodLog todayFoodLog = getLogByDate(date);
+        if (goal == null) {
+            return 0.0;
+        }
+        // user did not consume anything today
+        if (todayFoodLog == null) {
+            return goal.getTargetDailyCalories();
+        }
+
+        ReportGenerator reportGenerator = new ReportGenerator(todayFoodLog, goal);
+        reportGenerator.generateReport();
+        return reportGenerator.calculateRemainingCalories();
     }
 
     // Filtered Food Record Accessors

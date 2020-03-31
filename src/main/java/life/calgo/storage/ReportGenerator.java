@@ -15,7 +15,7 @@ import life.calgo.model.food.Food;
  */
 public class ReportGenerator {
     private static final Logger logger = LogsCenter.getLogger(ReportGenerator.class);
-    private DailyFoodLog queryLog; // changes here
+    private DailyFoodLog queryLog;
     private File file;
     private PrintWriter printWriter;
     private double totalCalories = 0.0;
@@ -78,7 +78,7 @@ public class ReportGenerator {
     public void printFoodwiseStatistics() {
         printWriter.println("Food-wise Statistics:");
         printWriter.println(String.format("%-20s %-20s %-20s", "    Food", "   Quantity", "   Calories"));
-        DailyFoodLog foodLog = queryLog; //changes here
+        DailyFoodLog foodLog = queryLog;
         for (Food food : foodLog.getFoods()) {
             double portion = foodLog.getPortion(food);
             double currCalories = portion * (double) Integer.parseInt(food.getCalorie().value);
