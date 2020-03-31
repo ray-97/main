@@ -70,7 +70,7 @@ public class UniqueDateToLogMap {
 
     public void updateMapWithFood(Food food) {
         for (DailyFoodLog log: internalMap.values()) {
-            log.updateFoodWithSameName(food);
+            internalMap.put(log.getLocalDate(), log.updateFoodWithSameName(food));
         }
     }
 

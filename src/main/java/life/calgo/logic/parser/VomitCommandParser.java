@@ -70,8 +70,8 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         }
         foodLog = model.getLogByDate(foodLog.getLocalDate());
         try {
-            optionalFood = foodLog.getFoodByIndex(indexOfFood); // Can give exception due to index out of bound.
-            foodLog = foodLog.vomit(optionalFood.get(), portion); // Only through exception when user has not eaten food yet.
+            optionalFood = foodLog.getFoodByIndex(indexOfFood);
+            foodLog = foodLog.vomit(optionalFood.get(), portion);
         } catch (IllegalArgumentException e) {
             throw new ParseException(MESSAGE_FOOD_NOT_IN_LOG);
         } catch (IndexOutOfBoundsException e) {

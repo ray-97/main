@@ -12,12 +12,12 @@ import java.util.Set;
 import life.calgo.model.food.Food;
 
 /**
- * A data structure that stores food objects as keys and their corresponding portions consumed as the value
+ * A data structure that stores a map of Food to portion and Food to rating for a certain date where food is consumed.
  */
 public class DailyFoodLog {
 
     private final LinkedHashMap<Food, Double> foods;
-    private final LinkedHashMap<Food, ArrayList<Integer>> ratings; // arraylist got nothing yet
+    private final LinkedHashMap<Food, ArrayList<Integer>> ratings;
     private final LocalDate localDate;
 
     public DailyFoodLog() {
@@ -69,10 +69,12 @@ public class DailyFoodLog {
      */
     public LinkedHashMap<Food, Double> remove(Food foodToRemove, OptionalDouble quantity) {
         LinkedHashMap<Food, Double> foods = copyFoods();
-        boolean isQuantityTooMuch = quantity.getAsDouble() >= foods.get(foodToRemove);
+        boolean shouldRemoveCompletely = quantity.isEmpty()
+                ? true
+                : quantity.getAsDouble() >= foods.get(foodToRemove);
         if (!foods.containsKey(foodToRemove)) {
             throw new IllegalArgumentException();
-        } else if (quantity.isEmpty() || isQuantityTooMuch) {
+        } else if (shouldRemoveCompletely) {
             foods.remove(foodToRemove);
             ratings.put(foodToRemove, new ArrayList<>()); // Reset ratings when vomit all.
         } else {
@@ -90,15 +92,22 @@ public class DailyFoodLog {
     }
 
     public DailyFoodLog updateFoodWithSameName(Food newFood) {
-        LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
+        LinkedHashMap<Food, Double> foods = copyFoods();
+        LinkedHashMap<Food, ArrayList<Integer>> ratings = copyRatings();
+        OptionalDouble portion = OptionalDouble.empty();
+        ArrayList<Integer> rating = new ArrayList<>();
         for (Food food: this.foods.keySet()) {
             if (food.isSameFood(newFood)) {
-                foods.put(newFood, foods.get(food));
-            } else {
-                foods.put(food, foods.get(food));
+                portion = OptionalDouble.of(foods.remove(food));
+                rating = new ArrayList<>(this.ratings.get(food));
+                ratings.remove(food);
             }
         }
-        return new DailyFoodLog(foods, copyRatings(), localDate);
+        if (portion.isPresent()) {
+            foods.put(newFood, portion.getAsDouble());
+            ratings.put(newFood, rating);
+        }
+        return new DailyFoodLog(foods, ratings, localDate);
     }
 
     /**
