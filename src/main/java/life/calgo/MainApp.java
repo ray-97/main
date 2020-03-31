@@ -135,8 +135,6 @@ public class MainApp extends Application {
             logger.warning("Problem while reading from the goal file. Will be starting with no goal set.");
             goal = new DailyGoal(DailyGoal.DUMMY_VALUE);
         }
-        System.out.println("checkpoint5");
-        System.out.println(consumptionData);
         return new ModelManager(initialData, consumptionData, userPrefs, goal);
     }
 

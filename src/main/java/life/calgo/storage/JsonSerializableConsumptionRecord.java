@@ -38,8 +38,6 @@ public class JsonSerializableConsumptionRecord {
             }
             consumptionRecord.addLog(dailyFoodLog);
         }
-        System.out.println("checkpoint3");
-        System.out.println(consumptionRecord);
         return consumptionRecord;
     }
 }

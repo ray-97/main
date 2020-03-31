@@ -44,6 +44,21 @@ public class UniqueDateToLogMap {
         return sb;
     }
 
+    public void setDateToLogMap(HashMap<LocalDate, DailyFoodLog> dateToLogMap) {
+        internalMap.clear();
+        for (DailyFoodLog dailyFoodLog : dateToLogMap.values()) {
+            internalMap.put(dailyFoodLog.getLocalDate() , dailyFoodLog.copy());
+        }
+    }
+
+    public HashMap<LocalDate, DailyFoodLog> getDateToLogMap() {
+        HashMap<LocalDate, DailyFoodLog> copy = new HashMap<>();
+        for (DailyFoodLog dailyFoodLog : internalMap.values()) {
+            copy.put(dailyFoodLog.getLocalDate(), dailyFoodLog.copy());
+        }
+        return copy;
+    }
+
     /**
      * updates internal key-value pair by updating the value of the given date key
      * @param logAfterConsumption the updated day object after consuming a certain food

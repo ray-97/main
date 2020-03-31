@@ -47,7 +47,6 @@ public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
         }
 
         try {
-            System.out.println("checkpoint0");
             return Optional.of(jsonConsumptionRecord.get().toModelType());
         } catch (IllegalValueException ive) {
             logger.info("Illegal values found in " + filePath + ": " + ive.getMessage());

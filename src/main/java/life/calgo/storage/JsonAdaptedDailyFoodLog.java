@@ -56,10 +56,8 @@ public class JsonAdaptedDailyFoodLog {
     private LinkedHashMap<Food, Double> unAdaptFoods(LinkedHashMap<JsonAdaptedFood, Double> adaptedFoods)
             throws IllegalValueException {
         LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
-        System.out.println("checkpoint1");
         for (JsonAdaptedFood adaptedFood : adaptedFoods.keySet()) {
-            System.out.println(adaptedFood);
-            foods.put(adaptedFood.toModelType(), foods.get(adaptedFood));
+            foods.put(adaptedFood.toModelType(), adaptedFoods.get(adaptedFood));
         }
         return foods;
     }
@@ -69,7 +67,7 @@ public class JsonAdaptedDailyFoodLog {
             throws IllegalValueException {
         LinkedHashMap<Food, ArrayList<Integer>> ratings = new LinkedHashMap<>();
         for (JsonAdaptedFood adaptedFood : adaptedRatings.keySet()) {
-            ratings.put(adaptedFood.toModelType(), ratings.get(adaptedRatings));
+            ratings.put(adaptedFood.toModelType(), new ArrayList<>(adaptedRatings.get(adaptedFood)));
         }
         return ratings;
     }

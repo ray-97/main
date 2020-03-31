@@ -3,6 +3,7 @@ package life.calgo.model;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 import javafx.collections.ObservableList;
@@ -29,6 +30,11 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
     public void resetData(ReadOnlyConsumptionRecord newData) {
         requireNonNull(newData);
         dateToLogMap.setDateToLogMap(newData.getDateToLogMap());
+    }
+
+    @Override
+    public HashMap<LocalDate, DailyFoodLog> getDateToLogMap() {
+        return dateToLogMap.getDateToLogMap();
     }
 
     public String toString() {
