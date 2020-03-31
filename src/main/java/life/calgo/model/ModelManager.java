@@ -51,6 +51,7 @@ public class ModelManager implements Model {
         this.targetDailyCalories = new DailyGoal(readOnlyGoal);
         filteredFoods = new FilteredList<>(this.foodRecord.getFoodList());
         currentFilteredDailyList = new FilteredList<>(this.consumptionRecord.getDailyList());
+        refreshCurrentFilteredDailyList();
     }
 
     public ModelManager() {
@@ -230,6 +231,15 @@ public class ModelManager implements Model {
     public void updateConsumedLists(Food food) {
         requireNonNull(food);
         consumptionRecord.updateConsumedLists(food);
+        refreshCurrentFilteredDailyList();
+    }
+
+    private void refreshCurrentFilteredDailyList() {
+        try {
+            updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());
+        } catch (Exception e) {
+            logger.warning("Error refreshing filtered list.");
+        }
     }
 
     @Override
