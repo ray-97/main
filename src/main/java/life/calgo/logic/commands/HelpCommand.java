@@ -6,6 +6,8 @@ import javafx.collections.ObservableSet;
 import javafx.fxml.FXML;
 import life.calgo.model.Model;
 
+import java.util.Set;
+
 /**
  * Format full help instructions for every command for display.
  */
@@ -24,9 +26,9 @@ public class HelpCommand extends Command {
     private final ObservableMap<String, String> internalUnmodifiableMap =
             FXCollections.unmodifiableObservableMap(internalMap);
 
-    private ObservableSet<String> internalSet = FXCollections.observableSet();
-    private final ObservableSet<String> internalUnmodifiableSet =
-            FXCollections.unmodifiableObservableSet(internalSet);
+    private Set<String> internalSet;
+    //private final ObservableSet<String> internalUnmodifiableSet =
+            //FXCollections.unmodifiableObservableSet(internalSet);
 
     public static final String HELP_CLEAR_MESSAGE = "clear:\n"
             + "Clears all entries from the Food Record.\n"
@@ -79,7 +81,10 @@ public class HelpCommand extends Command {
     }
 
     public HelpCommand(String keyword) {
-        this.keyword = keyword;
+        this.keyword = keyword.trim();
+
+        addMessagesToMap();
+        internalSet = setKeySet();
     }
 
     private void addMessagesToMap() {
@@ -97,8 +102,8 @@ public class HelpCommand extends Command {
         internalMap.put("vomit", HELP_VOMIT_MESSAGE);
     }
 
-    private void setKeySet() {
-        internalSet = (ObservableSet<String>) internalMap.keySet();
+    private Set<String> setKeySet() {
+        return internalMap.keySet();
     }
 
     private String printIfSubstring(String keyword) {
