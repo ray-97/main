@@ -20,16 +20,6 @@ public class HelpCommand extends Command {
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
 
-    private String keyword;
-
-    private final ObservableMap<String, String> internalMap = FXCollections.observableHashMap();
-    private final ObservableMap<String, String> internalUnmodifiableMap =
-            FXCollections.unmodifiableObservableMap(internalMap);
-
-    private Set<String> internalSet;
-    //private final ObservableSet<String> internalUnmodifiableSet =
-            //FXCollections.unmodifiableObservableSet(internalSet);
-
     public static final String HELP_CLEAR_MESSAGE = "clear:\n"
             + "Clears all entries from the Food Record.\n"
             + "Format: clear\n\n";
@@ -75,6 +65,27 @@ public class HelpCommand extends Command {
     public static final String HELP_VOMIT_MESSAGE = "vomit:\n"
             + "Deletes a food item that a user has previously added to the log tracking consumption on that day.\n"
             + "Format: vomit [num/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]\n\n";
+
+    public static final String DEFAULT_HELP_MESSAGE = HELP_CLEAR_MESSAGE
+            + HELP_DELETE_MESSAGE
+            + HELP_EXIT_MESSAGE
+            + HELP_EXPORT_MESSAGE
+            + HELP_FIND_MESSAGE
+            + HELP_GOAL_MESSAGE
+            + HELP_LIST_MESSAGE
+            + HELP_NOM_MESSAGE
+            + HELP_REPORT_MESSAGE
+            + HELP_UPDATE_MESSAGE
+            + HELP_VOMIT_MESSAGE;
+
+    private String keyword;
+
+    private static final ObservableMap<String, String> internalMap = FXCollections.observableHashMap();
+    private static final ObservableMap<String, String> internalUnmodifiableMap =
+            FXCollections.unmodifiableObservableMap(internalMap);
+
+    private static Set<String> internalSet;
+
 
     public HelpCommand(){
         // dummy
@@ -122,7 +133,13 @@ public class HelpCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        String commandGuide = printIfSubstring(keyword);
+        String commandGuide;
+
+        commandGuide = printIfSubstring(keyword);
+        if (commandGuide.isEmpty()) {
+            commandGuide = DEFAULT_HELP_MESSAGE;
+        }
+
         return new CommandResult(commandGuide,
                 true, false);
     }
