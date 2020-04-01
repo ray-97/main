@@ -18,7 +18,7 @@ import life.calgo.logic.commands.HelpCommand;
  * Controller for a help page
  */
 public class HelpWindow extends UiPart<Stage> {
-    public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
+    public static final String USERGUIDE_URL = "https://ay1920s2-cs2103t-f11-1.github.io/main/UserGuide.html";
     public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
     //public static final String COMMAND_MESSAGE = "";
 
