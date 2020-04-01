@@ -93,27 +93,29 @@ This command will display only available commands containing the keyword 'list'.
 
 === Updating the current `Food Record` : `update`
 
-Updates a Food Item in the `Food Record`.
+Updates a Food Item into the `Food Record`.
 
 ****
 * If Food Item is not present in the `Food Record`, this will create a new Food Item with all the nutritional details specified
-* If Food Item is already present in the `Food Record`, this will override that Food Item with the nutritional details specified by user
+* If Food Item is already present in the `Food Record`, this will override that Food Item with all the nutritional details specified by user
 ****
 
 <<<
 
-Format: `update n/NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
+Format: `update n/NAME cal/CALORIES p/PROTEINS] c/CARB] f/FATS [t/TAGS]`
 
 Examples:
 
-* `update n/pizza cal/200 p/10 c/200` +
-This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calorie, 10g of protein, 200g of carbohydrates.
-* `update n/pizza cal/100 p/10 c/100 f/30` +
+* `update n/pizza cal/200 p/10 c/200 f/200` +
+This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calorie, 10g of protein, 200g of carbohydrates and 200g of fats.
+* `update n/pizza cal/100 p/10 c/100 f/30 tags/Italiano` +
 As pizza is already in the user’s food preset, this command overrides the nutritional details of pizza with 200Cal calorie, 10g of protein, 200g of carbohydrates and 20g of fats.
+The pizza is also tagged with the word "Italiano".
 
 
 [TIP]
-You can leave any of the protein, carbohydrates or fats value of a food item blank when updating a Food Item into the `Food Record`.
+Whenever you begin to key in the name of the food item, Calgo automatically filters the Food Record display for you so that you only see Food items with
+the same name. This helps you refer to any existing Food item that you maybe updating with ease.
 
 <<<
 
@@ -148,15 +150,16 @@ Format: `stomach [d/DATE]`
 
 ****
 * If a date is not provided, Calgo will take it that the user wishes to see food consumed today.
+* If you want to show today's records, inclusion of `d/` prefix is optional.
 * Date follows yyyy-mm-dd format.
 ****
 
 Examples:
 
-* `stomach d/2020-03-04`
+* `stomach d/2020-03-04` +
 Displays a list of food user has consumed on 2020-03-04.
 
-* `stomach` +
+* `stomach` or `stomach d/` +
 Displays a list of food user has consumed today.
 
 <<<
@@ -170,11 +173,10 @@ Format: `nom [n/NAME] [d/DATE] [portion/PORTION]`
 ****
 * If a date is not provided, Calgo will take it that the user ate the food today.
 * Date follows yyyy-mm-dd format.
+* When opting for default values, inclusion of `d/` and `portion/` prefixes are optional. +
+Not giving any values set date to today, and portion to 1 by default.
 * User can check how much nutritional content each type of food content by checking the existing list of food.
-* Ad-hoc consumption of food coming to you in v1.3 for flexibility should user be lazy to create a food items +
-which differs from existing ones/rarely eats. Also marked as ad-hoc since it does not exists in `Food Record` in case user
-have other plans in the future.
-* In v1.3, food items tagged with mood values will be displayed separately.
+* You can rate your dining experience, average rating of consuming a certain food will then be displayed.
 ****
 
 Examples:
@@ -196,6 +198,8 @@ Format: `vomit [num/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]`
 * Deletes a portion of food at the specified `INDEX_OF_FOOD`.
 * The index refers to the index number shown in the displayed consumption list.
 * The index *must be a positive integer*: 1, 2, 3, ...
+* When opting for default values, inclusion of `d/` and `portion/` prefixes are optional. +
+Not giving any values set date to today.
 * If no portion is specified, the whole entry is deleted.
 * If user specified a portion greater than what he has consumed, the entire entry will be deleted.
 * If no date is specified, Calgo takes it as the date is today.
@@ -356,14 +360,13 @@ e.g. `find cal/100` *OR* +
  `find n/Kiwi Chilli`
 * *List* : `list`
 * *Stomach* : stomach [d/DATE] +
-eg. `stomach` *OR* +
-`stomach d/2020-03-04`
+eg. `stomach` *OR* `stomach d/` *OR* `stomach d/2020-03-04`+
 * *Nom* : nom [n/NAME] [d/DATE] [portion/PORTION] +
-eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* +
-`nom n/chicken`
+eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR*
+`nom n/chicken` *OR* `nom n/chicken d/ portion/`
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
 eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
-`vomit num/chicken`
+`vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
 * *Export* : `export`
 * *getGoal* : `getGoal a/AGE g/GENDER h/HEIGHT w/WEIGHT i/IDEAL_WEIGHT d/TARGET_DATE e/WEEKLY_EXERCISE_TIME`
 eg. `getGoal a/23 g/M h/170 w/57.2 i/65 d/2020-12-31 e/5`t

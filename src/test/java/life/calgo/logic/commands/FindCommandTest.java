@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
@@ -24,9 +25,10 @@ import life.calgo.testutil.TypicalFoodItems;
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+    private Model model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new ConsumptionRecord(),
+            new UserPrefs(), new DailyGoal());
     private Model expectedModel = new ModelManager(
-            TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+            TypicalFoodItems.getTypicalFoodRecord(), model.getConsumptionRecord(), new UserPrefs(), new DailyGoal());
 
     @Test
     public void equals() {

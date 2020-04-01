@@ -21,7 +21,7 @@ import life.calgo.model.tag.Tag;
 /**
  * Jackson-friendly version of {@link Food}.
  */
-class JsonAdaptedFood {
+public class JsonAdaptedFood {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Food's %s field is missing!";
 
@@ -126,4 +126,7 @@ class JsonAdaptedFood {
         return new Food(modelName, modelCalorie, modelProtein, modelCarbohydrate, modelFat, modelTags);
     }
 
+    public String toString() {
+        return name;
+    }
 }

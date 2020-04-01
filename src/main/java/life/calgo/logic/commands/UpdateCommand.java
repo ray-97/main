@@ -54,6 +54,7 @@ public class UpdateCommand extends Command {
         if (model.hasFood(toAdd)) {
             Food existingFood = model.getExistingFood(toAdd);
             model.setFood(existingFood, toAdd);
+            model.updateConsumedLists(toAdd);
             model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
 
             return new CommandResult(String.format(MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, toAdd));

@@ -59,7 +59,6 @@ public class ReportGenerator {
      */
     public void printHeader() {
         String title = "Report of Consumption Pattern on " + this.queryLog.getLocalDate().toString();
-        // assert title != null : "Title is null"; or System.out.println(printWriter == null);
         printWriter.println(title);
         if (userGoal.getTargetDailyCalories() == DailyGoal.DUMMY_VALUE) {
             printWriter.println("You did not set any goal for daily caloric intake yet."

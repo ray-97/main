@@ -19,6 +19,7 @@ import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
+import life.calgo.model.food.predicates.FoodRecordContainsFoodNamePredicate;
 import life.calgo.storage.Storage;
 
 /**
@@ -39,6 +40,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public void updateFoodList(String foodName) {
+        model.updateFilteredFoodRecord(new FoodRecordContainsFoodNamePredicate(foodName));
+    }
+
+    @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
@@ -48,6 +54,7 @@ public class LogicManager implements Logic {
 
         try {
             storage.saveFoodRecord(model.getFoodRecord());
+            storage.saveConsumptionRecord(model.getConsumptionRecord());
             storage.saveGoal(model.getDailyGoal());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
