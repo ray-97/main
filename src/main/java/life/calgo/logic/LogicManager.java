@@ -19,6 +19,7 @@ import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
+import life.calgo.model.food.predicates.FoodRecordContainsFoodNamePredicate;
 import life.calgo.storage.Storage;
 
 /**
@@ -36,6 +37,11 @@ public class LogicManager implements Logic {
         this.model = model;
         this.storage = storage;
         foodRecordParser = new FoodRecordParser();
+    }
+
+    @Override
+    public void updateFoodList(String foodName) {
+        model.updateFilteredFoodRecord(new FoodRecordContainsFoodNamePredicate(foodName));
     }
 
     @Override
