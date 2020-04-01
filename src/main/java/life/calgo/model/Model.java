@@ -104,6 +104,8 @@ public interface Model {
 
     public DailyGoal getDailyGoal();
 
+    public double getRemainingCalories(LocalDate date);
+
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();
 

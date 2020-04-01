@@ -93,27 +93,29 @@ This command will display only available commands containing the keyword 'list'.
 
 === Updating the current `Food Record` : `update`
 
-Updates a Food Item in the `Food Record`.
+Updates a Food Item into the `Food Record`.
 
 ****
 * If Food Item is not present in the `Food Record`, this will create a new Food Item with all the nutritional details specified
-* If Food Item is already present in the `Food Record`, this will override that Food Item with the nutritional details specified by user
+* If Food Item is already present in the `Food Record`, this will override that Food Item with all the nutritional details specified by user
 ****
 
 <<<
 
-Format: `update n/NAME cal/CALORIES [p/PROTEINS] [c/CARBS] [f/FATS]`
+Format: `update n/NAME cal/CALORIES p/PROTEINS] c/CARB] f/FATS [t/TAGS]`
 
 Examples:
 
-* `update n/pizza cal/200 p/10 c/200` +
-This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calorie, 10g of protein, 200g of carbohydrates.
-* `update n/pizza cal/100 p/10 c/100 f/30` +
+* `update n/pizza cal/200 p/10 c/200 f/200` +
+This command adds a new food item, pizza into the user’s food presets with nutritional details of 200Cal calorie, 10g of protein, 200g of carbohydrates and 200g of fats.
+* `update n/pizza cal/100 p/10 c/100 f/30 tags/Italiano` +
 As pizza is already in the user’s food preset, this command overrides the nutritional details of pizza with 200Cal calorie, 10g of protein, 200g of carbohydrates and 20g of fats.
+The pizza is also tagged with the word "Italiano".
 
 
 [TIP]
-You can leave any of the protein, carbohydrates or fats value of a food item blank when updating a Food Item into the `Food Record`.
+Whenever you begin to key in the name of the food item, Calgo automatically filters the Food Record display for you so that you only see Food items with
+the same name. This helps you refer to any existing Food item that you maybe updating with ease.
 
 <<<
 
@@ -216,7 +218,7 @@ Deletes 3 portions of of the first food item consumed on 2020-03-04.
 === Exporting the Current `Food Record` into a Reference Sheet : `export`
 
 Obtaining a copy of the `Food Record` entries may be useful for situations like sharing or printing.
-Should you feel the need to obtain a portable version of the current `Food Record` entries, the `export` command provides an editable text file (FoodRecords.txt) in the exports folder. +
+Should you feel the need to obtain a portable version of the current `Food Record` entries, the `export` command provides an editable text file (FoodRecords.txt) in the `data/exports` folder. +
 
 * FoodRecords.txt shows the `Food Record` in alphabetical order of names, and includes the corresponding details of each Food item neatly in a table.
 
@@ -352,16 +354,19 @@ Format: `exit`
 * *Delete* : `delete n/NAME` +
 e.g. `delete pizza`
 * *Find* : `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
-e.g. `find strawberry jam` *OR* +
-`find cal/100 f/10`
+e.g. `find cal/100` *OR* +
+ `find n/Kiwi Chilli`
 * *List* : `list`
 * *Stomach* : stomach [d/DATE] +
-eg. `stomach` *OR* `stomach d/2020-03-04`
+eg. `stomach` *OR* +
+`stomach d/2020-03-04`
 * *Nom* : nom [n/NAME] [d/DATE] [portion/PORTION] +
-eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken`
+eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* +
+`nom n/chicken`
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
-eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* `vomit num/chicken`
-* *Export* : `export` *OR* `export location /C:\Users\eugen\OneDrive\Desktop\`
+eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
+`vomit num/chicken`
+* *Export* : `export`
 * *getGoal* : `getGoal a/AGE g/GENDER h/HEIGHT w/WEIGHT i/IDEAL_WEIGHT d/TARGET_DATE e/WEEKLY_EXERCISE_TIME`
 eg. `getGoal a/23 g/M h/170 w/57.2 i/65 d/2020-12-31 e/5`t
 * *setGoal* : `setGoal GOAL`
