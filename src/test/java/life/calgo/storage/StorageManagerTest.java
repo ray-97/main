@@ -11,9 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import life.calgo.commons.core.GuiSettings;
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.FoodRecord;
+import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.UserPrefs;
+import life.calgo.testutil.ConsumptionRecordBuilder;
 
 public class StorageManagerTest {
 
@@ -26,8 +29,10 @@ public class StorageManagerTest {
     public void setUp() {
         JsonFoodRecordStorage foodRecordStorage = new JsonFoodRecordStorage(getTempFilePath("fc"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
+        JsonConsumptionRecordStorage consumptionRecordStorage =
+                new JsonConsumptionRecordStorage(getTempFilePath("cc"));
         JsonGoalStorage goalStorage = new JsonGoalStorage(getTempFilePath("goal"));
-        storageManager = new StorageManager(foodRecordStorage, userPrefsStorage, goalStorage);
+        storageManager = new StorageManager(foodRecordStorage, consumptionRecordStorage, userPrefsStorage, goalStorage);
     }
 
     private Path getTempFilePath(String fileName) {
@@ -59,6 +64,14 @@ public class StorageManagerTest {
         storageManager.saveFoodRecord(original);
         ReadOnlyFoodRecord retrieved = storageManager.readFoodRecord().get();
         assertEquals(original, new FoodRecord(retrieved));
+    }
+
+    @Test
+    public void consumptionRecordReadSave() throws Exception {
+        ConsumptionRecord original = new ConsumptionRecordBuilder().build();
+        storageManager.saveConsumptionRecord(original);
+        ReadOnlyConsumptionRecord retrieved = storageManager.readConsumptionRecord().get();
+        assertEquals(original, new ConsumptionRecord(retrieved));
     }
 
     @Test

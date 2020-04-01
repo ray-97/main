@@ -23,12 +23,14 @@ import life.calgo.logic.commands.ListCommand;
 import life.calgo.logic.commands.UpdateCommand;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.Food;
+import life.calgo.storage.JsonConsumptionRecordStorage;
 import life.calgo.storage.JsonFoodRecordStorage;
 import life.calgo.storage.JsonGoalStorage;
 import life.calgo.storage.JsonUserPrefsStorage;
@@ -49,9 +51,12 @@ public class LogicManagerTest {
         JsonFoodRecordStorage foodRecordStorage =
                 new JsonFoodRecordStorage(temporaryFolder.resolve("foodrecord.json"));
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
+        JsonConsumptionRecordStorage consumptionRecordStorage =
+                new JsonConsumptionRecordStorage(temporaryFolder.resolve("consumptionrecord.json"));
         JsonGoalStorage goalStorage = new JsonGoalStorage(temporaryFolder.resolve("goal.json"));
 
-        StorageManager storage = new StorageManager(foodRecordStorage, userPrefsStorage, goalStorage);
+        StorageManager storage = new StorageManager(foodRecordStorage, consumptionRecordStorage,
+                userPrefsStorage, goalStorage);
         logic = new LogicManager(model, storage);
     }
 
@@ -75,8 +80,11 @@ public class LogicManagerTest {
                 new JsonFoodRecordIoExceptionThrowingStub(temporaryFolder.resolve("ioExceptionAddressBook.json"));
         JsonUserPrefsStorage userPrefsStorage =
                 new JsonUserPrefsStorage(temporaryFolder.resolve("ioExceptionUserPrefs.json"));
+        JsonConsumptionRecordStorage consumptionRecordStorage =
+                new JsonConsumptionRecordStorage(temporaryFolder.resolve("ioExceptionConsumptionRecord.json"));
         JsonGoalStorage goalStorage = new JsonGoalStorage(temporaryFolder.resolve("ioExceptionGoal.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage, goalStorage);
+        StorageManager storage = new StorageManager(addressBookStorage, consumptionRecordStorage,
+                userPrefsStorage, goalStorage);
         logic = new LogicManager(model, storage);
 
         // Execute add command
@@ -130,7 +138,8 @@ public class LogicManagerTest {
      */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
             String expectedMessage) {
-        Model expectedModel = new ModelManager(model.getFoodRecord(), new UserPrefs(), new DailyGoal());
+        Model expectedModel = new ModelManager(model.getFoodRecord(), new ConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 

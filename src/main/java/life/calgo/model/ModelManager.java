@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
@@ -28,6 +28,7 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final FoodRecord foodRecord;
+    private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
     private final FilteredList<ConsumedFood> currentFilteredDailyList;
@@ -36,22 +37,25 @@ public class ModelManager implements Model {
     /**
      * Initializes a ModelManager with the given foodRecord and userPrefs.
      */
-    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyUserPrefs userPrefs, ReadOnlyGoal readOnlyGoal) {
+    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyConsumptionRecord readOnlyConsumptionRecord,
+                        ReadOnlyUserPrefs userPrefs, ReadOnlyGoal readOnlyGoal) {
         super();
-        requireAllNonNull(readOnlyFoodRecord, userPrefs, readOnlyGoal);
+        requireAllNonNull(readOnlyFoodRecord, readOnlyConsumptionRecord, userPrefs, readOnlyGoal);
 
         logger.fine("Initializing with food record: " + readOnlyFoodRecord + " and user prefs " + userPrefs
                 + " and goal " + readOnlyGoal);
 
         this.foodRecord = new FoodRecord(readOnlyFoodRecord);
+        this.consumptionRecord = new ConsumptionRecord(readOnlyConsumptionRecord);
         this.userPrefs = new UserPrefs(userPrefs);
         this.targetDailyCalories = new DailyGoal(readOnlyGoal);
         filteredFoods = new FilteredList<>(this.foodRecord.getFoodList());
-        currentFilteredDailyList = new FilteredList<>(this.foodRecord.getDailyList());
+        currentFilteredDailyList = new FilteredList<>(this.consumptionRecord.getDailyList());
+        refreshCurrentFilteredDailyList();
     }
 
     public ModelManager() {
-        this(new FoodRecord(), new UserPrefs(), new DailyGoal());
+        this(new FoodRecord(), new ConsumptionRecord(), new UserPrefs(), new DailyGoal());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -97,6 +101,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ReadOnlyConsumptionRecord getConsumptionRecord() {
+        return consumptionRecord;
+    }
+
+    @Override
     public void setFoodRecord(ReadOnlyFoodRecord foodRecord) {
         this.foodRecord.resetData(foodRecord);
     }
@@ -130,7 +139,7 @@ public class ModelManager implements Model {
         foodRecord.setFood(target, editedFood);
     }
 
-    // Day Model classes
+    //=========== Day Model classes================================================================================
 
     @Override
     public Optional<Food> getFoodByName(Name name) {
@@ -139,32 +148,48 @@ public class ModelManager implements Model {
 
     @Override
     public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
-        return foodRecord.hasLogWithSameDate(foodLog);
+        return consumptionRecord.hasLogWithSameDate(foodLog);
     }
 
     @Override
     public boolean hasLogWithSameDate(LocalDate date) {
-        return foodRecord.hasLogWithSameDate(new DailyFoodLog().setDate(date));
+        return consumptionRecord.hasLogWithSameDate(new DailyFoodLog().setDate(date));
     }
 
     @Override
     public void addLog(DailyFoodLog foodLog) {
-        foodRecord.addLog(foodLog);
+        consumptionRecord.addLog(foodLog);
     }
 
     @Override
     public void updateLog(DailyFoodLog logToUpdate) {
-        foodRecord.updateLog(logToUpdate);
+        consumptionRecord.updateLog(logToUpdate);
     }
 
     @Override
     public DailyFoodLog getLogByDate(LocalDate localDate) {
-        return foodRecord.getLogByDate(localDate);
+        return consumptionRecord.getLogByDate(localDate);
+    }
+
+    public double getRemainingCalories(LocalDate date) {
+        DailyGoal goal = getDailyGoal();
+        DailyFoodLog todayFoodLog = getLogByDate(date);
+        if (goal == null) {
+            return 0.0;
+        }
+        // user did not consume anything today
+        if (todayFoodLog == null) {
+            return goal.getTargetDailyCalories();
+        }
+
+        ReportGenerator reportGenerator = new ReportGenerator(todayFoodLog, goal);
+        reportGenerator.generateReport();
+        return reportGenerator.calculateRemainingCalories();
     }
 
     /**
      * Updates ModelManager's DailyGoal to the new targetDailyCalories
-     * @param targetDailyCalories the new targetted number of calories to consume each day by user
+     * @param targetDailyCalories the new targeted number of calories to consume each day by user
      * @return the updated DailyGoal object
      */
     public DailyGoal updateDailyGoal(int targetDailyCalories) {
@@ -188,23 +213,47 @@ public class ModelManager implements Model {
         return this.targetDailyCalories;
     }
 
-    public double getRemainingCalories(LocalDate date) {
-        DailyGoal goal = getDailyGoal();
-        DailyFoodLog todayFoodLog = getLogByDate(date);
-        if (goal == null) {
-            return 0.0;
-        }
-        // user did not consume anything today
-        if (todayFoodLog == null) {
-            return goal.getTargetDailyCalories();
-        }
+    //=========== Filtered Consumption Record Accessors =============================================================
 
-        ReportGenerator reportGenerator = new ReportGenerator(todayFoodLog, goal);
-        reportGenerator.generateReport();
-        return reportGenerator.calculateRemainingCalories();
+    /**
+     * Returns an unmodifiable view of the list of {@code ConsumedFood}.
+     */
+    @Override
+    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
+        return currentFilteredDailyList;
     }
 
-    // Filtered Food Record Accessors
+    @Override
+    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date)
+            throws CommandException {
+        requireNonNull(predicate);
+        consumptionRecord.setDailyListDate(date);
+        currentFilteredDailyList.setPredicate(predicate);
+    }
+
+    /**
+     * Updates existing ConsumedFood items having same name as {@code food} in consumption record for display.
+     * @param food food that has been updated.
+     */
+    @Override
+    public void updateConsumedLists(Food food) {
+        requireNonNull(food);
+        consumptionRecord.updateConsumedLists(food);
+        refreshCurrentFilteredDailyList();
+    }
+
+    /**
+     * Causes FilteredList to be updated to reflect latest changes.
+     */
+    private void refreshCurrentFilteredDailyList() {
+        try {
+            updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());
+        } catch (Exception e) {
+            logger.warning("Error refreshing filtered list.");
+        }
+    }
+
+    //=========== Filtered Food Record Accessors =============================================================
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
@@ -219,18 +268,6 @@ public class ModelManager implements Model {
     public void updateFilteredFoodRecord(Predicate<Food> predicate) {
         requireNonNull(predicate);
         filteredFoods.setPredicate(predicate);
-    }
-
-    @Override
-    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
-        return currentFilteredDailyList;
-    }
-
-    @Override
-    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) {
-        requireNonNull(predicate);
-        foodRecord.setDailyList(date);
-        currentFilteredDailyList.setPredicate(predicate);
     }
 
     @Override
