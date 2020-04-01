@@ -3,19 +3,20 @@ package life.calgo.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import life.calgo.commons.util.CollectionUtil;
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
 /**
- * Updates the food consumed on a given day
+ * Updates the food consumed on a given day.
  */
 public class NomCommand extends Command {
 
     public static final String COMMAND_WORD = "nom";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the food record. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to your consumption record. "
             + "Parameters: "
             + CliSyntax.PREFIX_NAME + "NAME "
             + CliSyntax.PREFIX_DATE + "DATE "
@@ -25,7 +26,7 @@ public class NomCommand extends Command {
             + CliSyntax.PREFIX_DATE + "2020-03-14 "
             + CliSyntax.PREFIX_PORTION + "2";
 
-    public static final String MESSAGE_SUCCESS = "Successfully consumed %1$s"; // %d portion of %s was consumed on %s
+    public static final String MESSAGE_SUCCESS = "Successfully consumed %1$s";
 
     private final DailyFoodLog foodlog;
     private final Food foodConsumed;
@@ -37,7 +38,7 @@ public class NomCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (!model.hasLogWithSameDate(foodlog)) {
             model.addLog(foodlog);

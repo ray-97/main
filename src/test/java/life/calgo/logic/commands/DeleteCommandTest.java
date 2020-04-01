@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.Messages;
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
@@ -24,7 +25,8 @@ import life.calgo.testutil.TypicalIndexes;
  */
 public class DeleteCommandTest {
 
-    private Model model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+    private Model model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new ConsumptionRecord(),
+            new UserPrefs(), new DailyGoal());
 
     @Test
     public void execute_existingFoodDelete_success() {
@@ -33,7 +35,8 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_FOOD_SUCCESS, foodToDelete);
 
-        ModelManager expectedModel = new ModelManager(model.getFoodRecord(), new UserPrefs(), new DailyGoal());
+        ModelManager expectedModel = new ModelManager(model.getFoodRecord(), model.getConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
         expectedModel.deleteFood(foodToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -56,7 +59,8 @@ public class DeleteCommandTest {
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_FOOD_SUCCESS, foodToDelete);
 
-        Model expectedModel = new ModelManager(model.getFoodRecord(), new UserPrefs(), new DailyGoal());
+        Model expectedModel = new ModelManager(model.getFoodRecord(), new ConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
         expectedModel.deleteFood(foodToDelete);
         showNoPerson(expectedModel);
 

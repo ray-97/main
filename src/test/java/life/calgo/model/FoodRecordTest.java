@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,11 +12,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
-
 import javafx.collections.ObservableList;
-
 import life.calgo.logic.commands.CommandTestUtil;
-import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.exceptions.DuplicateFoodException;
 import life.calgo.testutil.Assert;
@@ -100,16 +96,6 @@ public class FoodRecordTest {
         @Override
         public ObservableList<Food> getFoodList() {
             return foods;
-        }
-
-        @Override
-        public ObservableList<ConsumedFood> getDailyList() {
-            return null;
-        }
-
-        @Override
-        public void setDailyList(LocalDate date) {
-
         }
     }
 

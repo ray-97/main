@@ -1,9 +1,6 @@
 package life.calgo.model;
 
-import java.time.LocalDate;
-
 import javafx.collections.ObservableList;
-import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 
 /**
@@ -17,7 +14,4 @@ public interface ReadOnlyFoodRecord {
      */
     ObservableList<Food> getFoodList();
 
-    ObservableList<ConsumedFood> getDailyList();
-
-    void setDailyList(LocalDate date);
 }

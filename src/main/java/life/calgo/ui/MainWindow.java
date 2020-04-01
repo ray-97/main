@@ -148,7 +148,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
+        CommandBox commandBox = new CommandBox(this::executeCommand, this::updateFoodListPanel);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
 
@@ -237,6 +237,8 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+            foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
+
             fillGoal();
             fillRemainingCalories();
 
@@ -254,5 +256,15 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }
+    }
+
+    /**
+     * Updates the FoodList from user input in real time.
+     *
+     * @see Logic#updateFoodList(String)
+     */
+    private void updateFoodListPanel(String text) {
+        String foodName = text.substring(text.indexOf("n/") + 2);
+        logic.updateFoodList(foodName);
     }
 }

@@ -5,6 +5,7 @@ import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
@@ -22,14 +23,16 @@ public class UpdateCommandIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+        model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new ConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
     }
 
     @Test
     public void execute_newFood_success() {
         Food validFood = new FoodBuilder().build();
 
-        Model expectedModel = new ModelManager(model.getFoodRecord(), new UserPrefs(), new DailyGoal());
+        Model expectedModel = new ModelManager(model.getFoodRecord(), new ConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
         expectedModel.addFood(validFood);
 
         assertCommandSuccess(new UpdateCommand(validFood), model,
@@ -41,7 +44,8 @@ public class UpdateCommandIntegrationTest {
         Food validFood = new FoodBuilder().withName("Almond").build();
         Food existingFood = model.getFoodRecord().getFoodList().get(0);
 
-        Model expectedModel = new ModelManager(model.getFoodRecord(), new UserPrefs(), new DailyGoal());
+        Model expectedModel = new ModelManager(model.getFoodRecord(), model.getConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
         expectedModel.setFood(existingFood, validFood);
 
         assertCommandSuccess(new UpdateCommand(validFood), model,
