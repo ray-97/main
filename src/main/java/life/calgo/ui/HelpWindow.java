@@ -22,10 +22,10 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
     //public static final String COMMAND_MESSAGE = "";
 
-    public static String commandGuide = HelpCommand.DEFAULT_HELP_MESSAGE;
-
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
+
+    private static String commandGuide = HelpCommand.DEFAULT_HELP_MESSAGE;
 
     @FXML
     private Button copyButton;

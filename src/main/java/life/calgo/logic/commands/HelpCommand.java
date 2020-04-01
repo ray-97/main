@@ -1,12 +1,11 @@
 package life.calgo.logic.commands;
 
+import java.util.Set;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import javafx.collections.ObservableSet;
-import javafx.fxml.FXML;
-import life.calgo.model.Model;
 
-import java.util.Set;
+import life.calgo.model.Model;
 
 /**
  * Format full help instructions for every command for display.
@@ -78,17 +77,13 @@ public class HelpCommand extends Command {
             + HELP_UPDATE_MESSAGE
             + HELP_VOMIT_MESSAGE;
 
-    private String keyword;
-
     private static final ObservableMap<String, String> internalMap = FXCollections.observableHashMap();
-    private static final ObservableMap<String, String> internalUnmodifiableMap =
-            FXCollections.unmodifiableObservableMap(internalMap);
-
     private static Set<String> internalSet;
 
+    private String keyword;
 
-    public HelpCommand(){
-        // dummy
+    public HelpCommand() {
+        //dummy for test
     }
 
     public HelpCommand(String keyword) {
@@ -98,6 +93,9 @@ public class HelpCommand extends Command {
         internalSet = setKeySet();
     }
 
+    /**
+     * Add all help messages to the internal hashmap.
+     */
     private void addMessagesToMap() {
         internalMap.put("clear", HELP_CLEAR_MESSAGE);
         internalMap.put("delete", HELP_DELETE_MESSAGE);
@@ -113,10 +111,19 @@ public class HelpCommand extends Command {
         internalMap.put("vomit", HELP_VOMIT_MESSAGE);
     }
 
+    /**
+     * Sets a given set to the keyset of the internalMap.
+     * @return Set of the keys.
+     */
     private Set<String> setKeySet() {
         return internalMap.keySet();
     }
 
+    /**
+     * Obtains a String for the help guide of all commands with the keyword as a substring.
+     * @param keyword
+     * @return String containing all found commands.
+     */
     private String printIfSubstring(String keyword) {
         String result = "";
 

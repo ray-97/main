@@ -190,6 +190,9 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+    /**
+     * Handles the MainWindow in event of the Help command being used.
+     */
     @FXML
     public void handleHelp() {
         if (!helpWindow.isShowing()) {
