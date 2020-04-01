@@ -29,7 +29,7 @@ public class ExportGenerator {
 
     public ExportGenerator(ReadOnlyFoodRecord foodRecord) {
         this.foodRecord = foodRecord;
-        this.file = new File("exports/FoodRecord.txt");
+        this.file = new File("data/exports/FoodRecord.txt");
         try {
             this.file.getParentFile().mkdirs();
             this.file.createNewFile();

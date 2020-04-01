@@ -15,7 +15,7 @@ public class ExportCommand extends Command {
 
     public static final String COMMAND_WORD = "export";
 
-    public static final String MESSAGE_SUCCESS = "Successfully generated FoodRecord.txt";
+    public static final String MESSAGE_SUCCESS = "Successfully generated FoodRecord.txt in the data/exports folder.";
 
     public static final String MESSAGE_FAILURE = "Did not manage to generate FoodRecord.txt.";
 

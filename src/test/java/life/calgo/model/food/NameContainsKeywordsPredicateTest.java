@@ -3,29 +3,28 @@ package life.calgo.model.food;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
+import life.calgo.testutil.Assert;
 import life.calgo.testutil.FoodBuilder;
 
 public class NameContainsKeywordsPredicateTest {
 
     @Test
     public void equals() {
-        List<String> firstPredicateKeywordList = Collections.singletonList("first");
-        List<String> secondPredicateKeywordList = Arrays.asList("first", "second");
+        Name firstPredicateKeywordsName = new Name("Kiwi");
+        Name secondPredicateKeywordsName = new Name("Kiwi Jam");
 
-        NameContainsKeywordsPredicate firstPredicate = new NameContainsKeywordsPredicate(firstPredicateKeywordList);
-        NameContainsKeywordsPredicate secondPredicate = new NameContainsKeywordsPredicate(secondPredicateKeywordList);
+        NameContainsKeywordsPredicate firstPredicate = new NameContainsKeywordsPredicate(firstPredicateKeywordsName);
+        NameContainsKeywordsPredicate secondPredicate = new NameContainsKeywordsPredicate(secondPredicateKeywordsName);
 
         // same object -> returns true
         assertTrue(firstPredicate.equals(firstPredicate));
 
         // same values -> returns true
-        NameContainsKeywordsPredicate firstPredicateCopy = new NameContainsKeywordsPredicate(firstPredicateKeywordList);
+        NameContainsKeywordsPredicate firstPredicateCopy =
+                new NameContainsKeywordsPredicate(firstPredicateKeywordsName);
         assertTrue(firstPredicate.equals(firstPredicateCopy));
 
         // different types -> returns false
@@ -41,36 +40,32 @@ public class NameContainsKeywordsPredicateTest {
     @Test
     public void test_nameContainsKeywords_returnsTrue() {
         // One keyword
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.singletonList("Apple"));
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(new Name("Apple"));
         assertTrue(predicate.test(new FoodBuilder().withName("Apple Banana").build()));
 
         // Multiple keywords
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Apple", "Banana"));
+        predicate = new NameContainsKeywordsPredicate(new Name("Apple Banana"));
         assertTrue(predicate.test(new FoodBuilder().withName("Apple Banana").build()));
 
         // Only one matching keyword
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Banana", "Chocolate"));
+        predicate = new NameContainsKeywordsPredicate(new Name("Banana Chocolate"));
         assertTrue(predicate.test(new FoodBuilder().withName("Apple Chocolate").build()));
 
         // Mixed-case keywords
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("aPPle", "bANANA"));
+        predicate = new NameContainsKeywordsPredicate(new Name("aPPle bANANA"));
         assertTrue(predicate.test(new FoodBuilder().withName("Apple Banana").build()));
     }
 
     @Test
     public void test_nameDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.emptyList());
-        assertFalse(predicate.test(new FoodBuilder().withName("Apple").build()));
+        Assert.assertThrows(IllegalArgumentException.class,
+                "Names should only contain alphanumeric characters and spaces, "
+                + "and it should not be blank", () -> new NameContainsKeywordsPredicate(new Name("")));
 
         // Non-matching keyword
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("Chocolate"));
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(new Name("Chocolate"));
         assertFalse(predicate.test(new FoodBuilder().withName("Apple Banana").build()));
 
-        // Keywords match phone, email and address, but does not match name
-        predicate = new NameContainsKeywordsPredicate(Arrays.asList("122", "1", "2", "3"));
-        assertFalse(predicate.test(new FoodBuilder().withName("Apple").withCalorie("122")
-                .withProtein("1").withCarbohydrate("2").withFat("3")
-                .build()));
     }
 }
