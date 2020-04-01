@@ -1,5 +1,7 @@
 package life.calgo.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -7,8 +9,6 @@ import javafx.collections.ObservableMap;
 
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.Model;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Format full help instructions for every command for display.
