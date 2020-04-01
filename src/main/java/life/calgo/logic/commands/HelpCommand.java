@@ -5,7 +5,10 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.Model;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Format full help instructions for every command for display.
@@ -125,6 +128,7 @@ public class HelpCommand extends Command {
      * @return String containing all found commands.
      */
     private String printIfSubstring(String keyword) {
+        requireNonNull(internalSet);
         String result = "";
 
         for (String commandName : internalSet) {
@@ -139,12 +143,14 @@ public class HelpCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
         String commandGuide;
 
-        commandGuide = printIfSubstring(keyword);
-        if (commandGuide.isEmpty()) {
+        if (keyword == null) {
             commandGuide = DEFAULT_HELP_MESSAGE;
+        } else {
+            commandGuide = printIfSubstring(keyword);
         }
 
         return new CommandResult(commandGuide,
