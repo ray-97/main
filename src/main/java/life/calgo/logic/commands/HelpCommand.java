@@ -109,7 +109,7 @@ public class HelpCommand extends Command {
                 continue;
             }
 
-            result += internalMap.get(commandName);
+            result = result + internalMap.get(commandName);
         }
 
         return result;
@@ -117,8 +117,8 @@ public class HelpCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) {
-        String dummy = "dummy thicc";
-        return new CommandResult(dummy,
+        String commandGuide = printIfSubstring(keyword);
+        return new CommandResult(commandGuide,
                 true, false);
     }
 }

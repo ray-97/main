@@ -22,7 +22,7 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
     //public static final String COMMAND_MESSAGE = "";
 
-    public static String commandGuide = "";
+    public static String commandGuide = "printed in commandGuide instantialisation";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -57,7 +57,7 @@ public class HelpWindow extends UiPart<Stage> {
     @FXML
     public void setGuide(String commandGuide) {
         requireNonNull(commandGuide);
-        commandMessage.setText("dummy");
+        commandMessage.setText(commandGuide);
     }
 
     /**
