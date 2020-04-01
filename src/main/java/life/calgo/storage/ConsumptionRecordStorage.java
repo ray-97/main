@@ -23,12 +23,13 @@ public interface ConsumptionRecordStorage {
      * @throws DataConversionException if the data in storage is not in the expected format.
      * @throws IOException if there was any problem when reading from the storage.
      */
-    Optional<ReadOnlyConsumptionRecord> readConsumptionRecord() throws DataConversionException;
+    Optional<ReadOnlyConsumptionRecord> readConsumptionRecord() throws DataConversionException, IOException;
 
     /**
      * @see #getConsumptionRecordFilePath()
      */
-    Optional<ReadOnlyConsumptionRecord> readConsumptionRecord(Path filePath) throws DataConversionException;
+    Optional<ReadOnlyConsumptionRecord> readConsumptionRecord(Path filePath)
+            throws DataConversionException, IOException;
 
     /**
      * Saves the given {@link ReadOnlyConsumptionRecord} to the storage.

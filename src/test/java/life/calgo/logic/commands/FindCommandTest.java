@@ -7,31 +7,35 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
+import life.calgo.testutil.Assert;
 import life.calgo.testutil.TypicalFoodItems;
+
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+    private Model model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new ConsumptionRecord(),
+            new UserPrefs(), new DailyGoal());
     private Model expectedModel = new ModelManager(
-            TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+            TypicalFoodItems.getTypicalFoodRecord(), model.getConsumptionRecord(), new UserPrefs(), new DailyGoal());
 
     @Test
     public void equals() {
         NameContainsKeywordsPredicate firstPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("first"));
+                new NameContainsKeywordsPredicate(new Name("Roti John"));
         NameContainsKeywordsPredicate secondPredicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("second"));
+                new NameContainsKeywordsPredicate(new Name("Strawberry Jam Sandwich"));
 
         FindCommand findFirstCommand = new FindCommand(firstPredicate);
         FindCommand findSecondCommand = new FindCommand(secondPredicate);
@@ -54,13 +58,10 @@ public class FindCommandTest {
     }
 
     @Test
-    public void execute_zeroKeywords_noFoodFound() {
-        String expectedMessage = String.format(MESSAGE_FOODS_LISTED_OVERVIEW, 0);
-        NameContainsKeywordsPredicate predicate = preparePredicate(" ");
-        FindCommand command = new FindCommand(predicate);
-        expectedModel.updateFilteredFoodRecord(predicate);
-        assertCommandSuccess(command, model, expectedMessage, expectedModel);
-        assertEquals(Collections.emptyList(), model.getFilteredFoodRecord());
+    public void execute_zeroKeywords_nameExceptionThrown() {
+        Assert.assertThrows(IllegalArgumentException.class,
+                "Names should only contain alphanumeric characters and spaces, "
+                        + "and it should not be blank", () -> preparePredicate(" "));
     }
 
     @Test
@@ -77,6 +78,6 @@ public class FindCommandTest {
      * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
      */
     private NameContainsKeywordsPredicate preparePredicate(String userInput) {
-        return new NameContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+        return new NameContainsKeywordsPredicate(new Name(userInput));
     }
 }

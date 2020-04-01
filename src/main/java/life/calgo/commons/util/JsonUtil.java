@@ -147,6 +147,9 @@ public class JsonUtil {
         }
     }
 
+    /**
+     * A serializer for to help Jackson deal with HashMap keys that are AdaptedFood.
+     */
     private static class JsonAdaptedFoodKeySerializer extends JsonSerializer<JsonAdaptedFood> {
         @Override
         public void serialize(JsonAdaptedFood value, JsonGenerator gen, SerializerProvider serializers)
@@ -158,6 +161,9 @@ public class JsonUtil {
         }
     }
 
+    /**
+     * A deserializer for to help Jackson deal with HashMap keys that are AdaptedFood.
+     */
     private static class JsonAdaptedFoodKeyDeserializer extends KeyDeserializer {
         @Override
         public JsonAdaptedFood deserializeKey(String key, DeserializationContext context)

@@ -45,6 +45,9 @@ public class JsonAdaptedDailyFoodLog {
         localDate = source.getLocalDate();
     }
 
+    /**
+     * Helper method to convert Food into adaptedFood.
+     */
     private LinkedHashMap<JsonAdaptedFood, Double> adaptFoods(LinkedHashMap<Food, Double> foods) {
         LinkedHashMap<JsonAdaptedFood, Double> adaptedFoods = new LinkedHashMap<>();
         for (Food food : foods.keySet()) {
@@ -53,6 +56,9 @@ public class JsonAdaptedDailyFoodLog {
         return adaptedFoods;
     }
 
+    /**
+     * Helper method to convert Food into adaptedFood.
+     */
     private LinkedHashMap<JsonAdaptedFood, ArrayList<Integer>> adaptRatings(
             LinkedHashMap<Food, ArrayList<Integer>> ratings) {
         LinkedHashMap<JsonAdaptedFood, ArrayList<Integer>> adaptedRatings = new LinkedHashMap<>();
@@ -62,6 +68,9 @@ public class JsonAdaptedDailyFoodLog {
         return adaptedRatings;
     }
 
+    /**
+     * Helper method to convert adaptedFood into food.
+     */
     private LinkedHashMap<Food, Double> unAdaptFoods(LinkedHashMap<JsonAdaptedFood, Double> adaptedFoods)
             throws IllegalValueException {
         LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
@@ -71,6 +80,9 @@ public class JsonAdaptedDailyFoodLog {
         return foods;
     }
 
+    /**
+     * Helper method to convert adaptedFood into food.
+     */
     private LinkedHashMap<Food, ArrayList<Integer>> unAdaptRatings(
             LinkedHashMap<JsonAdaptedFood, ArrayList<Integer>> adaptedRatings)
             throws IllegalValueException {

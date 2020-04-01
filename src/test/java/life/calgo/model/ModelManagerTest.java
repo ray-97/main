@@ -11,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.NameContainsKeywordsPredicate;
+import life.calgo.model.food.Name;
+import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
 import life.calgo.testutil.FoodRecordBuilder;
 
 public class ModelManagerTest {
@@ -99,12 +99,13 @@ public class ModelManagerTest {
     public void equals() {
         FoodRecord foodRecord = new FoodRecordBuilder().withFood(APPLE).withFood(BANANA_MILKSHAKE).build();
         FoodRecord differentFoodRecord = new FoodRecord();
+        ConsumptionRecord consumptionRecord = new ConsumptionRecord();
         UserPrefs userPrefs = new UserPrefs();
         DailyGoal dailyGoal = new DailyGoal();
 
         // same values -> returns true
-        modelManager = new ModelManager(foodRecord, userPrefs, dailyGoal);
-        ModelManager modelManagerCopy = new ModelManager(foodRecord, userPrefs, dailyGoal);
+        modelManager = new ModelManager(foodRecord, consumptionRecord, userPrefs, dailyGoal);
+        ModelManager modelManagerCopy = new ModelManager(foodRecord, consumptionRecord, userPrefs, dailyGoal);
         assertTrue(modelManager.equals(modelManagerCopy));
 
         // same object -> returns true
@@ -117,12 +118,13 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(5));
 
         // different addressBook -> returns false
-        assertFalse(modelManager.equals(new ModelManager(differentFoodRecord, userPrefs, dailyGoal)));
+        assertFalse(modelManager.equals(new ModelManager(differentFoodRecord, consumptionRecord,
+                userPrefs, dailyGoal)));
 
         // different filteredList -> returns false
-        String[] keywords = APPLE.getName().fullName.split("\\s+");
-        modelManager.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(Arrays.asList(keywords)));
-        assertFalse(modelManager.equals(new ModelManager(foodRecord, userPrefs, dailyGoal)));
+        Name keywords = APPLE.getName();
+        modelManager.updateFilteredFoodRecord(new NameContainsKeywordsPredicate(keywords));
+        assertFalse(modelManager.equals(new ModelManager(foodRecord, consumptionRecord, userPrefs, dailyGoal)));
 
         // resets modelManager to initial state for upcoming tests
         modelManager.updateFilteredFoodRecord(PREDICATE_SHOW_ALL_FOODS);
@@ -130,6 +132,7 @@ public class ModelManagerTest {
         // different userPrefs -> returns false
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setFoodRecordFilePath(Paths.get("differentFilePath"));
-        assertFalse(modelManager.equals(new ModelManager(foodRecord, differentUserPrefs, dailyGoal)));
+        assertFalse(modelManager.equals(new ModelManager(foodRecord, consumptionRecord,
+                differentUserPrefs, dailyGoal)));
     }
 }

@@ -25,7 +25,7 @@ import life.calgo.model.food.Food;
  */
 public class NomCommandParser implements Parser<NomCommand> {
 
-    public static final String MESSAGE_EMPTY_NAME = "You can't eat that, you have to name a food that exists";
+    public static final String MESSAGE_EMPTY_NAME = "You can't eat that because it does not exist in food record.";
 
     private final Model model;
 

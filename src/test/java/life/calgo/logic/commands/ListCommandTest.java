@@ -5,6 +5,7 @@ import static life.calgo.logic.commands.CommandTestUtil.assertCommandSuccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
@@ -22,8 +23,10 @@ public class ListCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
-        expectedModel = new ModelManager(model.getFoodRecord(), new UserPrefs(), new DailyGoal());
+        model = new ModelManager(TypicalFoodItems.getTypicalFoodRecord(), new ConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
+        expectedModel = new ModelManager(model.getFoodRecord(), model.getConsumptionRecord(),
+                new UserPrefs(), new DailyGoal());
     }
 
     @Test

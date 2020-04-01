@@ -16,9 +16,11 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import life.calgo.commons.core.GuiSettings;
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
+import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
@@ -32,7 +34,8 @@ import life.calgo.testutil.FoodBuilder;
 
 public class UpdateCommandTest {
 
-    private Model model = new ModelManager(getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+    private Model model = new ModelManager(getTypicalFoodRecord(), new ConsumptionRecord(),
+            new UserPrefs(), new DailyGoal());
 
     @Test
     public void constructor_nullFood_throwsNullPointerException() {
@@ -124,6 +127,11 @@ public class UpdateCommandTest {
         }
 
         @Override
+        public ReadOnlyConsumptionRecord getConsumptionRecord() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void addFood(Food food) {
             throw new AssertionError("This method should not be called.");
         }
@@ -179,6 +187,11 @@ public class UpdateCommandTest {
         }
 
         @Override
+        public void updateConsumedLists(Food food) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public Optional<Food> getFoodByName(Name parseName) {
             throw new AssertionError("This method should not be called.");
         }
@@ -223,7 +236,10 @@ public class UpdateCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-
+        @Override
+        public double getRemainingCalories(LocalDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

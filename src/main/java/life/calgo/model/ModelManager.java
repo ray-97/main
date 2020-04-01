@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.commands.exceptions.CommandException;
@@ -20,6 +19,7 @@ import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
+import life.calgo.storage.ReportGenerator;
 
 /**
  * Represents the in-memory model of the food record data.
@@ -171,9 +171,25 @@ public class ModelManager implements Model {
         return consumptionRecord.getLogByDate(localDate);
     }
 
+    public double getRemainingCalories(LocalDate date) {
+        DailyGoal goal = getDailyGoal();
+        DailyFoodLog todayFoodLog = getLogByDate(date);
+        if (goal == null) {
+            return 0.0;
+        }
+        // user did not consume anything today
+        if (todayFoodLog == null) {
+            return goal.getTargetDailyCalories();
+        }
+
+        ReportGenerator reportGenerator = new ReportGenerator(todayFoodLog, goal);
+        reportGenerator.generateReport();
+        return reportGenerator.calculateRemainingCalories();
+    }
+
     /**
      * Updates ModelManager's DailyGoal to the new targetDailyCalories
-     * @param targetDailyCalories the new targetted number of calories to consume each day by user
+     * @param targetDailyCalories the new targeted number of calories to consume each day by user
      * @return the updated DailyGoal object
      */
     public DailyGoal updateDailyGoal(int targetDailyCalories) {
@@ -226,6 +242,9 @@ public class ModelManager implements Model {
         refreshCurrentFilteredDailyList();
     }
 
+    /**
+     * Causes FilteredList to be updated to reflect latest changes.
+     */
     private void refreshCurrentFilteredDailyList() {
         try {
             updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());

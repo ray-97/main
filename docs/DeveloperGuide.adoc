@@ -16,6 +16,12 @@ endif::[]
 
 By: `Team F11-1`      Since: `March 2020`      Licence: `MIT`
 
+== About this guide
+
+This Developer Guide is a document to guide future software developers of the Calgo App by providing a sufficient and comprehensible overview of the project. +
+While we aim to provide a reasonable amount of depth, the goal of this document is not to serve as a replacement for reading the actual code. +
+Welcome on-board the Software Development Team for Calgo!
+
 == Setting up
 
 Refer to the guide <<SettingUp#, here>>.
@@ -139,6 +145,7 @@ image::ModelClassDiagram.png[]
 . This component exposes both `ObservableList<Food>` and `ObservableList<ConsumedFood>`. The data stored in
 these two list objects is reflected in UI. Therefore, any changes made to the data in these lists are shown in the UI in
 real-time.
+. To update the `Model` (and hence reflect the changes in the UI), `Food` attributes need to satisfy certain `Predicates`, which represent these changes.
 . This component does not depend on any of the other three components.
 
 [NOTE]
@@ -181,21 +188,25 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 // tag::lexicographicallistcommand[]
-=== Lexicographically-Ordered `list`
-==== Implementation
+=== Lexicographical-sorted `list`
+
 With a large number of `Food` objects in the App, it will be useful to see all entries sorted in lexicographic order. +
 
-The `list` command is able to show all current `Food` entries in the `Model`.
-Therefore, it is one of the most commonly used commands in `Calgo`, especially after a `find` command.
-It may seem that the `list` command is responsible for keeping the `Food` entries sorted, however, that is not the case.
+Here, the `list` command displays all the current `Food` entries in the `Model`.
+This is often more useful after a `find` command, which narrows down the displayed entries after a search.
+While it may seem that the `list` command is responsible for keeping the `Food` entries sorted, that is not the case; instead,
+the entries are sorted whenever they are added or edited.
 
-Sorting `Food` objects by lexicographic order is done by the `UniqueFoodList`.
+==== Implementation
+
+Sorting `Food` objects by lexicographic order is actually done by the `UniqueFoodList`.
 `Food` objects are able to be sorted because the `Food` class implements the `Comparable<Food>` interface. +
 
 How the `UniqueFoodList` works:
 
-* Existing `Food` objects in the list are arranged in lexicographic order by `Name`.
-* `UniqueFoodList` sorts the `Food` whenever they are added or edited in the `Model`.
+* Existing `Food` objects are arranged in lexicographic order by `Name`.
+* Thereafter, `UniqueFoodList` sorts the `Food` whenever they are added or edited in the `Model`.
+* When the App starts up, it reads from the source json file (if any), creating a new `UniqueFoodList` and sorting entries as they are added.
 
 With this, a top-level idea of the execution of the lexicographical `list` command is given in the sequence diagram below:
 
@@ -209,13 +220,13 @@ Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 
 <<<
 
-==== Design Considerations
+==== Design considerations
 
-===== Aspect: How List executes sorting operation
+===== Aspect: How `list` executes sorting operation
 
 * **Alternative 1 (current choice):** Sort whenever `Food` is added or edited in the `Model`.
 ** Pros: Will guarantee correctness of sorting. Furthermore, since `Food` objects are sorted whenever they are added or edited one by one, each sorting operation will not be too expensive.
-** Cons: We must ensure that the implementations of each individual underlying command are correct and do not interfere with the sorting process. Moreover, this may be expensive if there are many unsorted `Food` objects at once, which is seldom the case.
+** Cons: Need to ensure that the implementations of each individual underlying command are correct and do not interfere with the sorting process. Moreover, this may be expensive if there are many unsorted `Food` objects at once, which - thankfully - is seldom the case.
 * **Alternative 2:** Sort only when calling the `list` command.
 ** Pros: Easier to implement, may be less computationally expensive.
 ** Cons: May lead to certain bugs, especially during adding or editing such as through the `update` command. Also, not guaranteed to work when reading in from `foodrecord.json` for the next session.
@@ -223,7 +234,7 @@ Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 ===== Aspect: Data structure to store `Food` objects
 
 * **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
-** Pros: Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually. Also, we do not need to maintain a separate list, and just reuse what is already in the codebase.
+** Pros: Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually. Also, we do not need to maintain a separate list, simply reusing what is already in the codebase.
 ** Cons: Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
 * **Alternative 2:** Use a simpler data structure like an `ArrayList`.
 ** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
@@ -241,7 +252,7 @@ image::ListActivityDiagram.png[]
 
 <<<
 
-=== Food Consumption Management
+=== Food consumption management
 In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
 When adding food to be consumed, removing food, or displaying food consumed on certain days,
 a `FilteredList` will be populated with relevant `ConsumedFood`.
@@ -266,7 +277,7 @@ Step 5: The GUI automatically detects changes in `FilteredList` and refreshes to
 
 <<<
 
-==== Design Considerations
+==== Design considerations
 
 ===== Aspect: How `nom` executes
 
@@ -327,7 +338,7 @@ NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at t
 
 <<<
 
-==== Design Considerations
+==== Design considerations
 
 ===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
 
@@ -354,7 +365,7 @@ image::UpdateActivityDiagram.png[]
 <<<
 
 //tag:: Report[]
-=== Generate Insights Report
+=== Generate insights report
 This feature allows a user to generate a report that contains statistics and deliverable insights based on
 personal food consumption patterns.
 
@@ -407,7 +418,7 @@ to signify the end of the command.
 
 <<<
 
-==== Design Considerations
+==== Design considerations
 
 ===== Aspect: How generate report executes
 
@@ -430,26 +441,6 @@ The following activity diagram summarizes what happens when user executes a `rep
 .Activity Diagram for Report command
 image::ReportActivityDiagram.png[]
 
-
-=== Logging
-
-We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
-
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>> below)
-* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
-* Currently log messages are output through: `Console` and to a `.log` file.
-
-*Logging Levels*
-
-* `SEVERE` : Critical problem detected which may possibly cause the termination of the App
-* `WARNING` : Can continue, but with caution
-* `INFO` : Information showing the noteworthy actions by the App
-* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
-
-[[Implementation-Configuration]]
-=== Configuration
-
-Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
 
 // tag::helpcommand[]
 === Command guide `help` command
@@ -487,6 +478,26 @@ Step 6: `HelpWindow` is displayed as a separate popup.
 ==== Summary
 `help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
 
+=== Logging
+
+We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
+
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>> below)
+* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
+* Currently log messages are output through: `Console` and to a `.log` file.
+
+*Logging Levels*
+
+* `SEVERE` : Critical problem detected which may possibly cause the termination of the App
+* `WARNING` : Can continue, but with caution
+* `INFO` : Information showing the noteworthy actions by the App
+* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+
+[[Implementation-Configuration]]
+=== Configuration
+
+Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
+
 == Documentation
 
 Refer to the guide <<Documentation#, here>>.
@@ -505,7 +516,7 @@ Refer to the guide <<DevOps#, here>>.
 *Target user profile*:
 
 * wants to have, or already has, a lifestyle of eating healthy
-* has a need to manage a significant number of Food items (finding information about each Food item, tracking consumption, etc)
+* manages a significant number of Food items (finding information about each Food item, tracking consumption, etc)
 * prefers desktop Apps over other types
 * can type fast
 * prefers typing over mouse input
@@ -634,7 +645,7 @@ Use case ends.
 *MSS*
 
 1.  User requests to `export` the current `FoodRecord`.
-2.  Calgo creates a user-friendly text file `FoodRecord.txt` containing all `Food` item details in the `exports` folder.
+2.  Calgo creates a user-friendly text file `FoodRecord.txt` containing all `Food` item details in the `data/exports` folder.
 +
 Use case ends.
 
@@ -711,16 +722,18 @@ Use case ends.
 == Non Functional Requirements
 
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `11` or above installed.
-.  Should be able to hold up to 1000 Food items without a noticeable sluggishness in performance for typical usage.
+.  Should be able to hold up to 1000 `Food` items without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Calgo should work on both 32-bit and 64-bit environments.
-.  The product expects users to initially find out about Food items and their respective nutritional values for creating Food item entries for the first time.
+.  The product expects users to initially find out about `Food` items and their respective nutritional values for creating `Food` item entries for the first time.
 
 [appendix]
 == Glossary
 
 [[food]] Food::
-`Food` items entered by the user to represent a real life Food. This contains nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
+`Food` items entered by the user to represent a real life Food.
+This contains nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
+They can also contains a series of `Tag` s.
 
 [[food-records]] Food Records::
 The accumulated list of all `Food` items entered by the user, containing nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.

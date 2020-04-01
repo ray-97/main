@@ -18,10 +18,19 @@ By: `Team F11-1`      Since: `March 2020`      Licence: `MIT`
 
 == Introduction
 
-Calgo is an *all-in-one smart calorie tracker* to ensure that you are always one step ahead in your fitness goals.
+Have you always wanted to live a healthy lifestyle, but never got to the stage where you could sustain it yourself? Is it too difficult to remember nutritional values, or too expensive to hire a personal assistant to keep track of your diet?
 
-* For the modern day user who prefers to use a *desktop application*, Calgo's *Command Line Interface (CLI)* works seamlessly with its *Graphical User Interface (GUI)* to provide fast and accurate usage while presenting results with visual depth and clarity.
-* Fast typists would therefore greatly benefit from not only the speed of processing their input via the CLI but also the input correction methods of Calgo.
+Fear not!
+
+*Calgo* is an *all-in-one smart calorie tracker* to ensure that you are always one step ahead in your fitness goals!
+
+
+* *Insights:* set goals, generate consumption reports and view progress and statistics
+* *Hassle-Free Convenience:* tolerates incomplete search inputs, produces fast responses, and smartly manages entry conflicts
+* *Flexibility:* generate a portable copy of your `Food` records so you can continue eating healthily even without the App
+* *Efficiency:* for users who prefer to use *desktop applications*, our *Command Line Interface (CLI)* works seamlessly with the *Graphical User Interface (GUI)* to provide fast and accurate usage alongside visual depth and clarity. +
+
+Beginners, fast typists, and health enthusiasts would therefore benefit alike from the plethora of features *Calgo* offers, be it convenience, speed, or portability.
 
 <<<
 
@@ -39,9 +48,9 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 - You can refer to <<Features>> below for details of each command.
 .  Try experimenting with the commands yourself! Here are some examples:
 
-* **`update**n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the Food Records if there is currently no Food called 'kiwi' inside it, with its details saved as: 125 calorie, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
-* **`find`**`n/banana` or **`find`**`banana`: finds the entry banana in the Food Record and returns its details if available; otherwise an message reflecting no such Food item is shown.
-* *`list`* : lists all Food items currently recorded in the Food Record.
+* **`update**n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the ``Food Record``s if there is currently no Food called 'kiwi' inside it, with its details saved as: 125 calorie, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
+* **`find`**`n/banana` or **`find`**`banana`: finds the entry banana in the `Food Record` and returns its details if available; otherwise an message reflecting no such Food item is shown.
+* *`list`* : lists all Food items currently recorded in the `Food Record`.
 * *`exit`* : exits the Calgo application
 
 <<<
@@ -54,12 +63,12 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user
 ** e.g. in `n/NAME`, `NAME` is a parameter which can be used as `n/kiwi` to name the Food item as 'kiwi'.
-* Items in square brackets are optional
+* Items in square brackets (i.e. []) are optional
 ** e.g. in `[t/TAG]`, `TAG` is an optional parameter which can be used as `t/fruit` to tag the Food item as a 'fruit'.
-* Items with `…`​ after them can be used multiple times (including zero times)
-** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
 * Parameters can be in any order, as long as the correct prefix appears before the parameter
 ** e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` gives the same functionality.
+* Items with `…`​ after them can be used multiple times (including zero times)
+** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
 ====
 
 <<<
@@ -82,13 +91,13 @@ This command will display all available commands, along with their associated co
 * `help list` +
 This command will display only available commands containing the keyword 'list'.
 
-=== Updating the current Food Record : `update`
+=== Updating the current `Food Record` : `update`
 
-Updates a Food Item in the Food Record.
+Updates a Food Item in the `Food Record`.
 
 ****
-* If Food Item is not present in the Food Record, this will create a new Food Item with all the nutritional details specified
-* If Food Item is already present in the Food Record, this will override that Food Item with the nutritional details specified by user
+* If Food Item is not present in the `Food Record`, this will create a new Food Item with all the nutritional details specified
+* If Food Item is already present in the `Food Record`, this will override that Food Item with the nutritional details specified by user
 ****
 
 <<<
@@ -104,24 +113,24 @@ As pizza is already in the user’s food preset, this command overrides the nutr
 
 
 [TIP]
-You can leave any of the protein, carbohydrates or fats value of a food item blank when updating a Food Item into the Food Record.
+You can leave any of the protein, carbohydrates or fats value of a food item blank when updating a Food Item into the `Food Record`.
 
 <<<
 
-=== Deleting a Food Item from current Food Record: `delete`
-Deletes the specified Food Item from the Food Record.
+=== Deleting a Food Item from current `Food Record`: `delete`
+Deletes the specified Food Item from the `Food Record`.
 
 Format: `delete n/NAME`
 
 Example:
 
 * `delete n/pizza` +
-Deletes pizza from the Food Record
+Deletes pizza from the `Food Record`
 
 
-=== Listing All Food Items in Calgo's Current Food Record : `list`
+=== Listing All Food Items in Calgo's Current `Food Record` : `list`
 
-To view a list of all Food items in the current Food Record, you can simply use the `list` command. +
+To view a list of all Food items in the current `Food Record`, you can simply use the `list` command. +
 
 * Food items will be listed in alphabetical order with their corresponding details. +
 
@@ -139,15 +148,16 @@ Format: `stomach [d/DATE]`
 
 ****
 * If a date is not provided, Calgo will take it that the user wishes to see food consumed today.
+* If you want to show today's records, inclusion of `d/` prefix is optional.
 * Date follows yyyy-mm-dd format.
 ****
 
 Examples:
 
-* `stomach d/2020-03-04`
+* `stomach d/2020-03-04` +
 Displays a list of food user has consumed on 2020-03-04.
 
-* `stomach` +
+* `stomach` or `stomach d/` +
 Displays a list of food user has consumed today.
 
 <<<
@@ -161,11 +171,10 @@ Format: `nom [n/NAME] [d/DATE] [portion/PORTION]`
 ****
 * If a date is not provided, Calgo will take it that the user ate the food today.
 * Date follows yyyy-mm-dd format.
+* When opting for default values, inclusion of `d/` and `portion/` prefixes are optional. +
+Not giving any values set date to today, and portion to 1 by default.
 * User can check how much nutritional content each type of food content by checking the existing list of food.
-* Ad-hoc consumption of food coming to you in v1.3 for flexibility should user be lazy to create a food items +
-which differs from existing ones/rarely eats. Also marked as ad-hoc since it does not exists in food record in case user
-have other plans in the future.
-* In v1.3, food items tagged with mood values will be displayed separately.
+* You can rate your dining experience, average rating of consuming a certain food will then be displayed.
 ****
 
 Examples:
@@ -187,6 +196,8 @@ Format: `vomit [num/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]`
 * Deletes a portion of food at the specified `INDEX_OF_FOOD`.
 * The index refers to the index number shown in the displayed consumption list.
 * The index *must be a positive integer*: 1, 2, 3, ...
+* When opting for default values, inclusion of `d/` and `portion/` prefixes are optional. +
+Not giving any values set date to today.
 * If no portion is specified, the whole entry is deleted.
 * If user specified a portion greater than what he has consumed, the entire entry will be deleted.
 * If no date is specified, Calgo takes it as the date is today.
@@ -204,47 +215,52 @@ Deletes 3 portions of of the first food item consumed on 2020-03-04.
 
 <<<
 
-=== Exporting the Current Food Record into a Reference Sheet : `export`
+=== Exporting the Current `Food Record` into a Reference Sheet : `export`
 
-Should you feel the need to obtain a portable version of the current Food Record entries, the `export` command provides an editable text file (FoodRecords.txt) in the exports folder. +
+Obtaining a copy of the `Food Record` entries may be useful for situations like sharing or printing.
+Should you feel the need to obtain a portable version of the current `Food Record` entries, the `export` command provides an editable text file (FoodRecords.txt) in the `data/exports` folder. +
 
-* FoodRecords.txt shows the Food Record in alphabetical order of names, and includes the corresponding details of each Food item.
+* FoodRecords.txt shows the `Food Record` in alphabetical order of names, and includes the corresponding details of each Food item neatly in a table.
 
 [TIP]
-Calgo data is saved in the application automatically. There is no need to save manually for each session. The `export` command allows users to manually track their calories with a reference sheet of the Food entries previously entered.
+The `export` command allows users to manually track their calories with a reference sheet of the Food entries previously entered. You can freely edit this reference sheet to include information outside of the App. +
+[NOTE]
+Calgo's session data is saved in the application automatically. There is no need to save manually for each session.
 
 Format: `export`
 
 <<<
 
-=== Getting Food items by Keywords in Name or Nutritional Value : `find`
+=== Getting `Food` items by Nutritional Value or Keywords in Name: `find`
 
-We can use the `find` command to show all the Food items containing the given keyword in their names, or Food items with a nutritional value lower (or equal to) than the specified value (i.e. either in terms of the number of calories, or grams of proteins/carbohydrates/fat).
+With many `Food` items, it may be difficult to search for a particular `Food` you want. This is where the `find` command comes in nicely.
 
-* If no such Food item(s) exist, there will be an indicative message shown.
+The `find` command shows all the `Food` items with a nutritional value matching what you specify (either in terms of the number of `Calories`, or grams of `Proteins`/`Carbohydrates`/`Fat`).
 
-Format: `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
-Quick-Find Format: `find NAME` (no 'n/' prefix needed)
+Alternatively, you can choose to search for a keyword which may appear in, or as the actual `Name` of a `Food` or a particular `Tag` associated with it.
+
+Format: `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS] [t/TAG]` (choose only 1 parameter)
 
 ****
-* The search is case insensitive.
+* In finding Food items via nutritional value, only Food items with exactly matching values will be shown.
+** e.g. `find cal/50` results will only contain Food items with calories equal to 50 `Calories`.
+* Finding via `Name` or `Tag` is case insensitive.
 ** e.g `find n/Kiwi` results can contain both 'kiwi' and 'Kiwi'.
-* The order of the keywords does not matter. e.g.
-** e.g. `find Grilled Cheeseburger` and `find Cheeseburger Grilled` have the same results.
-* Incompletely-spelled keywords will be matched to all Food items containing it.
-** e.g. `find Kiw` can give 'Kiwi' and 'Kiwi Juice'
-* Food items containing at least one keyword (even if it is spelt incompletely) will be returned.
-** e.g. `find Ki Jui` results can contain 'Kiwi Ice Cream' (which contains 'Ki'), 'Orange Juice' (which contains 'Jui'), and so on.
-* In finding Food items via nutritional value, only Food items with nutritional values lower than the one stated will be shown.
-** e.g. `find cal/50` results will only contain Food items with calories less than or equal to 50 calories.
 ****
+
+[TIP]
+You don't actually have to type out the entire keyword! Incomplete keywords will be matched to `Food` items containing them in the specified parameter. +
+e.g. `find t/Gre` can give 'Kiwi' and 'Sugarcane' which are tagged `Green`
+[TIP]
+You can search for multiple `Name` keywords by separating them with space(s). +
+e.g. `find n/Ki Jui` results can give 'Kiwi Ice Cream' (which contains 'Ki'), 'Orange Juice' (which contains 'Jui'), and so on.
 
 Examples:
 
-* `find kiwi` +
+* `find n/kIWi` +
 Returns `kiwi` and `kiwi juice`
 * `find p/25` +
-Returns `chocolate protein powder shake` and `vanilla protein milkshake` which have 25 and 20 grams of protein respectively.
+Returns `chocolate protein powder shake` and `vanilla protein milkshake` which both have 25 grams of protein.
 * `find n/food_item_not_in_food_record` +
 Returns a message showing 0 Food items listed.
 
@@ -316,7 +332,7 @@ This generates a pdf containing the above-mentioned insights made on the consump
 
 === Clearing all entries : `clear`
 
-Clears all entries from the Food Record. +
+Clears all entries from the `Food Record`. +
 Format: `clear`
 
 === Exiting the program : `exit`
@@ -338,16 +354,18 @@ Format: `exit`
 * *Delete* : `delete n/NAME` +
 e.g. `delete pizza`
 * *Find* : `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
-e.g. `find strawberry jam` *OR* +
-`find cal/100 f/10`
+e.g. `find cal/100` *OR* +
+ `find n/Kiwi Chilli`
 * *List* : `list`
 * *Stomach* : stomach [d/DATE] +
-eg. `stomach` *OR* `stomach d/2020-03-04`
+eg. `stomach` *OR* `stomach d/` *OR* `stomach d/2020-03-04`+
 * *Nom* : nom [n/NAME] [d/DATE] [portion/PORTION] +
-eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR* `nom n/chicken`
+eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR*
+`nom n/chicken` *OR* `nom n/chicken d/ portion/`
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
-eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* `vomit num/chicken`
-* *Export* : `export` *OR* `export location /C:\Users\eugen\OneDrive\Desktop\`
+eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
+`vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
+* *Export* : `export`
 * *getGoal* : `getGoal a/AGE g/GENDER h/HEIGHT w/WEIGHT i/IDEAL_WEIGHT d/TARGET_DATE e/WEEKLY_EXERCISE_TIME`
 eg. `getGoal a/23 g/M h/170 w/57.2 i/65 d/2020-12-31 e/5`t
 * *setGoal* : `setGoal GOAL`

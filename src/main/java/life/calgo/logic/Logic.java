@@ -10,6 +10,7 @@ import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 
@@ -25,6 +26,16 @@ public interface Logic {
      * @throws ParseException If an error occurs during parsing.
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
+
+    /**
+     * Returns the daily calorie goal of the user.
+     */
+    DailyGoal getDailyGoal();
+
+    /**
+     * Returns remaining number of calories of the user.
+     */
+    double getRemainingCalories();
 
     /**
      * Returns the FoodRecord.

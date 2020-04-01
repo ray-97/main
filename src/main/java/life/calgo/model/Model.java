@@ -101,6 +101,8 @@ public interface Model {
 
     DailyFoodLog getLogByDate(LocalDate localDate);
 
+    public double getRemainingCalories(LocalDate date);
+
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();
 

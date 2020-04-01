@@ -84,4 +84,16 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
         return dateToLogMap.getDailyFoodLogs();
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof ConsumptionRecord // instanceof handles nulls
+                && dateToLogMap.equals(((ConsumptionRecord) other).dateToLogMap));
+    }
+
+    @Override
+    public int hashCode() {
+        return dateToLogMap.hashCode();
+    }
+
 }

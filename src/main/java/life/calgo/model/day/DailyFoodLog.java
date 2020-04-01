@@ -62,6 +62,9 @@ public class DailyFoodLog {
         return new DailyFoodLog(this.add(food, quantity), copyRatings(), localDate);
     }
 
+    /**
+     * Helper method for consume.
+     */
     private LinkedHashMap<Food, Double> add(Food foodToAdd, double quantity) {
         LinkedHashMap<Food, Double> foods = copyFoods();
         if (foods.containsKey(foodToAdd)) {
@@ -80,9 +83,12 @@ public class DailyFoodLog {
      * @return an updated DailyFoodLog object.
      */
     public DailyFoodLog vomit(Food food, OptionalDouble quantity) {
-        return new DailyFoodLog(this.remove(food, quantity), copyRatings(),localDate);
+        return new DailyFoodLog(this.remove(food, quantity), copyRatings(), localDate);
     }
 
+    /**
+     * Helper method for vomit.
+     */
     private LinkedHashMap<Food, Double> remove(Food foodToRemove, OptionalDouble quantity) {
         LinkedHashMap<Food, Double> foods = copyFoods();
         boolean shouldRemoveCompletely = quantity.isEmpty()
@@ -159,6 +165,12 @@ public class DailyFoodLog {
         return foods.get(food);
     }
 
+    /**
+     * Adds an Integer into the list of ratings related to a Food object.
+     * @param food food that receives rating.
+     * @param rating rating given to the food.
+     * @return DailyFoodLog object with rating added.
+     */
     public DailyFoodLog addRating(Food food, int rating) {
         LinkedHashMap<Food, ArrayList<Integer>> ratings = copyRatings();
         ratings.get(food).add(rating);
@@ -174,12 +186,15 @@ public class DailyFoodLog {
         return getMeanRating(food);
     }
 
+    /**
+     * Helper method that returns a rating representing the list of ratings.
+     */
     private double getMeanRating(Food food) {
-        OptionalDouble average =  ratings.get(food).stream().mapToInt(i -> i).average();
+        OptionalDouble average = ratings.get(food).stream().mapToInt(i -> i).average();
         if (average.isEmpty()) {
             return -1;
         } else {
-             return average.getAsDouble();
+            return average.getAsDouble();
         }
     }
 
@@ -227,7 +242,8 @@ public class DailyFoodLog {
 
         DailyFoodLog otherFoodLog = (DailyFoodLog) other;
         return otherFoodLog.getLocalDate().equals(getLocalDate())
-                && otherFoodLog.getFoods().equals(getFoods());
+                && otherFoodLog.copyFoods().equals(copyFoods())
+                && otherFoodLog.copyRatings().equals(copyRatings());
     }
 
 }

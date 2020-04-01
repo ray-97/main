@@ -102,10 +102,11 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         return foodList.getExistingFood(toGet);
     }
 
+    //// util methods
+
     public Optional<Food> getFoodByName(Name name) {
         return foodList.getFoodByName(name);
     }
-    //// util methods
 
     /**
      * Returns a line-by-line representation of the FoodRecord, displaying all its details.

@@ -16,7 +16,7 @@ public class VomitCommand extends Command {
 
     public static final String COMMAND_WORD = "vomit";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the food record. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes a certain amount of food consumed. "
             + "Parameters: "
             + CliSyntax.PREFIX_POSITION + "POSITION "
             + CliSyntax.PREFIX_DATE + "DATE "
@@ -26,7 +26,7 @@ public class VomitCommand extends Command {
             + CliSyntax.PREFIX_DATE + "2019-01-03 "
             + CliSyntax.PREFIX_PORTION + "2";
 
-    public static final String MESSAGE_SUCCESS = "Successfully throw up %1$s"; // %d portion of %s was consumed on %s
+    public static final String MESSAGE_SUCCESS = "Successfully throw up %1$s";
 
     private final DailyFoodLog foodLog;
     private final Food foodVomited;
@@ -44,6 +44,5 @@ public class VomitCommand extends Command {
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 foodLog.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodVomited));
-        // dayVomited.getPortion(foodVomited), foodVomited, dayVomited.getLocalDate()));
     }
 }

@@ -24,15 +24,15 @@ import life.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_INDEX = "Position should be a positive number.";
 
     private static final String DATE_PATTERN = "yyyy-MM-dd";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
-    private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty";
+    private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty.";
     private static final String MESSAGE_INVALID_POSITION = "Position should be an integer!";
-    private static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10";
+    private static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -82,7 +82,7 @@ public class ParserUtil {
     }
 
     /**
-     * returns true if given String can be parsed as a number
+     * Returns true if given String can be parsed as a number
      * @param strNum a String argument to be parsed as a number
      * @return true if the input can be parsed as a number
      */
@@ -98,6 +98,11 @@ public class ParserUtil {
         return true;
     }
 
+    /**
+     * Returns true if given String can be parsed as an Integer
+     * @param strNum a String argument to be parsed as a Integer
+     * @return true if the input can be parsed as a Integer
+     */
     public static boolean isInteger(String strNum) {
         if (strNum == null) {
             return false;
@@ -111,7 +116,7 @@ public class ParserUtil {
     }
 
     /**
-     * parses String portion as a double
+     * Parses String portion as a double
      * @param portion a String representation of portion argument
      * @return double representation of portion argument
      * @throws ParseException if given argument cannot be parsed as a number
@@ -127,6 +132,12 @@ public class ParserUtil {
         return value;
     }
 
+    /**
+     * Parses a String rating as an int.
+     * @param rating a String representation of rating argument
+     * @return double representation of rating argument
+     * @throws ParseException if given argument cannot be parsed as an int
+     */
     public static int parseRating(String rating) throws ParseException {
         requireNonNull(rating);
         String trimmedRating = rating.trim();
@@ -245,6 +256,13 @@ public class ParserUtil {
         return tagSet;
     }
 
+    /**
+     * Returns whether all Prefixes appear in the Argument Multimap.
+     *
+     * @param argumentMultimap the Argument Multimap we search each Prefix through.
+     * @param prefixes Each Prefix we need to search for matches.
+     * @return whether every Prefix appears in the Argument Multimap.
+     */
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
