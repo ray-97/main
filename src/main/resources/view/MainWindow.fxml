@@ -50,19 +50,17 @@
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
                             <HBox prefHeight="100.0" prefWidth="200.0">
-                                <children>
-                                    <StackPane fx:id="goalDisplayPlaceholder" styleClass="pane-with-border">
-                                        <padding>
-                                            <Insets bottom="5" left="10" right="10" top="5" />
-                                        </padding>
-                                    </StackPane>
+                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-display">
+                                    <padding>
+                                        <Insets bottom="5" left="10" right="10" top="5" />
+                                    </padding>
+                                </StackPane>
 
-                                    <StackPane fx:id="caloriesDisplayPlaceholder" styleClass="pane-with-border">
-                                        <padding>
-                                            <Insets bottom="5" left="10" right="10" top="5" />
-                                        </padding>
-                                    </StackPane>
-                                </children>
+                                <StackPane fx:id="caloriesDisplayPlaceholder" styleClass="remaining-calories-display">
+                                    <padding>
+                                        <Insets bottom="5" left="10" right="10" top="5" />
+                                    </padding>
+                                </StackPane>
                             </HBox>
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
                         <StackPane fx:id="graphDisplayPlaceholder" prefHeight="150.0" prefWidth="200.0" />

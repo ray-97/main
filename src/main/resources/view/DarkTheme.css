@@ -156,14 +156,14 @@
 .goal-display {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 13pt;
+    -fx-font-size: 10pt;
     -fx-text-fill: white;
 }
 
 .remaining-calories-display {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 13pt;
+    -fx-font-size: 10pt;
     -fx-text-fill: white;
 }
 
