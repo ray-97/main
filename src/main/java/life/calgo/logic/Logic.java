@@ -27,6 +27,11 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
+     * Updates the Food List to display real-time filter
+     * @param text The input from user which may contain a name of a Food item in FoodRecord
+     */
+    void updateFoodList(String text);
+    /**
      * Returns the FoodRecord.
      *
      * @see Model#getFoodRecord()

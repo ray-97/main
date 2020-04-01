@@ -19,15 +19,24 @@ public class CommandBox extends UiPart<Region> {
     private static final String FXML = "CommandBox.fxml";
 
     private final CommandExecutor commandExecutor;
+    private final CommandListener commandListener;
 
     @FXML
     private TextField commandTextField;
 
-    public CommandBox(CommandExecutor commandExecutor) {
+    public CommandBox(CommandExecutor commandExecutor, CommandListener commandListener) {
         super(FXML);
         this.commandExecutor = commandExecutor;
+        this.commandListener = commandListener;
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
-        commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
+        commandTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.contains("n/")
+                    && (newValue.startsWith("update") || newValue.startsWith("delete") || newValue.startsWith("nom"))) {
+                String foodName = newValue.split(" ", 2)[1];
+                commandListener.updateFoodListPanel(foodName);
+            }
+            setStyleToDefault();
+        });
     }
 
     /**
@@ -74,6 +83,20 @@ public class CommandBox extends UiPart<Region> {
          * @see Logic#execute(String)
          */
         CommandResult execute(String commandText) throws CommandException, ParseException;
+    }
+
+
+    /**
+     * Represents a function that can execute commands.
+     */
+    @FunctionalInterface
+    public interface CommandListener {
+        /**
+         * Listens into the command and filters the FoodListPanel accordingly
+         *
+         * @see Logic#execute(String)
+         */
+        void updateFoodListPanel(String foodName);
     }
 
 }
