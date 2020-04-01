@@ -11,6 +11,9 @@ import life.calgo.commons.exceptions.IllegalValueException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
+/**
+ * Jackson-friendly version of {@link DailyFoodLog}.
+ */
 public class JsonAdaptedDailyFoodLog {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "DailyFoodLog's %s field is missing!";
@@ -19,6 +22,9 @@ public class JsonAdaptedDailyFoodLog {
     private final LinkedHashMap<JsonAdaptedFood, ArrayList<Integer>> ratings;
     private final LocalDate localDate;
 
+    /**
+     * Constructs a {@code JsonDailyFoodLog} with the given details.
+     */
     @JsonCreator
     public JsonAdaptedDailyFoodLog(
         @JsonProperty("foods") LinkedHashMap<JsonAdaptedFood, Double> foods,
@@ -30,6 +36,9 @@ public class JsonAdaptedDailyFoodLog {
         this.localDate = localDate;
     }
 
+    /**
+     * Converts a given {@code JsonDailyFoodLog} into this class for Jackson use.
+     */
     public JsonAdaptedDailyFoodLog(DailyFoodLog source) {
         foods = adaptFoods(source.copyFoods());
         ratings = adaptRatings(source.copyRatings());
@@ -72,6 +81,11 @@ public class JsonAdaptedDailyFoodLog {
         return ratings;
     }
 
+    /**
+     * Converts this Jackson-friendly adapted DailyFoodLog object into the model's {@code DailyFoodLog} object.
+     * @return a DailyFoodLog equivalent of this adaptedDailyFoodLog object.
+     * @throws IllegalValueException if there were any data constraints violated in the adaptedDailyFoodLog.
+     */
     public DailyFoodLog toModelType() throws IllegalValueException {
         return new DailyFoodLog(unAdaptFoods(foods), unAdaptRatings(ratings), localDate);
     }

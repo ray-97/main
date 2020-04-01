@@ -9,7 +9,7 @@ import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
 
 /**
- * Displays all food consumed on a given day
+ * Displays all food consumed on a given day.
  */
 public class StomachCommand extends Command {
 

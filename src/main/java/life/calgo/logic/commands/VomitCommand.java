@@ -10,7 +10,7 @@ import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
 /**
- * Command to decrement quantity of consumption of a food item from a given day
+ * Command to decrement quantity of consumption of a food item from a given day.
  */
 public class VomitCommand extends Command {
 

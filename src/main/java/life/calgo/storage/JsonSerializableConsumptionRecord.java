@@ -13,6 +13,9 @@ import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.day.DailyFoodLog;
 
+/**
+ * An Immutable ConsumptionRecord that is serializable to JSON format.
+ */
 @JsonRootName(value = "consumptionrecord")
 public class JsonSerializableConsumptionRecord {
 
@@ -20,21 +23,34 @@ public class JsonSerializableConsumptionRecord {
 
     private final List<JsonAdaptedDailyFoodLog> logs = new ArrayList<>();
 
+    /**
+     * Constructs a {@code JsonSerializableConsumptionRecord} with the given logs.
+     */
     @JsonCreator
     public JsonSerializableConsumptionRecord(@JsonProperty("logs") List<JsonAdaptedDailyFoodLog> logs) {
         this.logs.addAll(logs);
     }
 
+    /**
+     * Converts a given {@code ReadOnlyConsumptionRecord} into this class for Jackson use.
+     *
+     * @param source future changes to this will not affect the created {@code JsonSerializableConsumptionRecord}.
+     */
     public JsonSerializableConsumptionRecord(ReadOnlyConsumptionRecord source) {
         logs.addAll(source.getDailyFoodLogs().stream().map(JsonAdaptedDailyFoodLog::new).collect(Collectors.toList()));
     }
 
+    /**
+     * Converts this consumption record into the model's {@code ConsumptionRecord} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated.
+     */
     public ConsumptionRecord toModelType() throws IllegalValueException {
         ConsumptionRecord consumptionRecord = new ConsumptionRecord();
         for (JsonAdaptedDailyFoodLog jsonAdaptedDailyFoodLog : logs) {
             DailyFoodLog dailyFoodLog = jsonAdaptedDailyFoodLog.toModelType();
             if (consumptionRecord.hasLogWithSameDate(dailyFoodLog)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_DAILYFOODLOG); // unlikely to have, but just throw.
+                throw new IllegalValueException(MESSAGE_DUPLICATE_DAILYFOODLOG);
             }
             consumptionRecord.addLog(dailyFoodLog);
         }

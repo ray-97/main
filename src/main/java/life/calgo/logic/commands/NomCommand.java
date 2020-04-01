@@ -10,7 +10,7 @@ import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
 /**
- * Updates the food consumed on a given day
+ * Updates the food consumed on a given day.
  */
 public class NomCommand extends Command {
 

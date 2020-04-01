@@ -9,7 +9,7 @@ import javafx.scene.layout.Region;
 import life.calgo.model.food.ConsumedFood;
 
 /**
- * Responsible for displaying each consumed food item
+ * Responsible for displaying each consumed food item.
  */
 public class ConsumedFoodCard extends UiPart<Region> {
 

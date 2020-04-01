@@ -13,6 +13,9 @@ import life.calgo.model.day.UniqueDateToLogMap;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 
+/**
+ * Wraps all data at the consumption record level.
+ */
 public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
     private final UniqueDateToLogMap dateToLogMap;
 
@@ -22,11 +25,17 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
 
     public ConsumptionRecord() {}
 
+    /**
+     * Creates a ConsumptionRecord using the DailyFoodLog objects in the {@code toBeCopied}.
+     */
     public ConsumptionRecord(ReadOnlyConsumptionRecord toBeCopied) {
         this();
         resetData(toBeCopied);
     }
 
+    /**
+     * Resets the existing data of this {@code ConsumptionRecord} with {@code newData}.
+     */
     public void resetData(ReadOnlyConsumptionRecord newData) {
         requireNonNull(newData);
         dateToLogMap.setDateToLogMap(newData.getDateToLogMap());
@@ -35,10 +44,6 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
     @Override
     public HashMap<LocalDate, DailyFoodLog> getDateToLogMap() {
         return dateToLogMap.getDateToLogMap();
-    }
-
-    public String toString() {
-        return dateToLogMap.toString();
     }
 
     public void addLog(DailyFoodLog foodLog) {
@@ -53,6 +58,10 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
         return dateToLogMap.getLogByDate(date);
     }
 
+    /**
+     * Updates a log in {@code dateToLogMap}, replacing it with {@code logAfterConsumption}.
+     * @param logAfterConsumption a DailyFoodLog object reflecting the food recently consumed.
+     */
     public void updateLog(DailyFoodLog logAfterConsumption) {
         dateToLogMap.updateLog(logAfterConsumption);
     }
@@ -61,7 +70,6 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
         dateToLogMap.updateMapWithFood(food);
     }
 
-    @Override
     public void setDailyListDate(LocalDate date) throws CommandException {
         dateToLogMap.setDailyListDate(date);
     }
@@ -75,15 +83,5 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
     public List<DailyFoodLog> getDailyFoodLogs() {
         return dateToLogMap.getDailyFoodLogs();
     }
-//    @Override
-//    public boolean equals(Object other) {
-//        return other == this // short circuit if same object
-//                || (other instanceof FoodRecord // instanceof handles nulls
-//                && foodList.equals(((FoodRecord) other).foodList));
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return foodList.hashCode();
-//    }
+
 }

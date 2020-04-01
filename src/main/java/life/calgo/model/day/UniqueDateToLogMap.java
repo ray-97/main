@@ -15,7 +15,7 @@ import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
 
 /**
- * A data structure to hold date keys which have corresponding food and portions consumed as their values
+ * A data structure to hold date keys which have corresponding food consumed as their values.
  */
 public class UniqueDateToLogMap {
 
@@ -25,25 +25,24 @@ public class UniqueDateToLogMap {
             FXCollections.unmodifiableObservableList(internalList);
 
     public DailyFoodLog getLogByDate(LocalDate date) {
-        return internalMap.get(date); // returns null if not present
+        return internalMap.get(date);
     }
 
+    public List<DailyFoodLog> getDailyFoodLogs() {
+        return new ArrayList<>(internalMap.values());
+    }
+
+    /**
+     * Returns true if internalMap contains a DailyFoodLog with same date as foodLog.
+     */
     public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
         return internalMap.containsKey(foodLog.getLocalDate());
     }
 
-    public void addLog(DailyFoodLog foodLog) {
-        internalMap.put(foodLog.getLocalDate(), foodLog);
-    }
-
-    public String toString() {
-        String sb = "";
-        for (DailyFoodLog dfl: internalMap.values()) {
-            sb += dfl.toString();
-        }
-        return sb;
-    }
-
+    /**
+     * Populates internalMap with LocalDate and DailyFoodLog key value pairs.
+     * @param dateToLogMap the HashMap containing data to populate internalMap.
+     */
     public void setDateToLogMap(HashMap<LocalDate, DailyFoodLog> dateToLogMap) {
         internalMap.clear();
         for (DailyFoodLog dailyFoodLog : dateToLogMap.values()) {
@@ -51,12 +50,28 @@ public class UniqueDateToLogMap {
         }
     }
 
+    /**
+     * Returns key value pairs inside internalMap as a HashMap.
+     */
     public HashMap<LocalDate, DailyFoodLog> getDateToLogMap() {
         HashMap<LocalDate, DailyFoodLog> copy = new HashMap<>();
         for (DailyFoodLog dailyFoodLog : internalMap.values()) {
             copy.put(dailyFoodLog.getLocalDate(), dailyFoodLog.copy());
         }
         return copy;
+    }
+
+    /**
+     * Updates every DailyFoodLog in internalMap with respective food item that is updated.
+     */
+    public void updateMapWithFood(Food food) {
+        for (DailyFoodLog log: internalMap.values()) {
+            internalMap.put(log.getLocalDate(), log.updateFoodWithSameName(food));
+        }
+    }
+
+    public void addLog(DailyFoodLog foodLog) {
+        internalMap.put(foodLog.getLocalDate(), foodLog);
     }
 
     /**
@@ -68,18 +83,17 @@ public class UniqueDateToLogMap {
         internalMap.put(logAfterConsumption.getLocalDate(), logAfterConsumption);
     }
 
-    public void updateMapWithFood(Food food) {
-        for (DailyFoodLog log: internalMap.values()) {
-            internalMap.put(log.getLocalDate(), log.updateFoodWithSameName(food));
-        }
-    }
-
+    /**
+     * Sets internalList to reflect a DailyFoodLog with ConsumedFood items.
+     * @param date date of DailyFoodLog be reflected.
+     * @throws CommandException if user requests to display an empty DailyFoodLog.
+     */
     public void setDailyListDate(LocalDate date) throws CommandException {
         internalList.clear();
         if (!internalMap.containsKey(date)) {
             throw new CommandException(String.format("You have not consumed anything on %s yet", date));
         }
-        Set<Food> foods = internalMap.get(date).getFoods(); // null internalMap? or internalMap.get(date) null
+        Set<Food> foods = internalMap.get(date).getFoods();
         if (!foods.isEmpty()) {
             for (Food food : foods) {
                 DailyFoodLog foodLog = internalMap.get(date);
@@ -88,10 +102,6 @@ public class UniqueDateToLogMap {
                 internalList.add(new ConsumedFood(food, portion, rating, date));
             }
         }
-    }
-
-    public List<DailyFoodLog> getDailyFoodLogs() {
-        return new ArrayList<>(internalMap.values());
     }
 
     /**

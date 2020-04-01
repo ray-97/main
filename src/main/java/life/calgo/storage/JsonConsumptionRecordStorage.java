@@ -14,6 +14,9 @@ import life.calgo.commons.util.FileUtil;
 import life.calgo.commons.util.JsonUtil;
 import life.calgo.model.ReadOnlyConsumptionRecord;
 
+/**
+ * A class to access ConsumptionRecord data stored as a json file on the hard disk.
+ */
 public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
 
     private static final Logger logger = LogsCenter.getLogger(ConsumptionRecordStorage.class);
@@ -31,13 +34,20 @@ public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
 
     @Override
     public Optional<ReadOnlyConsumptionRecord> readConsumptionRecord()
-            throws DataConversionException, IOException {
+            throws DataConversionException {
         return readConsumptionRecord(filePath);
     }
 
+    /**
+     * Works similarly as {@link #readConsumptionRecord()}.
+     * @param filePath location of the data. Cannot be null.
+     * @return a {@code ReadOnlyConsumptionRecord} object that was read from file path,
+     * wrapped within an {@code Optional}.
+     * @throws DataConversionException if the file is not in the correct format.
+     */
     @Override
     public Optional<ReadOnlyConsumptionRecord> readConsumptionRecord(Path filePath)
-            throws DataConversionException, IOException {
+            throws DataConversionException {
         requireNonNull(filePath);
 
         Optional<JsonSerializableConsumptionRecord> jsonConsumptionRecord = JsonUtil.readJsonFile(
@@ -58,6 +68,14 @@ public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
         saveConsumptionRecord(consumptionRecord, filePath);
     }
 
+    /**
+
+    /**
+     * Works similarly as {@link #saveConsumptionRecord(ReadOnlyConsumptionRecord)}.
+     * @param consumptionRecord the consumptionRecord to be saved.
+     * @param filePath location of the data. Cannot be null.
+     * @throws IOException if there's any error when writing to the file.
+     */
     public void saveConsumptionRecord(ReadOnlyConsumptionRecord consumptionRecord, Path filePath) throws IOException {
         requireNonNull(consumptionRecord);
         requireNonNull(filePath);

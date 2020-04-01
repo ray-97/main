@@ -101,12 +101,6 @@ public interface Model {
 
     DailyFoodLog getLogByDate(LocalDate localDate);
 
-    public DailyGoal updateDailyGoal(int targetDailyCalories);
-
-    public boolean isGoalMade();
-
-    public DailyGoal getDailyGoal();
-
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();
 
@@ -121,4 +115,11 @@ public interface Model {
     void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) throws CommandException;
 
     void updateConsumedLists(Food food);
+
+    DailyGoal updateDailyGoal(int targetDailyCalories);
+
+    boolean isGoalMade();
+
+    DailyGoal getDailyGoal();
+
 }

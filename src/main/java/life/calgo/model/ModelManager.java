@@ -197,6 +197,43 @@ public class ModelManager implements Model {
         return this.targetDailyCalories;
     }
 
+    //=========== Filtered Consumption Record Accessors =============================================================
+
+    /**
+     * Returns an unmodifiable view of the list of {@code ConsumedFood}.
+     */
+    @Override
+    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
+        return currentFilteredDailyList;
+    }
+
+    @Override
+    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date)
+            throws CommandException {
+        requireNonNull(predicate);
+        consumptionRecord.setDailyListDate(date);
+        currentFilteredDailyList.setPredicate(predicate);
+    }
+
+    /**
+     * Updates existing ConsumedFood items having same name as {@code food} in consumption record for display.
+     * @param food food that has been updated.
+     */
+    @Override
+    public void updateConsumedLists(Food food) {
+        requireNonNull(food);
+        consumptionRecord.updateConsumedLists(food);
+        refreshCurrentFilteredDailyList();
+    }
+
+    private void refreshCurrentFilteredDailyList() {
+        try {
+            updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());
+        } catch (Exception e) {
+            logger.warning("Error refreshing filtered list.");
+        }
+    }
+
     //=========== Filtered Food Record Accessors =============================================================
 
     /**
@@ -212,34 +249,6 @@ public class ModelManager implements Model {
     public void updateFilteredFoodRecord(Predicate<Food> predicate) {
         requireNonNull(predicate);
         filteredFoods.setPredicate(predicate);
-    }
-
-    @Override
-    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
-        return currentFilteredDailyList;
-    }
-
-    @Override
-    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date)
-            throws CommandException {
-        requireNonNull(predicate);
-        consumptionRecord.setDailyListDate(date);
-        currentFilteredDailyList.setPredicate(predicate);
-    }
-
-    @Override
-    public void updateConsumedLists(Food food) {
-        requireNonNull(food);
-        consumptionRecord.updateConsumedLists(food);
-        refreshCurrentFilteredDailyList();
-    }
-
-    private void refreshCurrentFilteredDailyList() {
-        try {
-            updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());
-        } catch (Exception e) {
-            logger.warning("Error refreshing filtered list.");
-        }
     }
 
     @Override

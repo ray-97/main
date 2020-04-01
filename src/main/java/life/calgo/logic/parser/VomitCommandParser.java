@@ -23,7 +23,7 @@ import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
 /**
- * Parses input arguments and creates a new VomitCommand object
+ * Parses input arguments and creates a new VomitCommand object.
  */
 public class VomitCommandParser implements Parser<VomitCommand> {
 
@@ -38,10 +38,10 @@ public class VomitCommandParser implements Parser<VomitCommand> {
     }
 
     /**
-     * Parses the given {@code String} of arguments in the context of the VomitCommand
-     * @param args given String of arguments
-     * @return a VomitCommand object for execution
-     * @throws ParseException if the user does not conform to the expected format
+     * Parses the given {@code String} of arguments in the context of the VomitCommand.
+     * @param args given String of arguments.
+     * @return a VomitCommand object for execution.
+     * @throws ParseException if the user does not conform to the expected format.
      */
     public VomitCommand parse(String args) throws ParseException {
         requireNonNull(args);
@@ -49,26 +49,34 @@ public class VomitCommandParser implements Parser<VomitCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DATE, PREFIX_PORTION, PREFIX_RATING,
                         PREFIX_CALORIES, PREFIX_PROTEIN, PREFIX_CARBOHYDRATE, PREFIX_FAT,
                         PREFIX_POSITION, PREFIX_TAG);
+
         if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_POSITION)) {
             throw new ParseException(
                     String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, VomitCommand.MESSAGE_USAGE));
         }
 
         DailyFoodLog foodLog = new DailyFoodLog();
+
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
             foodLog = foodLog.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
         }
+
         OptionalDouble portion = OptionalDouble.empty();
+
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) { // we need to check if "" is present
             double parsedValue = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
             portion = OptionalDouble.of(parsedValue);
         }
+
         int indexOfFood = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get()) - 1;
         Optional<Food> optionalFood;
+
         if (!model.hasLogWithSameDate(foodLog)) {
             throw new ParseException(String.format(MESSAGE_NONEXISTENT_LOG, foodLog.getLocalDate()));
         }
+
         foodLog = model.getLogByDate(foodLog.getLocalDate());
+
         try {
             optionalFood = foodLog.getFoodByIndex(indexOfFood);
             foodLog = foodLog.vomit(optionalFood.get(), portion);
