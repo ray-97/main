@@ -65,8 +65,8 @@
                             </HBox>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily List" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Graph" />
-                        <StackPane fx:id="graphDisplayPlaceholder" />
+<!--                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Graph" />-->
+<!--                        <StackPane fx:id="graphDisplayPlaceholder" />-->
                     </VBox>
 
                     <VBox fx:id="dailyList" minWidth="340" prefWidth="340" styleClass="pane-with-border" HBox.hgrow="ALWAYS">

@@ -10,6 +10,7 @@ Interface UserPrefsStorage <<Interface>>
 Interface FoodRecordStorage <<Interface>>
 Interface GoalStorage <<Interface>>
 
+Class DocumentGenerator <<Abstract>>
 Class StorageManager
 Class JsonUserPrefsStorage
 Class JsonFoodRecordStorage
@@ -19,6 +20,9 @@ Class JsonAdaptedGoal
 
 Class ReportGenerator
 Class ExportGenerator
+
+DocumentGenerator <|-- ReportGenerator
+DocumentGenerator <|-- ExportGenerator
 
 StorageManager .up.|> Storage
 StorageManager o--> UserPrefsStorage

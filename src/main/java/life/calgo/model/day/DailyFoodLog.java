@@ -91,9 +91,7 @@ public class DailyFoodLog {
      */
     private LinkedHashMap<Food, Double> remove(Food foodToRemove, OptionalDouble quantity) {
         LinkedHashMap<Food, Double> foods = copyFoods();
-        boolean shouldRemoveCompletely = quantity.isEmpty()
-                ? true
-                : quantity.getAsDouble() >= foods.get(foodToRemove);
+        boolean shouldRemoveCompletely = quantity.isEmpty() || quantity.getAsDouble() >= foods.get(foodToRemove);
         if (!foods.containsKey(foodToRemove)) {
             throw new IllegalArgumentException();
         } else if (shouldRemoveCompletely) {
@@ -148,7 +146,7 @@ public class DailyFoodLog {
      * @throws IndexOutOfBoundsException
      */
     public Optional<Food> getFoodByIndex(int index) throws IndexOutOfBoundsException {
-        ArrayList<Food> temp = new ArrayList(foods.keySet());
+        ArrayList<Food> temp = new ArrayList<>(foods.keySet());
         Food food = (Food) temp.get(index);
         return Optional.of(food);
     }

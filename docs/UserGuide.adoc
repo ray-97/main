@@ -45,17 +45,15 @@ image::Ui.png[width="790"]
 +
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
-- You can refer to <<Features>> below for details of each command.
+- You can refer to <<Commands>> below for details of each command.
 .  Try experimenting with the commands yourself! Here are some examples:
 
 * **`update**n/kiwi cal/125 p/1 c/20 f/3` : adds `kiwi` to the `Food Record` if there is currently no `Food` called 'kiwi' inside it, with its details saved as: 125 calorie, 1 gram of protein, 20 grams of carbohydrates, and 3 grams of fats.
 * **`find`**`n/banana`: finds the entry banana in the `Food Record` and returns its nutritional details if such a `Food` exists.
 * *`list`* : lists all `Foods` currently recorded in the `Food Record`.
 
-<<<
-
-[[Features]]
-== Features
+[[Commands]]
+== Commands
 
 ====
 *Command Format*
@@ -145,7 +143,7 @@ Deletes the second food consumed today in the consumption log displayed using `s
 Deletes 3 portions of of the first `Food` consumed on 2020-03-04.
 
 
-=== Displaying help : `help`
+=== Displaying `help` when lost : `help`
 
 Displays a guide for all available commands in Calgo.
 
@@ -154,7 +152,7 @@ Displays a guide for all available commands in Calgo.
 * If only a specific command is wanted, `help` can used with a keyword.
 ****
 
-Format: `help [KEYWORD]`
+Format: `help [COMMAND_WORD]`
 
 Examples:
 
@@ -184,7 +182,7 @@ Format: `export`
 
 <<<
 
-=== Finding a `Food` by nutritional value or keyword(s): `find`
+=== Finding a `Food` by nutritional value or keyword(s) : `find`
 
 With many `Food` entries in the `Food Record`, it may be difficult to search for a particular `Food` you want. This is where the `find` command comes in nicely.
 
@@ -221,31 +219,6 @@ Returns a message showing 0 `Food` entries listed.
 
 <<<
 
-=== Generating an ideal daily `Calorie` goal: `getGoal`
-
-Generates a smart goal based on user's age, gender, height, weight, ideal weight, the date by which they want to reach
-their ideal weight and the number of hours they exercise per week.
-
-This helps users provide a scientifically accurate goal based on their target weight and date.
-
-Format: `getGoal a/AGE g/GENDER h/HEIGHT w/WEIGHT i/IDEAL_WEIGHT d/TARGET_DATE e/WEEKLY_EXERCISE_TIME`
-
-Do note the following:
-****
-* AGE is in number of years.
-* GENDER only accepts values "F", "M" and "N" which refer to Female, Male and Non-binary respectively.
-* HEIGHT is expressed in centimeters.
-* WEIGHT and IDEAL_WEIGHT are expressed in kilograms.
-* TARGET_DATE is expressed in yyyy-mm-dd format.
-* WEEKLY_EXERCISE_TIME is expressed in hours.
-****
-
-Examples:
-
-* `getGoal a/23 g/M h/170 w/57.2 i/65 d/2020-12-31 e/5` +
-Returns: "You should consume about 2,580 calories a day to reach your goal of 65 kg. by December 31, 2020."
-Sets a goal for the desired number of calories to be consumed in a day. +
-
 === Generating insights : `report`
 Given a date, the command generates a document (in pdf format) of relevant insights about the user's food consumption
 pattern of the same date.
@@ -255,7 +228,6 @@ pattern of the same date.
 ** All `Foods` consumed on the given date. For each `Food`, the following information will be included:
 *** Quantity consumed, for instance 3 servings.
 *** Number of calories consumed from each `Food`.
-*** Amount of carbohydrates, protein and fats consumed from each `Food`.
 
 ** The user's most eaten `Food` in the past seven days.
 ** The total number of calories consumed in that day.
@@ -283,16 +255,16 @@ This resets the display to show all `Food` entries in the current `Food Record`,
 
 Format: `list`
 
-=== Setting a daily `Calorie` goal: `setGoal`
+=== Setting a daily `Calorie` target : `goal`
 
 This goal will be used to provide helpful insights for users. +
 
-Format: `setGoal GOAL`
+Format: `goal GOAL`
 
 Example:
 
-* `setGoal 2580` +
-Sets the desired number of `Calorie` s to be consumed to be 2580.
+* `goal 2580` +
+Sets the desired number of `Calorie` to be consumed to be 2580.
 
 === Showing all `Food` consumed on a particular day : `stomach`
 
@@ -362,10 +334,8 @@ eg. `nom n/chicken d/2020-03-04 portion/1.5 r/6` *OR*
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
 eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
-* *getGoal* : `getGoal a/AGE g/GENDER h/HEIGHT w/WEIGHT i/IDEAL_WEIGHT d/TARGET_DATE e/WEEKLY_EXERCISE_TIME`
-eg. `getGoal a/23 g/M h/170 w/57.2 i/65 d/2020-12-31 e/5`t
-* *setGoal* : `setGoal GOAL`
-eg. `setGoal 2580`
+* *goal* : `goal GOAL` +
+e.g `goal 2000`
 * *Report* : `report [Date in dd-mm-yyyy]`
 eg. `report 2020-03-27`
 * *Help* : `help`
