@@ -221,7 +221,7 @@ Returns a message showing 0 `Food` entries listed.
 
 <<<
 
-=== Generating an ideal daily calorie goal: `getGoal`
+=== Generating an ideal daily `Calorie` goal: `getGoal`
 
 Generates a smart goal based on user's age, gender, height, weight, ideal weight, the date by which they want to reach
 their ideal weight and the number of hours they exercise per week.
@@ -283,7 +283,7 @@ This resets the display to show all `Food` entries in the current `Food Record`,
 
 Format: `list`
 
-=== Setting a daily calorie goal: `setGoal`
+=== Setting a daily `Calorie` goal: `setGoal`
 
 This goal will be used to provide helpful insights for users. +
 
