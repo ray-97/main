@@ -1,10 +1,5 @@
 package life.calgo.storage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.logging.Logger;
-
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
@@ -13,11 +8,8 @@ import life.calgo.model.food.Food;
 /**
  * Responsible for generating statistics of the user's consumption patterns on a given day.
  */
-public class ReportGenerator {
-    private static final Logger logger = LogsCenter.getLogger(ReportGenerator.class);
+public class ReportGenerator extends DocumentGenerator {
     private DailyFoodLog queryLog;
-    private File file;
-    private PrintWriter printWriter;
     private double totalCalories = 0.0;
     private double totalProteins = 0.0;
     private double totalCarbs = 0.0;
@@ -25,19 +17,10 @@ public class ReportGenerator {
     private DailyGoal userGoal;
 
     public ReportGenerator(DailyFoodLog queryLog, DailyGoal userGoal) {
+        super("data/reports/" + queryLog.getLocalDate().toString() + "_report.txt",
+                LogsCenter.getLogger(ReportGenerator.class));
         this.queryLog = queryLog;
         this.userGoal = userGoal;
-        this.file = new File("data/reports/" + queryLog.getLocalDate().toString() + "_report.txt");
-        try {
-            this.file.getParentFile().mkdirs();
-            this.file.createNewFile();
-            this.printWriter = new PrintWriter(file);
-        } catch (FileNotFoundException e) {
-            // happens when there is an error in opening or creating the file
-            logger.warning("Not able to generate report because file was unable to be created.");
-        } catch (Exception e) {
-            logger.warning("Check your system security settings and enable rights to create a new file.");
-        }
     }
 
     /**
@@ -57,6 +40,7 @@ public class ReportGenerator {
     /**
      * Writes the meta-information of the report
      */
+    @Override
     public void printHeader() {
         String title = "Report of Consumption Pattern on " + this.queryLog.getLocalDate().toString();
         printWriter.println(title);
@@ -76,7 +60,7 @@ public class ReportGenerator {
      */
     public void printFoodwiseStatistics() {
         printWriter.println("Food-wise Statistics:");
-        printWriter.println(String.format("%-20s %-20s %-20s", "    Food", "   Quantity", "   Calories"));
+        printWriter.println(String.format("%-25s %-20s %-20s", "Food", "Quantity", "Calories"));
         DailyFoodLog foodLog = queryLog;
         for (Food food : foodLog.getFoods()) {
             double portion = foodLog.getPortion(food);
@@ -85,7 +69,7 @@ public class ReportGenerator {
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
-            printWriter.println(String.format("   %-22s %-20.0f %-20.0f", food.toString(true),
+            printWriter.println(String.format("%-25s %-20.0f %-20.0f", food.toString(true),
                     portion, currCalories));
         }
         printSeparator();
@@ -134,17 +118,11 @@ public class ReportGenerator {
     /**
      * Writes the concluding remarks in the report
      */
+    @Override
     public void printFooter() {
         printWriter.println("This marks the end of your report. Personalised insights coming up in v1.3.");
     }
 
-    /**
-     * Writes a line break
-     */
-    public void printSeparator() {
-        printWriter.println("--------------------------------------------------------------------------------"
-                + "-----------------------------");
-    }
 
     /**
      * Calculates number of calories remaining for user to meet goal
@@ -152,12 +130,5 @@ public class ReportGenerator {
      */
     public double calculateRemainingCalories() {
         return userGoal.getTargetDailyCalories() - totalCalories;
-    }
-
-    /**
-     * Writes an empty line
-     */
-    public void printEmptyLine() {
-        printWriter.println("");
     }
 }
