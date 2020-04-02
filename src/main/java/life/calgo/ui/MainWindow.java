@@ -27,8 +27,8 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
     private static final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
             + "do remember to set a daily calorie goal using the goal command!";
-    private static final String POSITIVE_CALORIES_MESSAGE = "You can consume %s more calories today.";
-    private static final String NEGATIVE_CALORIES_MESSAGE = "You have consumed %s more calories than your goal today.";
+    private static final String POSITIVE_CALORIES_MESSAGE = "%s more calories today.";
+    private static final String NEGATIVE_CALORIES_MESSAGE = "Over by %s calories today.";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 

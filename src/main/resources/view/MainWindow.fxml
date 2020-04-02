@@ -51,7 +51,7 @@
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
                             <HBox prefHeight="100.0" prefWidth="200.0">
-                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-display">
+                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-stack-pane">
                                     <padding>
                                         <Insets bottom="5" left="10" right="10" top="5" />
                                     </padding>
