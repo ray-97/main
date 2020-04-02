@@ -367,7 +367,6 @@ eg. `nom n/chicken d/2020-03-04 portion/1.5` *OR*
 * *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
 eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
-* *Export* : `export`
 * *getGoal* : `getGoal a/AGE g/GENDER h/HEIGHT w/WEIGHT i/IDEAL_WEIGHT d/TARGET_DATE e/WEEKLY_EXERCISE_TIME`
 eg. `getGoal a/23 g/M h/170 w/57.2 i/65 d/2020-12-31 e/5`t
 * *setGoal* : `setGoal GOAL`
