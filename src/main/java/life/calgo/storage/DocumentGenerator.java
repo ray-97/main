@@ -40,6 +40,27 @@ public abstract class DocumentGenerator {
     }
 
     /**
+     * Wraps a String into lines of n characters.
+     */
+    public String stringWrap(String s, int n) {
+        String result = "";
+        for (int i = 0; i < s.length(); i++) {
+            if (i != 0 && i % (n - 1) == 0) {
+                result += "\n";
+            }
+            result += s.charAt(i);
+        }
+        int numExceeded = result.length() % n;
+        if (numExceeded != 0) {
+            int remainderTrailingWhiteSpace = n - numExceeded;
+            for (int i = 0; i < remainderTrailingWhiteSpace; i++) {
+                result += " ";
+            }
+        }
+        return result;
+    }
+
+    /**
      * Writes an empty line
      */
     public void printEmptyLine() {
