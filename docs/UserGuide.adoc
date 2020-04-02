@@ -220,26 +220,27 @@ Returns a message showing 0 `Food` entries listed.
 <<<
 
 === Generating insights : `report`
-Given a date, the command generates a document (in pdf format) of relevant insights about the user's food consumption
-pattern of the same date.
+Given a date, the command generates a document (in txt format) of relevant insights about the user's food consumption
+pattern of the same date. This file is stored in the `data/reports` folder.
 
+Format: `report d/DATE`
 ****
 * The report includes the following insights:
 ** All `Foods` consumed on the given date. For each `Food`, the following information will be included:
+*** The name of the `Food` item.
 *** Quantity consumed, for instance 3 servings.
 *** Number of calories consumed from each `Food`.
 
-** The user's most eaten `Food` in the past seven days.
 ** The total number of calories consumed in that day.
 ** The total number of carbohydrates, protein and fats consumed in that day.
 ** A curated Food plan that includes a healthy quantity of the user's favourite `Foods`,
-while ensuring it meets user's daily calorie goal.
+while ensuring it meets user's daily calorie goal. (Coming in v1.4)
 ****
 
 Example:
 
 * report `27-03-2020` +
-This generates a pdf containing the above-mentioned insights made on the consumption of  Food by the user, on 27th of March 2020.
+This generates a txt file containing the above-mentioned insights made on the consumption of  Food by the user, on 27th of March 2020.
 
 // todo: add Screenshot of report
 // todo: Graphical Report
@@ -336,6 +337,6 @@ eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
 * *goal* : `goal GOAL` +
 e.g `goal 2000`
-* *Report* : `report [Date in dd-mm-yyyy]`
+* *Report* : `report Date in dd-mm-yyyy`
 eg. `report 2020-03-27`
 * *Help* : `help`
