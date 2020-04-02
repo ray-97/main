@@ -1,9 +1,13 @@
 package life.calgo.ui;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -17,6 +21,8 @@ import life.calgo.logic.Logic;
 import life.calgo.logic.commands.CommandResult;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
+import life.calgo.model.food.Food;
+import life.calgo.model.food.Name;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -35,6 +41,8 @@ public class MainWindow extends UiPart<Stage> {
     private Stage primaryStage;
     private Logic logic;
 
+    private ContextMenu contextMenu;
+
     // Independent Ui parts residing in this Ui container
     private FoodListPanel foodListPanel;
     private DailyListPanel dailyListPanel;
@@ -50,7 +58,7 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private StackPane foodListPanelPlaceholder;
 
     @FXML
     private StackPane dailyListPanelPlaceholder;
@@ -66,6 +74,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane caloriesDisplayPlaceholder;
+
+    @FXML
+    private StackPane graphDisplayPlaceholder;
 
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -125,7 +136,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     void fillInnerParts() {
         foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
-        personListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
+        foodListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
 
         dailyListPanel = new DailyListPanel(logic.getFilteredDailyList());
         dailyListPanelPlaceholder.getChildren().add(dailyListPanel.getRoot());
@@ -148,7 +159,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand, this::updateFoodListPanel);
+        CommandBox commandBox = new CommandBox(this::executeCommand, this::getSuggestions);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
 
@@ -188,7 +199,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Opens the help window or focuses on it if it's already opened.
+     * Handles the MainWindow in event of the Help command being used.
      */
     @FXML
     public void handleHelp() {
@@ -197,6 +208,17 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             helpWindow.focus();
         }
+    }
+
+    /**
+     * Opens the help window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleHelpHelper(String commandGuide) {
+        // Check if HelpWindow content is required content
+        helpWindow.setGuide(commandGuide);
+
+        handleHelp();
     }
 
     void show() {
@@ -235,7 +257,7 @@ public class MainWindow extends UiPart<Stage> {
             fillRemainingCalories();
 
             if (commandResult.isShowHelp()) {
-                handleHelp();
+                handleHelpHelper(commandResult.getFeedbackToUser());
             }
 
             if (commandResult.isExit()) {
@@ -251,12 +273,27 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Updates the FoodList from user input in real time.
+     * Presents similar food suggestions to user depending on their input
      *
-     * @see Logic#updateFoodList(String)
+     * @see Logic#getSimilarFood(String)
      */
-    private void updateFoodListPanel(String text) {
+    private void getSuggestions(String text) {
         String foodName = text.substring(text.indexOf("n/") + 2);
-        logic.updateFoodList(foodName);
+        if (!foodName.isEmpty()) {
+            List<Food> similarFood = logic.getSimilarFood(foodName);
+            String s = similarFood.stream()
+                            .map(Food::getName)
+                            .map(Name::toString)
+                            .sorted(Comparator.naturalOrder())
+                            .collect(Collectors.joining("\n"));
+            if (!similarFood.isEmpty()) {
+                resultDisplay.setFeedbackToUser("Here are some Food items with similar names in your Food Record: \n"
+                        + s);
+            } else {
+                resultDisplay.setFeedbackToUser("It seems like there is no similar Food item in your Food Record");
+            }
+        } else {
+            resultDisplay.setFeedbackToUser("");
+        }
     }
 }

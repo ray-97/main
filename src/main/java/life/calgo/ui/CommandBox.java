@@ -18,6 +18,7 @@ public class CommandBox extends UiPart<Region> {
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
 
+
     private final CommandExecutor commandExecutor;
     private final CommandListener commandListener;
 
@@ -31,9 +32,10 @@ public class CommandBox extends UiPart<Region> {
         // calls #setStyleToDefault() whenever there is a change to the text of the command box.
         commandTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.contains("n/")
-                    && (newValue.startsWith("update") || newValue.startsWith("delete") || newValue.startsWith("nom"))) {
+                    && (newValue.startsWith("update") || newValue.startsWith("delete")
+                        || newValue.startsWith("nom"))) {
                 String foodName = newValue.split(" ", 2)[1];
-                commandListener.updateFoodListPanel(foodName);
+                commandListener.getSuggestions(foodName);
             }
             setStyleToDefault();
         });
@@ -94,9 +96,9 @@ public class CommandBox extends UiPart<Region> {
         /**
          * Listens into the command and filters the FoodListPanel accordingly
          *
-         * @see Logic#execute(String)
+         * @see Logic#getSimilarFood(String)
          */
-        void updateFoodListPanel(String foodName);
+        void getSuggestions(String foodName);
     }
 
 }
