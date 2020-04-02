@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <?import javafx.stage.Stage?>
 
 <fx:root minHeight="600" minWidth="450" onCloseRequest="#handleExit" title="Calgo App" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -50,7 +51,7 @@
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
                             <HBox prefHeight="100.0" prefWidth="200.0">
-                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-display">
+                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-stack-pane">
                                     <padding>
                                         <Insets bottom="5" left="10" right="10" top="5" />
                                     </padding>
@@ -62,14 +63,17 @@
                                     </padding>
                                 </StackPane>
                             </HBox>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily List" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
-                        <StackPane fx:id="graphDisplayPlaceholder" prefHeight="150.0" prefWidth="200.0" />
+<!--                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Graph" />-->
+<!--                        <StackPane fx:id="graphDisplayPlaceholder" />-->
                     </VBox>
 
                     <VBox fx:id="dailyList" minWidth="340" prefWidth="340" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Food Record" />
                         <StackPane fx:id="foodListPanelPlaceholder" VBox.vgrow="ALWAYS" />
                     </VBox>
                 </HBox>
