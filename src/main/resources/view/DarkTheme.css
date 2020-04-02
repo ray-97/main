@@ -100,11 +100,11 @@
 }
 
 .list-cell:filled:even {
-    -fx-background-color: #3c3e3f;
+    -fx-background-color: powderblue;
 }
 
 .list-cell:filled:odd {
-    -fx-background-color: #515658;
+    -fx-background-color: skyblue;
 }
 
 .list-cell:filled:selected {
@@ -319,10 +319,6 @@
 
 .scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
     -fx-padding: 8 1 8 1;
-}
-
-.stomach-pane {
-    -fx-background-color: powderblue;
 }
 
 #cardPane {
