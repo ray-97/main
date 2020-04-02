@@ -38,11 +38,6 @@ public class FoodListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                if (getIndex() % 2 == 1) {
-                    this.setStyle("-fx-background-color:POWDERBLUE");
-                } else {
-                    this.setStyle("-fx-background-color:LIGHTSKYBLUE");
-                }
                 setGraphic(new FoodCard(food, getIndex() + 1).getRoot());
             }
         }

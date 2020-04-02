@@ -40,11 +40,6 @@ public class DailyListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                if (getIndex() % 2 == 1) {
-                    this.setStyle("-fx-background-color:CORAL");
-                } else {
-                    this.setStyle("-fx-background-color:TOMATO");
-                }
                 setGraphic(new ConsumedFoodCard(food, getIndex() + 1).getRoot());
             }
         }
