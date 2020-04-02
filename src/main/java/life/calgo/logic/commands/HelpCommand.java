@@ -85,7 +85,7 @@ public class HelpCommand extends Command {
 
     private static String filteredGuide;
 
-    private String keyword = "";
+    private String keyword;
 
     public HelpCommand() {
         //dummy for test
@@ -152,10 +152,10 @@ public class HelpCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        filteredGuide = printIfSubstring(keyword);
-
-        if (filteredGuide.isEmpty()) {
+        if (keyword == null) {
             filteredGuide = DEFAULT_HELP_MESSAGE;
+        } else {
+            filteredGuide = printIfSubstring(keyword);
         }
 
         return new CommandResult(SHOWING_HELP_MESSAGE,
