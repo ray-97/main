@@ -27,8 +27,8 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
     private static final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
             + "do remember to set a daily calorie goal using the goal command!";
-    private static final String POSITIVE_CALORIES_MESSAGE = "You can consume %s more calories today.";
-    private static final String NEGATIVE_CALORIES_MESSAGE = "You have consumed %s more calories than your goal today.";
+    private static final String POSITIVE_CALORIES_MESSAGE = "%s more calories today.";
+    private static final String NEGATIVE_CALORIES_MESSAGE = "Over by %s calories today.";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -50,7 +50,7 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private StackPane foodListPanelPlaceholder;
 
     @FXML
     private StackPane dailyListPanelPlaceholder;
@@ -66,6 +66,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane caloriesDisplayPlaceholder;
+
+    @FXML
+    private StackPane graphDisplayPlaceholder;
 
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -125,7 +128,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     void fillInnerParts() {
         foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
-        personListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
+        foodListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
 
         dailyListPanel = new DailyListPanel(logic.getFilteredDailyList());
         dailyListPanelPlaceholder.getChildren().add(dailyListPanel.getRoot());
@@ -188,7 +191,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Opens the help window or focuses on it if it's already opened.
+     * Handles the MainWindow in event of the Help command being used.
      */
     @FXML
     public void handleHelp() {
@@ -197,6 +200,17 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             helpWindow.focus();
         }
+    }
+
+    /**
+     * Opens the help window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleHelpHelper(String commandGuide) {
+        // Check if HelpWindow content is required content
+        helpWindow.setGuide(commandGuide);
+
+        handleHelp();
     }
 
     void show() {
@@ -235,7 +249,7 @@ public class MainWindow extends UiPart<Stage> {
             fillRemainingCalories();
 
             if (commandResult.isShowHelp()) {
-                handleHelp();
+                handleHelpHelper(commandResult.getFeedbackToUser());
             }
 
             if (commandResult.isExit()) {
