@@ -83,6 +83,8 @@ public class HelpCommand extends Command {
     private static final ObservableMap<String, String> internalMap = FXCollections.observableHashMap();
     private static Set<String> internalSet;
 
+    private static String filteredGuide;
+
     private String keyword;
 
     public HelpCommand() {
@@ -94,6 +96,10 @@ public class HelpCommand extends Command {
 
         addMessagesToMap();
         internalSet = setKeySet();
+    }
+
+    public static String getFilteredGuide() {
+        return filteredGuide;
     }
 
     /**
@@ -145,15 +151,14 @@ public class HelpCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        String commandGuide;
 
         if (keyword == null) {
-            commandGuide = DEFAULT_HELP_MESSAGE;
+            filteredGuide = DEFAULT_HELP_MESSAGE;
         } else {
-            commandGuide = printIfSubstring(keyword);
+            filteredGuide = printIfSubstring(keyword);
         }
 
-        return new CommandResult(commandGuide,
+        return new CommandResult(SHOWING_HELP_MESSAGE,
                 true, false);
     }
 }
