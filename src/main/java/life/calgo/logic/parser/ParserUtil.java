@@ -128,8 +128,7 @@ public class ParserUtil {
         if (isInvalidPortion) {
             throw new ParseException(MESSAGE_INVALID_PORTION);
         }
-        double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
-        return value;
+        return isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
     }
 
     /**
