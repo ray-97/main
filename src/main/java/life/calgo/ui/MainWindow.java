@@ -19,6 +19,7 @@ import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.Logic;
 import life.calgo.logic.commands.CommandResult;
+import life.calgo.logic.commands.HelpCommand;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.food.Food;
@@ -216,7 +217,7 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     public void handleHelpHelper(String commandGuide) {
         // Check if HelpWindow content is required content
-        helpWindow.setGuide(commandGuide);
+        helpWindow.setGuide(HelpCommand.getFilteredGuide());
 
         handleHelp();
     }
