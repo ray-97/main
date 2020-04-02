@@ -287,8 +287,8 @@ public class MainWindow extends UiPart<Stage> {
                             .sorted(Comparator.naturalOrder())
                             .collect(Collectors.joining("\n"));
             if (!similarFood.isEmpty()) {
-                resultDisplay.setFeedbackToUser("Here are some Food items with similar names in your Food Record: \n" +
-                        s);
+                resultDisplay.setFeedbackToUser("Here are some Food items with similar names in your Food Record: \n"
+                        + s);
             } else {
                 resultDisplay.setFeedbackToUser("It seems like there is no similar Food item in your Food Record");
             }

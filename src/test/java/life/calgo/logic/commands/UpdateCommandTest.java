@@ -69,7 +69,7 @@ public class UpdateCommandTest {
     }
 
     @Test
-    public void execute_existingFood_sameValues_throwsCommandException() throws Exception {
+    public void execute_existingFoodSameValues_throwsCommandException() throws Exception {
         Food validFood = new FoodBuilder().build();
         Food existingFoodSameValues = new FoodBuilder().build();
         UpdateCommand updateCommand = new UpdateCommand(existingFoodSameValues);
