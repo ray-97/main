@@ -16,8 +16,8 @@ public class FoodRecordContainsFoodNamePredicate implements Predicate<Food> {
 
     @Override
     public boolean test(Food food) {
-        return food.getName().fullName.startsWith(foodName.trim())
-                || foodName.trim().startsWith(food.getName().fullName);
+        return food.getName().fullName.toLowerCase().startsWith(foodName.toLowerCase().trim())
+                || foodName.toLowerCase().trim().startsWith(food.getName().fullName.toLowerCase());
     }
 
     @Override
