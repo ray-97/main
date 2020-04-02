@@ -6,12 +6,14 @@ import java.io.PrintWriter;
 import java.util.logging.Logger;
 
 /**
- * An abstract class containing functionality that ReportGenerator and ExportGenerate share
+ * An abstract class containing functionality that ReportGenerator and ExportGenerator share
  */
 public abstract class DocumentGenerator {
     protected PrintWriter printWriter;
     protected File file;
     protected final Logger logger;
+    public static final int WIDTH_OF_DOCUMENT = 120;
+
 
     public DocumentGenerator(String pathName, Logger logger) {
         this.file = new File(pathName);
@@ -33,7 +35,7 @@ public abstract class DocumentGenerator {
      */
     public void printSeparator() {
         printWriter.println("--------------------------------------------------------------------------------"
-                + "----------------------------------------");
+                + "---------------------------------------");
     }
 
     /**
@@ -41,6 +43,21 @@ public abstract class DocumentGenerator {
      */
     public void printEmptyLine() {
         printWriter.println("");
+    }
+
+    /**
+     * Centralises text
+     */
+    public String centraliseText(String text) {
+        int lengthOfText = text.length();
+        int numWhitespace = (WIDTH_OF_DOCUMENT - lengthOfText) / 2;
+        StringBuilder sb = new StringBuilder();
+        while (numWhitespace >= 0) {
+            sb.append(" ");
+            numWhitespace--;
+        }
+        sb.append(text);
+        return sb.toString();
     }
 
     /**
