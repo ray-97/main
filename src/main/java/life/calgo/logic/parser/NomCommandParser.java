@@ -26,6 +26,8 @@ import life.calgo.model.food.Food;
 public class NomCommandParser implements Parser<NomCommand> {
 
     public static final String MESSAGE_EMPTY_NAME = "You can't eat that because it does not exist in food record.";
+    public static final String MESSAGE_NEGATIVE_PORTION =
+            "You cannot eat negative portion of food, use vomit command instead.";
 
     private final Model model;
 
@@ -62,6 +64,9 @@ public class NomCommandParser implements Parser<NomCommand> {
 
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
             portion = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
+        }
+        if (portion < 0) {
+            throw new ParseException(MESSAGE_NEGATIVE_PORTION);
         }
         Optional<Food> optionalFood = model.getFoodByName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
