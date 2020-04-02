@@ -49,7 +49,7 @@ public class UpdateCommandIntegrationTest {
         expectedModel.setFood(existingFood, validFood);
 
         assertCommandSuccess(new UpdateCommand(validFood), model,
-                String.format(UpdateCommand.MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, validFood), expectedModel);
+                String.format(UpdateCommand.MESSAGE_UPDATE_EXISTING_FOOD_SUCCESS, validFood), expectedModel);
     }
 
 }

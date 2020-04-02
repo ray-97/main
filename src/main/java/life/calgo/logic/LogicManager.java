@@ -3,6 +3,7 @@ package life.calgo.logic;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -40,8 +41,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public void updateFoodList(String foodName) {
-        model.updateFilteredFoodRecord(new FoodRecordContainsFoodNamePredicate(foodName));
+    public List<Food> getSimilarFood(String foodName) {
+        List<Food> filteredFood = null;
+        filteredFood = model.getFoodRecord()
+                .getFoodList().filtered(new FoodRecordContainsFoodNamePredicate(foodName));
+        return filteredFood;
     }
 
     @Override

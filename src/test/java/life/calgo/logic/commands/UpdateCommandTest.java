@@ -1,6 +1,7 @@
 package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static life.calgo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static life.calgo.testutil.TypicalFoodItems.getTypicalFoodRecord;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -44,7 +45,6 @@ public class UpdateCommandTest {
 
     @Test
     public void execute_foodAcceptedByModel_updateSuccessful() throws Exception {
-        ModelStubAcceptingFoodAdded modelStub = new ModelStubAcceptingFoodAdded();
         Food validFood = new FoodBuilder().build();
 
         CommandResult commandResult = new UpdateCommand(validFood).execute(model);
@@ -63,10 +63,24 @@ public class UpdateCommandTest {
 
         CommandResult commandResult = updateCommand.execute(model);
 
-        assertEquals(String.format(UpdateCommand.MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, editedFood),
+        assertEquals(String.format(UpdateCommand.MESSAGE_UPDATE_EXISTING_FOOD_SUCCESS, editedFood),
                 commandResult.getFeedbackToUser());
         assertTrue(model.hasFood(editedFood));
     }
+
+    @Test
+    public void execute_existingFoodSameValues_throwsCommandException() throws Exception {
+        Food validFood = new FoodBuilder().build();
+        Food existingFoodSameValues = new FoodBuilder().build();
+        UpdateCommand updateCommand = new UpdateCommand(existingFoodSameValues);
+
+        model.addFood(validFood);
+
+        assertCommandFailure(updateCommand, model,
+                String.format(UpdateCommand.MESSAGE_UPDATE_EXISTING_FOOD_SAME_VALUES_FAILED,
+                existingFoodSameValues.getName().fullName));
+    }
+
 
     @Test
     public void equals() {
