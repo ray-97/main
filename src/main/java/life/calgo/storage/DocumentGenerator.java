@@ -9,10 +9,11 @@ import java.util.logging.Logger;
  * An abstract class containing functionality that ReportGenerator and ExportGenerator share
  */
 public abstract class DocumentGenerator {
+    public static final int WIDTH_OF_DOCUMENT = 120;
     protected PrintWriter printWriter;
     protected File file;
     protected final Logger logger;
-    public static final int WIDTH_OF_DOCUMENT = 120;
+
 
 
     public DocumentGenerator(String pathName, Logger logger) {

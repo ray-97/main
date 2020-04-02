@@ -16,9 +16,4 @@ public class CliSyntax {
     public static final Prefix PREFIX_PORTION = new Prefix("portion/");
     public static final Prefix PREFIX_RATING = new Prefix("r/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
-    public static final Prefix PREFIX_AGE = new Prefix("a/");
-    public static final Prefix PREFIX_SEX = new Prefix("s/");
-    public static final Prefix PREFIX_HEIGHT = new Prefix("h/");
-    public static final Prefix PREFIX_WEIGHT = new Prefix("w/");
-    public static final Prefix PREFIX_GOAL = new Prefix("g/");
 }

@@ -74,6 +74,9 @@ public class ReportGenerator extends DocumentGenerator {
         printSeparator();
     }
 
+    /**
+     * Prints information on what the goal is.
+     */
     public void printGoalInformation() {
         printWriter.println(centraliseText(GOAL_HEADER_MESSAGE));
         printEmptyLine();
@@ -134,7 +137,7 @@ public class ReportGenerator extends DocumentGenerator {
             if (isGoalAchieved) {
                 printWriter.println(GOAL_ACHIEVED_MESSAGE);
                 printEmptyLine();
-                printWriter.println(String.format(GOAL_SURPLUS_MESSAGE,calculateRemainingCalories()));
+                printWriter.println(String.format(GOAL_SURPLUS_MESSAGE, calculateRemainingCalories()));
             } else {
                 printWriter.println(GOAL_FAILED_MESSAGE);
                 printEmptyLine();
