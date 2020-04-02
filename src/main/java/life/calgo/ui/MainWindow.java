@@ -217,7 +217,7 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     public void handleHelpHelper(String commandGuide) {
         // Check if HelpWindow content is required content
-        helpWindow.setGuide(HelpCommand.filteredGuide);
+        helpWindow.setGuide(HelpCommand.getFilteredGuide());
 
         handleHelp();
     }
