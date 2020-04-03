@@ -50,7 +50,7 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private StackPane foodListPanelPlaceholder;
 
     @FXML
     private StackPane dailyListPanelPlaceholder;
@@ -125,7 +125,7 @@ public class MainWindow extends UiPart<Stage> {
      */
     void fillInnerParts() {
         foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
-        personListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
+        foodListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
 
         dailyListPanel = new DailyListPanel(logic.getFilteredDailyList());
         dailyListPanelPlaceholder.getChildren().add(dailyListPanel.getRoot());
