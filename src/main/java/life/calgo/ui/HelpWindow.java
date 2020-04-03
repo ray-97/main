@@ -41,7 +41,7 @@ public class HelpWindow extends UiPart<Stage> {
      *
      * @param root Stage to use as the root of the HelpWindow.
      */
-    public HelpWindow(Stage root, String commandGuide) {
+    public HelpWindow(Stage root) {
         super(FXML, root);
         helpMessage.setText(HELP_MESSAGE);
         commandMessage.setText(commandGuide);
@@ -51,7 +51,7 @@ public class HelpWindow extends UiPart<Stage> {
      * Creates a new HelpWindow.
      */
     public HelpWindow() {
-        this(new Stage(), commandGuide);
+        this(new Stage());
     }
 
     @FXML

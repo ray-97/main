@@ -1,6 +1,14 @@
 package life.calgo.storage;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+
 import life.calgo.commons.core.LogsCenter;
+import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.Food;
@@ -36,17 +44,23 @@ public class ReportGenerator extends DocumentGenerator {
     private static final String FOOTER_MESSAGE = "This marks the end of your report. Personalised insights coming up"
             + " in v1.4.";
 
+    private static final int FOOD_NAME_WIDTH = 25;
+    private static final int NUMERICAL_VALUE_WIDTH = 10;
+    private LocalDate queryDate;
     private DailyFoodLog queryLog;
+    private HashMap<LocalDate, DailyFoodLog> dateToLogMap;
     private double totalCalories = 0.0;
     private double totalProteins = 0.0;
     private double totalCarbs = 0.0;
     private double totalFats = 0.0;
     private DailyGoal userGoal;
 
-    public ReportGenerator(DailyFoodLog queryLog, DailyGoal userGoal) {
-        super("data/reports/" + queryLog.getLocalDate().toString() + "_report.txt",
+    public ReportGenerator(LocalDate queryDate, DailyGoal userGoal, ReadOnlyConsumptionRecord consumptionRecord) {
+        super("data/reports/" + queryDate.toString() + "_report.txt",
                 LogsCenter.getLogger(ReportGenerator.class));
-        this.queryLog = queryLog;
+        this.dateToLogMap = consumptionRecord.getDateToLogMap();
+        this.queryLog = this.dateToLogMap.get(queryDate);
+        this.queryDate = queryDate;
         this.userGoal = userGoal;
     }
 
@@ -60,6 +74,7 @@ public class ReportGenerator extends DocumentGenerator {
         printFoodwiseStatistics();
         printAggregateStatistics();
         printInsights();
+        // printSuggestions();
         printFooter();
         printWriter.close();
         return file.exists() && (file.length() != 0); // success check
@@ -106,8 +121,11 @@ public class ReportGenerator extends DocumentGenerator {
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
-            printWriter.println(String.format("%-25s %-20.0f %-20.0f", food.toString(true),
-                    portion, currCalories));
+            String foodName = stringWrap(food.toString(true), FOOD_NAME_WIDTH);
+            String portionString = stringWrap(String.format("%.0f", portion), NUMERICAL_VALUE_WIDTH);
+            String currCaloriesString = stringWrap(String.format("%.0f", currCalories), NUMERICAL_VALUE_WIDTH);
+            printWriter.println(String.format("%-25s %-20s %-20s", foodName,
+                    portionString, currCaloriesString));
         }
         printSeparator();
     }
@@ -151,12 +169,40 @@ public class ReportGenerator extends DocumentGenerator {
      * Creates a list of recommended food items to eat that will match goal of user.
      */
     public void printSuggestions() {
-        // pass Model Consumed Food List
-        // instantiate a list with past 7 days
+        // instantiate a list with past 7 days of consumed food data
+        ArrayList<DailyFoodLog> dailyFoodLogs = new ArrayList<>();
+        LocalDate currentDate = this.queryDate;
+        for (int i = 1; i <= 7; i++) {
+            if (dateToLogMap.containsKey(currentDate)) {
+                dailyFoodLogs.add(this.dateToLogMap.get(currentDate));
+            }
+            currentDate = currentDate.minus(Period.ofDays(1));
+        }
         // flatten list
-        // sort list by ratings
-        // tie break by calories (lower the better)
+        ArrayList<Food> foodInPastWeek = new ArrayList<>();
+        for (DailyFoodLog foodLog : dailyFoodLogs) {
+            foodInPastWeek.addAll(foodLog.getFoods());
+        }
+
+        HashMap<Food, Integer> frequencyMap = new HashMap<>();
+        for (Food food : foodInPastWeek) {
+            if (frequencyMap.containsKey(food)) {
+                frequencyMap.put(food, frequencyMap.get(food) + 1);
+            } else {
+                frequencyMap.put(food, 1);
+            }
+        }
+
+        Collections.sort(foodInPastWeek, Comparator.comparingInt(frequencyMap::get));
+
         // ensure sum up to goal calories
+        printWriter.println(centraliseText("Suggestions"));
+        double goal = userGoal.getTargetDailyCalories();
+        while (goal >= 0 && !foodInPastWeek.isEmpty()) {
+            Food consumedFood = foodInPastWeek.remove(0);
+            printWriter.println(consumedFood);
+            goal -= Double.parseDouble(consumedFood.getCalorie().toString());
+        }
     }
 
     /**
