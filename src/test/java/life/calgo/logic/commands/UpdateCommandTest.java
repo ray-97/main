@@ -1,6 +1,7 @@
 package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static life.calgo.logic.commands.CommandTestUtil.assertCommandFailure;
 import static life.calgo.testutil.TypicalFoodItems.getTypicalFoodRecord;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,9 +17,11 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
 import life.calgo.commons.core.GuiSettings;
+import life.calgo.model.ConsumptionRecord;
 import life.calgo.model.FoodRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
+import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
@@ -32,7 +35,8 @@ import life.calgo.testutil.FoodBuilder;
 
 public class UpdateCommandTest {
 
-    private Model model = new ModelManager(getTypicalFoodRecord(), new UserPrefs(), new DailyGoal());
+    private Model model = new ModelManager(getTypicalFoodRecord(), new ConsumptionRecord(),
+            new UserPrefs(), new DailyGoal());
 
     @Test
     public void constructor_nullFood_throwsNullPointerException() {
@@ -41,7 +45,6 @@ public class UpdateCommandTest {
 
     @Test
     public void execute_foodAcceptedByModel_updateSuccessful() throws Exception {
-        ModelStubAcceptingFoodAdded modelStub = new ModelStubAcceptingFoodAdded();
         Food validFood = new FoodBuilder().build();
 
         CommandResult commandResult = new UpdateCommand(validFood).execute(model);
@@ -60,10 +63,24 @@ public class UpdateCommandTest {
 
         CommandResult commandResult = updateCommand.execute(model);
 
-        assertEquals(String.format(UpdateCommand.MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, editedFood),
+        assertEquals(String.format(UpdateCommand.MESSAGE_UPDATE_EXISTING_FOOD_SUCCESS, editedFood),
                 commandResult.getFeedbackToUser());
         assertTrue(model.hasFood(editedFood));
     }
+
+    @Test
+    public void execute_existingFoodSameValues_throwsCommandException() throws Exception {
+        Food validFood = new FoodBuilder().build();
+        Food existingFoodSameValues = new FoodBuilder().build();
+        UpdateCommand updateCommand = new UpdateCommand(existingFoodSameValues);
+
+        model.addFood(validFood);
+
+        assertCommandFailure(updateCommand, model,
+                String.format(UpdateCommand.MESSAGE_UPDATE_EXISTING_FOOD_SAME_VALUES_FAILED,
+                existingFoodSameValues.getName().fullName));
+    }
+
 
     @Test
     public void equals() {
@@ -124,6 +141,11 @@ public class UpdateCommandTest {
         }
 
         @Override
+        public ReadOnlyConsumptionRecord getConsumptionRecord() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public void addFood(Food food) {
             throw new AssertionError("This method should not be called.");
         }
@@ -179,6 +201,11 @@ public class UpdateCommandTest {
         }
 
         @Override
+        public void updateConsumedLists(Food food) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public Optional<Food> getFoodByName(Name parseName) {
             throw new AssertionError("This method should not be called.");
         }
@@ -223,7 +250,10 @@ public class UpdateCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-
+        @Override
+        public double getRemainingCalories(LocalDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

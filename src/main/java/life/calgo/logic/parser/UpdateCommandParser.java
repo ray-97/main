@@ -2,7 +2,9 @@ package life.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import life.calgo.commons.core.Messages;
@@ -39,7 +41,8 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
                     UpdateCommand.MESSAGE_USAGE));
         }
 
-        Name name = ParserUtil.parseName(argMultimap.getValue(CliSyntax.PREFIX_NAME).get());
+        String nameInTitleCase = convertToTitleCase(argMultimap.getValue(CliSyntax.PREFIX_NAME).get());
+        Name name = ParserUtil.parseName(nameInTitleCase);
         Calorie calorie = ParserUtil.parseCalorie(argMultimap.getValue(CliSyntax.PREFIX_CALORIES).get());
         Protein protein = ParserUtil.parseProtein(argMultimap.getValue(CliSyntax.PREFIX_PROTEIN).get());
         Carbohydrate carbohydrate = ParserUtil
@@ -58,5 +61,19 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
+    }
+
+    /**
+     * Parses the foodName and returns it back in Title Case.
+     * @param foodName the foodName in non-titled case
+     * @return the foodName back in Title Case
+     */
+    private static String convertToTitleCase(String foodName) {
+        return Arrays
+                .stream(foodName.split(" "))
+                .map(word -> word.isEmpty()
+                        ? word
+                        : Character.toTitleCase(word.charAt(0)) + word.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
     }
 }

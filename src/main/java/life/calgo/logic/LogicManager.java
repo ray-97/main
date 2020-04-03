@@ -2,6 +2,8 @@ package life.calgo.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -15,8 +17,10 @@ import life.calgo.logic.parser.FoodRecordParser;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.ConsumedFood;
 import life.calgo.model.food.Food;
+import life.calgo.model.food.predicates.FoodRecordContainsFoodNamePredicate;
 import life.calgo.storage.Storage;
 
 /**
@@ -37,6 +41,14 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public List<Food> getSimilarFood(String foodName) {
+        List<Food> filteredFood = null;
+        filteredFood = model.getFoodRecord()
+                .getFoodList().filtered(new FoodRecordContainsFoodNamePredicate(foodName));
+        return filteredFood;
+    }
+
+    @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
@@ -46,12 +58,23 @@ public class LogicManager implements Logic {
 
         try {
             storage.saveFoodRecord(model.getFoodRecord());
+            storage.saveConsumptionRecord(model.getConsumptionRecord());
             storage.saveGoal(model.getDailyGoal());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
 
         return commandResult;
+    }
+
+    @Override
+    public DailyGoal getDailyGoal() {
+        return model.getDailyGoal();
+    }
+
+    @Override
+    public double getRemainingCalories() {
+        return model.getRemainingCalories(LocalDate.now());
     }
 
     @Override
