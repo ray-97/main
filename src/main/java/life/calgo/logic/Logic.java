@@ -1,6 +1,7 @@
 package life.calgo.logic;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import javafx.collections.ObservableList;
 
@@ -26,6 +27,12 @@ public interface Logic {
      * @throws ParseException If an error occurs during parsing.
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
+
+    /**
+     * Updates the Food List to display real-time filter
+     * @param text The input from user which may contain a name of a Food item in FoodRecord
+     */
+    List<Food> getSimilarFood(String text);
 
     /**
      * Returns the daily calorie goal of the user.

@@ -27,6 +27,12 @@ public class DisplayFood extends Food {
         return rating == -1 ? "Not available yet" : String.format("%.2f", rating) + "/10";
     }
 
+    @Override
+    public int compareTo(Food other) {
+        DisplayFood otheDisplayFood = (DisplayFood) other;
+        return Double.compare(this.rating, otheDisplayFood.rating);
+    }
+
     public LocalDate getDate() {
         return this.date;
     }

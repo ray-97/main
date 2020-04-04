@@ -43,7 +43,7 @@ public class DailyGoal implements ReadOnlyGoal {
     }
     @Override
     public String toString() {
-        return "Target number of calories to consume: " + String.valueOf(this.targetDailyCalories);
+        return "Calorie goal: " + String.valueOf(this.targetDailyCalories);
     }
 
     public Integer getGoal() {

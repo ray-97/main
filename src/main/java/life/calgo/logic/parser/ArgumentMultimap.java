@@ -66,7 +66,7 @@ public class ArgumentMultimap {
      * @return whether the argument multimap contains only 1 user input field, of 1 Prefix.
      */
     public boolean containsSingleUserInputField() {
-        // the command word itself takes up one entry apart from the prefix's mapping
+        // the argument multimap begins with initial size 1
         // therefore, the actual size is not 1, but 2 for a single user input field for 1 Prefix.
         if (this.argMultimap.size() != INITIAL_SIZE + 1) {
             return false;

@@ -182,7 +182,7 @@ public class ModelManager implements Model {
             return goal.getTargetDailyCalories();
         }
 
-        ReportGenerator reportGenerator = new ReportGenerator(todayFoodLog, goal);
+        ReportGenerator reportGenerator = new ReportGenerator(date, goal, getConsumptionRecord());
         reportGenerator.generateReport();
         return reportGenerator.calculateRemainingCalories();
     }

@@ -1,9 +1,13 @@
 package life.calgo.ui;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -15,8 +19,11 @@ import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.Logic;
 import life.calgo.logic.commands.CommandResult;
+import life.calgo.logic.commands.HelpCommand;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
+import life.calgo.model.food.Food;
+import life.calgo.model.food.Name;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -27,13 +34,15 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
     private static final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
             + "do remember to set a daily calorie goal using the goal command!";
-    private static final String POSITIVE_CALORIES_MESSAGE = "You can consume %s more calories today.";
-    private static final String NEGATIVE_CALORIES_MESSAGE = "You have consumed %s more calories than your goal today.";
+    private static final String POSITIVE_CALORIES_MESSAGE = "%s more calories today.";
+    private static final String NEGATIVE_CALORIES_MESSAGE = "Over by %s calories today.";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
     private Stage primaryStage;
     private Logic logic;
+
+    private ContextMenu contextMenu;
 
     // Independent Ui parts residing in this Ui container
     private FoodListPanel foodListPanel;
@@ -66,6 +75,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane caloriesDisplayPlaceholder;
+
+    @FXML
+    private StackPane graphDisplayPlaceholder;
 
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
@@ -148,7 +160,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
+        CommandBox commandBox = new CommandBox(this::executeCommand, this::getSuggestions);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
 
@@ -188,7 +200,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Opens the help window or focuses on it if it's already opened.
+     * Handles the MainWindow in event of the Help command being used.
      */
     @FXML
     public void handleHelp() {
@@ -197,6 +209,17 @@ public class MainWindow extends UiPart<Stage> {
         } else {
             helpWindow.focus();
         }
+    }
+
+    /**
+     * Opens the help window or focuses on it if it's already opened.
+     */
+    @FXML
+    public void handleHelpHelper(String commandGuide) {
+        // Check if HelpWindow content is required content
+        helpWindow.setGuide(HelpCommand.getFilteredGuide());
+
+        handleHelp();
     }
 
     void show() {
@@ -229,11 +252,13 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
+            foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
+
             fillGoal();
             fillRemainingCalories();
 
             if (commandResult.isShowHelp()) {
-                handleHelp();
+                handleHelpHelper(commandResult.getFeedbackToUser());
             }
 
             if (commandResult.isExit()) {
@@ -245,6 +270,31 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Invalid command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
+        }
+    }
+
+    /**
+     * Presents similar food suggestions to user depending on their input
+     *
+     * @see Logic#getSimilarFood(String)
+     */
+    private void getSuggestions(String text) {
+        String foodName = text.substring(text.indexOf("n/") + 2);
+        if (!foodName.isEmpty()) {
+            List<Food> similarFood = logic.getSimilarFood(foodName);
+            String s = similarFood.stream()
+                            .map(Food::getName)
+                            .map(Name::toString)
+                            .sorted(Comparator.naturalOrder())
+                            .collect(Collectors.joining("\n"));
+            if (!similarFood.isEmpty()) {
+                resultDisplay.setFeedbackToUser("Here are some Food items with similar names in your Food Record: \n"
+                        + s);
+            } else {
+                resultDisplay.setFeedbackToUser("It seems like there is no similar Food item in your Food Record");
+            }
+        } else {
+            resultDisplay.setFeedbackToUser("");
         }
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
-import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.storage.ReportGenerator;
 
@@ -44,9 +44,9 @@ public class ReportCommand extends Command {
         if (!model.hasLogWithSameDate(queryDate)) {
             throw new CommandException(MESSAGE_REPORT_FAILURE);
         }
-        DailyFoodLog queryLog = model.getLogByDate(this.queryDate);
         DailyGoal dailyGoal = model.getDailyGoal();
-        ReportGenerator reportGenerator = new ReportGenerator(queryLog, dailyGoal);
+        ReadOnlyConsumptionRecord consumptionRecord = model.getConsumptionRecord();
+        ReportGenerator reportGenerator = new ReportGenerator(queryDate, dailyGoal, consumptionRecord);
         boolean isGenerated = reportGenerator.generateReport();
         if (!isGenerated) {
             throw new CommandException(MESSAGE_REPORT_FAILURE);
