@@ -18,9 +18,11 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all entries containing any of "
             + "the specified keywords in the Name or one of their Tags, or match the  specified nutritional value.\n"
-            + "Choose 1 of the following parameters: [n/NAME] [cal/CALORIES] [p/PROTEIN] [c/CARBOHYDRATES] [f/FATS] "
+            + "Choose only 1 of the following parameters: [n/NAME] [cal/CALORIE] [p/PROTEIN] [c/CARBOHYDRATE] [f/FAT] "
             + "[t/TAG]. NAME and TAG are case-insensitive. \n"
-            + "Example: " + COMMAND_WORD + " cal/150";
+            + "Example: '"
+            + COMMAND_WORD + " cal/150' to search by Calorie, or '"
+            + COMMAND_WORD + " n/Pear' to search by Name";
 
     private final Predicate<Food> predicate;
 

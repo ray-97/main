@@ -11,7 +11,8 @@ public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
-    public static final String MESSAGE_SUCCESS = "Listed all foods";
+    public static final String MESSAGE_SUCCESS =
+            "Listed all foods.\nIf your Food Record appears empty, it's time to start making entries!";
 
     @Override
     public CommandResult execute(Model model) {
