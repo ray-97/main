@@ -29,10 +29,10 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Updates the Food List to display real-time filter
-     * @param text The input from user which may contain a name of a Food item in FoodRecord
+     * Returns a list of food objects with similar name.
+     * @param foodName The name of the food entered by user so far.
      */
-    List<Food> getSimilarFood(String text);
+    List<Food> getSimilarFood(String foodName);
 
     /**
      * Returns the daily caloric goal of the user.

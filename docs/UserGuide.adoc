@@ -192,7 +192,7 @@ Alternatively, you can choose to search for a keyword which may appear in, or as
 
 Please note that the `find` command takes in one and only 1 parameter.
 
-Format: `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS] [t/TAG]` (choose only 1 parameter)
+Format: `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)
 
 ****
 * In finding `Food` via nutritional value, only `Food` with exact matching values will be shown.
@@ -297,20 +297,19 @@ Updates a `Food` into the `Food Record`.
 * If `Food` is already present in the `Food Record`, this will override that `Food` with all the nutritional details specified by user
 ****
 
-Format: `update n/NAME cal/CALORIES p/PROTEINS] c/CARB] f/FATS [t/TAGS]`
+Format: `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
 
 Examples:
 
 * `update n/pizza cal/200 p/10 c/200 f/200` +
 This command adds a new `Food`, pizza into the user’s food presets with nutritional details of 200 `Calorie` s, 10g of `Protein` s, 200g of `Carbohydrate` s and 200g of `Fat` s.
-* `update n/pizza cal/100 p/10 c/100 f/30 tags/Italiano` +
+* `update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite` +
 As pizza is already in the user’s `Food Record`, this command overrides the nutritional details of pizza with 200 `Calorie` s, 10g of `Protein` s, 200g of `Carbohydrate` s and 20g of `Fat` s.
-The pizza is also tagged with the `Tag` "Italiano".
+The pizza is also tagged with the `Tag` s "Italiano" and "Favourite" .
 
 
 [TIP]
-Whenever you begin to key in the name of the `Food`, Calgo automatically filters the display for you so that only `Food` s with
-the same name are suggested. This helps you to easily refer to any existing `Food` you maybe updating.
+Whenever you begin to key in the name of the `Food`, Calgo shows you the existing `Food` items in `Food Record` with similar names, if any.
 
 == FAQ
 
@@ -320,10 +319,10 @@ the same name are suggested. This helps you to easily refer to any existing `Foo
 == Command Summary
 
 * *Clear* : `clear`
-* *Update* : `update n/NAME cal/CALORIES [p/PROTEINS] [p/PROTEINS] [c/CARBS] [f/FATS]`
+* *Update* : `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
 * *Delete* : `delete n/NAME` +
 e.g. `delete pizza`
-* *Find* : `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]` +
+* *Find* : `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS]` +
 e.g. `find cal/100` *OR* +
  `find n/Kiwi Chilli`
 * *List* : `list`
@@ -337,6 +336,6 @@ eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
 * *goal* : `goal GOAL` +
 e.g `goal 2000`
-* *Report* : `report Date in dd-mm-yyyy`
+* *Report* : `report Date in YYYY-MM-DD`
 eg. `report 2020-03-27`
 * *Help* : `help`
