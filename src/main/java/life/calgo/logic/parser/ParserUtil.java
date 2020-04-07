@@ -26,11 +26,6 @@ import life.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
-
-    public static final String MESSAGE_INVALID_DATE = String.format(
-            "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
     public static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty.";
     public static final String MESSAGE_NON_POSITIVE_PORTION =
             "Portion should be a positive number.";
@@ -39,10 +34,17 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
     public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be under 10 characters.";
 
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
     private static final int VALIDATION_LENGTH = 10;
     private static final int INT_INVALID_RATING = -1;
     private static final int INT_MINIMUM_NATURAL_NUMBER = 0;
     private static final int INT_MAXIMUM_RATING = 10;
+
+    public static final String MESSAGE_INVALID_DATE = String.format(
+            "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
+
 
     public static void inputLengthValidation(String input, String message) throws ParseException {
         if (input.length() > VALIDATION_LENGTH) {

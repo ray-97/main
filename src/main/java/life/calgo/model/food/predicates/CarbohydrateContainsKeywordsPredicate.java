@@ -16,11 +16,23 @@ public class CarbohydrateContainsKeywordsPredicate implements Predicate<Food> {
         this.keyword = carbohydrate.value;
     }
 
+    /**
+     * Checks if the Food specified has an exact match in the Carbohydrate value.
+     *
+     * @param food the Food to check against.
+     * @return whether the Food specified has an exact match in the Carbohydrate value.
+     */
     @Override
     public boolean test(Food food) {
         return StringUtil.containsNutritionalValueEqualTo(food.getCarbohydrate().value, keyword);
     }
 
+    /**
+     * Checks for equality between the current and the other predicate, using their keyword, or identity.
+     *
+     * @param other the other predicate to check against.
+     * @return whether the current and the other predicate can be considered equal.
+     */
     @Override
     public boolean equals(Object other) {
         return other == this

@@ -42,7 +42,7 @@ public class LogicManager implements Logic {
 
     @Override
     public List<Food> getSimilarFood(String foodName) {
-        List<Food> filteredFood = null;
+        List<Food> filteredFood;
         filteredFood = model.getFoodRecord()
                 .getFoodList().filtered(new FoodRecordContainsFoodNamePredicate(foodName));
         return filteredFood;

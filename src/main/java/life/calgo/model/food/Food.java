@@ -14,20 +14,17 @@ import life.calgo.model.tag.Tag;
  */
 public class Food implements Comparable<Food> {
 
-    // Identity field
     private final Name name;
-
-    // Data fields
     private final Calorie calorie;
     private final Protein protein;
     private final Carbohydrate carbohydrate;
     private final Fat fat;
 
-    // Fields that can be left empty by user
+    // Can be left empty by user
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field must be present and not null.
+     * Every field except for Tags must be present and not null.
      */
     public Food(Name name, Calorie calorie, Protein protein, Carbohydrate carbohydrate, Fat fat, Set<Tag> tags) {
         CollectionUtil.requireAllNonNull(name, calorie, protein, carbohydrate, fat, tags);
@@ -95,8 +92,11 @@ public class Food implements Comparable<Food> {
     }
 
     /**
-     * Returns true if both foods have the same name and data fields.
+     * Returns true if both foods have equivalent values for all fields.
      * This defines a stronger notion of equality between two foods.
+     *
+     * @param other the other Food to compare with.
+     * @return whether the 2 Food objects can be considered equivalent.
      */
     @Override
     public boolean equals(Object other) {
@@ -115,14 +115,25 @@ public class Food implements Comparable<Food> {
                 && otherFood.getCarbohydrate().equals(getCarbohydrate())
                 && otherFood.getFat().equals(getFat())
                 && otherFood.getTags().equals(getTags());
+
     }
 
+    /**
+     * Obtains the hashcode for the current Food object.
+     *
+     * @return the hashcode for the current Food object.
+     */
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
         return Objects.hash(name, calorie, protein, carbohydrate, fat, tags);
     }
 
+    /**
+     * Provides a String representation containing all the fields of the current Food item.
+     *
+     * @return a String representation of the current Food item.
+     */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
@@ -141,20 +152,19 @@ public class Food implements Comparable<Food> {
     }
 
     /**
-     * Overloaded toString method for report purposes.
+     * Obtain the String representation of the current Food object's Name.
      *
-     * @param isCalledforReport whether or not current Food is involved in a Report.
-     * @return String representation of the Food's Name.
+     * @return String representation of the current Food object's Name.
      */
-    public String toString(boolean isCalledforReport) {
+    public String getFoodNameString() {
         return this.getName().toString();
     }
 
     /**
      * Compares names of Food objects for lexicographic order.
      *
-     * @param other the other Food.
-     * @return a value representing the lexicopgraphic order.
+     * @param other the other Food to compare against.
+     * @return a value representing the lexicographic order.
      */
     @Override
     public int compareTo(Food other) {

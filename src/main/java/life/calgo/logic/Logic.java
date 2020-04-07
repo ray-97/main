@@ -29,18 +29,18 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Updates the Food List to display real-time filter
-     * @param text The input from user which may contain a name of a Food item in FoodRecord
+     * Returns a list of food objects with similar name.
+     * @param foodName The name of the food entered by user so far.
      */
-    List<Food> getSimilarFood(String text);
+    List<Food> getSimilarFood(String foodName);
 
     /**
-     * Returns the daily calorie goal of the user.
+     * Returns the daily caloric goal of the user.
      */
     DailyGoal getDailyGoal();
 
     /**
-     * Returns remaining number of calories of the user.
+     * Returns remaining number of calories of the user for the goal.
      */
     double getRemainingCalories();
 
@@ -51,7 +51,7 @@ public interface Logic {
      */
     ReadOnlyFoodRecord getFoodRecord();
 
-    /** Returns an unmodifiable view of the filtered list of foods */
+    /** Returns an unmodifiable view of the filtered list of foods. */
     ObservableList<Food> getFilteredFoodRecord();
 
     ObservableList<DisplayFood> getFilteredDailyList();

@@ -11,14 +11,14 @@ import life.calgo.commons.util.AppUtil;
 public class Carbohydrate {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Carbohydrate should only contain numbers and it should not be blank";
+            "Carbohydrate should only contain non-negative integers and it should not be blank";
     public static final String VALIDATION_REGEX = "[0-9]+(?=$|\\s)";
     public final String value;
 
     /**
      * Constructs a {@code Carbohydrate}.
      *
-     * @param carbohydrateGrams A valid carbohydrate amount in grams.
+     * @param carbohydrateGrams A valid Carbohydrate amount in grams.
      */
     public Carbohydrate(String carbohydrateGrams) {
         requireNonNull(carbohydrateGrams);
@@ -28,16 +28,30 @@ public class Carbohydrate {
 
     /**
      * Returns true if a given string is a valid Carbohydrate.
+     *
+     * @param test the String representation of the Carbohydrate's value.
+     * @return whether this can be considered a valid Carbohydrate.
      */
     public static boolean isValidCarbohydrate(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Returns the String representation of the Carbohydrate's value.
+     *
+     * @return the String representation of the Carbohydrate's value.
+     */
     @Override
     public String toString() {
         return value;
     }
 
+    /**
+     * Checks if the current Carbohydrate can be considered equivalent to the other, based on identity and value.
+     *
+     * @param other the other Carbohydrate to compare with.
+     * @return whether the current Carbohydrate and the other can be considered equivalent.
+     */
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
@@ -45,6 +59,11 @@ public class Carbohydrate {
                 && value.equals(((Carbohydrate) other).value)); // state check
     }
 
+    /**
+     * Provides hashcode for the current Carbohydrate object.
+     *
+     * @return hashcode for the current Carbohydrate object.
+     */
     @Override
     public int hashCode() {
         return value.hashCode();

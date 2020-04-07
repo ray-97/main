@@ -8,7 +8,7 @@ import life.calgo.model.Model;
 import life.calgo.model.food.Food;
 
 /**
- * Deletes a food identified using its displayed index from the food record.
+ * Deletes a food with its name from the Food Record.
  */
 public class DeleteCommand extends Command {
 

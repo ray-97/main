@@ -101,7 +101,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         return foodLog;
     }
 
-    private Optional<Food> fixVomitFood(DailyFoodLog foodLog, int indexOfFood) throws ParseException{
+    private Optional<Food> fixVomitFood(DailyFoodLog foodLog, int indexOfFood) throws ParseException {
         try {
             return foodLog.getFoodByIndex(indexOfFood);
         } catch (IndexOutOfBoundsException e) {

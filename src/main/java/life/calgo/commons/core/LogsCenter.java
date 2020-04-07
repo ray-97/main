@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * Configures and manages loggers and handlers, including their logging level
- * Named {@link Logger}s can be obtained from this class<br>
+ * Configures and manages loggers and handlers, including their logging level.
+ * Named {@link Logger}s can be obtained from this class. <br>
  * These loggers have been configured to output messages to the console and a {@code .log} file by default,
  *   at the {@code INFO} level. A new {@code .log} file with a new numbering will be created after the log
  *   file reaches 5MB big, up to a maximum of 5 files.<br>
@@ -18,7 +18,7 @@ import java.util.logging.SimpleFormatter;
 public class LogsCenter {
     private static final int MAX_FILE_COUNT = 5;
     private static final int MAX_FILE_SIZE_IN_BYTES = (int) (Math.pow(2, 20) * 5); // 5MB
-    private static final String LOG_FILE = "calgo.log";
+    private static final String LOG_FILE = "calgo.log"; // default naming for log files
     private static Level currentLogLevel = Level.INFO;
     private static final Logger logger = LogsCenter.getLogger(LogsCenter.class);
     private static FileHandler fileHandler;
@@ -104,6 +104,11 @@ public class LogsCenter {
         return fileHandler;
     }
 
+    /**
+     * Creates a console handler for internal development use.
+     *
+     * @return a console handler for internal development use.
+     */
     private static ConsoleHandler createConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setLevel(currentLogLevel);

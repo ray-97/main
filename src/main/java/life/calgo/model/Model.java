@@ -50,7 +50,7 @@ public interface Model {
     /**
      * Sets the user prefs' food record file path.
      */
-    void setFoodRecordFilePath(Path addressBookFilePath);
+    void setFoodRecordFilePath(Path foodRecordFilePath);
 
     ReadOnlyConsumptionRecord getConsumptionRecord();
 
@@ -63,7 +63,7 @@ public interface Model {
     ReadOnlyFoodRecord getFoodRecord();
 
     /**
-     * Returns true if a food with the same identity as {@code food} exists in the address book.
+     * Returns true if a food with the same identity as {@code food} exists in the FoodRecord.
      */
     boolean hasFood(Food food);
 
@@ -101,7 +101,7 @@ public interface Model {
 
     DailyFoodLog getLogByDate(LocalDate localDate);
 
-    public double getRemainingCalories(LocalDate date);
+    double getRemainingCalories(LocalDate date);
 
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();

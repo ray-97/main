@@ -136,7 +136,7 @@ public class UpdateCommandTest {
         }
 
         @Override
-        public void setFoodRecordFilePath(Path addressBookFilePath) {
+        public void setFoodRecordFilePath(Path foodRecordFilePath) {
             throw new AssertionError("This method should not be called.");
         }
 

@@ -121,7 +121,7 @@ public class ReportGenerator extends DocumentGenerator {
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
-            String foodName = stringWrap(food.toString(true), FOOD_NAME_WIDTH);
+            String foodName = stringWrap(food.getFoodNameString(), FOOD_NAME_WIDTH);
             String portionString = stringWrap(String.format("%.0f", portion), NUMERICAL_VALUE_WIDTH);
             String currCaloriesString = stringWrap(String.format("%.0f", currCalories), NUMERICAL_VALUE_WIDTH);
             printWriter.println(String.format("%-25s %-20s %-20s", foodName,
