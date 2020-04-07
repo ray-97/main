@@ -26,7 +26,7 @@ public class VomitCommand extends Command {
             + CliSyntax.PREFIX_DATE + "2019-01-03 "
             + CliSyntax.PREFIX_PORTION + "2";
 
-    public static final String MESSAGE_SUCCESS = "Successfully throw up %1$s";
+    private static final String MESSAGE_SUCCESS = "Successfully throw up %1$s";
 
     private final DailyFoodLog foodLog;
     private final Food foodVomited;

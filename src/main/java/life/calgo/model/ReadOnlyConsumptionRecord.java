@@ -6,7 +6,7 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import life.calgo.model.day.DailyFoodLog;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 
 /**
  * Unmodifiable view of a consumption record.
@@ -14,10 +14,10 @@ import life.calgo.model.food.ConsumedFood;
 public interface ReadOnlyConsumptionRecord {
 
     /**
-     * Returns an unmodifiable view of consumedFood in consumption record.
+     * Returns an unmodifiable view of displayFood in consumption record.
      * This list will not contain any duplicate foods.
      */
-    ObservableList<ConsumedFood> getDailyList();
+    ObservableList<DisplayFood> getDailyList();
 
     /**
      * Returns a collection of LocalDate to DailyFoodLog key-value pairs in consumption record.

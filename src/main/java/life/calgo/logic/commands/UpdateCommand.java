@@ -62,6 +62,7 @@ public class UpdateCommand extends Command {
             return new CommandResult(String.format(MESSAGE_UPDATE_EXISTING_FOOD_SUCCESS, toAdd));
         } else {
             model.addFood(toAdd);
+            model.updateConsumedLists(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         }
 

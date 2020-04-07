@@ -96,7 +96,7 @@ public class DailyFoodLog {
             throw new IllegalArgumentException();
         } else if (shouldRemoveCompletely) {
             foods.remove(foodToRemove);
-            ratings.put(foodToRemove, new ArrayList<>()); // Reset ratings when vomit all.
+            ratings.put(foodToRemove, new ArrayList<>());
         } else {
             foods.put(foodToRemove, foods.get(foodToRemove) - quantity.getAsDouble());
         }
@@ -239,6 +239,7 @@ public class DailyFoodLog {
         }
 
         DailyFoodLog otherFoodLog = (DailyFoodLog) other;
+
         return otherFoodLog.getLocalDate().equals(getLocalDate())
                 && otherFoodLog.copyFoods().equals(copyFoods())
                 && otherFoodLog.copyRatings().equals(copyRatings());

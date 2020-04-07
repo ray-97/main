@@ -12,7 +12,7 @@ import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 
 /**
@@ -54,7 +54,7 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of foods. */
     ObservableList<Food> getFilteredFoodRecord();
 
-    ObservableList<ConsumedFood> getFilteredDailyList();
+    ObservableList<DisplayFood> getFilteredDailyList();
 
     /**
      * Returns the user prefs' food record file path.

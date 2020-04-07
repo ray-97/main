@@ -16,7 +16,7 @@ import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 import life.calgo.storage.ReportGenerator;
@@ -31,7 +31,7 @@ public class ModelManager implements Model {
     private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
-    private final FilteredList<ConsumedFood> currentFilteredDailyList;
+    private final FilteredList<DisplayFood> currentFilteredDailyList;
     private DailyGoal targetDailyCalories;
 
     /**
@@ -216,15 +216,15 @@ public class ModelManager implements Model {
     // Filtered Consumption Record Accessors
 
     /**
-     * Returns an unmodifiable view of the list of {@code ConsumedFood}.
+     * Returns an unmodifiable view of the list of {@code DisplayFood}.
      */
     @Override
-    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
+    public ObservableList<DisplayFood> getCurrentFilteredDailyList() {
         return currentFilteredDailyList;
     }
 
     @Override
-    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date)
+    public void updateCurrentFilteredDailyList(Predicate<DisplayFood> predicate, LocalDate date)
             throws CommandException {
         requireNonNull(predicate);
         consumptionRecord.setDailyListDate(date);
@@ -232,7 +232,7 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Updates existing ConsumedFood items having same name as {@code food} in consumption record for display.
+     * Updates existing DisplayFood items having same name as {@code food} in consumption record for display.
      * @param food food that has been updated.
      */
     @Override

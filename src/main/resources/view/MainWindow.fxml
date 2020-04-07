@@ -45,25 +45,25 @@
                         <Insets bottom="5" left="10" right="10" top="5" />
                     </padding>
                 </StackPane>
-                <HBox VBox.vgrow="ALWAYS">
+                <HBox>
                     <VBox fx:id="foodList" minWidth="222.0" prefHeight="322.0" prefWidth="222.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
-                            <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
-                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-stack-pane" HBox.hgrow="NEVER">
+                            <HBox prefHeight="100.0" prefWidth="200.0">
+                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-stack-pane">
                                     <padding>
                                         <Insets bottom="5" left="10" right="10" top="5" />
                                     </padding>
                                 </StackPane>
 
-                                <StackPane fx:id="caloriesDisplayPlaceholder" styleClass="remaining-calories-display" HBox.hgrow="NEVER">
+                                <StackPane fx:id="caloriesDisplayPlaceholder" styleClass="remaining-calories-display">
                                     <padding>
                                         <Insets bottom="5" left="10" right="10" top="5" />
                                     </padding>
                                 </StackPane>
                             </HBox>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily List" VBox.vgrow="NEVER" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily List" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
 <!--                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Graph" />-->
 <!--                        <StackPane fx:id="graphDisplayPlaceholder" />-->
@@ -78,7 +78,9 @@
                     </VBox>
                 </HBox>
 
-                      <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
+                <HBox />
+
+                <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="ALWAYS" />
             </VBox>
         </Scene>
     </scene>

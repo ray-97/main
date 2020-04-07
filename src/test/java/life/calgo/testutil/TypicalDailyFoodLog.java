@@ -17,6 +17,11 @@ public class TypicalDailyFoodLog {
     public static final DailyFoodLog DAILY_FOOD_LOG_TODAY =
             new DailyFoodLog(buildFoods(), buildRatings(), CURRENT_DATE);
 
+    public static DailyFoodLog getAppleOnlyLog() {
+        DailyFoodLog APPLE_ONLY_FOOD_LOG = new DailyFoodLog().consume(TypicalFoodItems.APPLE ,1);
+        return APPLE_ONLY_FOOD_LOG;
+    }
+
     /**
      * Helper method to create food to portion map needed to build DailyFoodLog.
      */
