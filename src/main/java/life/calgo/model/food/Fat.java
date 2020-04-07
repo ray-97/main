@@ -12,7 +12,7 @@ public class Fat {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Fat should only contain numbers and it should not be blank";
+            "Fat should only contain positive integers and it should not be blank";
     public static final String VALIDATION_REGEX = "[0-9]+(?=$|\\s)";
     public final String value;
 

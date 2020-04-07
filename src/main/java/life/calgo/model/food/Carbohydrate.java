@@ -11,7 +11,7 @@ import life.calgo.commons.util.AppUtil;
 public class Carbohydrate {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Carbohydrate should only contain numbers and it should not be blank";
+            "Carbohydrate should only contain positive integers and it should not be blank";
     public static final String VALIDATION_REGEX = "[0-9]+(?=$|\\s)";
     public final String value;
 

@@ -11,8 +11,7 @@ import life.calgo.commons.util.AppUtil;
 public class Protein {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Proteins can take any integer values, and it should not be blank";
-
+            "Protein should only contain positive integers and it should not be blank";
     /*
      * The first character of the Protein must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.

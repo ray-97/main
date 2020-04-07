@@ -61,9 +61,9 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         return goalFilePath;
     }
 
-    public void setFoodRecordFilePath(Path addressBookFilePath) {
-        requireNonNull(addressBookFilePath);
-        this.foodRecordFilePath = addressBookFilePath;
+    public void setFoodRecordFilePath(Path foodRecordFilePath) {
+        requireNonNull(foodRecordFilePath);
+        this.foodRecordFilePath = foodRecordFilePath;
     }
 
     @Override
