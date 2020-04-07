@@ -46,6 +46,10 @@ public class HelpCommand extends Command {
             + "Sets a numerical goal for the desired number of calories to be consumed in a day.\n"
             + "This goal will be used to provide helpful insights for users in the Report.\n"
             + "Format: goal GOAL\n\n";
+    public static final String HELP_HELP_MESSAGE = "help:\n"
+            + "Shows a list of all commands and their usage and format.\n"
+            + "Alternatively, search for a specific group of commands using a keyword.\n"
+            + "Format: help [COMMMAND_WORD]\n\n";
     public static final String HELP_LIST_MESSAGE = "list:\n"
             + "Shows a list of all Food items in the Food Records,\n"
             + "with their respective nutritional values of calories, proteins, carbohydrates, and fats.\n"
@@ -74,6 +78,7 @@ public class HelpCommand extends Command {
             + HELP_EXPORT_MESSAGE
             + HELP_FIND_MESSAGE
             + HELP_GOAL_MESSAGE
+            + HELP_HELP_MESSAGE
             + HELP_LIST_MESSAGE
             + HELP_NOM_MESSAGE
             + HELP_REPORT_MESSAGE
@@ -112,6 +117,7 @@ public class HelpCommand extends Command {
         internalMap.put("export", HELP_EXPORT_MESSAGE);
         internalMap.put("find", HELP_FIND_MESSAGE);
         internalMap.put("goal", HELP_GOAL_MESSAGE);
+        internalMap.put("help", HELP_HELP_MESSAGE);
         internalMap.put("list", HELP_LIST_MESSAGE);
         internalMap.put("nom", HELP_NOM_MESSAGE);
         internalMap.put("report", HELP_REPORT_MESSAGE);

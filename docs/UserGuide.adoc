@@ -318,13 +318,30 @@ Whenever you begin to key in the name of the `Food`, Calgo shows you the existin
 
 == Command Summary
 
+[width="59%",cols="22%,<23%,<25%,<30%",options="header",]
+|=======================================================================
+|Command Category|Command Name|Usage|Format
+.3+|Navigate app|Exit|Exits the app|`exit`
+|Goal|Sets your daily caloric goal.|`goal GOAL`
+|Help|Displays a guide for all commands. Can also display only commands containing the given command word.|`help COMMAND_WORD`
+.3+|Edit Food Record|Clear|Clears all `food` entries from the Food Record.|`clear`
+|Delete|Deletes the specified `Food` from the `Food Record`.|`delete`
+|Update|Updates a `Food` in `Food Record`.|`update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
+.2+|Navigate Food Record|Find|Searches for and displays a particular `Food`.|`find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)
+|List|Displays all `Food`s in `Food Record`.|`list`
+.3+|Edit Daily List|Nom|Adds a `Food` to a specific day's `Daily List`.|`nom [n/NAME] [d/DATE] [portion/PORTION][r/RATING]`
+|Stomach|Lists all `Food` in a particular day's `Daily List`.|`stomach [d/DATE]`
+|Vomit|Deletes a specific `Food` from the `Daily List`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
+|Generate Report|Report|Generate the report for a given date.|`report d/DATE`
+|=======================================================================
+
 * *Clear* : `clear`
 * *Update* : `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
 * *Delete* : `delete n/NAME` +
 e.g. `delete pizza`
 * *Find* : `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS]` +
 e.g. `find cal/100` *OR* +
- `find n/Kiwi Chilli`
+ `find n/Kiwi Chili`
 * *List* : `list`
 * *Stomach* : stomach [d/DATE] +
 eg. `stomach` *OR* `stomach d/` *OR* `stomach d/2020-03-04`+
