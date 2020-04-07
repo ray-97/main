@@ -14,6 +14,7 @@ import static life.calgo.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.time.LocalDate;
 
+import life.calgo.commons.core.Messages;
 import life.calgo.logic.commands.StomachCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 
@@ -37,6 +38,11 @@ public class StomachCommandParser implements Parser<StomachCommand> {
         LocalDate date = LocalDate.now();
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
             date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
+        }
+        boolean hasInvalidArg = !argMultimap.getValue(PREFIX_DATE).isPresent() && args.split(" ").length > 1;
+        if (hasInvalidArg) {
+            throw new ParseException(
+                    String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, StomachCommand.MESSAGE_USAGE));
         }
         return new StomachCommand(date);
     }

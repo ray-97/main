@@ -25,9 +25,12 @@ import life.calgo.model.food.Food;
  */
 public class NomCommandParser implements Parser<NomCommand> {
 
-    public static final String MESSAGE_EMPTY_NAME = "You can't eat that because it does not exist in food record.";
+    public static final String MESSAGE_NONEXISTENT_FOOD =
+            "You can't eat that because it does not exist in food record.";
 
     private final Model model;
+
+    private static final double DEFAULT_PORTION = 1.0;
 
     public NomCommandParser(Model model) {
         this.model = model;
@@ -49,36 +52,55 @@ public class NomCommandParser implements Parser<NomCommand> {
             throw new ParseException(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, NomCommand.MESSAGE_USAGE));
         }
 
-        DailyFoodLog foodLog = new DailyFoodLog();
+        DailyFoodLog foodLog = fixNomDate(new DailyFoodLog(), argMultimap);
+        double portion = fixNomPortion(argMultimap);
+        Optional<Food> optionalFood = fixNomFood(argMultimap);
 
+        assert (!optionalFood.get().equals(Optional.empty()));
+
+        foodLog = foodLog.consume(optionalFood.get(), portion);
+        foodLog = fixNomRating(foodLog, optionalFood, argMultimap);
+
+        return new NomCommand(foodLog, optionalFood.get());
+    }
+
+    private DailyFoodLog fixNomDate(DailyFoodLog toFix, ArgumentMultimap argMultimap) throws ParseException {
+        DailyFoodLog foodLog = toFix;
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
             foodLog = foodLog.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
         }
         if (model.hasLogWithSameDate(foodLog)) {
             foodLog = model.getLogByDate(foodLog.getLocalDate());
         }
+        return foodLog;
+    }
 
-        double portion = 1;
-
+    private double fixNomPortion(ArgumentMultimap argMultimap) throws ParseException {
+        double portion = DEFAULT_PORTION;
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
             portion = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
         }
+        return portion;
+    }
 
+    private Optional<Food> fixNomFood(ArgumentMultimap argMultimap) throws ParseException {
         Optional<Food> optionalFood = model.getFoodByName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         if (!optionalFood.isPresent()) {
-            throw new ParseException(MESSAGE_EMPTY_NAME);
+            throw new ParseException(MESSAGE_NONEXISTENT_FOOD);
         }
+        return optionalFood;
+    }
 
-        assert (!optionalFood.get().equals(Optional.empty()));
-
-        foodLog = foodLog.consume(optionalFood.get(), portion);
-
+    private DailyFoodLog fixNomRating(
+            DailyFoodLog toFix, Optional<Food> optionalFood, ArgumentMultimap argMultimap)
+            throws ParseException {
+        DailyFoodLog foodLog = toFix;
         if (argMultimap.getValue(PREFIX_RATING).isPresent()) {
             int rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING).get());
             foodLog = foodLog.addRating(optionalFood.get(), rating);
         }
-
-        return new NomCommand(foodLog, optionalFood.get());
+        return foodLog;
     }
 }
+
