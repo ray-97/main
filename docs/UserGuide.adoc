@@ -329,9 +329,7 @@ Whenever you begin to key in the name of the `Food`, Calgo shows you the existin
 |Delete|Deletes the specified `Food` from the `Food Record`.|`delete`|`delete pizza`
 |Update|Updates a `Food` in `Food Record`.|`update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
     |`update n/pizza cal/200 p/10 c/200 f/200`*OR*`update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite`
-.2+|Navigate Food Record|Find|Searches for and displays a particular `Food`.
-    |`find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)
-    |`find n/Pizza`*OR*`find cal/110` etc
+.2+|Navigate Food Record|Find|Searches for and displays a particular `Food`.|`find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)|`find n/Pizza`*OR*`find cal/110` etc
 |List|Displays all `Food`s in `Food Record`.|`list`|-
 .3+|Edit Daily List|Nom|Adds a `Food` to a specific day's `Daily List`.|`nom [n/NAME] [d/DATE] [portion/PORTION][r/RATING]`
     |`nom n/chicken d/2020-03-04 portion/1.5`
