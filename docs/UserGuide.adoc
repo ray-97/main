@@ -309,8 +309,7 @@ The pizza is also tagged with the `Tag` s "Italiano" and "Favourite" .
 
 
 [TIP]
-Whenever you begin to key in the name of the `Food`, Calgo automatically filters the display for you so that only `Food` s with
-the same name are suggested. This helps you to easily refer to any existing `Food` you maybe updating.
+Whenever you begin to key in the name of the `Food`, Calgo shows you the existing `Food` items in `Food Record` with similar names, if any.
 
 == FAQ
 
