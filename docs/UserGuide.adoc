@@ -318,21 +318,28 @@ Whenever you begin to key in the name of the `Food`, Calgo shows you the existin
 
 == Command Summary
 
-[width="59%",cols="22%,<23%,<25%,<30%",options="header",]
+[width="59%",cols="17%,<18%,<20%,<25%,<20%",options="header",]
 |=======================================================================
-|Command Category|Command Name|Usage|Format
-.3+|Navigate app|Exit|Exits the app|`exit`
-|Goal|Sets your daily caloric goal.|`goal GOAL`
-|Help|Displays a guide for all commands. Can also display only commands containing the given command word.|`help COMMAND_WORD`
-.3+|Edit Food Record|Clear|Clears all `food` entries from the Food Record.|`clear`
-|Delete|Deletes the specified `Food` from the `Food Record`.|`delete`
+|Command Category|Command Name|Usage|Format|Example (if applicable)
+.3+|Navigate app|Exit|Exits the app|`exit`|-
+|Goal|Sets your daily caloric goal.|`goal GOAL`|`goal 2500`
+|Help|Displays a guide for all commands. Can also display only commands containing the given command word.
+    |`help [COMMAND_WORD]`|`help`*OR*`help nom`
+.3+|Edit Food Record|Clear|Clears all `food` entries from the Food Record.|`clear`|-
+|Delete|Deletes the specified `Food` from the `Food Record`.|`delete`|`delete pizza`
 |Update|Updates a `Food` in `Food Record`.|`update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
-.2+|Navigate Food Record|Find|Searches for and displays a particular `Food`.|`find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)
-|List|Displays all `Food`s in `Food Record`.|`list`
+    |`update n/pizza cal/200 p/10 c/200 f/200`*OR*`update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite`
+.2+|Navigate Food Record|Find|Searches for and displays a particular `Food`.
+    |`find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)
+    |`find n/Pizza`*OR*`find cal/110` etc
+|List|Displays all `Food`s in `Food Record`.|`list`|-
 .3+|Edit Daily List|Nom|Adds a `Food` to a specific day's `Daily List`.|`nom [n/NAME] [d/DATE] [portion/PORTION][r/RATING]`
-|Stomach|Lists all `Food` in a particular day's `Daily List`.|`stomach [d/DATE]`
+    |`nom n/chicken d/2020-03-04 portion/1.5`
+|Stomach|Lists all `Food` in a particular day's `Daily List`.|`stomach [d/DATE]`|`stomach d/2020-03-04`
 |Vomit|Deletes a specific `Food` from the `Daily List`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
-|Generate Report|Report|Generate the report for a given date.|`report d/DATE`
+    |`vomit num/chicken d/2020-03-04 portion/3`*OR* +
+`vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
+|Generate Report|Report|Generate the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-03-04`
 |=======================================================================
 
 * *Clear* : `clear`
