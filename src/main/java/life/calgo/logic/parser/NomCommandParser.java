@@ -38,9 +38,9 @@ public class NomCommandParser implements Parser<NomCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the NomCommand.
-     * @param args a String of arguments provided by user.
-     * @return a NomCommand object for execution.
-     * @throws ParseException if user does not conform to expected format.
+     * @param args A String of arguments provided by user.
+     * @return A NomCommand object for execution.
+     * @throws ParseException If user does not conform to expected format.
      */
     public NomCommand parse(String args) throws ParseException {
         requireNonNull(args);
@@ -64,6 +64,13 @@ public class NomCommandParser implements Parser<NomCommand> {
         return new NomCommand(foodLog, optionalFood.get());
     }
 
+    /**
+     * Returns a DailyFoodLog with date set from input stored in an ArgumentMultimap.
+     * @param toFix DailyFoodLog that you want to have date set.
+     * @param argMultimap ArgumentMultimap containing value of date.
+     * @return DailyFoodLog with updated date.
+     * @throws ParseException If date is not valid, compared to Calendar.
+     */
     private DailyFoodLog fixNomDate(DailyFoodLog toFix, ArgumentMultimap argMultimap) throws ParseException {
         DailyFoodLog foodLog = toFix;
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
