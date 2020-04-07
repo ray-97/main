@@ -11,8 +11,8 @@ import life.calgo.model.food.Name;
 import life.calgo.model.food.UniqueFoodList;
 
 /**
- * Wraps all data at the food record level
- * Duplicates are not allowed (by .isSameFood comparison)
+ * Contains all Food entries, ensuring they are in lexicographic order and without duplicates.
+ * Duplicates are not allowed by .isSameFood comparison.
  */
 public class FoodRecord implements ReadOnlyFoodRecord {
 
@@ -31,14 +31,14 @@ public class FoodRecord implements ReadOnlyFoodRecord {
     public FoodRecord() {}
 
     /**
-     * Creates a FoodRecord using the Food objects in the {@code toBeCopied}
+     * Creates a FoodRecord using the Food objects in the {@code toBeCopied}.
      */
     public FoodRecord(ReadOnlyFoodRecord toBeCopied) {
         this();
         resetData(toBeCopied);
     }
 
-    //// list overwrite operations
+    // list overwrite operations
 
     /**
      * Replaces the contents of the food list with {@code foods}.
@@ -56,10 +56,13 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         setFoodList(newData.getFoodList());
     }
 
-    //// food-level operations
+    // food-level operations
 
     /**
-     * Returns true if a food with the same identity as {@code food} exists in the food record.
+     * Returns true if a food with the same identity as {@code food} exists in the FoodRecord.
+     *
+     * @param food the Food to check for existence in the current FoodRecord.
+     * @return whether the current FoodRecord contains this Food.
      */
     public boolean hasFood(Food food) {
         requireNonNull(food);
@@ -67,42 +70,51 @@ public class FoodRecord implements ReadOnlyFoodRecord {
     }
 
     /**
-     * Adds a food to the food record.
-     * The food must not already exist in the food record.
+     * Adds a Food to the FoodRecord.
+     * The Food must not already exist in the FoodRecord.
+     *
+     * @param food the Food to add.
      */
-    public void addFood(Food p) {
-        foodList.add(p);
+    public void addFood(Food food) {
+        foodList.add(food);
     }
 
     /**
-     * Replaces the given food {@code target} in the FoodRecord's foodList with {@code editedFood}.
-     * {@code target} must exist in the food record.
+     * Replaces the given Food {@code target} in the FoodRecord's foodList with {@code editedFood}.
+     * {@code target} must exist in the FoodRecord.
      * The food identity of {@code editedFood} must not be the same as another existing food in the food record.
+     *
+     * @param target the Food to be replaced.
+     * @param editedFood the new updated Food.
      */
     public void setFood(Food target, Food editedFood) {
         requireNonNull(editedFood);
 
         foodList.setFood(target, editedFood);
-
     }
 
     /**
      * Removes {@code key} from this {@code FoodRecord}.
-     * {@code key} must exist in the food record.
+     * {@code key} must exist in the FoodRecord.
+     *
+     * @param key the Food to remove from the FoodRecord.
      */
     public void removeFood(Food key) {
         foodList.remove(key);
     }
 
     /**
-     * Returns the existing Food object in Food Record.
+     * Returns the existing Food object in FoodRecord.
+     *
+     * @param toGet the Food to obtain from within the FoodRecord.
+     * @return the Food of interest.
      */
     public Food getExistingFood(Food toGet) {
         requireNonNull(toGet);
         return foodList.getExistingFood(toGet);
     }
 
-    //// util methods
+    // utility methods
 
     public Optional<Food> getFoodByName(Name name) {
         return foodList.getFoodByName(name);
@@ -122,18 +134,35 @@ public class FoodRecord implements ReadOnlyFoodRecord {
         return result;
     }
 
+    /**
+     * Returns the ObservableList representation of the current FoodRecord.
+     * This should not be used for modification purposes.
+     *
+     * @return the ObservableList representation of the current FoodRecord.
+     */
     @Override
     public ObservableList<Food> getFoodList() {
         return foodList.asUnmodifiableObservableList();
     }
 
+    /**
+     * Checks for equivalence between 2 FoodRecords.
+     *
+     * @param other the other FoodRecord.
+     * @return whether the 2 FoodRecords can be considered equivalent.
+     */
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof FoodRecord // instanceof handles nulls
+        return other == this
+                || (other instanceof FoodRecord
                 && foodList.equals(((FoodRecord) other).foodList));
     }
 
+    /**
+     * Returns the hashcode of the FoodRecord.
+     *
+     * @return the supposedly unique hashcode of the FoodRecord.
+     */
     @Override
     public int hashCode() {
         return foodList.hashCode();

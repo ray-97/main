@@ -16,6 +16,7 @@ import life.calgo.model.tag.Tag;
 
 /**
  * Contains utility methods for populating {@code FoodRecord} with sample data.
+ * This is particularly useful for initialising the App on first time usage with some data to begin with.
  */
 public class SampleDataUtil {
     public static Food[] getSampleFoods() {

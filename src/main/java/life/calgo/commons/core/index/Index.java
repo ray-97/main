@@ -23,10 +23,20 @@ public class Index {
         this.zeroBasedIndex = zeroBasedIndex;
     }
 
+    /**
+     * Obtains zero-based index for developer side usage.
+     *
+     * @return the zero-based index for developer side usage.
+     */
     public int getZeroBased() {
         return zeroBasedIndex;
     }
 
+    /**
+     * Obtains one-based index as to how users view the entry.
+     *
+     * @return the one-based index as to how users view the entry.
+     */
     public int getOneBased() {
         return zeroBasedIndex + 1;
     }
@@ -45,6 +55,12 @@ public class Index {
         return new Index(oneBasedIndex - 1);
     }
 
+    /**
+     * Checks for equality of Indices.
+     *
+     * @param other the other Index.
+     * @return whether the Indices are considered equal.
+     */
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

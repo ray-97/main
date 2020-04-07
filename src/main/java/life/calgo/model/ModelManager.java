@@ -58,7 +58,7 @@ public class ModelManager implements Model {
         this(new FoodRecord(), new ConsumptionRecord(), new UserPrefs(), new DailyGoal());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // UserPref-related methods
 
     @Override
     public ReadOnlyUserPrefs getUserPrefs() {
@@ -93,53 +93,7 @@ public class ModelManager implements Model {
         userPrefs.setFoodRecordFilePath(foodRecordFilePath);
     }
 
-    //=========== FoodRecord ================================================================================
-
-    @Override
-    public ReadOnlyFoodRecord getFoodRecord() {
-        return foodRecord;
-    }
-
-    @Override
-    public ReadOnlyConsumptionRecord getConsumptionRecord() {
-        return consumptionRecord;
-    }
-
-    @Override
-    public void setFoodRecord(ReadOnlyFoodRecord foodRecord) {
-        this.foodRecord.resetData(foodRecord);
-    }
-
-    @Override
-    public boolean hasFood(Food food) {
-        requireNonNull(food);
-        return foodRecord.hasFood(food);
-    }
-
-    public Food getExistingFood(Food toGet) {
-        requireNonNull(toGet);
-        return foodRecord.getExistingFood(toGet);
-    }
-
-    @Override
-    public void deleteFood(Food target) {
-        foodRecord.removeFood(target);
-    }
-
-    @Override
-    public void addFood(Food food) {
-        foodRecord.addFood(food);
-        updateFilteredFoodRecord(PREDICATE_SHOW_ALL_FOODS);
-    }
-
-    @Override
-    public void setFood(Food target, Food editedFood) {
-        requireAllNonNull(target, editedFood);
-
-        foodRecord.setFood(target, editedFood);
-    }
-
-    //=========== Day Model classes================================================================================
+    // Day Model-related methods
 
     @Override
     public Optional<Food> getFoodByName(Name name) {
@@ -213,7 +167,53 @@ public class ModelManager implements Model {
         return this.targetDailyCalories;
     }
 
-    //=========== Filtered Consumption Record Accessors =============================================================
+    // FoodRecord-related methods
+
+    @Override
+    public ReadOnlyFoodRecord getFoodRecord() {
+        return foodRecord;
+    }
+
+    @Override
+    public ReadOnlyConsumptionRecord getConsumptionRecord() {
+        return consumptionRecord;
+    }
+
+    @Override
+    public void setFoodRecord(ReadOnlyFoodRecord foodRecord) {
+        this.foodRecord.resetData(foodRecord);
+    }
+
+    @Override
+    public boolean hasFood(Food food) {
+        requireNonNull(food);
+        return foodRecord.hasFood(food);
+    }
+
+    public Food getExistingFood(Food toGet) {
+        requireNonNull(toGet);
+        return foodRecord.getExistingFood(toGet);
+    }
+
+    @Override
+    public void deleteFood(Food target) {
+        foodRecord.removeFood(target);
+    }
+
+    @Override
+    public void addFood(Food food) {
+        foodRecord.addFood(food);
+        updateFilteredFoodRecord(PREDICATE_SHOW_ALL_FOODS);
+    }
+
+    @Override
+    public void setFood(Food target, Food editedFood) {
+        requireAllNonNull(target, editedFood);
+
+        foodRecord.setFood(target, editedFood);
+    }
+
+    // Filtered Consumption Record Accessors
 
     /**
      * Returns an unmodifiable view of the list of {@code ConsumedFood}.
@@ -253,7 +253,7 @@ public class ModelManager implements Model {
         }
     }
 
-    //=========== Filtered Food Record Accessors =============================================================
+    // Filtered Food Record Accessors
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of

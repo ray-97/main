@@ -21,12 +21,24 @@ public class NameContainsKeywordsPredicate implements Predicate<Food> {
         this.keywords = keywords;
     }
 
+    /**
+     * Checks if the Food specified contains the keyword(s) in any part of its Name.
+     *
+     * @param food the Food to check against.
+     * @return whether the Food specified has any matches of the keyword(s) in its Name.
+     */
     @Override
     public boolean test(Food food) {
         return keywords.stream()
                 .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(food.getName().fullName, keyword));
     }
 
+    /**
+     * Checks for equality between the current and the other predicate, using their keywords, or identity.
+     *
+     * @param other the other predicate to check against.
+     * @return whether the current and the other predicate can be considered equal.
+     */
     @Override
     public boolean equals(Object other) {
         return other == this
