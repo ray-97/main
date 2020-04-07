@@ -31,13 +31,19 @@ public class JsonGoalStorage implements GoalStorage {
         return filePath;
     }
 
+    /**
+     * Reads the goal from the file path pre-specified.
+     *
+     * @return either an empty Optional if no such file, or a ReadOnlyGoal described in the file.
+     * @throws DataConversionException if the data in the file is not in the expected format.
+     */
     @Override
     public Optional<ReadOnlyGoal> readGoal() throws DataConversionException {
         return readGoal(filePath);
     }
 
     /**
-     * Similar to {@link #readGoal()}.
+     * Similar to {@link #readGoal()}, but now from a specified file path.
      *
      * @param filePath location of the data. Cannot be null.
      * @throws DataConversionException if the file is not in the correct format.
@@ -59,13 +65,19 @@ public class JsonGoalStorage implements GoalStorage {
         }
     }
 
+    /**
+     * Saves the goal in a json file, in the pre-specified file path.
+     *
+     * @param goal the ReadOnlyGoal to be saved which cannot be null.
+     * @throws IOException if there was any problem when reading from the storage.
+     */
     @Override
     public void saveGoal(ReadOnlyGoal goal) throws IOException {
         saveGoal(goal, filePath);
     }
 
     /**
-     * Similar to {@link #saveGoal(ReadOnlyGoal)}.
+     * Similar to {@link #saveGoal(ReadOnlyGoal)}, but now saves to the specified file path.
      *
      * @param filePath location of the data. Cannot be null.
      */

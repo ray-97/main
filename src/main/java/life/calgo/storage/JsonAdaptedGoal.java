@@ -14,6 +14,8 @@ class JsonAdaptedGoal {
 
     /**
      * Constructs a {@code JsonAdaptedGoal} with the given {@code dailyGoal}.
+     *
+     * @param dailyGoal the goal to be converted.
      */
     @JsonCreator
     public JsonAdaptedGoal(int dailyGoal) {
@@ -21,7 +23,7 @@ class JsonAdaptedGoal {
     }
 
     /**
-     * Dummy constructor for JsonAdaptedTag class.
+     * Dummy constructor for JsonAdaptedGoal class.
      */
     public JsonAdaptedGoal() {
         this.dailyGoal = 0;
@@ -30,7 +32,7 @@ class JsonAdaptedGoal {
     /**
      * Converts this Jackson-friendly adapted dailyGoal object into the model's {@code DailyGoal} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted tag.
+     * @throws IllegalValueException if there were any data constraints violated in the adapted goal.
      */
     public DailyGoal toModelType() throws IllegalValueException {
         if (!DailyGoal.isValidGoal(dailyGoal)) {

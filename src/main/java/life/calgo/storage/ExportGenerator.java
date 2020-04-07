@@ -28,6 +28,7 @@ public class ExportGenerator extends DocumentGenerator {
 
     /**
      * Formats and details the current Food Record into a txt file.
+     *
      * @return a boolean value that is true only if FoodRecord.txt is successfully generated.
      */
     public boolean generateExport() {

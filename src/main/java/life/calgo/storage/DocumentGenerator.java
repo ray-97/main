@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.util.logging.Logger;
 
 /**
- * An abstract class containing functionality for ReportGenerator and ExportGenerator.
+ * An abstract class representing functionality for ReportGenerator and ExportGenerator.
  */
 public abstract class DocumentGenerator {
 
