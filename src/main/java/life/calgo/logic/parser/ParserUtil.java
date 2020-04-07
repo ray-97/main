@@ -2,6 +2,8 @@ package life.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -24,15 +26,29 @@ import life.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
-    public static final String MESSAGE_INVALID_INDEX = "Position should be a positive number.";
-
     private static final String DATE_PATTERN = "yyyy-MM-dd";
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
-    private static final String MESSAGE_INVALID_DATE = String.format(
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
+    public static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
-    private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty.";
-    private static final String MESSAGE_INVALID_POSITION = "Position should be an integer!";
-    private static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
+    public static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty.";
+    public static final String MESSAGE_NON_POSITIVE_PORTION =
+            "Portion should be a positive number.";
+    public static final String MESSAGE_INVALID_INDEX = "Index should be a positive number.";
+    public static final String MESSAGE_INVALID_POSITION = "Position should be a positive integer!";
+    public static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
+    public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be under 10 characters.";
+
+    private static final int VALIDATION_LENGTH = 10;
+    private static final int INT_INVALID_RATING = -1;
+    private static final int INT_MINIMUM_NATURAL_NUMBER = 0;
+    private static final int INT_MAXIMUM_RATING = 10;
+
+    public static void inputLengthValidation(String input, String message) throws ParseException {
+        if (input.length() > VALIDATION_LENGTH) {
+            throw new ParseException(message);
+        }
+    }
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -75,7 +91,11 @@ public class ParserUtil {
             return LocalDate.now();
         }
         try {
-            return LocalDate.parse(trimmedDate, formatter);
+            // extra check for tricky dates like 2020-02-31
+            DateFormat df = new SimpleDateFormat(DATE_PATTERN);
+            df.setLenient(false);
+            df.parse(date);
+            return LocalDate.parse(trimmedDate, FORMATTER);
         } catch (Exception e) {
             throw new ParseException(MESSAGE_INVALID_DATE);
         }
@@ -124,11 +144,16 @@ public class ParserUtil {
     public static double parsePortion(String portion) throws ParseException {
         requireNonNull(portion);
         String trimmedPortion = portion.trim();
+        inputLengthValidation(trimmedPortion, MESSAGE_PORTION_LENGTH);
         boolean isInvalidPortion = !isNumeric(trimmedPortion) && trimmedPortion.length() > 0;
         if (isInvalidPortion) {
             throw new ParseException(MESSAGE_INVALID_PORTION);
         }
-        return isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
+        double value = isNumeric(trimmedPortion) ? Double.parseDouble(trimmedPortion) : 1;
+        if (value <= INT_MINIMUM_NATURAL_NUMBER) {
+            throw new ParseException(MESSAGE_NON_POSITIVE_PORTION);
+        }
+        return value;
     }
 
     /**
@@ -140,11 +165,11 @@ public class ParserUtil {
     public static int parseRating(String rating) throws ParseException {
         requireNonNull(rating);
         String trimmedRating = rating.trim();
-        boolean withinRange = true;
-        int parsedInt = -1;
+        boolean withinRange = false;
+        int parsedInt = INT_INVALID_RATING;
         if (isInteger(trimmedRating)) {
             parsedInt = Integer.parseInt(trimmedRating);
-            withinRange = parsedInt >= 0 && parsedInt <= 10;
+            withinRange = parsedInt >= INT_MINIMUM_NATURAL_NUMBER && parsedInt <= INT_MAXIMUM_RATING;
         }
         if (!withinRange) {
             throw new ParseException(MESSAGE_INVALID_RATING);
@@ -161,7 +186,6 @@ public class ParserUtil {
     public static int parsePosition(String position) throws ParseException {
         requireNonNull(position);
         String trimmedPosition = position.trim();
-        // We do not check range of position here because only foods in DailyFoodLog knows.
         if (!isInteger(trimmedPosition)) {
             throw new ParseException(MESSAGE_INVALID_POSITION);
         }

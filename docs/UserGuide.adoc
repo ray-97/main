@@ -337,6 +337,6 @@ eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
 * *goal* : `goal GOAL` +
 e.g `goal 2000`
-* *Report* : `report Date in dd-mm-yyyy`
+* *Report* : `report Date in YYYY-MM-DD`
 eg. `report 2020-03-27`
 * *Help* : `help`

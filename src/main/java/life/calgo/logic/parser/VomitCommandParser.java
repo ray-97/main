@@ -27,7 +27,6 @@ import life.calgo.model.food.Food;
  */
 public class VomitCommandParser implements Parser<VomitCommand> {
 
-    public static final String MESSAGE_FOOD_NOT_IN_LOG = "You cannot vomit something that's not in your stomach!";
     public static final String MESSAGE_NONEXISTENT_LOG = "You have not eaten on %s yet!";
     public static final String MESSAGE_INVALID_POSITION = "Position required an integer within range of list!";
 
@@ -55,40 +54,59 @@ public class VomitCommandParser implements Parser<VomitCommand> {
                     String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, VomitCommand.MESSAGE_USAGE));
         }
 
-        DailyFoodLog foodLog = new DailyFoodLog();
+        DailyFoodLog foodLog = fixVomitDate(new DailyFoodLog(), argMultimap);
 
-        if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
-            foodLog = foodLog.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
-        }
+        OptionalDouble portion = fixVomitPortion(argMultimap);
 
-        OptionalDouble portion = OptionalDouble.empty();
+        int indexOfFood = fixVomitIndex(argMultimap);
 
-        if (argMultimap.getValue(PREFIX_PORTION).isPresent()) { // we need to check if "" is present
-            double parsedValue = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
-            portion = OptionalDouble.of(parsedValue);
-        }
+        foodLog = fixVomitFoodLogByDate(foodLog, model);
 
-        int indexOfFood = ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get()) - 1;
-        Optional<Food> optionalFood;
+        Optional<Food> optionalFood = fixVomitFood(foodLog, indexOfFood);
 
-        if (!model.hasLogWithSameDate(foodLog)) {
-            throw new ParseException(String.format(MESSAGE_NONEXISTENT_LOG, foodLog.getLocalDate()));
-        }
-
-        foodLog = model.getLogByDate(foodLog.getLocalDate());
-
-        try {
-            optionalFood = foodLog.getFoodByIndex(indexOfFood);
-            foodLog = foodLog.vomit(optionalFood.get(), portion);
-        } catch (IllegalArgumentException e) {
-            throw new ParseException(MESSAGE_FOOD_NOT_IN_LOG);
-        } catch (IndexOutOfBoundsException e) {
-            throw new ParseException(MESSAGE_INVALID_POSITION);
-        }
+        foodLog = foodLog.vomit(optionalFood.get(), portion);
 
         assert (!optionalFood.get().equals(Optional.empty()));
 
         return new VomitCommand(foodLog, optionalFood.get());
+    }
+
+    private DailyFoodLog fixVomitDate(DailyFoodLog toFix, ArgumentMultimap argMultimap) throws ParseException {
+        DailyFoodLog foodLog = toFix;
+        if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
+            foodLog = foodLog.setDate(ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get()));
+        }
+        return foodLog;
+    }
+
+    private OptionalDouble fixVomitPortion(ArgumentMultimap argMultimap) throws ParseException {
+        OptionalDouble portion = OptionalDouble.empty();
+        if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
+            double parsedValue = ParserUtil.parsePortion(argMultimap.getValue(PREFIX_PORTION).get());
+            portion = OptionalDouble.of(parsedValue);
+        }
+        return portion;
+    }
+
+    private int fixVomitIndex(ArgumentMultimap argMultimap) throws ParseException {
+        return ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get()) - 1;
+    }
+
+    private DailyFoodLog fixVomitFoodLogByDate(DailyFoodLog toFix, Model model) throws ParseException {
+        DailyFoodLog foodLog = toFix;
+        if (!model.hasLogWithSameDate(foodLog)) {
+            throw new ParseException(String.format(MESSAGE_NONEXISTENT_LOG, foodLog.getLocalDate()));
+        }
+        foodLog = model.getLogByDate(foodLog.getLocalDate());
+        return foodLog;
+    }
+
+    private Optional<Food> fixVomitFood(DailyFoodLog foodLog, int indexOfFood) throws ParseException{
+        try {
+            return foodLog.getFoodByIndex(indexOfFood);
+        } catch (IndexOutOfBoundsException e) {
+            throw new ParseException(MESSAGE_INVALID_POSITION);
+        }
     }
 
 }

@@ -18,7 +18,7 @@ import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.predicates.FoodRecordContainsFoodNamePredicate;
 import life.calgo.storage.Storage;
@@ -88,7 +88,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<ConsumedFood> getFilteredDailyList() {
+    public ObservableList<DisplayFood> getFilteredDailyList() {
         return model.getCurrentFilteredDailyList();
     }
 
