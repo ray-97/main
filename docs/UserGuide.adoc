@@ -341,25 +341,3 @@ Whenever you begin to key in the name of the `Food`, Calgo shows you the existin
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
 |Generate Report|Report|Generate the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-03-04`
 |=======================================================================
-
-* *Clear* : `clear`
-* *Update* : `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
-* *Delete* : `delete n/NAME` +
-e.g. `delete pizza`
-* *Find* : `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS]` +
-e.g. `find cal/100` *OR* +
- `find n/Kiwi Chili`
-* *List* : `list`
-* *Stomach* : stomach [d/DATE] +
-eg. `stomach` *OR* `stomach d/` *OR* `stomach d/2020-03-04`+
-* *Nom* : nom [n/NAME] [d/DATE] [portion/PORTION] +
-eg. `nom n/chicken d/2020-03-04 portion/1.5 r/6` *OR*
-`nom n/chicken` *OR* `nom n/chicken d/ portion/ r/`
-* *Vomit* : `vomit [index/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]` +
-eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
-`vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
-* *goal* : `goal GOAL` +
-e.g `goal 2000`
-* *Report* : `report Date in YYYY-MM-DD`
-eg. `report 2020-03-27`
-* *Help* : `help`
