@@ -40,7 +40,7 @@ public class HelpCommand extends Command {
             + "Finds all Food items whose names contain any of the keyword(s)\n"
             + "Alternatively, Food items can also be found by entering a specific value of its attributes,\n"
             + "i.e. Calories, Proteins, Carbohydrates, or Fats.\n"
-            + "Format: find [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS]\n"
+            + "Format: find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS] (choose only 1 parameter)\n"
             + "Alt format: find KEYWORD [MORE_KEYWORDS]\n\n";
     public static final String HELP_GOAL_MESSAGE = "goal:\n"
             + "Sets a numerical goal for the desired number of calories to be consumed in a day.\n"
@@ -52,7 +52,7 @@ public class HelpCommand extends Command {
             + "Format: list\n\n";
     public static final String HELP_NOM_MESSAGE = "nom:\n"
             + "Adds a food item into the log which keeps track of what the user has eaten on that day.\n"
-            + "Format: nom [n/NAME] [d/DATE] [portion/PORTION]\n\n";
+            + "Format: nom n/NAME [d/DATE] [portion/PORTION]\n\n";
     public static final String HELP_REPORT_MESSAGE = "report:\n"
             + "Given a date, the command generates a document (in pdf format) of relevant insights about\n"
             + "the user’s food consumption pattern of the same date.\n"
@@ -66,7 +66,7 @@ public class HelpCommand extends Command {
             + "Format: update n/NAME cal/CALORIES p/PROTEINS c/CARBS f/FATS\n\n";
     public static final String HELP_VOMIT_MESSAGE = "vomit:\n"
             + "Deletes a food item that a user has previously added to the log tracking consumption on that day.\n"
-            + "Format: vomit [num/INDEX_OF_FOOD] [d/DATE] [portion/PORTION]\n\n";
+            + "Format: vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]\n\n";
 
     public static final String DEFAULT_HELP_MESSAGE = HELP_CLEAR_MESSAGE
             + HELP_DELETE_MESSAGE
