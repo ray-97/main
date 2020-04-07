@@ -22,6 +22,7 @@ import life.calgo.logic.commands.CommandResult;
 import life.calgo.logic.commands.HelpCommand;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 
@@ -32,8 +33,10 @@ import life.calgo.model.food.Name;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
-    private static final String GREETING_MESSAGE = "Welcome to Calgo! Since this is your first time,\n"
-            + "do remember to set a daily calorie goal using the goal command!";
+    private static final String GREETING_MESSAGE_NO_GOAL = "Welcome to Calgo! Since this is your first time,\n"
+            + "do remember to set a daily calorie goal using the goal command.";
+    private static final String GREETING_MESSAGE = "Welcome back to Calgo! We're all ready to help you meet your\n"
+            + "daily caloric goals.";
     private static final String POSITIVE_CALORIES_MESSAGE = "%s more calories today.";
     private static final String NEGATIVE_CALORIES_MESSAGE = "Over by %s calories today.";
 
@@ -151,7 +154,11 @@ public class MainWindow extends UiPart<Stage> {
         remainingCaloriesDisplay = new RemainingCaloriesDisplay();
         caloriesDisplayPlaceholder.getChildren().add(remainingCaloriesDisplay.getRoot());
 
-        resultDisplay.setFeedbackToUser(GREETING_MESSAGE);
+        if (logic.getDailyGoal().getGoal().equals(DailyGoal.DUMMY_VALUE)) {
+            resultDisplay.setFeedbackToUser(GREETING_MESSAGE_NO_GOAL);
+        } else {
+            resultDisplay.setFeedbackToUser(GREETING_MESSAGE);
+        }
 
         fillGoal();
 
