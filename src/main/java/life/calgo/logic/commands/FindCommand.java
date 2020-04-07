@@ -5,7 +5,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import life.calgo.commons.core.Messages;
-import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.food.Food;
 
@@ -20,8 +19,8 @@ public class FindCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all entries containing any of "
             + "the specified keywords in the Name or one of their Tags, or match the specified nutritional value. "
-            + "More help in the User Guide.\nChoose only 1 of the following parameters: [n/NAME] [cal/CALORIE] [p/PROTEIN] "
-            + "[c/CARBOHYDRATE] [f/FAT] [t/TAG]. NAME and TAG are case-insensitive. \n"
+            + "More help in the User Guide.\nChoose only 1 of the following parameters: [n/NAME] [cal/CALORIE] "
+            + "[p/PROTEIN] [c/CARBOHYDRATE] [f/FAT] [t/TAG]. NAME and TAG are case-insensitive. \n"
             + "Example: '"
             + COMMAND_WORD + " cal/150' to search by Calorie, or '"
             + COMMAND_WORD + " n/Pear' to search by Name";

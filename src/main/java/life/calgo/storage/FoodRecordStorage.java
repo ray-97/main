@@ -29,12 +29,12 @@ public interface FoodRecordStorage {
 
     /**
      * Returns a ReadOnlyFoodRecord generated from a storage file specified by the filePath.
-     * @see #getFoodRecordFilePath()
      *
      * @param filePath the file path of the source file.
      * @return the resultant ReadOnlyFoodRecord obtained from the source file.
      * @throws DataConversionException if the data in the file is not in the expected format.
      * @throws IOException if there was any problem when reading from the file.
+     * @see #getFoodRecordFilePath()
      */
     Optional<ReadOnlyFoodRecord> readFoodRecord(Path filePath) throws DataConversionException, IOException;
 
@@ -48,11 +48,11 @@ public interface FoodRecordStorage {
 
     /**
      * Saves the given {@link ReadOnlyFoodRecord} to the storage at a specified Path.
-     * @see #saveFoodRecord(ReadOnlyFoodRecord)
      *
      * @param foodRecord the ReadOnlyFoodRecord to be saved.
      * @param filePath the path of the storage file we want to save at.
      * @throws IOException if there was any problem writing to the file.
+     * @see #saveFoodRecord(ReadOnlyFoodRecord)
      */
     void saveFoodRecord(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException;
 

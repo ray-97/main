@@ -46,7 +46,6 @@ public class JsonGoalStorage implements GoalStorage {
      * Similar to {@link #readGoal()}, but now from a specified file path.
      *
      * @param filePath location of the data. Cannot be null.
-     * @throws DataConversionException if the file is not in the correct format.
      */
     public Optional<ReadOnlyGoal> readGoal(Path filePath) throws DataConversionException {
         requireNonNull(filePath);

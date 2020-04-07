@@ -24,13 +24,14 @@ import life.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
+    public static final String MESSAGE_INVALID_INDEX = "Position should be a positive number.";
+
     private static final String DATE_PATTERN = "yyyy-MM-dd";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     private static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" ,
             DATE_PATTERN);
-    public static final String MESSAGE_INVALID_INDEX = "Position should be a positive number.";
     private static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty.";
     private static final String MESSAGE_INVALID_POSITION = "Position should be an integer!";
     private static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";

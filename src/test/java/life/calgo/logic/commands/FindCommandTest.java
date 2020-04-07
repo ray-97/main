@@ -9,17 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import life.calgo.model.food.Calorie;
-import life.calgo.model.food.Carbohydrate;
-import life.calgo.model.food.Fat;
-import life.calgo.model.food.Protein;
-import life.calgo.model.food.predicates.CalorieContainsKeywordsPredicate;
-import life.calgo.model.food.predicates.CarbohydrateContainsKeywordsPredicate;
-import life.calgo.model.food.predicates.FatContainsKeywordsPredicate;
-import life.calgo.model.food.predicates.ProteinContainsKeywordsPredicate;
-import life.calgo.model.food.predicates.TagContainsKeywordsPredicate;
-
-import life.calgo.model.tag.Tag;
 import org.junit.jupiter.api.Test;
 
 import life.calgo.model.ConsumptionRecord;
@@ -27,11 +16,21 @@ import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyGoal;
+import life.calgo.model.food.Calorie;
+import life.calgo.model.food.Carbohydrate;
+import life.calgo.model.food.Fat;
 import life.calgo.model.food.Name;
+import life.calgo.model.food.Protein;
+import life.calgo.model.food.predicates.CalorieContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.CarbohydrateContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.FatContainsKeywordsPredicate;
 import life.calgo.model.food.predicates.NameContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.ProteinContainsKeywordsPredicate;
+import life.calgo.model.food.predicates.TagContainsKeywordsPredicate;
+import life.calgo.model.tag.Tag;
+
 import life.calgo.testutil.Assert;
 import life.calgo.testutil.TypicalFoodItems;
-
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.

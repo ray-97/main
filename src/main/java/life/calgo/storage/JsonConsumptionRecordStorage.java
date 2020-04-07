@@ -32,6 +32,13 @@ public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
         return filePath;
     }
 
+    /**
+     * Returns a ReadOnlyConsumptionRecord wrapped in an Optional after reading from a json file.
+     *
+     * @return a {@code ReadOnlyConsumptionRecord} object that was read from file path,
+     * wrapped within an {@code Optional}.
+     * @throws DataConversionException if the file is not in the correct format.
+     */
     @Override
     public Optional<ReadOnlyConsumptionRecord> readConsumptionRecord()
             throws DataConversionException {
@@ -39,11 +46,9 @@ public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
     }
 
     /**
-     * Works similarly as {@link #readConsumptionRecord()}.
+     * Similar to {@link #readConsumptionRecord()}, but now reads from an specified file path.
+     *
      * @param filePath location of the data. Cannot be null.
-     * @return a {@code ReadOnlyConsumptionRecord} object that was read from file path,
-     * wrapped within an {@code Optional}.
-     * @throws DataConversionException if the file is not in the correct format.
      */
     @Override
     public Optional<ReadOnlyConsumptionRecord> readConsumptionRecord(Path filePath)
@@ -64,6 +69,12 @@ public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
         }
     }
 
+    /**
+     * Writes the ConsumptionRecord to the pre-specified file path.
+     *
+     * @param consumptionRecord the consumptionRecord to be saved, which cannot be null.
+     * @throws IOException if there's any error when writing to the file.
+     */
     public void saveConsumptionRecord(ReadOnlyConsumptionRecord consumptionRecord) throws IOException {
         saveConsumptionRecord(consumptionRecord, filePath);
     }
@@ -71,10 +82,9 @@ public class JsonConsumptionRecordStorage implements ConsumptionRecordStorage {
     /**
 
     /**
-     * Works similarly as {@link #saveConsumptionRecord(ReadOnlyConsumptionRecord)}.
-     * @param consumptionRecord the consumptionRecord to be saved.
+     * Similar to {@link #saveConsumptionRecord(ReadOnlyConsumptionRecord)}, but now saves to a specified file path.
+     *
      * @param filePath location of the data. Cannot be null.
-     * @throws IOException if there's any error when writing to the file.
      */
     public void saveConsumptionRecord(ReadOnlyConsumptionRecord consumptionRecord, Path filePath) throws IOException {
         requireNonNull(consumptionRecord);
