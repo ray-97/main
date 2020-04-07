@@ -12,14 +12,14 @@ public class Fat {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Fat should only contain positive integers and it should not be blank";
+            "Fat should only contain non-negative integers and it should not be blank";
     public static final String VALIDATION_REGEX = "[0-9]+(?=$|\\s)";
     public final String value;
 
     /**
      * Constructs a {@code Fat}.
      *
-     * @param fatGrams A valid fat amount in grams.
+     * @param fatGrams A valid Fat amount in grams.
      */
     public Fat(String fatGrams) {
         requireNonNull(fatGrams);
@@ -29,23 +29,42 @@ public class Fat {
 
     /**
      * Returns true if a given string is a valid Fat.
+     *
+     * @param test the String representation of the Fat's value.
+     * @return whether this can be considered a valid Fat.
      */
     public static boolean isValidFat(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Returns the String representation of the Fat's value.
+     *
+     * @return the String representation of the Fat's value.
+     */
     @Override
     public String toString() {
         return value;
     }
 
+    /**
+     * Checks if the current Fat can be considered equivalent to the other, based on identity and value.
+     *
+     * @param other the other Fat to compare with.
+     * @return whether the current Fat and the other can be considered equivalent.
+     */
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Fat // instanceof handles nulls
-                && value.equals(((Fat) other).value)); // state check
+        return other == this
+                || (other instanceof Fat
+                && value.equals(((Fat) other).value));
     }
 
+    /**
+     * Provides hashcode for the current Fat object.
+     *
+     * @return hashcode for the current Fat object.
+     */
     @Override
     public int hashCode() {
         return value.hashCode();

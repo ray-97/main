@@ -27,6 +27,9 @@ import life.calgo.model.tag.Tag;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
+    public static final String MESSAGE_EXCESS_FIND_FILTERS = "Please specify 1 and only 1 parameter for "
+            + "filtering using the find command.";
+
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand, returning a FindCommand object.
      * @throws ParseException if the user input does not conform to the expected format
@@ -43,10 +46,10 @@ public class FindCommandParser implements Parser<FindCommand> {
                 ArgumentTokenizer.tokenize(args, CliSyntax.PREFIX_NAME, CliSyntax.PREFIX_CALORIES,
                         CliSyntax.PREFIX_PROTEIN, CliSyntax.PREFIX_CARBOHYDRATE,
                         CliSyntax.PREFIX_FAT, CliSyntax.PREFIX_TAG);
-        assert (argMultimap != null) : "The current ArgumentMultimap is null.";
 
         // argMultimap should contain only 1 prefix at this point
         Predicate<Food> pred = generateFindCommandPredicate(argMultimap);
+        assert (pred != null) : "The current predicate for the FindCommand is null.";
 
         return new FindCommand(pred);
 
@@ -57,11 +60,11 @@ public class FindCommandParser implements Parser<FindCommand> {
      *
      * @param am the Argument Multimap we search through to produce the Predicate.
      * @return the corresponding type of Predicate based on the single prefix entered by the user.
-     * @throws ParseException is thrown when there is more than 1 Prefix used.
+     * @throws ParseException is thrown when there is more than 1 Prefix used, or when Prefix value is invalid.
      */
     private Predicate<Food> generateFindCommandPredicate(ArgumentMultimap am) throws ParseException {
         if (!am.containsSingleUserInputField()) {
-            throw new ParseException(String.format(Messages.MESSAGE_EXCESS_FIND_FILTERS,
+            throw new ParseException(String.format(MESSAGE_EXCESS_FIND_FILTERS,
                     FindCommand.MESSAGE_USAGE));
         }
 
@@ -71,11 +74,11 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Creates the Prefix-specific Predicate that produces a particular find command result.
+     * Creates the Prefix-specific Predicate that produces a particular FindCommand's CommandResult.
      *
      * @param am the ArgumentMultimap we search through for the Prefix.
-     * @return the Prefix-specific Predicate that produces a particular find command result.
-     * @throws ParseException when no allowed Prefix is present.
+     * @return the Prefix-specific Predicate that produces the eventual CommandResult after FindCommand execution.
+     * @throws ParseException when no allowed Prefix is present, or when an allowed Prefix has an invalid value.
      */
     private final Predicate<Food> generateSpecificPredicate(ArgumentMultimap am) throws ParseException {
 
@@ -107,12 +110,18 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         if (arePrefixesPresent(am, CliSyntax.PREFIX_TAG)) {
+            // use getAllValues to double check tagList size as users are most likely to enter more than 1 Tag
             ArrayList<Tag> tagList = new ArrayList<>(ParserUtil.parseTags(am.getAllValues(CliSyntax.PREFIX_TAG)));
+
+            // assumption to test: FindCommandParser only allows for 1 single Tag prefix
+            assert (tagList.size() == 1) : "tagList for find contains more than 1 Tag!";
+
             return new TagContainsKeywordsPredicate(tagList);
         }
 
         // should never arrive here
         throw new ParseException("Please try again, with a different input following the correct format.");
+
     }
 
 }

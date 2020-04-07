@@ -35,12 +35,12 @@ public interface Logic {
     List<Food> getSimilarFood(String text);
 
     /**
-     * Returns the daily calorie goal of the user.
+     * Returns the daily caloric goal of the user.
      */
     DailyGoal getDailyGoal();
 
     /**
-     * Returns remaining number of calories of the user.
+     * Returns remaining number of calories of the user for the goal.
      */
     double getRemainingCalories();
 
@@ -51,7 +51,7 @@ public interface Logic {
      */
     ReadOnlyFoodRecord getFoodRecord();
 
-    /** Returns an unmodifiable view of the filtered list of foods */
+    /** Returns an unmodifiable view of the filtered list of foods. */
     ObservableList<Food> getFilteredFoodRecord();
 
     ObservableList<ConsumedFood> getFilteredDailyList();

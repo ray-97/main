@@ -169,14 +169,14 @@ Format: `exit`
 === Exporting the current `Food Record` into a reference sheet : `export`
 
 Obtaining a copy of the `Food Record` entries may be useful for situations like sharing or printing.
-Should you feel the need to obtain a portable version of the current `Food` entries inside the `Food Record`, the `export` command provides an editable text file (FoodRecords.txt) in the `data/exports` folder. +
+While your entries are automatically saved in *Calgo*, the `export` command provides an editable text file (FoodRecords.txt) in the `data/exports` folder should you feel the need to obtain a portable version of the current `Food` entries inside the `Food Record`. +
 
 * FoodRecords.txt shows the `Food Record` in alphabetical order of names, and includes the corresponding details of each `Food` neatly in a table.
 
 [TIP]
-The `export` command allows users to manually track their diet with a reference sheet of the `Food` entries previously entered. You can freely edit this reference sheet to include information outside of the App. +
+This lets you manually track your diet using a reference sheet of your past `Food` entries. You can freely edit this reference sheet to include information outside of the App. +
 [NOTE]
-*Calgo*'s session data is saved in the application automatically. There is no need to save manually for each session.
+Certain `Food` names and nutritional values may be too long to fit into the given space. The reference sheet allows the storage of these entries by wrapping-around onto the next line. While some entries may be misaligned, fear not as your information will still be captured and separated by spaces. Individual entries will also appear on separate lines.
 
 Format: `export`
 
@@ -205,7 +205,7 @@ Format: `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBS] [f/FATS] [t/TAG]` (
 You don't actually have to type out the entire keyword. Incomplete keywords will be matched to `Food` items containing them in the specified parameter. +
 e.g. `find t/Gre` can give 'Kiwi' and 'Sugarcane' which are tagged `Green`
 [TIP]
-You can search for multiple `Name` keywords by separating them with space(s). +
+You can search for multiple `Name` keywords by using a single `n/` prefix, separating them with space(s). +
 e.g. `find n/Ki Jui` results can give 'Kiwi Ice Cream' (which contains 'Ki'), 'Orange Juice' (which contains 'Jui'), and so on.
 
 Examples:
@@ -215,7 +215,7 @@ Returns `kiwi` and `kiwi juice`
 * `find p/25` +
 Returns `chocolate protein powder shake` and `vanilla protein milkshake` which both have 25 grams of protein.
 * `find n/food_item_not_in_food_record` +
-Returns a message showing 0 `Food` entries listed.
+Returns a message indicating that 0 `Food` entries are listed.
 
 <<<
 
@@ -247,7 +247,7 @@ This generates a txt file containing the above-mentioned insights made on the co
 
 === Listing all `Food` in current `Food Record` : `list`
 
-To view a list of all `Foods` in the current `Food Record`, you can simply use the `list` command. +
+To view a list of all `Food` s in the current `Food Record`, you can simply use the `list` command. +
 
 * `Foods` will be listed in alphabetical order with their corresponding details. +
 

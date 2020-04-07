@@ -14,7 +14,7 @@ import life.calgo.model.food.Protein;
 import life.calgo.model.tag.Tag;
 
 /**
- * Responsible for generating a user-friendly copy of the current FoodRecord.
+ * Generating a user-friendly and editable copy of the current FoodRecord.
  * All Food entries will have all their details written into the file.
  */
 public class ExportGenerator extends DocumentGenerator {
@@ -27,7 +27,7 @@ public class ExportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Driver method for generation of the Food Record.
+     * Formats and details the current Food Record into a txt file.
      * @return a boolean value that is true only if FoodRecord.txt is successfully generated.
      */
     public boolean generateExport() {
@@ -36,9 +36,15 @@ public class ExportGenerator extends DocumentGenerator {
         printHeader();
         printSeparator();
         printSeparator();
+
         printFoodRecordEntirely();
+
         printSeparator();
+        printFooter();
+        printSeparator();
+
         printWriter.close();
+
         return file.exists() && (file.length() != 0); // success check
     }
 
@@ -47,7 +53,7 @@ public class ExportGenerator extends DocumentGenerator {
      */
     @Override
     public void printHeader() {
-        String title = "Your Food Record: A Collection of Your Past Entries";
+        String title = centraliseText("Your Food Record: A Collection of Your Past Entries");
         printWriter.println(title);
     }
 
@@ -56,7 +62,7 @@ public class ExportGenerator extends DocumentGenerator {
      */
     @Override
     public void printFooter() {
-        printWriter.println("This marks the end of the exported document.");
+        printWriter.println(centraliseText("Eat Good, Live Well!"));
     }
 
     /**
@@ -68,14 +74,17 @@ public class ExportGenerator extends DocumentGenerator {
 
         ObservableList<Food> sourceFoodRecord = foodRecord.getFoodList();
         for (Food food : sourceFoodRecord) {
+
             Name name = food.getName();
             Calorie calories = food.getCalorie();
             Protein protein = food.getProtein();
             Carbohydrate carbohydrate = food.getCarbohydrate();
             Fat fat = food.getFat();
             Set<Tag> tags = food.getTags();
+
             printWriter.println(String.format("%-45s %-20s %-20s %-20s %-20s %-20s",
                     name, calories, protein, carbohydrate, fat, accumulatedTagsString(tags)));
+
         }
     }
 
@@ -94,7 +103,7 @@ public class ExportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Writes the categories of details of each Food in the Food Record.
+     * Writes the categories of the nutritional information of each Food in the Food Record.
      */
     private void printCategories() {
         printWriter.println(String.format("%-45s %-20s %-20s %-20s %-20s %-20s", "Name", "Calories",

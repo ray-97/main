@@ -27,12 +27,21 @@ public class Tag {
     }
 
     /**
-     * Returns true if a given string is a valid tag name.
+     * Returns true if a given String is a valid Tag name.
+     *
+     * @param test the String to check for validity.
+     * @return whether the given String can be used for a valid Tag name.
      */
     public static boolean isValidTagName(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Checks if the current Tag can be considered equivalent to the other, based on identity and tagName.
+     *
+     * @param other the other Tag to compare with.
+     * @return whether the current Tag and the other can be considered equivalent.
+     */
     @Override
     public boolean equals(Object other) {
         return other == this
@@ -40,6 +49,11 @@ public class Tag {
                 && tagName.equals(((Tag) other).tagName));
     }
 
+    /**
+     * Provides hashcode for the current Tag object.
+     *
+     * @return hashcode for the current Tag object.
+     */
     @Override
     public int hashCode() {
         return tagName.hashCode();
