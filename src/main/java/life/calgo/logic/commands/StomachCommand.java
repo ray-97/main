@@ -26,6 +26,7 @@ public class StomachCommand extends Command {
     private LocalDate date;
 
     public StomachCommand(LocalDate date) {
+        requireNonNull(date);
         this.date = date;
     }
 
