@@ -22,13 +22,7 @@ public class GoalCommandParser implements Parser<GoalCommand> {
             );
         }
         String goalArg = splitArgs[1];
-        if (!ParserUtil.isInteger(goalArg)) {
-            throw new ParseException(String.format(GoalCommand.MESSAGE_FAILURE, GoalCommand.MINIMUM_ACCEPTABLE_CALORIES,
-                    GoalCommand.MAXIMUM_ACCEPTABLE_CALORIES));
-        }
-        // at this breakpoint, we know goalArg is an integer
-        int targetCalories = Integer.parseInt(goalArg);
-
+        int targetCalories = ParserUtil.parseGoal(goalArg);
         return new GoalCommand(targetCalories);
     }
 }

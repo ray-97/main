@@ -11,10 +11,10 @@ public class GoalCommand extends Command {
 
     public static final String COMMAND_WORD = "goal";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Updates your goal of how many calories to consume"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Updates your goal of how many calories to consume "
             + "daily.\n"
             + "Parameters: goal GOAL\n"
-            + "Example: " + COMMAND_WORD + " 2800";
+            + "Example: To set a goal to consume 2800 calories each day, enter this: " + COMMAND_WORD + " 2800";
 
     public static final String MESSAGE_SUCCESS = "Successfully updated your daily caloric goal to %1$d.";
 
@@ -30,7 +30,7 @@ public class GoalCommand extends Command {
 
     public static final int MINIMUM_ACCEPTABLE_CALORIES = 1;
 
-    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 2147483647;
+    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 99999;
 
     private final int numCaloriesDaily;
 
