@@ -64,7 +64,7 @@ public class NomCommandTest {
     }
 
     @Test
-    public void execute_d_nomSuccessful() throws Exception {
+    public void execute_validFood_nomSuccessful() throws Exception {
         Food validApple = new FoodBuilder(TypicalFoodItems.APPLE).build();
         DailyFoodLog validDailyFoodLog = TypicalDailyFoodLog.getAppleOnlyLog();
 
