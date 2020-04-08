@@ -17,6 +17,9 @@ import life.calgo.model.food.Food;
  * Responsible for generating statistics of the user's consumption patterns on a given day.
  */
 public class ReportGenerator extends DocumentGenerator {
+    public static final int COLUMN_WIDTH = 25;
+    public static final int COLUMN_INTERVAL_WIDTH = 3;
+
     // for Header
     private static final String HEADER_MESSAGE = "Report of Consumption Pattern on %tF";
     // for Goal Information section
@@ -44,8 +47,6 @@ public class ReportGenerator extends DocumentGenerator {
     private static final String FOOTER_MESSAGE = "This marks the end of your report. Personalised insights coming up"
             + " in v1.4.";
 
-    private static final int FOOD_NAME_WIDTH = 25;
-    private static final int NUMERICAL_VALUE_WIDTH = 10;
     private LocalDate queryDate;
     private DailyFoodLog queryLog;
     private HashMap<LocalDate, DailyFoodLog> dateToLogMap;
@@ -85,7 +86,7 @@ public class ReportGenerator extends DocumentGenerator {
      */
     @Override
     public void printHeader() {
-        printWriter.println(centraliseText(String.format(HEADER_MESSAGE, this.queryLog.getLocalDate())));
+        printWriter.println(centraliseText(String.format(HEADER_MESSAGE, this.queryLog.getLocalDate()), WIDTH_OF_DOCUMENT));
         printSeparator();
     }
 
@@ -93,7 +94,7 @@ public class ReportGenerator extends DocumentGenerator {
      * Prints information on what the goal is.
      */
     public void printGoalInformation() {
-        printWriter.println(centraliseText(GOAL_HEADER_MESSAGE));
+        printWriter.println(centraliseText(GOAL_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
         printEmptyLine();
         String goalInformation;
         if (userGoal.getTargetDailyCalories() == DailyGoal.DUMMY_VALUE) {
@@ -109,11 +110,22 @@ public class ReportGenerator extends DocumentGenerator {
      * Writes relevant statistics related to each food quantity consumed in the given day.
      */
     public void printFoodwiseStatistics() {
-        printWriter.println(centraliseText(FOODWISE_HEADER_MESSAGE));
+        printWriter.println(centraliseText(FOODWISE_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
         printEmptyLine();
 
-        printWriter.println(String.format("%-25s %-20s %-20s", "Food", "Total Quantity", "Total Calories"));
         DailyFoodLog foodLog = queryLog;
+        String columnInterval = "";
+        for (int i = 0; i < COLUMN_INTERVAL_WIDTH; i++) {
+            if (i == COLUMN_INTERVAL_WIDTH / 2) {
+                columnInterval += "|";
+            }
+            columnInterval += " ";
+        }
+        String foodHeader = centraliseText("Food", COLUMN_WIDTH) + columnInterval;
+        String portionHeader = centraliseText("Total Quantity", COLUMN_WIDTH) + columnInterval;
+        String caloriesHeader = centraliseText("Total Calories", COLUMN_WIDTH);
+        printWriter.println(foodHeader + portionHeader + caloriesHeader);
+
         for (Food food : foodLog.getFoods()) {
             double portion = foodLog.getPortion(food);
             double currCalories = portion * (double) Integer.parseInt(food.getCalorie().value);
@@ -121,11 +133,17 @@ public class ReportGenerator extends DocumentGenerator {
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
-            String foodName = stringWrap(food.getFoodNameString(), FOOD_NAME_WIDTH);
-            String portionString = stringWrap(String.format("%.1f", portion), NUMERICAL_VALUE_WIDTH);
-            String currCaloriesString = stringWrap(String.format("%.0f", currCalories), NUMERICAL_VALUE_WIDTH);
-            printWriter.println(String.format("%-25s %-20s %-20s", foodName,
-                    portionString, currCaloriesString));
+            String foodColumn = stringWrap(food.getFoodNameString(), COLUMN_WIDTH);
+            String portionColumn = stringWrap(String.format("%.1f", portion), COLUMN_WIDTH);
+            String currCaloriesColumn = stringWrap(String.format("%.0f", currCalories), COLUMN_WIDTH);
+            ArrayList<String> columns = new ArrayList<>();
+            columns.add(foodColumn);
+            columns.add(portionColumn);
+            columns.add(currCaloriesColumn);
+            String table = combineColumns(columns, 5);
+//            printWriter.println(String.format("%-25s %-20s %-20s", foodName,
+//                    portionString, currCaloriesString));
+            printWriter.println(table);
         }
         printSeparator();
     }
@@ -134,7 +152,7 @@ public class ReportGenerator extends DocumentGenerator {
      * Writes aggregated statistics of all food items consumed in the given day.
      */
     public void printAggregateStatistics() {
-        printWriter.println(centraliseText(AGGREGRATE_HEADER_MESSAGE));
+        printWriter.println(centraliseText(AGGREGRATE_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
         printEmptyLine();
         printWriter.println(String.format("%s %-20s %-20s %-20s", "Total Calories in kcal", "| Total Protein in grams",
                 "| Total Carbohydrates in grams", "| Total Fats in grams"));
@@ -150,7 +168,7 @@ public class ReportGenerator extends DocumentGenerator {
         // compare method returns -1 if left argument < right argument and 0 if left argument == right argument
         if (userGoal.getTargetDailyCalories() != DailyGoal.DUMMY_VALUE) {
             boolean isGoalAchieved = (int) calculateRemainingCalories() >= 0;
-            printWriter.println(centraliseText(INSIGHTS_HEADER_MESSAGE));
+            printWriter.println(centraliseText(INSIGHTS_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
             printEmptyLine();
             if (isGoalAchieved) {
                 printWriter.println(GOAL_ACHIEVED_MESSAGE);
@@ -196,7 +214,7 @@ public class ReportGenerator extends DocumentGenerator {
         Collections.sort(foodInPastWeek, Comparator.comparingInt(frequencyMap::get));
 
         // ensure sum up to goal calories
-        printWriter.println(centraliseText("Suggestions"));
+        printWriter.println(centraliseText("Suggestions", WIDTH_OF_DOCUMENT));
         double goal = userGoal.getTargetDailyCalories();
         while (goal >= 0 && !foodInPastWeek.isEmpty()) {
             Food consumedFood = foodInPastWeek.remove(0);
@@ -210,7 +228,7 @@ public class ReportGenerator extends DocumentGenerator {
      */
     @Override
     public void printFooter() {
-        printWriter.println(centraliseText(FOOTER_MESSAGE));
+        printWriter.println(centraliseText(FOOTER_MESSAGE, WIDTH_OF_DOCUMENT));
     }
 
 
