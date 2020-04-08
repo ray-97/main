@@ -112,7 +112,7 @@ public class ReportGenerator extends DocumentGenerator {
         printWriter.println(centraliseText(FOODWISE_HEADER_MESSAGE));
         printEmptyLine();
 
-        printWriter.println(String.format("%-25s %-20s %-20s", "Food", "Quantity", "Calories"));
+        printWriter.println(String.format("%-25s %-20s %-20s", "Food", "Total Quantity", "Total Calories"));
         DailyFoodLog foodLog = queryLog;
         for (Food food : foodLog.getFoods()) {
             double portion = foodLog.getPortion(food);
