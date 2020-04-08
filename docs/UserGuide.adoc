@@ -216,7 +216,7 @@ Examples: +
 
 // todo: example on numerical categorical find
 * `find cal/150` +
-Returns 'Bandung' and 'Hot Dog Bun' which both have 150 `Calories`. This works for `Calories`, `Proteins`, `Carbohydrates`, and `Fats` - all of which take on non-negative integer values. +
+Returns 'Bandung' and 'Hot Dog Bun' which both have 150 `Calories`. This works for `Calories`, `Proteins`, `Carbohydrates`, and `Fats` - all of which take on non-negative integer values within 5 digits. +
 
 // todo: example on String categorical substring find on Name
 * `find n/Chees` +
