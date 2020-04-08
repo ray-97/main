@@ -35,7 +35,14 @@ public class JsonAdaptedFood {
     // Constructing JsonAdaptedFood objects
 
     /**
-     * Constructs a {@code JsonAdaptedFood} with the given food details.
+     * Constructs a {@code JsonAdaptedFood} with the given Food details.
+     *
+     * @param name Name of the Food.
+     * @param calorie Calorie of the Food.
+     * @param protein Protein of the Food.
+     * @param carbohydrate Carbohydrate of the Food.
+     * @param fat Fat of the Food.
+     * @param tagged Tags associated with the Food.
      */
     @JsonCreator
     public JsonAdaptedFood(@JsonProperty("name") String name,
@@ -56,6 +63,8 @@ public class JsonAdaptedFood {
 
     /**
      * Converts a given {@code Food} into this class for Jackson use.
+     *
+     * @param source the source Food to be converted into a Jackson format.
      */
     public JsonAdaptedFood(Food source) {
         name = source.getName().fullName;
@@ -71,15 +80,11 @@ public class JsonAdaptedFood {
     // Converting from JsonAdaptedFood objects to Model-friendly objects
 
     /**
-     * Converts this Jackson-friendly adapted food object into the model's {@code Food} object.
+     * Converts this Jackson-friendly Adapted Food object into the model's {@code Food} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted food.
      */
     public Food toModelType() throws IllegalValueException {
-        final List<Tag> foodTags = new ArrayList<>();
-        for (JsonAdaptedTag tag : tagged) {
-            foodTags.add(tag.toModelType());
-        }
 
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -122,10 +127,20 @@ public class JsonAdaptedFood {
         }
         final Fat modelFat = new Fat(fat);
 
+        final List<Tag> foodTags = new ArrayList<>();
+        for (JsonAdaptedTag tag : tagged) {
+            foodTags.add(tag.toModelType());
+        }
         final Set<Tag> modelTags = new HashSet<>(foodTags);
+
         return new Food(modelName, modelCalorie, modelProtein, modelCarbohydrate, modelFat, modelTags);
     }
 
+    /**
+     * Provides a String representation of the JsonAdaptedFood's Name.
+     *
+     * @return the String representation of the JsonAdaptedFood's Name.
+     */
     public String toString() {
         return name;
     }

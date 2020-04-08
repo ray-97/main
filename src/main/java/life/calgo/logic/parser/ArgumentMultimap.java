@@ -10,8 +10,8 @@ import java.util.Optional;
  * Stores mapping of prefixes to their respective arguments.
  * Each key may be associated with multiple argument values.
  * Values for a given key are stored in a list, and the insertion ordering is maintained.
- * Keys are unique, but the list of argument values may contain duplicate argument values, i.e. the same argument value
- * can be inserted multiple times for the same prefix.
+ * Keys are unique, but the list of argument values may contain duplicate argument values,
+ * i.e. the same argument value can be inserted multiple times for the same prefix.
  */
 public class ArgumentMultimap {
 
@@ -24,8 +24,8 @@ public class ArgumentMultimap {
      * Associates the specified argument value with {@code prefix} key in this map.
      * If the map previously contained a mapping for the key, the new value is appended to the list of existing values.
      *
-     * @param prefix   Prefix key with which the specified argument value is to be associated
-     * @param argValue Argument value to be associated with the specified prefix key
+     * @param prefix   Prefix key with which the specified argument value is to be associated.
+     * @param argValue Argument value to be associated with the specified prefix key.
      */
     public void put(Prefix prefix, String argValue) {
         List<String> argValues = getAllValues(prefix);
@@ -66,14 +66,15 @@ public class ArgumentMultimap {
      * @return whether the argument multimap contains only 1 user input field, of 1 Prefix.
      */
     public boolean containsSingleUserInputField() {
-        // the argument multimap begins with initial size 1
-        // therefore, the actual size is not 1, but 2 for a single user input field for 1 Prefix.
+        // the argument multimap begins with initial size 1 so the actual size is not 1,
+        // but (INITIAL_SIZE + 1) for a single user input field for 1 Prefix.
         if (this.argMultimap.size() != INITIAL_SIZE + 1) {
             return false;
         }
+
+        // check that the single prefix has only 1 entry
         for (List<String> stringList : this.argMultimap.values()) {
             if (stringList.size() > 1) {
-                // single input, single field entry
                 return false;
             }
         }

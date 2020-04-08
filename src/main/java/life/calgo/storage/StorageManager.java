@@ -15,6 +15,7 @@ import life.calgo.model.UserPrefs;
 
 /**
  * Manages storage of FoodRecord data in local storage.
+ * Refer to Storage.java for API and javadocs.
  */
 public class StorageManager implements Storage {
 
@@ -33,7 +34,7 @@ public class StorageManager implements Storage {
         this.goalStorage = goalStorage;
     }
 
-    // ================ UserPrefs methods ==============================
+    // UserPrefs-related methods
 
     @Override
     public Path getUserPrefsFilePath() {
@@ -50,8 +51,7 @@ public class StorageManager implements Storage {
         userPrefsStorage.saveUserPrefs(userPrefs);
     }
 
-
-    // ================ FoodRecord methods ==============================
+    // FoodRecord-related methods
 
     @Override
     public Path getFoodRecordFilePath() {
@@ -63,6 +63,11 @@ public class StorageManager implements Storage {
         return readFoodRecord(foodRecordStorage.getFoodRecordFilePath());
     }
 
+    /**
+     * Similar to {@link #readFoodRecord()}, but now reads from the specified file path.
+     *
+     * @param filePath the file path of the source file.
+     */
     @Override
     public Optional<ReadOnlyFoodRecord> readFoodRecord(Path filePath) throws DataConversionException, IOException {
         logger.fine("Attempting to read data from file: " + filePath);
@@ -74,13 +79,18 @@ public class StorageManager implements Storage {
         saveFoodRecord(foodRecord, foodRecordStorage.getFoodRecordFilePath());
     }
 
+    /**
+     * Similar to {@link #saveFoodRecord(ReadOnlyFoodRecord)}, but now saves to the specified file path.
+     *
+     * @param filePath the path of the storage file we want to save at.
+     */
     @Override
     public void saveFoodRecord(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         foodRecordStorage.saveFoodRecord(foodRecord, filePath);
     }
 
-    // ============= ConsumptionRecord methods =======================================
+    // ConsumptionRecord-related methods
 
     @Override
     public Path getConsumptionRecordFilePath() {
@@ -92,6 +102,11 @@ public class StorageManager implements Storage {
         return readConsumptionRecord(consumptionRecordStorage.getConsumptionRecordFilePath());
     }
 
+    /**
+     * Similar to {@link #readConsumptionRecord()}, but now reads from the specified file path.
+     *
+     * @param filePath the file path of the source file.
+     */
     @Override
     public Optional<ReadOnlyConsumptionRecord> readConsumptionRecord(Path filePath)
             throws DataConversionException, IOException {
@@ -104,13 +119,18 @@ public class StorageManager implements Storage {
         saveConsumptionRecord(consumptionRecord, consumptionRecordStorage.getConsumptionRecordFilePath());
     }
 
+    /**
+     * Similar to {@link #saveConsumptionRecord(ReadOnlyConsumptionRecord)}, but now saves to a specified file path.
+     *
+     * @param filePath the path of the storage file we want to save at.
+     */
     @Override
     public void saveConsumptionRecord(ReadOnlyConsumptionRecord consumptionRecord, Path filePath) throws IOException {
         logger.fine("Attempting to write to data file: " + filePath);
         consumptionRecordStorage.saveConsumptionRecord(consumptionRecord, filePath);
     }
 
-    // ============= Goal methods =======================================
+    // Goal-related methods
 
     @Override
     public Path getGoalFilePath() {
@@ -122,6 +142,11 @@ public class StorageManager implements Storage {
         return readGoal(goalStorage.getGoalFilePath());
     }
 
+    /**
+     * Similar to {@link #readGoal()}, but now reads from a specified file path.
+     *
+     * @param filePath the file path of the source file.
+     */
     @Override
     public Optional<ReadOnlyGoal> readGoal(Path filePath) throws DataConversionException, IOException {
         logger.fine("Attempting to read from file: " + filePath);
@@ -133,6 +158,11 @@ public class StorageManager implements Storage {
         saveGoal(goal, goalStorage.getGoalFilePath());
     }
 
+    /**
+     * Similar to {@link #saveGoal(ReadOnlyGoal)}, but now saves to a specified file path.
+     *
+     * @param filePath the path of the storage file we want to save at.
+     */
     @Override
     public void saveGoal(ReadOnlyGoal goal, Path filePath) throws IOException {
         logger.fine("Attempting to write data to file: " + filePath);

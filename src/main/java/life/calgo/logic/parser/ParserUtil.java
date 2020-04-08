@@ -51,8 +51,45 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
-     * trimmed.
+     * Returns true if given String can be parsed as a number.
+     *
+     * @param strNum a String argument to be parsed as a number.
+     * @return true if the input can be parsed as a number.
+     */
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if given String can be parsed as an Integer.
+     *
+     * @param strNum a String argument to be parsed as a Integer.
+     * @return true if the input can be parsed as a Integer.
+     */
+    public static boolean isInteger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
+     * Leading and trailing whitespaces will be trimmed.
+     *
      * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
@@ -64,25 +101,27 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String name} into a {@code Name}.
-     * Leading and trailing whitespaces will be trimmed.
+     * Parses given String representation of position into an OptionalInt.
+     * Position refers to index the food object has in food record display.
      *
-     * @throws ParseException if the given {@code name} is invalid.
+     * @param position String representation of position.
+     * @return OptionalInt representation of position.
      */
-    public static Name parseName(String name) throws ParseException {
-        requireNonNull(name);
-        String trimmedName = name.trim();
-        if (!Name.isValidName(trimmedName)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+    public static int parsePosition(String position) throws ParseException {
+        requireNonNull(position);
+        String trimmedPosition = position.trim();
+        if (!isInteger(trimmedPosition)) {
+            throw new ParseException(MESSAGE_INVALID_POSITION);
         }
-        return new Name(trimmedName);
+        return Integer.parseInt(trimmedPosition);
     }
 
     /**
-     * Instantiate LocalDate object from date represented in String
-     * @param date date in String representation
-     * @return LocalDate object with date equivalent to that expressed in argument
-     * @throws ParseException if given String date is in invalid format
+     * Instantiate LocalDate object from date represented in String.
+     *
+     * @param date date in String representation.
+     * @return LocalDate object with date equivalent to that expressed in argument.
+     * @throws ParseException if given String date is in invalid format.
      */
     public static LocalDate parseDate(String date) throws ParseException {
         requireNonNull(date);
@@ -102,44 +141,11 @@ public class ParserUtil {
     }
 
     /**
-     * Returns true if given String can be parsed as a number
-     * @param strNum a String argument to be parsed as a number
-     * @return true if the input can be parsed as a number
-     */
-    public static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Returns true if given String can be parsed as an Integer
-     * @param strNum a String argument to be parsed as a Integer
-     * @return true if the input can be parsed as a Integer
-     */
-    public static boolean isInteger(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            int d = Integer.parseInt(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Parses String portion as a double
-     * @param portion a String representation of portion argument
-     * @return double representation of portion argument
-     * @throws ParseException if given argument cannot be parsed as a number
+     * Parses String portion as a double.
+     *
+     * @param portion a String representation of portion argument.
+     * @return double representation of portion argument.
+     * @throws ParseException if given argument cannot be parsed as a number.
      */
     public static double parsePortion(String portion) throws ParseException {
         requireNonNull(portion);
@@ -158,9 +164,10 @@ public class ParserUtil {
 
     /**
      * Parses a String rating as an int.
-     * @param rating a String representation of rating argument
-     * @return double representation of rating argument
-     * @throws ParseException if given argument cannot be parsed as an int
+     *
+     * @param rating a String representation of rating argument.
+     * @return double representation of rating argument.
+     * @throws ParseException if given argument cannot be parsed as an int.
      */
     public static int parseRating(String rating) throws ParseException {
         requireNonNull(rating);
@@ -177,19 +184,13 @@ public class ParserUtil {
         return parsedInt;
     }
 
-    /**
-     * Parses given String representation of position into an OptionalInt
-     * Position refers to index the food object has in food record display
-     * @param position String representation of position
-     * @return OptionalInt representation of position
-     */
-    public static int parsePosition(String position) throws ParseException {
-        requireNonNull(position);
-        String trimmedPosition = position.trim();
-        if (!isInteger(trimmedPosition)) {
-            throw new ParseException(MESSAGE_INVALID_POSITION);
+    public static Name parseName(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmedName = name.trim();
+        if (!Name.isValidName(trimmedName)) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
-        return Integer.parseInt(trimmedPosition);
+        return new Name(trimmedName);
     }
 
     /**
@@ -269,6 +270,10 @@ public class ParserUtil {
 
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     *
+     * @param tags the Collection of Strings to convert into Tags.
+     * @return the Set of Tags created.
+     * @throws ParseException should any issues occur during the conversion.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);

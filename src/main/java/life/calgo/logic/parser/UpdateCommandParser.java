@@ -65,8 +65,8 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
 
     /**
      * Parses the foodName and returns it back in Title Case.
-     * @param foodName the foodName in non-titled case
-     * @return the foodName back in Title Case
+     * @param foodName the foodName in non-titled case.
+     * @return the foodName back in Title Case,
      */
     private static String convertToTitleCase(String foodName) {
         return Arrays
