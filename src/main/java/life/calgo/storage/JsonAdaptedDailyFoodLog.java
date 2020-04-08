@@ -16,8 +16,6 @@ import life.calgo.model.food.Food;
  */
 public class JsonAdaptedDailyFoodLog {
 
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "DailyFoodLog's %s field is missing!";
-
     private final LinkedHashMap<JsonAdaptedFood, Double> foods;
     private final LinkedHashMap<JsonAdaptedFood, ArrayList<Integer>> ratings;
     private final LocalDate localDate;
@@ -46,7 +44,8 @@ public class JsonAdaptedDailyFoodLog {
     }
 
     /**
-     * Helper method to convert Food into adaptedFood.
+     * Acts as helper method to convert Food to adaptedFood for the whole LinkedHashMap,
+     * while maintaining the respecting portions associated with each food.
      */
     private LinkedHashMap<JsonAdaptedFood, Double> adaptFoods(LinkedHashMap<Food, Double> foods) {
         LinkedHashMap<JsonAdaptedFood, Double> adaptedFoods = new LinkedHashMap<>();
@@ -57,7 +56,8 @@ public class JsonAdaptedDailyFoodLog {
     }
 
     /**
-     * Helper method to convert Food into adaptedFood.
+     * Acts as helper method to convert Food to adaptedFood for the whole LinkedHashMap,
+     * while maintaining the respecting ratings associated with each food.
      */
     private LinkedHashMap<JsonAdaptedFood, ArrayList<Integer>> adaptRatings(
             LinkedHashMap<Food, ArrayList<Integer>> ratings) {
@@ -69,7 +69,8 @@ public class JsonAdaptedDailyFoodLog {
     }
 
     /**
-     * Helper method to convert adaptedFood into food.
+     * Acts as helper method to convert adaptedFood to Food for the whole LinkedHashMap,
+     * while maintaining the respecting portions associated with each food.
      */
     private LinkedHashMap<Food, Double> unAdaptFoods(LinkedHashMap<JsonAdaptedFood, Double> adaptedFoods)
             throws IllegalValueException {
@@ -81,7 +82,8 @@ public class JsonAdaptedDailyFoodLog {
     }
 
     /**
-     * Helper method to convert adaptedFood into food.
+     * Acts as helper method to convert adaptedFood to Food for the whole LinkedHashMap,
+     * while maintaining the respecting ratings associated with each food.
      */
     private LinkedHashMap<Food, ArrayList<Integer>> unAdaptRatings(
             LinkedHashMap<JsonAdaptedFood, ArrayList<Integer>> adaptedRatings)
@@ -95,8 +97,8 @@ public class JsonAdaptedDailyFoodLog {
 
     /**
      * Converts this Jackson-friendly adapted DailyFoodLog object into the model's {@code DailyFoodLog} object.
-     * @return a DailyFoodLog equivalent of this adaptedDailyFoodLog object.
-     * @throws IllegalValueException if there were any data constraints violated in the adaptedDailyFoodLog.
+     * @return DailyFoodLog equivalent of this adaptedDailyFoodLog object.
+     * @throws IllegalValueException If there were any data constraints violated in the adaptedDailyFoodLog.
      */
     public DailyFoodLog toModelType() throws IllegalValueException {
         return new DailyFoodLog(unAdaptFoods(foods), unAdaptRatings(ratings), localDate);

@@ -11,7 +11,7 @@ import life.calgo.commons.util.AppUtil;
 public class Calorie {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Calorie should only contain non-negative integers and it should not be blank";
+            "Calorie should only contain non-negative integers within 5 digits and it should not be blank";
     public static final String VALIDATION_REGEX = "[0-9]+(?=$|\\s)";
     public final String value;
 

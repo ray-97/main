@@ -66,7 +66,7 @@ public class NomCommandParser implements Parser<NomCommand> {
     }
 
     /**
-     * Returns a DailyFoodLog with date set from input stored in an ArgumentMultimap.
+     * Acts as a helper to update DailyFoodLog with a date.
      * @param toFix DailyFoodLog that you want to have date set.
      * @param argMultimap ArgumentMultimap containing value of date.
      * @return DailyFoodLog with updated date.
@@ -83,6 +83,12 @@ public class NomCommandParser implements Parser<NomCommand> {
         return foodLog;
     }
 
+    /**
+     * Acts as a helper function for getting the portion required to add to food.
+     * @param argMultimap ArgumentMultimap containing prefix of portion mapped to its value.
+     * @return Double representing the portion that is parsed.
+     * @throws ParseException If value's string representation exceeds 10 character or is negative.
+     */
     private double fixNomPortion(ArgumentMultimap argMultimap) throws ParseException {
         double portion = DEFAULT_PORTION;
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
@@ -91,6 +97,12 @@ public class NomCommandParser implements Parser<NomCommand> {
         return portion;
     }
 
+    /**
+     * Acts as a helper function for getting the food that is being consumed.
+     * @param argMultimap ArgumentMultimap containing prefix of food name mapped to its value.
+     * @return Optional wrapped food object.
+     * @throws ParseException If food does not exist in Food Record.
+     */
     private Optional<Food> fixNomFood(ArgumentMultimap argMultimap) throws ParseException {
         Optional<Food> optionalFood = model.getFoodByName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
@@ -100,6 +112,14 @@ public class NomCommandParser implements Parser<NomCommand> {
         return optionalFood;
     }
 
+    /**
+     * Acts as a helper function for getting the food that is being consumed.
+     * @param toFix DailyFoodLog that rating is to be added to.
+     * @param optionalFood Optional wrapped food object that is to be rated.
+     * @param argMultimap ArgumentMultimap containing prefix of rating mapped to its value.
+     * @return DailyFoodLog reflecting the food that has been rated.
+     * @throws ParseException If rating's value is not an integer between 0 and 10.
+     */
     private DailyFoodLog fixNomRating(
             DailyFoodLog toFix, Optional<Food> optionalFood, ArgumentMultimap argMultimap)
             throws ParseException {

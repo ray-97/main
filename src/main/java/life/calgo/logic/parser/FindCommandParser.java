@@ -27,7 +27,7 @@ import life.calgo.model.tag.Tag;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
-    public static final String MESSAGE_EXCESS_FIND_FILTERS = "Please specify 1 and only 1 parameter for "
+    public static final String MESSAGE_EXCESS_FIND_FILTERS = "Please specify 1 and only 1 correct parameter for "
             + "filtering using the find command.";
 
     /**

@@ -20,8 +20,7 @@ public class ReportCommand extends Command {
     public static final String COMMAND_WORD = "report";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Generates a report containing statistics of "
-            + "all foods consumed on any given date and saves the report in a .txt file in the same folder as"
-            + " jar file.\n "
+            + "all foods consumed on any given date and saves the report in a .txt file in the data/reports/ folder\n"
             + "Parameters: "
             + CliSyntax.PREFIX_DATE + "DATE "
             + "Example: " + COMMAND_WORD + " "
@@ -31,6 +30,11 @@ public class ReportCommand extends Command {
             + "for the following date: %tF" + ".";
 
     public static final String MESSAGE_REPORT_FAILURE = "Did not manage to generate report.";
+
+    public static final String NO_SUCH_DATE = "There was no food consumed on %tF.";
+
+    public static final String INPUT_OUTPUT_EXCEPTION = "There was an error in creating and/or "
+            + "writing to your report file. Kindly revise your system settings to enable the app to create a new file.";
 
     private LocalDate queryDate;
 
@@ -42,16 +46,16 @@ public class ReportCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         if (!model.hasLogWithSameDate(queryDate)) {
-            throw new CommandException(MESSAGE_REPORT_FAILURE);
+            throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + String.format(NO_SUCH_DATE, queryDate));
         }
         DailyGoal dailyGoal = model.getDailyGoal();
         ReadOnlyConsumptionRecord consumptionRecord = model.getConsumptionRecord();
         ReportGenerator reportGenerator = new ReportGenerator(queryDate, dailyGoal, consumptionRecord);
         boolean isGenerated = reportGenerator.generateReport();
         if (!isGenerated) {
-            throw new CommandException(MESSAGE_REPORT_FAILURE);
+            throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + INPUT_OUTPUT_EXCEPTION);
         }
-        return new CommandResult(String.format(MESSAGE_REPORT_SUCCESS, this.queryDate));
+        return new CommandResult(String.format(MESSAGE_REPORT_SUCCESS, queryDate));
     }
 
     @Override

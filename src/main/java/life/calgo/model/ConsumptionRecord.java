@@ -27,6 +27,7 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
 
     /**
      * Creates a ConsumptionRecord using the DailyFoodLog objects in the {@code toBeCopied}.
+     * @param toBeCopied ReadOnlyConsumptionRecord that provides data for this record to reset with.
      */
     public ConsumptionRecord(ReadOnlyConsumptionRecord toBeCopied) {
         this();
@@ -60,7 +61,7 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
 
     /**
      * Updates a log in {@code dateToLogMap}, replacing it with {@code logAfterConsumption}.
-     * @param logAfterConsumption a DailyFoodLog object reflecting the food recently consumed.
+     * @param logAfterConsumption DailyFoodLog object reflecting the food recently consumed.
      */
     public void updateLog(DailyFoodLog logAfterConsumption) {
         dateToLogMap.updateLog(logAfterConsumption);

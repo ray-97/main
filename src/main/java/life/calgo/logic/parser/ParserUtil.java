@@ -26,26 +26,32 @@ import life.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+
+    public static final String MESSAGE_INVALID_DATE = String.format(
+            "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
     public static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty.";
     public static final String MESSAGE_NON_POSITIVE_PORTION =
             "Portion should be a positive number.";
     public static final String MESSAGE_INVALID_INDEX = "Index should be a positive number.";
     public static final String MESSAGE_INVALID_POSITION = "Position should be a positive integer!";
     public static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
-    public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be under 10 characters.";
+    public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be at most 5 characters.";
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
-
-    private static final int VALIDATION_LENGTH = 10;
+    private static final int VALIDATION_LENGTH = 5;
     private static final int INT_INVALID_RATING = -1;
     private static final int INT_MINIMUM_NATURAL_NUMBER = 0;
     private static final int INT_MAXIMUM_RATING = 10;
+    private static final int NUTRITIONAL_VALUE_MAXIMUM_DIGITS = 5; // human diets do not exceed 5 digits in calories
+    // Protein, Carbohydrate, Fat will hence also never exceed 5 digits as each gram of these gives >1 calorie
 
-    public static final String MESSAGE_INVALID_DATE = String.format(
-            "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
-
-
+    /**
+     * Acts as helper method to check if input length is valid.
+     * @param input String representing input.
+     * @param message Message to display if check fails.
+     * @throws ParseException If input length exceeds validation length.
+     */
     public static void inputLengthValidation(String input, String message) throws ParseException {
         if (input.length() > VALIDATION_LENGTH) {
             throw new ParseException(message);
@@ -53,9 +59,46 @@ public class ParserUtil {
     }
 
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
-     * trimmed.
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     * Returns true if given String can be parsed as a number.
+     *
+     * @param strNum String argument to be parsed as a number.
+     * @return True if the input can be parsed as a number.
+     */
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if given String can be parsed as an Integer.
+     *
+     * @param strNum String argument to be parsed as a Integer.
+     * @return True if the input can be parsed as a Integer.
+     */
+    public static boolean isInteger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException If the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
@@ -66,25 +109,27 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String name} into a {@code Name}.
-     * Leading and trailing whitespaces will be trimmed.
+     * Parses given String representation of position into an OptionalInt.
+     * Position refers to index the food object has in food record display.
      *
-     * @throws ParseException if the given {@code name} is invalid.
+     * @param position String representation of position.
+     * @return OptionalInt representation of position.
      */
-    public static Name parseName(String name) throws ParseException {
-        requireNonNull(name);
-        String trimmedName = name.trim();
-        if (!Name.isValidName(trimmedName)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+    public static int parsePosition(String position) throws ParseException {
+        requireNonNull(position);
+        String trimmedPosition = position.trim();
+        if (!isInteger(trimmedPosition)) {
+            throw new ParseException(MESSAGE_INVALID_POSITION);
         }
-        return new Name(trimmedName);
+        return Integer.parseInt(trimmedPosition);
     }
 
     /**
-     * Instantiate LocalDate object from date represented in String
-     * @param date date in String representation
-     * @return LocalDate object with date equivalent to that expressed in argument
-     * @throws ParseException if given String date is in invalid format
+     * Instantiate LocalDate object from date represented in String.
+     *
+     * @param date Date in String representation.
+     * @return LocalDate Object with date equivalent to that expressed in argument.
+     * @throws ParseException If given String date is in invalid format.
      */
     public static LocalDate parseDate(String date) throws ParseException {
         requireNonNull(date);
@@ -104,44 +149,11 @@ public class ParserUtil {
     }
 
     /**
-     * Returns true if given String can be parsed as a number
-     * @param strNum a String argument to be parsed as a number
-     * @return true if the input can be parsed as a number
-     */
-    public static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Returns true if given String can be parsed as an Integer
-     * @param strNum a String argument to be parsed as a Integer
-     * @return true if the input can be parsed as a Integer
-     */
-    public static boolean isInteger(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            int d = Integer.parseInt(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Parses String portion as a double
-     * @param portion a String representation of portion argument
-     * @return double representation of portion argument
-     * @throws ParseException if given argument cannot be parsed as a number
+     * Parses String portion as a double.
+     *
+     * @param portion String representation of portion argument.
+     * @return Double representation of portion argument.
+     * @throws ParseException If given argument cannot be parsed as a number.
      */
     public static double parsePortion(String portion) throws ParseException {
         requireNonNull(portion);
@@ -160,9 +172,10 @@ public class ParserUtil {
 
     /**
      * Parses a String rating as an int.
-     * @param rating a String representation of rating argument
-     * @return double representation of rating argument
-     * @throws ParseException if given argument cannot be parsed as an int
+     *
+     * @param rating String representation of rating argument.
+     * @return Double representation of rating argument.
+     * @throws ParseException If given argument cannot be parsed as an int.
      */
     public static int parseRating(String rating) throws ParseException {
         requireNonNull(rating);
@@ -180,85 +193,107 @@ public class ParserUtil {
     }
 
     /**
-     * Parses given String representation of position into an OptionalInt
-     * Position refers to index the food object has in food record display
-     * @param position String representation of position
-     * @return OptionalInt representation of position
+     * Parses a {@code String name} into a {@code Name}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException If the given {@code Name} is invalid.
      */
-    public static int parsePosition(String position) throws ParseException {
-        requireNonNull(position);
-        String trimmedPosition = position.trim();
-        if (!isInteger(trimmedPosition)) {
-            throw new ParseException(MESSAGE_INVALID_POSITION);
+    public static Name parseName(String name) throws ParseException {
+        requireNonNull(name);
+        String trimmedName = name.trim();
+        if (!Name.isValidName(trimmedName)) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
-        return Integer.parseInt(trimmedPosition);
+        return new Name(trimmedName);
     }
 
     /**
      * Parses a {@code String calorie} into a {@code Calorie}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code calorie} is invalid.
+     * @throws ParseException If the given {@code calorie} is invalid.
      */
     public static Calorie parseCalorie(String calorie) throws ParseException {
+
         requireNonNull(calorie);
         String trimmedCalorie = calorie.trim();
-        if (!Calorie.isValidCalorie(trimmedCalorie)) {
+
+        boolean isInvalidCalorie = !Calorie.isValidCalorie(trimmedCalorie);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedCalorie);
+        if (isInvalidCalorie || hasUnacceptableStringLength) {
             throw new ParseException(Calorie.MESSAGE_CONSTRAINTS);
         }
-        return new Calorie(trimmedCalorie);
+
+        String processedCalorieValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedCalorie);
+        return new Calorie(processedCalorieValueString);
+
     }
 
     /**
      * Parses a {@code String protein} into an {@code Protein}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code protein} is invalid.
+     * @throws ParseException If the given {@code protein} is invalid.
      */
     public static Protein parseProtein(String protein) throws ParseException {
         requireNonNull(protein);
         String trimmedProtein = protein.trim();
-        if (!Protein.isValidProtein(trimmedProtein)) {
+
+        boolean isInvalidProtein = !Protein.isValidProtein(trimmedProtein);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedProtein);
+        if (isInvalidProtein || hasUnacceptableStringLength) {
             throw new ParseException(Protein.MESSAGE_CONSTRAINTS);
         }
-        return new Protein(trimmedProtein);
+
+        String processedProteinValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedProtein);
+        return new Protein(processedProteinValueString);
     }
 
     /**
      * Parses a {@code String carbohydrate} into an {@code Carbohydrate}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code carbohydrate} is invalid.
+     * @throws ParseException If the given {@code carbohydrate} is invalid.
      */
     public static Carbohydrate parseCarbohydrate(String carbohydrate) throws ParseException {
         requireNonNull(carbohydrate);
         String trimmedCarbohydrate = carbohydrate.trim();
-        if (!Fat.isValidFat(trimmedCarbohydrate)) {
+
+        boolean isInvalidCarbohydrate = !Carbohydrate.isValidCarbohydrate(trimmedCarbohydrate);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedCarbohydrate);
+        if (isInvalidCarbohydrate || hasUnacceptableStringLength) {
             throw new ParseException(Carbohydrate.MESSAGE_CONSTRAINTS);
         }
-        return new Carbohydrate(trimmedCarbohydrate);
+
+        String processedCarbohydrateValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedCarbohydrate);
+        return new Carbohydrate(processedCarbohydrateValueString);
     }
 
     /**
      * Parses a {@code String fat} into a {@code Fat}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code fat} is invalid.
+     * @throws ParseException If the given {@code fat} is invalid.
      */
     public static Fat parseFat(String fat) throws ParseException {
         requireNonNull(fat);
         String trimmedFat = fat.trim();
-        if (!Fat.isValidFat(trimmedFat)) {
+
+        boolean isInvalidFat = !Fat.isValidFat(trimmedFat);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedFat);
+        if (isInvalidFat || hasUnacceptableStringLength) {
             throw new ParseException(Fat.MESSAGE_CONSTRAINTS);
         }
-        return new Fat(trimmedFat);
+
+        String processedFatValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedFat);
+        return new Fat(processedFatValueString);
     }
 
     /**
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code tag} is invalid.
+     * @throws ParseException If the given {@code tag} is invalid.
      */
     public static Tag parseTag(String tag) throws ParseException {
         requireNonNull(tag);
@@ -271,6 +306,10 @@ public class ParserUtil {
 
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     *
+     * @param tags The Collection of Strings to convert into Tags.
+     * @return The Set of Tags created.
+     * @throws ParseException Should any issues occur during the conversion.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);
@@ -286,10 +325,31 @@ public class ParserUtil {
      *
      * @param argumentMultimap the Argument Multimap we search each Prefix through.
      * @param prefixes Each Prefix we need to search for matches.
-     * @return whether every Prefix appears in the Argument Multimap.
+     * @return Whether every Prefix appears in the Argument Multimap.
      */
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
+    /**
+     * Removes leading zeros from a source String which represents an Integer.
+     *
+     * @param source the source String which represents an Integer and can only contain Integer values.
+     * @return the processed String which has leading zeros removed.
+     */
+    private static String removeLeadingZerosFromIntegerString(String source) {
+        int processedValue = Integer.parseInt(source);
+        String processedValueString = String.valueOf(processedValue);
+        return processedValueString;
+    }
+
+    /**
+     * Checks whether the given String is within the acceptable length for a nutritional value.
+     *
+     * @param value the String representing the nutritional value we want to check.
+     * @return whether the given String representing a nutritional value can possibly be valid.
+     */
+    private static boolean hasAcceptableLengthNutritionalValue(String value) {
+        return (value.length() <= NUTRITIONAL_VALUE_MAXIMUM_DIGITS);
+    }
 }

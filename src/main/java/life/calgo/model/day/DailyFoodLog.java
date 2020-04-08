@@ -29,7 +29,10 @@ public class DailyFoodLog {
     }
 
     /**
-     * Every field must be present and not null.
+     * Functions as constructor when you have attributes you wish to set.
+     * @param foods LinkedHashMap representing the mapping of Food to its portion.
+     * @param ratings LinkedHashMap representing the mapping of Food to its ratings.
+     * @param localDate LocalDate associated to the DailyFoodLog.
      */
     public DailyFoodLog(LinkedHashMap<Food, Double> foods,
                         LinkedHashMap<Food, ArrayList<Integer>> ratings, LocalDate localDate) {
@@ -45,8 +48,8 @@ public class DailyFoodLog {
 
     /**
      * Returns a new DailyFoodLog with same data fields, but different date.
-     * @param date date you wish to set the log to.
-     * @return a replica of this DailyFoodLog, with different date.
+     * @param date Date you wish to set the log to.
+     * @return Replica of this DailyFoodLog, with different date.
      */
     public DailyFoodLog setDate(LocalDate date) {
         return new DailyFoodLog(copyFoods(), copyRatings(), date);
@@ -54,16 +57,19 @@ public class DailyFoodLog {
 
     /**
      * Adds food into foods LinkedHashMap.
-     * @param food food that has been consumed.
-     * @param quantity number of portions of food that has been consumed.
-     * @return an updated DailyFoodLog object.
+     * @param food Food that has been consumed.
+     * @param quantity Number of portions of food that has been consumed.
+     * @return Updated DailyFoodLog object.
      */
     public DailyFoodLog consume(Food food, double quantity) {
         return new DailyFoodLog(this.add(food, quantity), copyRatings(), localDate);
     }
 
     /**
-     * Helper method for consume.
+     * Acts as a helper method to consume method.
+     * @param foodToAdd Food object to be added to LinkedHashMap as key.
+     * @param quantity Double representing portion, to be stored as value in LinkedHashMap.
+     * @return LinkedHashMap containing the Food and portion as key-value pairs.
      */
     private LinkedHashMap<Food, Double> add(Food foodToAdd, double quantity) {
         LinkedHashMap<Food, Double> foods = copyFoods();
@@ -78,16 +84,19 @@ public class DailyFoodLog {
 
     /**
      * Decreases portion of food consumed in the key value pair, or totally remove the entry.
-     * @param food food that is to be removed.
-     * @param quantity number of portions of food that should be removed.
-     * @return an updated DailyFoodLog object.
+     * @param food Food that is to be removed.
+     * @param quantity Number of portions of food that should be removed.
+     * @return Updated DailyFoodLog object.
      */
     public DailyFoodLog vomit(Food food, OptionalDouble quantity) {
         return new DailyFoodLog(this.remove(food, quantity), copyRatings(), localDate);
     }
 
     /**
-     * Helper method for vomit.
+     * Acts as a helper method to vomit method.
+     * @param foodToRemove Food object to be possibly removed LinkedHashMap's key.
+     * @param quantity Double representing portion to reduce by.
+     * @return LinkedHashMap containing the Food and portion as key-value pairs.
      */
     private LinkedHashMap<Food, Double> remove(Food foodToRemove, OptionalDouble quantity) {
         LinkedHashMap<Food, Double> foods = copyFoods();
@@ -105,8 +114,8 @@ public class DailyFoodLog {
 
     /**
      * Replaces food in current DailyFoodLog with updated food.
-     * @param newFood food with updated attribute(s).
-     * @return an updated DailyFoodLog object.
+     * @param newFood Food with updated attribute(s).
+     * @return Updated DailyFoodLog object.
      */
     public DailyFoodLog updateFoodWithSameName(Food newFood) {
         LinkedHashMap<Food, Double> foods = copyFoods();
@@ -128,8 +137,8 @@ public class DailyFoodLog {
     }
 
     /**
-     * An accessor method to get the set of food objects in the data structure.
-     * @return set of food objects
+     * Acts as an accessor method to get the set of food objects in the data structure.
+     * @return Set of food objects
      */
     public Set<Food> getFoods() {
         LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();
@@ -141,8 +150,8 @@ public class DailyFoodLog {
 
     /**
      * Retrieves a Food object by its position in the LinkedHashMap.
-     * @param index zero based index of the food object.
-     * @return a food object within an optional wrapper.
+     * @param index Zero based index of the food object.
+     * @return Food object within an optional wrapper.
      * @throws IndexOutOfBoundsException
      */
     public Optional<Food> getFoodByIndex(int index) throws IndexOutOfBoundsException {
@@ -152,9 +161,9 @@ public class DailyFoodLog {
     }
 
     /**
-     * An accessor method to get the portion consumed of a given food object.
-     * @param food food consumed
-     * @return portion of food consumed in DailyFoodLog
+     * Acts as an accessor method to get the portion consumed of a given food object.
+     * @param food Food consumed
+     * @return Portion of food consumed in DailyFoodLog
      */
     public double getPortion(Food food) {
         if (!foods.containsKey(food)) {
@@ -165,8 +174,8 @@ public class DailyFoodLog {
 
     /**
      * Adds an Integer into the list of ratings related to a Food object.
-     * @param food food that receives rating.
-     * @param rating rating given to the food.
+     * @param food Food that receives rating.
+     * @param rating Rating given to the food.
      * @return DailyFoodLog object with rating added.
      */
     public DailyFoodLog addRating(Food food, int rating) {
@@ -176,16 +185,25 @@ public class DailyFoodLog {
     }
 
     /**
-     * An accessor method to get rating that is to be displayed for a given food object.
-     * @param food food that rating is for.
-     * @return a double representing the rating to display.
+     * Acts as accessor method to get rating that is to be displayed for a given food object.
+     * @param food Food that rating is for.
+     * @return Double representing the rating to display.
      */
     public double getRating(Food food) {
         return getMeanRating(food);
     }
 
     /**
-     * Helper method that returns a rating representing the list of ratings.
+     * Acts as a helper method to consume method.
+     * @param foodToAdd Food object to be added to LinkedHashMap as key.
+     * @param quantity Double representing portion, to be stored as value in LinkedHashMap.
+     * @return LinkedHashMap containing the Food and portion as key-value pairs.
+     */
+
+    /**
+     * Acts as a helper method to calculate mean rating for getRating method.
+     * @param food Food that you want rating of.
+     * @return Double which is the average rating of food, calculated based on it's ratings array.
      */
     private double getMeanRating(Food food) {
         OptionalDouble average = ratings.get(food).stream().mapToInt(i -> i).average();
@@ -218,16 +236,10 @@ public class DailyFoodLog {
         return foods;
     }
 
-    /**
-     * Returns a copy of this DailyFoodLog.
-     */
     public DailyFoodLog copy() {
         return new DailyFoodLog(copyFoods(), copyRatings(), localDate);
     }
 
-    /**
-     * Returns true if both DailyFoodLog have the same name and data fields.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {
