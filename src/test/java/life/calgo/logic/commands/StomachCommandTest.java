@@ -1,25 +1,12 @@
 package life.calgo.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import static life.calgo.logic.commands.CommandTestUtil.assertCommandFailure;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.ObservableList;
-import java.time.LocalDate;
-
-import life.calgo.commons.core.GuiSettings;
 import life.calgo.model.ConsumptionRecord;
-import life.calgo.model.FoodRecord;
 import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
-import life.calgo.model.ReadOnlyConsumptionRecord;
-import life.calgo.model.ReadOnlyFoodRecord;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.testutil.Assert;
