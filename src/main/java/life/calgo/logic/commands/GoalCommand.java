@@ -25,7 +25,7 @@ public class GoalCommand extends Command {
             + "daily caloric goal.";
 
     public static final String MESSAGE_WARNING = "That is a really low goal to set. Warning: You may suffer from"
-            + " malnutrition. Don't worry! Calgo is here to help you build healthier eating habits.";
+            + " malnutrition." + "\n" + "Don't worry! Calgo is here to help you build healthier eating habits.";
 
     private final int numCaloriesDaily;
 

@@ -10,23 +10,23 @@ import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.food.Food;
 
 /**
- * Command to decrement quantity of consumption of a food item from a given day
+ * Command to decrement quantity of consumption of a food item from a given day.
  */
 public class VomitCommand extends Command {
 
     public static final String COMMAND_WORD = "vomit";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the food record. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Removes a certain amount of food consumed. "
             + "Parameters: "
-            + CliSyntax.PREFIX_NAME + "NAME "
+            + CliSyntax.PREFIX_POSITION + "POSITION "
             + CliSyntax.PREFIX_DATE + "DATE "
             + CliSyntax.PREFIX_PORTION + "PORTION\n"
             + "Example: " + COMMAND_WORD + " "
-            + CliSyntax.PREFIX_NAME + "Mango "
+            + CliSyntax.PREFIX_POSITION + "1 "
             + CliSyntax.PREFIX_DATE + "2019-01-03 "
             + CliSyntax.PREFIX_PORTION + "2";
 
-    public static final String MESSAGE_SUCCESS = "Successfully throw up %1$s"; // %d portion of %s was consumed on %s
+    private static final String MESSAGE_SUCCESS = "Successfully throw up %1$s";
 
     private final DailyFoodLog foodLog;
     private final Food foodVomited;
@@ -44,6 +44,5 @@ public class VomitCommand extends Command {
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 foodLog.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodVomited));
-        // dayVomited.getPortion(foodVomited), foodVomited, dayVomited.getLocalDate()));
     }
 }

@@ -11,14 +11,15 @@ import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-
 import life.calgo.commons.core.GuiSettings;
 import life.calgo.commons.core.LogsCenter;
+import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
+import life.calgo.storage.ReportGenerator;
 
 /**
  * Represents the in-memory model of the food record data.
@@ -27,33 +28,37 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final FoodRecord foodRecord;
+    private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
-    private final FilteredList<ConsumedFood> currentFilteredDailyList;
+    private final FilteredList<DisplayFood> currentFilteredDailyList;
     private DailyGoal targetDailyCalories;
 
     /**
      * Initializes a ModelManager with the given foodRecord and userPrefs.
      */
-    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyUserPrefs userPrefs, ReadOnlyGoal readOnlyGoal) {
+    public ModelManager(ReadOnlyFoodRecord readOnlyFoodRecord, ReadOnlyConsumptionRecord readOnlyConsumptionRecord,
+                        ReadOnlyUserPrefs userPrefs, ReadOnlyGoal readOnlyGoal) {
         super();
-        requireAllNonNull(readOnlyFoodRecord, userPrefs, readOnlyGoal);
+        requireAllNonNull(readOnlyFoodRecord, readOnlyConsumptionRecord, userPrefs, readOnlyGoal);
 
         logger.fine("Initializing with food record: " + readOnlyFoodRecord + " and user prefs " + userPrefs
                 + " and goal " + readOnlyGoal);
 
         this.foodRecord = new FoodRecord(readOnlyFoodRecord);
+        this.consumptionRecord = new ConsumptionRecord(readOnlyConsumptionRecord);
         this.userPrefs = new UserPrefs(userPrefs);
         this.targetDailyCalories = new DailyGoal(readOnlyGoal);
         filteredFoods = new FilteredList<>(this.foodRecord.getFoodList());
-        currentFilteredDailyList = new FilteredList<>(this.foodRecord.getDailyList());
+        currentFilteredDailyList = new FilteredList<>(this.consumptionRecord.getDailyList());
+        refreshCurrentFilteredDailyList();
     }
 
     public ModelManager() {
-        this(new FoodRecord(), new UserPrefs(), new DailyGoal());
+        this(new FoodRecord(), new ConsumptionRecord(), new UserPrefs(), new DailyGoal());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // UserPref-related methods
 
     @Override
     public ReadOnlyUserPrefs getUserPrefs() {
@@ -88,11 +93,90 @@ public class ModelManager implements Model {
         userPrefs.setFoodRecordFilePath(foodRecordFilePath);
     }
 
-    //=========== FoodRecord ================================================================================
+    // Day Model-related methods
+
+    @Override
+    public Optional<Food> getFoodByName(Name name) {
+        return foodRecord.getFoodByName(name);
+    }
+
+    @Override
+    public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
+        return consumptionRecord.hasLogWithSameDate(foodLog);
+    }
+
+    @Override
+    public boolean hasLogWithSameDate(LocalDate date) {
+        return consumptionRecord.hasLogWithSameDate(new DailyFoodLog().setDate(date));
+    }
+
+    @Override
+    public void addLog(DailyFoodLog foodLog) {
+        consumptionRecord.addLog(foodLog);
+    }
+
+    @Override
+    public void updateLog(DailyFoodLog logToUpdate) {
+        consumptionRecord.updateLog(logToUpdate);
+    }
+
+    @Override
+    public DailyFoodLog getLogByDate(LocalDate localDate) {
+        return consumptionRecord.getLogByDate(localDate);
+    }
+
+    public double getRemainingCalories(LocalDate date) {
+        DailyGoal goal = getDailyGoal();
+        DailyFoodLog todayFoodLog = getLogByDate(date);
+        if (goal == null) {
+            return 0.0;
+        }
+        // user did not consume anything today
+        if (todayFoodLog == null) {
+            return goal.getTargetDailyCalories();
+        }
+
+        ReportGenerator reportGenerator = new ReportGenerator(date, goal, getConsumptionRecord());
+        reportGenerator.generateReport();
+        return reportGenerator.calculateRemainingCalories();
+    }
+
+    /**
+     * Updates ModelManager's DailyGoal to the new targetDailyCalories
+     * @param targetDailyCalories the new targeted number of calories to consume each day by user
+     * @return the updated DailyGoal object
+     */
+    public DailyGoal updateDailyGoal(int targetDailyCalories) {
+        if (isGoalMade()) {
+            this.targetDailyCalories = this.targetDailyCalories.updateDailyGoal(targetDailyCalories);
+        } else {
+            this.targetDailyCalories = new DailyGoal(targetDailyCalories);
+        }
+        return this.targetDailyCalories;
+    }
+
+    /**
+     * Checks if goal already exists
+     * @return true if there is already some goal
+     */
+    public boolean isGoalMade() {
+        return this.targetDailyCalories != null;
+    }
+
+    public DailyGoal getDailyGoal() {
+        return this.targetDailyCalories;
+    }
+
+    // FoodRecord-related methods
 
     @Override
     public ReadOnlyFoodRecord getFoodRecord() {
         return foodRecord;
+    }
+
+    @Override
+    public ReadOnlyConsumptionRecord getConsumptionRecord() {
+        return consumptionRecord;
     }
 
     @Override
@@ -129,65 +213,47 @@ public class ModelManager implements Model {
         foodRecord.setFood(target, editedFood);
     }
 
-    //=========== Day Model classes================================================================================
+    // Filtered Consumption Record Accessors
 
+    /**
+     * Returns an unmodifiable view of the list of {@code DisplayFood}.
+     */
     @Override
-    public Optional<Food> getFoodByName(Name name) {
-        return foodRecord.getFoodByName(name);
+    public ObservableList<DisplayFood> getCurrentFilteredDailyList() {
+        return currentFilteredDailyList;
     }
 
     @Override
-    public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
-        return foodRecord.hasLogWithSameDate(foodLog);
-    }
-
-    @Override
-    public boolean hasLogWithSameDate(LocalDate date) {
-        return foodRecord.hasLogWithSameDate(new DailyFoodLog().setDate(date));
-    }
-
-    @Override
-    public void addLog(DailyFoodLog foodLog) {
-        foodRecord.addLog(foodLog);
-    }
-
-    @Override
-    public void updateLog(DailyFoodLog logToUpdate) {
-        foodRecord.updateLog(logToUpdate);
-    }
-
-    @Override
-    public DailyFoodLog getLogByDate(LocalDate localDate) {
-        return foodRecord.getLogByDate(localDate);
+    public void updateCurrentFilteredDailyList(Predicate<DisplayFood> predicate, LocalDate date)
+            throws CommandException {
+        requireNonNull(predicate);
+        consumptionRecord.setDailyListDate(date);
+        currentFilteredDailyList.setPredicate(predicate);
     }
 
     /**
-     * Updates ModelManager's DailyGoal to the new targetDailyCalories
-     * @param targetDailyCalories the new targetted number of calories to consume each day by user
-     * @return the updated DailyGoal object
+     * Updates existing DisplayFood items having same name as {@code food} in consumption record for display.
+     * @param food food that has been updated.
      */
-    public DailyGoal updateDailyGoal(int targetDailyCalories) {
-        if (isGoalMade()) {
-            this.targetDailyCalories = this.targetDailyCalories.updateDailyGoal(targetDailyCalories);
-        } else {
-            this.targetDailyCalories = new DailyGoal(targetDailyCalories);
+    @Override
+    public void updateConsumedLists(Food food) {
+        requireNonNull(food);
+        consumptionRecord.updateConsumedLists(food);
+        refreshCurrentFilteredDailyList();
+    }
+
+    /**
+     * Causes FilteredList to be updated to reflect latest changes.
+     */
+    private void refreshCurrentFilteredDailyList() {
+        try {
+            updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());
+        } catch (Exception e) {
+            logger.warning("Error refreshing filtered list.");
         }
-        return this.targetDailyCalories;
     }
 
-    /**
-     * Checks if goal already exists
-     * @return true if there is already some goal
-     */
-    public boolean isGoalMade() {
-        return this.targetDailyCalories != null;
-    }
-
-    public DailyGoal getDailyGoal() {
-        return this.targetDailyCalories;
-    }
-
-    //=========== Filtered Food Record Accessors =============================================================
+    // Filtered Food Record Accessors
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
@@ -202,18 +268,6 @@ public class ModelManager implements Model {
     public void updateFilteredFoodRecord(Predicate<Food> predicate) {
         requireNonNull(predicate);
         filteredFoods.setPredicate(predicate);
-    }
-
-    @Override
-    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
-        return currentFilteredDailyList;
-    }
-
-    @Override
-    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) {
-        requireNonNull(predicate);
-        foodRecord.setDailyList(date);
-        currentFilteredDailyList.setPredicate(predicate);
     }
 
     @Override

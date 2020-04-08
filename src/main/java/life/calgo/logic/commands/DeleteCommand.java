@@ -8,7 +8,7 @@ import life.calgo.model.Model;
 import life.calgo.model.food.Food;
 
 /**
- * Deletes a food identified using its displayed index from the food record.
+ * Deletes a food with its name from the Food Record.
  */
 public class DeleteCommand extends Command {
 
@@ -17,10 +17,10 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the food identified by the name of the food in the displayed food record.\n"
             + "Parameters: " + CliSyntax.PREFIX_NAME + "NAME "
-            + "Example: " + COMMAND_WORD + " pizza";
+            + "Example: " + COMMAND_WORD + " n/pizza";
 
     public static final String MESSAGE_DELETE_FOOD_SUCCESS = "Deleted food: %1$s";
-    public static final String MESSAGE_FOOD_NOT_FOUND = "This food does not exist in the Food Records";
+    public static final String MESSAGE_FOOD_DOES_NOT_EXISTS_IN_RECORD = "This food does not exist in the Food Records";
 
 
     private final Food toDelete;
@@ -35,7 +35,7 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
 
         if (!model.hasFood(toDelete)) {
-            throw new CommandException(MESSAGE_FOOD_NOT_FOUND);
+            throw new CommandException(MESSAGE_FOOD_DOES_NOT_EXISTS_IN_RECORD);
         }
 
         Food foodToDelete = model.getExistingFood(toDelete);

@@ -105,7 +105,6 @@ public class UniqueFoodList implements Iterable<Food> {
         Collections.sort(internalList);
     }
 
-    // used in Update command
     public Optional<Food> getFoodByName(Name name) {
         for (Food food:internalList) {
             if (food.hasName(name)) {

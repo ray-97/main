@@ -34,9 +34,9 @@ public class FoodRecordParser {
     /**
      * Parses user input into command for execution.
      *
-     * @param userInput full user input string
-     * @return the command based on the user input
-     * @throws ParseException if the user input does not conform the expected format
+     * @param userInput full user input String.
+     * @return the command based on the user input.
+     * @throws ParseException if the user input does not conform the expected format.
      */
     public Command parseCommand(String userInput, Model model) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
@@ -85,7 +85,7 @@ public class FoodRecordParser {
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
+            return new HelpCommand(arguments);
 
         default:
             throw new ParseException(Messages.MESSAGE_UNKNOWN_COMMAND);

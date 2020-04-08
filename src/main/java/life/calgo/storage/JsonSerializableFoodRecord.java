@@ -15,6 +15,7 @@ import life.calgo.model.food.Food;
 
 /**
  * An Immutable FoodRecord that is serializable to JSON format.
+ * This contains a number of JsonAdaptedFood objects.
  */
 @JsonRootName(value = "foodrecord")
 class JsonSerializableFoodRecord {
@@ -34,14 +35,15 @@ class JsonSerializableFoodRecord {
     /**
      * Converts a given {@code ReadOnlyFoodRecord} into this class for Jackson use.
      *
-     * @param source future changes to this will not affect the created {@code JsonSerializableFoodRecord}.
+     * @param source the source FoodRecord. Note that future changes to this will not affect
+     *               the created {@code JsonSerializableFoodRecord}.
      */
     public JsonSerializableFoodRecord(ReadOnlyFoodRecord source) {
         foods.addAll(source.getFoodList().stream().map(JsonAdaptedFood::new).collect(Collectors.toList()));
     }
 
     /**
-     * Converts this food record into the model's {@code FoodRecord} object.
+     * Converts this JsonSerializableFoodRecord into the Model's {@code FoodRecord} object.
      *
      * @throws IllegalValueException if there were any data constraints violated.
      */

@@ -2,8 +2,6 @@ package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.List;
-
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
@@ -33,39 +31,48 @@ public class UpdateCommand extends Command {
             + CliSyntax.PREFIX_TAG + "Green "
             + CliSyntax.PREFIX_TAG + "Sweet";
 
-
-    public static final String MESSAGE_SUCCESS = "Updated all foods into Food Records %1$s";
-    public static final String MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS = "Updated existing food item in Food Record %1$s";
-
+    public static final String MESSAGE_SUCCESS = "Updated all foods into Food Records:\n%1$s";
+    public static final String MESSAGE_UPDATE_EXISTING_FOOD_SUCCESS =
+            "Updated existing food item in Food Record:\n%1$s";
+    public static final String MESSAGE_UPDATE_EXISTING_FOOD_SAME_VALUES_FAILED =
+        "The nutritional value that you have entered is exactly the same as %1$s in the FoodRecord!";
 
     private final Food toAdd;
 
     /**
-     * Creates an UpdateCommand to add the specified {@code Food}
+     * Creates an UpdateCommand to update the specified {@code Food}
      */
     public UpdateCommand(Food food) {
         requireNonNull(food);
         toAdd = food;
     }
 
-
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Food> lastShowFoodList = model.getFilteredFoodRecord();
-
-
         if (model.hasFood(toAdd)) {
             Food existingFood = model.getExistingFood(toAdd);
+            if (existingFood.equals(toAdd)) {
+                throw new CommandException(String.format(
+                        MESSAGE_UPDATE_EXISTING_FOOD_SAME_VALUES_FAILED, existingFood.getName().fullName));
+            }
             model.setFood(existingFood, toAdd);
+            model.updateConsumedLists(toAdd);
             model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
-
-            return new CommandResult(String.format(MESSAGE_EDITED_DUPLICATE_FOOD_SUCCESS, toAdd));
+            return new CommandResult(String.format(MESSAGE_UPDATE_EXISTING_FOOD_SUCCESS, toAdd));
         } else {
             model.addFood(toAdd);
+            model.updateConsumedLists(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         }
 
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UpdateCommand // instanceof handles nulls
+                && toAdd.equals(((UpdateCommand) other).toAdd));
     }
 
 }

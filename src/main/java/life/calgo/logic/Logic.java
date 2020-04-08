@@ -1,6 +1,7 @@
 package life.calgo.logic;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import javafx.collections.ObservableList;
 
@@ -10,7 +11,8 @@ import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.day.DailyGoal;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 
 /**
@@ -27,16 +29,32 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
+     * Returns a list of food objects with similar name.
+     * @param foodName The name of the food entered by user so far.
+     */
+    List<Food> getSimilarFood(String foodName);
+
+    /**
+     * Returns the daily caloric goal of the user.
+     */
+    DailyGoal getDailyGoal();
+
+    /**
+     * Returns remaining number of calories of the user for the goal.
+     */
+    double getRemainingCalories();
+
+    /**
      * Returns the FoodRecord.
      *
      * @see Model#getFoodRecord()
      */
     ReadOnlyFoodRecord getFoodRecord();
 
-    /** Returns an unmodifiable view of the filtered list of foods */
+    /** Returns an unmodifiable view of the filtered list of foods. */
     ObservableList<Food> getFilteredFoodRecord();
 
-    ObservableList<ConsumedFood> getFilteredDailyList();
+    ObservableList<DisplayFood> getFilteredDailyList();
 
     /**
      * Returns the user prefs' food record file path.

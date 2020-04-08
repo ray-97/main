@@ -9,7 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 
 import life.calgo.commons.core.LogsCenter;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 
 /**
  * Responsible for displaying food consumed in a given day.
@@ -20,9 +20,9 @@ public class DailyListPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(DailyListPanel.class);
 
     @FXML
-    private ListView<ConsumedFood> dailyListView;
+    private ListView<DisplayFood> dailyListView;
 
-    public DailyListPanel(ObservableList<ConsumedFood> dailyList) {
+    public DailyListPanel(ObservableList<DisplayFood> dailyList) {
         super(FXML);
         dailyListView.setItems(dailyList);
         dailyListView.setCellFactory(listView -> new DailyListPanel.DailyListViewCell());
@@ -31,16 +31,16 @@ public class DailyListPanel extends UiPart<Region> {
     /**
      * Responsible for containing the display of each food item consumed in the given day.
      */
-    class DailyListViewCell extends ListCell<ConsumedFood> {
+    class DailyListViewCell extends ListCell<DisplayFood> {
         @Override
-        protected void updateItem(ConsumedFood food, boolean empty) {
+        protected void updateItem(DisplayFood food, boolean empty) {
             super.updateItem(food, empty);
 
             if (empty || food == null) {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new ConsumedFoodCard(food, getIndex() + 1).getRoot());
+                setGraphic(new DisplayFoodCard(food, getIndex() + 1).getRoot());
             }
         }
     }

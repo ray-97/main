@@ -34,24 +34,42 @@ public class Name {
 
     /**
      * Returns true if a given string is a valid name.
+     *
+     * @param test the candidate Name for the Food.
+     * @return whether this String is suitable to create a Name.
      */
     public static boolean isValidName(String test) {
         return test.matches(VALIDATION_REGEX);
     }
 
-
+    /**
+     * Obtains the String representation of the Name.
+     *
+     * @return the String representation of the Name.
+     */
     @Override
     public String toString() {
         return fullName;
     }
 
+    /**
+     * Checks if the current Name can be considered equivalent to the other, based on identity and value.
+     *
+     * @param other the other Name to compare with.
+     * @return whether the current Name and the other can be considered equivalent.
+     */
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Name // instanceof handles nulls
-                && fullName.equals(((Name) other).fullName)); // state check
+        return other == this
+                || (other instanceof Name
+                && fullName.toLowerCase().equals(((Name) other).fullName.toLowerCase()));
     }
 
+    /**
+     * Provides hashcode for the current Name object.
+     *
+     * @return hashcode for the current Name object.
+     */
     @Override
     public int hashCode() {
         return fullName.hashCode();

@@ -11,7 +11,6 @@ import java.util.Arrays;
  */
 public class StringUtil {
 
-    // Used in find command
     /**
      * Returns true if the {@code sentence} contains the {@code word}.
      *   Ignores case, and a non-full word match also returns true.
@@ -27,13 +26,12 @@ public class StringUtil {
         requireNonNull(sentence);
         requireNonNull(word);
 
-        // we want to compare this processed word
         String preppedWord = word.trim();
         AppUtil.checkArgument(!preppedWord.isEmpty(), "Word parameter cannot be empty");
         AppUtil.checkArgument(preppedWord.split("\\s+").length == 1,
                 "Word parameter should be a single word");
 
-        // we want to compare with the words in this sentence
+        // we want to compare the keyword with the words in this sentence
         String preppedSentence = sentence;
         String[] wordsInPreppedSentence = preppedSentence.split("\\s+");
 
@@ -45,10 +43,10 @@ public class StringUtil {
     }
 
     /**
-     * Returns true if the String array contains at least one String containing the substring.
+     * Returns true if the String array contains at least one String containing the substring, regardless of casing.
      *
      * @param words the String array to search in.
-     * @param substringWord the substring to find in the Strings from the String array.
+     * @param substringWord the substring keyword to find if the Strings from the String array contain it.
      * @return whether the String array contains at least one String containing the substring.
      */
     private static boolean containsSubstringWord(String[] words, String substringWord) {
@@ -58,6 +56,28 @@ public class StringUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * Returns if the Food has the stated nutritional value.
+     * Nutritional value can be either Calorie, Protein, Carbohydrate, or Fat.
+     *
+     * @param origin the Food's nutritional value.
+     * @param query the stated nutritional value of the same type.
+     * @return whether the Food has the stated nutritional value.
+     */
+    public static boolean containsNutritionalValueEqualTo(String origin, String query) {
+        requireNonNull(origin);
+        requireNonNull(query);
+        String preppedQueryString = query.trim();
+        AppUtil.checkArgument(!preppedQueryString.isEmpty(), "Query parameter cannot be empty");
+        AppUtil.checkArgument(preppedQueryString.split("\\s+").length == 1,
+                "Your nutritional value query should be a single value");
+
+        int preppedQueryValue = Integer.parseInt(preppedQueryString);
+        int preppedOriginValue = Integer.parseInt(origin);
+
+        return (preppedOriginValue == preppedQueryValue);
     }
 
     /**

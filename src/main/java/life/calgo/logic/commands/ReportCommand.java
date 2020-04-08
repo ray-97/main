@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
-import life.calgo.model.day.DailyFoodLog;
+import life.calgo.model.ReadOnlyConsumptionRecord;
+import life.calgo.model.day.DailyGoal;
 import life.calgo.storage.ReportGenerator;
 
 /**
@@ -26,7 +27,7 @@ public class ReportCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_DATE + "2020-05-27";
 
-    public static final String MESSAGE_REPORT_SUCCESS = "Successfully generated a report in the /reports folder "
+    public static final String MESSAGE_REPORT_SUCCESS = "Successfully generated a report in the data/reports folder "
             + "for the following date: %tF" + ".";
 
     public static final String MESSAGE_REPORT_FAILURE = "Did not manage to generate report.";
@@ -43,8 +44,9 @@ public class ReportCommand extends Command {
         if (!model.hasLogWithSameDate(queryDate)) {
             throw new CommandException(MESSAGE_REPORT_FAILURE);
         }
-        DailyFoodLog queryLog = model.getLogByDate(this.queryDate);
-        ReportGenerator reportGenerator = new ReportGenerator(queryLog, model.getDailyGoal());
+        DailyGoal dailyGoal = model.getDailyGoal();
+        ReadOnlyConsumptionRecord consumptionRecord = model.getConsumptionRecord();
+        ReportGenerator reportGenerator = new ReportGenerator(queryDate, dailyGoal, consumptionRecord);
         boolean isGenerated = reportGenerator.generateReport();
         if (!isGenerated) {
             throw new CommandException(MESSAGE_REPORT_FAILURE);

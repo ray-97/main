@@ -38,6 +38,8 @@ Package "Overall Architecture Diagram" {
     Hidden .down.> Commons
 
     Storage .right.>File
+    Storage -down->Model
+
     User --> UI
     Main --> Hidden
 }

@@ -1,0 +1,16 @@
+@startuml
+
+start
+:User executes update command;
+
+'Since the beta syntax does not support placing the condition outside the
+'diamond we place it as the true branch instead.
+
+if () then ([food item already exists in Food Record])
+    :Get existing Food item;
+    :Override Food Item;
+else ([else])
+endif
+:Store Food item into Food Record;
+stop
+@enduml
