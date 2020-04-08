@@ -11,7 +11,7 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import life.calgo.logic.commands.exceptions.CommandException;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 
 /**
@@ -20,8 +20,8 @@ import life.calgo.model.food.Food;
 public class UniqueDateToLogMap {
 
     private final HashMap<LocalDate, DailyFoodLog> internalMap = new HashMap<>();
-    private final ObservableList<ConsumedFood> internalList = FXCollections.observableArrayList();
-    private final ObservableList<ConsumedFood> internalUnmodifiableList =
+    private final ObservableList<DisplayFood> internalList = FXCollections.observableArrayList();
+    private final ObservableList<DisplayFood> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
     public DailyFoodLog getLogByDate(LocalDate date) {
@@ -84,7 +84,7 @@ public class UniqueDateToLogMap {
     }
 
     /**
-     * Sets internalList to reflect a DailyFoodLog with ConsumedFood items.
+     * Sets internalList to reflect a DailyFoodLog with DisplayFood items.
      * @param date date of DailyFoodLog be reflected.
      * @throws CommandException if user requests to display an empty DailyFoodLog.
      */
@@ -99,7 +99,7 @@ public class UniqueDateToLogMap {
                 DailyFoodLog foodLog = internalMap.get(date);
                 double portion = foodLog.getPortion(food);
                 double rating = foodLog.getRating(food);
-                internalList.add(new ConsumedFood(food, portion, rating, date));
+                internalList.add(new DisplayFood(food, portion, rating, date));
             }
         }
     }
@@ -107,7 +107,7 @@ public class UniqueDateToLogMap {
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<ConsumedFood> asUnmodifiableDailyList() {
+    public ObservableList<DisplayFood> asUnmodifiableDailyList() {
         return internalUnmodifiableList;
     }
 
