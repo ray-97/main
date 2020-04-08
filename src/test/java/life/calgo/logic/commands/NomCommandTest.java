@@ -20,7 +20,6 @@ import life.calgo.model.Model;
 import life.calgo.model.ModelManager;
 import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.ReadOnlyFoodRecord;
-import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
