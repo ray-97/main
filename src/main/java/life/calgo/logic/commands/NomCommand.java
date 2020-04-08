@@ -26,7 +26,7 @@ public class NomCommand extends Command {
             + CliSyntax.PREFIX_DATE + "2020-03-14 "
             + CliSyntax.PREFIX_PORTION + "2";
 
-    private static final String MESSAGE_SUCCESS = "Successfully consumed %1$s";
+    public static final String MESSAGE_SUCCESS = "Successfully consumed %1$s";
 
     private final DailyFoodLog foodLog;
     private final Food foodConsumed;

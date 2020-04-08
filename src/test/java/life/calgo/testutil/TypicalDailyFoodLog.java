@@ -22,6 +22,11 @@ public class TypicalDailyFoodLog {
         return APPLE_ONLY_FOOD_LOG;
     }
 
+    public static DailyFoodLog getBananaOnlyLog() {
+        DailyFoodLog BANANA_ONLY_FOOD_LOG = new DailyFoodLog().consume(TypicalFoodItems.BANANA ,1);
+        return BANANA_ONLY_FOOD_LOG;
+    }
+
     /**
      * Helper method to create food to portion map needed to build DailyFoodLog.
      */
