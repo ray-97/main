@@ -239,7 +239,7 @@ while ensuring it meets user's daily calorie goal. (Coming in v1.4)
 
 Example:
 
-* report `27-03-2020` +
+* `report d/27-03-2020` +
 This generates a txt file containing the above-mentioned insights made on the consumption of  Food by the user, on 27th of March 2020.
 
 // todo: add Screenshot of report
@@ -258,7 +258,17 @@ Format: `list`
 
 === Setting a daily `Calorie` target : `goal`
 
-This goal will be used to provide helpful insights for users. +
+What is the point of tracking your meals if you do not have an objective benchmark?
+
+This command will help you to set a numerical goal for yourself, which is essentially the number of calories you want
+to consume each day. Note that this goal must be a positive whole number.
+
+Your goal will also be used to provide helpful insights regarding your consumption patterns. +
+
+The range of acceptable values are: +
+
+*  Minimum acceptable value: 1 +
+* Maximum acceptable value: 2147483647
 
 Format: `goal GOAL`
 
@@ -336,6 +346,6 @@ eg. `vomit num/chicken d/2020-03-04 portion/3` *OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
 * *goal* : `goal GOAL` +
 e.g `goal 2000`
-* *Report* : `report Date in YYYY-MM-DD`
-eg. `report 2020-03-27`
+* *Report* : `report d/DATE` (in YYYY-MM-DD) +
+eg. `report d/2020-03-27`
 * *Help* : `help`

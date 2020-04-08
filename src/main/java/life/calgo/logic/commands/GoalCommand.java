@@ -18,14 +18,19 @@ public class GoalCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Successfully updated your daily caloric goal to %1$d.";
 
-    public static final String MESSAGE_FAILURE_TYPE = "Please key in a non-zero whole number for your "
-            + "daily caloric goal.";
-
-    public static final String MESSAGE_FAILURE_NEGATIVE = "Please key in a positive whole number for your "
-            + "daily caloric goal.";
+    public static final String MESSAGE_FAILURE = "Please key in a whole number that is at least %d calorie and"
+        + " at most %d calories.";
 
     public static final String MESSAGE_WARNING = "That is a really low goal to set. Warning: You may suffer from"
-            + " malnutrition." + "\n" + "Don't worry! Calgo is here to help you build healthier eating habits.";
+            + " malnutrition." + "\n"
+            + "We'll accept this now because Calgo will help you to eventually reach the minimum daily calorie count of"
+            + " %d.";
+
+    public static final int MINIMUM_HEALTHY_CALORIES = 1200;
+
+    public static final int MINIMUM_ACCEPTABLE_CALORIES = 1;
+
+    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 2147483647;
 
     private final int numCaloriesDaily;
 
@@ -37,8 +42,8 @@ public class GoalCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateDailyGoal(this.numCaloriesDaily);
-        if (this.numCaloriesDaily <= 1000) {
-            return new CommandResult(MESSAGE_WARNING);
+        if (this.numCaloriesDaily < MINIMUM_HEALTHY_CALORIES) {
+            return new CommandResult(String.format(MESSAGE_WARNING, MINIMUM_HEALTHY_CALORIES));
         }
         return new CommandResult(String.format(MESSAGE_SUCCESS, numCaloriesDaily));
     }
