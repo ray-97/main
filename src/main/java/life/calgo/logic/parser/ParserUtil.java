@@ -37,7 +37,7 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index should be a positive number.";
     public static final String MESSAGE_INVALID_POSITION = "Position should be a positive integer!";
     public static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
-    public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be at most 10 characters.";
+    public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be at most 5 characters.";
 
     private static final int VALIDATION_LENGTH = 5;
     private static final int INT_INVALID_RATING = -1;
