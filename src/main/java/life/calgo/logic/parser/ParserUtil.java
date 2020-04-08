@@ -39,10 +39,12 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
     public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be at most 10 characters.";
 
-    private static final int VALIDATION_LENGTH = 10;
+    private static final int VALIDATION_LENGTH = 5;
     private static final int INT_INVALID_RATING = -1;
     private static final int INT_MINIMUM_NATURAL_NUMBER = 0;
     private static final int INT_MAXIMUM_RATING = 10;
+    private static final int NUTRITIONAL_VALUE_MAXIMUM_DIGITS = 5; // human diets do not exceed 5 digits in calories
+    // Protein, Carbohydrate, Fat will hence also never exceed 5 digits as each gram of these gives >1 calorie
 
     /**
      * Acts as helper method to check if input length is valid.
@@ -212,12 +214,19 @@ public class ParserUtil {
      * @throws ParseException If the given {@code calorie} is invalid.
      */
     public static Calorie parseCalorie(String calorie) throws ParseException {
+
         requireNonNull(calorie);
         String trimmedCalorie = calorie.trim();
-        if (!Calorie.isValidCalorie(trimmedCalorie)) {
+
+        boolean isInvalidCalorie = !Calorie.isValidCalorie(trimmedCalorie);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedCalorie);
+        if (isInvalidCalorie || hasUnacceptableStringLength) {
             throw new ParseException(Calorie.MESSAGE_CONSTRAINTS);
         }
-        return new Calorie(trimmedCalorie);
+
+        String processedCalorieValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedCalorie);
+        return new Calorie(processedCalorieValueString);
+
     }
 
     /**
@@ -229,10 +238,15 @@ public class ParserUtil {
     public static Protein parseProtein(String protein) throws ParseException {
         requireNonNull(protein);
         String trimmedProtein = protein.trim();
-        if (!Protein.isValidProtein(trimmedProtein)) {
+
+        boolean isInvalidProtein = !Protein.isValidProtein(trimmedProtein);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedProtein);
+        if (isInvalidProtein || hasUnacceptableStringLength) {
             throw new ParseException(Protein.MESSAGE_CONSTRAINTS);
         }
-        return new Protein(trimmedProtein);
+
+        String processedProteinValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedProtein);
+        return new Protein(processedProteinValueString);
     }
 
     /**
@@ -244,10 +258,15 @@ public class ParserUtil {
     public static Carbohydrate parseCarbohydrate(String carbohydrate) throws ParseException {
         requireNonNull(carbohydrate);
         String trimmedCarbohydrate = carbohydrate.trim();
-        if (!Fat.isValidFat(trimmedCarbohydrate)) {
+
+        boolean isInvalidCarbohydrate = !Carbohydrate.isValidCarbohydrate(trimmedCarbohydrate);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedCarbohydrate);
+        if (isInvalidCarbohydrate || hasUnacceptableStringLength) {
             throw new ParseException(Carbohydrate.MESSAGE_CONSTRAINTS);
         }
-        return new Carbohydrate(trimmedCarbohydrate);
+
+        String processedCarbohydrateValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedCarbohydrate);
+        return new Carbohydrate(processedCarbohydrateValueString);
     }
 
     /**
@@ -259,10 +278,15 @@ public class ParserUtil {
     public static Fat parseFat(String fat) throws ParseException {
         requireNonNull(fat);
         String trimmedFat = fat.trim();
-        if (!Fat.isValidFat(trimmedFat)) {
+
+        boolean isInvalidFat = !Fat.isValidFat(trimmedFat);
+        boolean hasUnacceptableStringLength = !ParserUtil.hasAcceptableLengthNutritionalValue(trimmedFat);
+        if (isInvalidFat || hasUnacceptableStringLength) {
             throw new ParseException(Fat.MESSAGE_CONSTRAINTS);
         }
-        return new Fat(trimmedFat);
+
+        String processedFatValueString = ParserUtil.removeLeadingZerosFromIntegerString(trimmedFat);
+        return new Fat(processedFatValueString);
     }
 
     /**
@@ -307,4 +331,25 @@ public class ParserUtil {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
+    /**
+     * Removes leading zeros from a source String which represents an Integer.
+     *
+     * @param source the source String which represents an Integer and can only contain Integer values.
+     * @return the processed String which has leading zeros removed.
+     */
+    private static String removeLeadingZerosFromIntegerString(String source) {
+        int processedValue = Integer.parseInt(source);
+        String processedValueString = String.valueOf(processedValue);
+        return processedValueString;
+    }
+
+    /**
+     * Checks whether the given String is within the acceptable length for a nutritional value.
+     *
+     * @param value the String representing the nutritional value we want to check.
+     * @return whether the given String representing a nutritional value can possibly be valid.
+     */
+    private static boolean hasAcceptableLengthNutritionalValue(String value) {
+        return (value.length() <= NUTRITIONAL_VALUE_MAXIMUM_DIGITS);
+    }
 }

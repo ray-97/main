@@ -98,7 +98,7 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_invalidArguments_returnException() {
+    public void parse_invalidArguments_returnsException() {
 
         // more than 1 Prefix of same type
         CommandParserTestUtil.assertParseFailure(parser, "find n/cake n/1",
