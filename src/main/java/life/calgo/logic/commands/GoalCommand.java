@@ -18,11 +18,8 @@ public class GoalCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Successfully updated your daily caloric goal to %1$d.";
 
-    public static final String MESSAGE_FAILURE_TYPE = "Please key in a non-zero whole number for your "
-            + "daily caloric goal.";
-
-    public static final String MESSAGE_FAILURE_NEGATIVE = "Please key in a positive whole number for your "
-            + "daily caloric goal.";
+    public static final String MESSAGE_FAILURE = "Please key in a whole number that is at least %d calorie and"
+        + " at most %d calories.";
 
     public static final String MESSAGE_WARNING = "That is a really low goal to set. Warning: You may suffer from"
             + " malnutrition." + "\n"
@@ -30,6 +27,10 @@ public class GoalCommand extends Command {
             + " %d.";
 
     public static final int MINIMUM_HEALTHY_CALORIES = 1200;
+
+    public static final int MINIMUM_ACCEPTABLE_CALORIES = 1;
+
+    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 2147483647;
 
     private final int numCaloriesDaily;
 

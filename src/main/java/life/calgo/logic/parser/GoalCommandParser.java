@@ -21,15 +21,13 @@ public class GoalCommandParser implements Parser<GoalCommand> {
                     String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, GoalCommand.MESSAGE_USAGE)
             );
         }
-        int targetCalories = 0;
-        try {
-            targetCalories = Integer.parseInt(splitArgs[1]);
-        } catch (NumberFormatException e) {
-            throw new ParseException(GoalCommand.MESSAGE_FAILURE_TYPE);
+        String goalArg = splitArgs[1];
+        if (!ParserUtil.isInteger(goalArg)) {
+            throw new ParseException(String.format(GoalCommand.MESSAGE_FAILURE, GoalCommand.MINIMUM_ACCEPTABLE_CALORIES,
+                    GoalCommand.MAXIMUM_ACCEPTABLE_CALORIES));
         }
-        if (targetCalories <= 0) {
-            throw new ParseException(GoalCommand.MESSAGE_FAILURE_NEGATIVE);
-        }
+        // at this breakpoint, we know goalArg is an integer
+        int targetCalories = Integer.parseInt(goalArg);
 
         return new GoalCommand(targetCalories);
     }
