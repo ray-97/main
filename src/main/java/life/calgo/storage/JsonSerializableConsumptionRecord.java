@@ -34,7 +34,7 @@ public class JsonSerializableConsumptionRecord {
     /**
      * Converts a given {@code ReadOnlyConsumptionRecord} into this class for Jackson use.
      *
-     * @param source future changes to this will not affect the created {@code JsonSerializableConsumptionRecord}.
+     * @param source Future changes to this will not affect the created {@code JsonSerializableConsumptionRecord}.
      */
     public JsonSerializableConsumptionRecord(ReadOnlyConsumptionRecord source) {
         logs.addAll(source.getDailyFoodLogs().stream().map(JsonAdaptedDailyFoodLog::new).collect(Collectors.toList()));
@@ -43,7 +43,7 @@ public class JsonSerializableConsumptionRecord {
     /**
      * Converts this consumption record into the model's {@code ConsumptionRecord} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated.
+     * @throws IllegalValueException If there were any data constraints violated.
      */
     public ConsumptionRecord toModelType() throws IllegalValueException {
         ConsumptionRecord consumptionRecord = new ConsumptionRecord();
