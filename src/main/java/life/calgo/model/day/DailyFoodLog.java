@@ -29,7 +29,10 @@ public class DailyFoodLog {
     }
 
     /**
-     * Every field must be present and not null.
+     *
+     * @param foods
+     * @param ratings
+     * @param localDate
      */
     public DailyFoodLog(LinkedHashMap<Food, Double> foods,
                         LinkedHashMap<Food, ArrayList<Integer>> ratings, LocalDate localDate) {
@@ -128,7 +131,7 @@ public class DailyFoodLog {
     }
 
     /**
-     * An accessor method to get the set of food objects in the data structure.
+     * Acts as an accessor method to get the set of food objects in the data structure.
      * @return set of food objects
      */
     public Set<Food> getFoods() {
@@ -152,7 +155,7 @@ public class DailyFoodLog {
     }
 
     /**
-     * An accessor method to get the portion consumed of a given food object.
+     * Acts as an accessor method to get the portion consumed of a given food object.
      * @param food food consumed
      * @return portion of food consumed in DailyFoodLog
      */
@@ -176,7 +179,7 @@ public class DailyFoodLog {
     }
 
     /**
-     * An accessor method to get rating that is to be displayed for a given food object.
+     * Acts as accessor method to get rating that is to be displayed for a given food object.
      * @param food food that rating is for.
      * @return a double representing the rating to display.
      */
@@ -218,16 +221,10 @@ public class DailyFoodLog {
         return foods;
     }
 
-    /**
-     * Returns a copy of this DailyFoodLog.
-     */
     public DailyFoodLog copy() {
         return new DailyFoodLog(copyFoods(), copyRatings(), localDate);
     }
 
-    /**
-     * Returns true if both DailyFoodLog have the same name and data fields.
-     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

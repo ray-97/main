@@ -26,8 +26,8 @@ import life.calgo.model.tag.Tag;
  */
 public class ParserUtil {
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
+    public static final String DATE_PATTERN = "yyyy-MM-dd";
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
     public static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
@@ -37,13 +37,19 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index should be a positive number.";
     public static final String MESSAGE_INVALID_POSITION = "Position should be a positive integer!";
     public static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
-    public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be under 10 characters.";
+    public static final String MESSAGE_PORTION_LENGTH = "Length of portion should be at most 10 characters.";
 
     private static final int VALIDATION_LENGTH = 10;
     private static final int INT_INVALID_RATING = -1;
     private static final int INT_MINIMUM_NATURAL_NUMBER = 0;
     private static final int INT_MAXIMUM_RATING = 10;
 
+    /**
+     * Acts as helper method to check if input length is valid.
+     * @param input String representing input.
+     * @param message Message to display if check fails.
+     * @throws ParseException If input length exceeds validation length.
+     */
     public static void inputLengthValidation(String input, String message) throws ParseException {
         if (input.length() > VALIDATION_LENGTH) {
             throw new ParseException(message);
@@ -53,8 +59,8 @@ public class ParserUtil {
     /**
      * Returns true if given String can be parsed as a number.
      *
-     * @param strNum a String argument to be parsed as a number.
-     * @return true if the input can be parsed as a number.
+     * @param strNum String argument to be parsed as a number.
+     * @return True if the input can be parsed as a number.
      */
     public static boolean isNumeric(String strNum) {
         if (strNum == null) {
@@ -71,8 +77,8 @@ public class ParserUtil {
     /**
      * Returns true if given String can be parsed as an Integer.
      *
-     * @param strNum a String argument to be parsed as a Integer.
-     * @return true if the input can be parsed as a Integer.
+     * @param strNum String argument to be parsed as a Integer.
+     * @return True if the input can be parsed as a Integer.
      */
     public static boolean isInteger(String strNum) {
         if (strNum == null) {
@@ -90,7 +96,7 @@ public class ParserUtil {
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     * @throws ParseException If the specified index is invalid (not non-zero unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
@@ -119,9 +125,9 @@ public class ParserUtil {
     /**
      * Instantiate LocalDate object from date represented in String.
      *
-     * @param date date in String representation.
-     * @return LocalDate object with date equivalent to that expressed in argument.
-     * @throws ParseException if given String date is in invalid format.
+     * @param date Date in String representation.
+     * @return LocalDate Object with date equivalent to that expressed in argument.
+     * @throws ParseException If given String date is in invalid format.
      */
     public static LocalDate parseDate(String date) throws ParseException {
         requireNonNull(date);
@@ -143,9 +149,9 @@ public class ParserUtil {
     /**
      * Parses String portion as a double.
      *
-     * @param portion a String representation of portion argument.
-     * @return double representation of portion argument.
-     * @throws ParseException if given argument cannot be parsed as a number.
+     * @param portion String representation of portion argument.
+     * @return Double representation of portion argument.
+     * @throws ParseException If given argument cannot be parsed as a number.
      */
     public static double parsePortion(String portion) throws ParseException {
         requireNonNull(portion);
@@ -165,9 +171,9 @@ public class ParserUtil {
     /**
      * Parses a String rating as an int.
      *
-     * @param rating a String representation of rating argument.
-     * @return double representation of rating argument.
-     * @throws ParseException if given argument cannot be parsed as an int.
+     * @param rating String representation of rating argument.
+     * @return Double representation of rating argument.
+     * @throws ParseException If given argument cannot be parsed as an int.
      */
     public static int parseRating(String rating) throws ParseException {
         requireNonNull(rating);
@@ -184,6 +190,12 @@ public class ParserUtil {
         return parsedInt;
     }
 
+    /**
+     * Parses a {@code String name} into a {@code Name}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException If the given {@code Name} is invalid.
+     */
     public static Name parseName(String name) throws ParseException {
         requireNonNull(name);
         String trimmedName = name.trim();
@@ -197,7 +209,7 @@ public class ParserUtil {
      * Parses a {@code String calorie} into a {@code Calorie}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code calorie} is invalid.
+     * @throws ParseException If the given {@code calorie} is invalid.
      */
     public static Calorie parseCalorie(String calorie) throws ParseException {
         requireNonNull(calorie);
@@ -212,7 +224,7 @@ public class ParserUtil {
      * Parses a {@code String protein} into an {@code Protein}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code protein} is invalid.
+     * @throws ParseException If the given {@code protein} is invalid.
      */
     public static Protein parseProtein(String protein) throws ParseException {
         requireNonNull(protein);
@@ -227,7 +239,7 @@ public class ParserUtil {
      * Parses a {@code String carbohydrate} into an {@code Carbohydrate}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code carbohydrate} is invalid.
+     * @throws ParseException If the given {@code carbohydrate} is invalid.
      */
     public static Carbohydrate parseCarbohydrate(String carbohydrate) throws ParseException {
         requireNonNull(carbohydrate);
@@ -242,7 +254,7 @@ public class ParserUtil {
      * Parses a {@code String fat} into a {@code Fat}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code fat} is invalid.
+     * @throws ParseException If the given {@code fat} is invalid.
      */
     public static Fat parseFat(String fat) throws ParseException {
         requireNonNull(fat);
@@ -257,7 +269,7 @@ public class ParserUtil {
      * Parses a {@code String tag} into a {@code Tag}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code tag} is invalid.
+     * @throws ParseException If the given {@code tag} is invalid.
      */
     public static Tag parseTag(String tag) throws ParseException {
         requireNonNull(tag);
@@ -271,9 +283,9 @@ public class ParserUtil {
     /**
      * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
      *
-     * @param tags the Collection of Strings to convert into Tags.
-     * @return the Set of Tags created.
-     * @throws ParseException should any issues occur during the conversion.
+     * @param tags The Collection of Strings to convert into Tags.
+     * @return The Set of Tags created.
+     * @throws ParseException Should any issues occur during the conversion.
      */
     public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
         requireNonNull(tags);
@@ -289,7 +301,7 @@ public class ParserUtil {
      *
      * @param argumentMultimap the Argument Multimap we search each Prefix through.
      * @param prefixes Each Prefix we need to search for matches.
-     * @return whether every Prefix appears in the Argument Multimap.
+     * @return Whether every Prefix appears in the Argument Multimap.
      */
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());

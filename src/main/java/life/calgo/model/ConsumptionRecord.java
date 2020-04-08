@@ -27,6 +27,7 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
 
     /**
      * Creates a ConsumptionRecord using the DailyFoodLog objects in the {@code toBeCopied}.
+     * @param toBeCopied
      */
     public ConsumptionRecord(ReadOnlyConsumptionRecord toBeCopied) {
         this();

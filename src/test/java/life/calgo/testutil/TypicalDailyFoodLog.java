@@ -18,8 +18,8 @@ public class TypicalDailyFoodLog {
             new DailyFoodLog(buildFoods(), buildRatings(), CURRENT_DATE);
 
     public static DailyFoodLog getAppleOnlyLog() {
-        DailyFoodLog APPLE_ONLY_FOOD_LOG = new DailyFoodLog().consume(TypicalFoodItems.APPLE ,1);
-        return APPLE_ONLY_FOOD_LOG;
+        DailyFoodLog appleOnlyFoodLog = new DailyFoodLog().consume(TypicalFoodItems.APPLE, 1);
+        return appleOnlyFoodLog;
     }
 
     /**
