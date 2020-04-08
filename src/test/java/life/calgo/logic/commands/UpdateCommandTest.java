@@ -27,7 +27,7 @@ import life.calgo.model.ReadOnlyUserPrefs;
 import life.calgo.model.UserPrefs;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 import life.calgo.testutil.Assert;
@@ -136,7 +136,7 @@ public class UpdateCommandTest {
         }
 
         @Override
-        public void setFoodRecordFilePath(Path addressBookFilePath) {
+        public void setFoodRecordFilePath(Path foodRecordFilePath) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -191,12 +191,12 @@ public class UpdateCommandTest {
         }
 
         @Override
-        public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
+        public ObservableList<DisplayFood> getCurrentFilteredDailyList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) {
+        public void updateCurrentFilteredDailyList(Predicate<DisplayFood> predicate, LocalDate date) {
             throw new AssertionError("This method should not be called.");
         }
 

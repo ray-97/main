@@ -22,10 +22,10 @@ public class TagContainsKeywordsPredicate implements Predicate<Food> {
     }
 
     /**
-     * Returns true if the keywords mentioned appear as part of any Tag of the Food.
+     * Returns true if the keyword(s) mentioned appear as part of any Tag of the Food.
      *
      * @param food the Food to check for Tags.
-     * @return true if the keywords mentioned appear as part of any Tag of the Food.
+     * @return whether the keyword(s) mentioned appear as part of any Tag of the Food.
      */
     @Override
     public boolean test(Food food) {
@@ -36,11 +36,17 @@ public class TagContainsKeywordsPredicate implements Predicate<Food> {
         );
     }
 
+    /**
+     * Checks for equality between the current and the other predicate, using their keywords, or identity.
+     *
+     * @param other the other predicate to check against.
+     * @return whether the current and the other predicate can be considered equal.
+     */
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof TagContainsKeywordsPredicate // instanceof handles nulls
-                && keywords.equals(((TagContainsKeywordsPredicate) other).keywords)); // state check
+        return other == this
+                || (other instanceof TagContainsKeywordsPredicate
+                && keywords.equals(((TagContainsKeywordsPredicate) other).keywords));
     }
 
 }

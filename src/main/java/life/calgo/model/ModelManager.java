@@ -16,7 +16,7 @@ import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 import life.calgo.storage.ReportGenerator;
@@ -31,7 +31,7 @@ public class ModelManager implements Model {
     private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
     private final FilteredList<Food> filteredFoods;
-    private final FilteredList<ConsumedFood> currentFilteredDailyList;
+    private final FilteredList<DisplayFood> currentFilteredDailyList;
     private DailyGoal targetDailyCalories;
 
     /**
@@ -58,7 +58,7 @@ public class ModelManager implements Model {
         this(new FoodRecord(), new ConsumptionRecord(), new UserPrefs(), new DailyGoal());
     }
 
-    //=========== UserPrefs ==================================================================================
+    // UserPref-related methods
 
     @Override
     public ReadOnlyUserPrefs getUserPrefs() {
@@ -93,53 +93,7 @@ public class ModelManager implements Model {
         userPrefs.setFoodRecordFilePath(foodRecordFilePath);
     }
 
-    //=========== FoodRecord ================================================================================
-
-    @Override
-    public ReadOnlyFoodRecord getFoodRecord() {
-        return foodRecord;
-    }
-
-    @Override
-    public ReadOnlyConsumptionRecord getConsumptionRecord() {
-        return consumptionRecord;
-    }
-
-    @Override
-    public void setFoodRecord(ReadOnlyFoodRecord foodRecord) {
-        this.foodRecord.resetData(foodRecord);
-    }
-
-    @Override
-    public boolean hasFood(Food food) {
-        requireNonNull(food);
-        return foodRecord.hasFood(food);
-    }
-
-    public Food getExistingFood(Food toGet) {
-        requireNonNull(toGet);
-        return foodRecord.getExistingFood(toGet);
-    }
-
-    @Override
-    public void deleteFood(Food target) {
-        foodRecord.removeFood(target);
-    }
-
-    @Override
-    public void addFood(Food food) {
-        foodRecord.addFood(food);
-        updateFilteredFoodRecord(PREDICATE_SHOW_ALL_FOODS);
-    }
-
-    @Override
-    public void setFood(Food target, Food editedFood) {
-        requireAllNonNull(target, editedFood);
-
-        foodRecord.setFood(target, editedFood);
-    }
-
-    //=========== Day Model classes================================================================================
+    // Day Model-related methods
 
     @Override
     public Optional<Food> getFoodByName(Name name) {
@@ -213,18 +167,64 @@ public class ModelManager implements Model {
         return this.targetDailyCalories;
     }
 
-    //=========== Filtered Consumption Record Accessors =============================================================
+    // FoodRecord-related methods
+
+    @Override
+    public ReadOnlyFoodRecord getFoodRecord() {
+        return foodRecord;
+    }
+
+    @Override
+    public ReadOnlyConsumptionRecord getConsumptionRecord() {
+        return consumptionRecord;
+    }
+
+    @Override
+    public void setFoodRecord(ReadOnlyFoodRecord foodRecord) {
+        this.foodRecord.resetData(foodRecord);
+    }
+
+    @Override
+    public boolean hasFood(Food food) {
+        requireNonNull(food);
+        return foodRecord.hasFood(food);
+    }
+
+    public Food getExistingFood(Food toGet) {
+        requireNonNull(toGet);
+        return foodRecord.getExistingFood(toGet);
+    }
+
+    @Override
+    public void deleteFood(Food target) {
+        foodRecord.removeFood(target);
+    }
+
+    @Override
+    public void addFood(Food food) {
+        foodRecord.addFood(food);
+        updateFilteredFoodRecord(PREDICATE_SHOW_ALL_FOODS);
+    }
+
+    @Override
+    public void setFood(Food target, Food editedFood) {
+        requireAllNonNull(target, editedFood);
+
+        foodRecord.setFood(target, editedFood);
+    }
+
+    // Filtered Consumption Record Accessors
 
     /**
-     * Returns an unmodifiable view of the list of {@code ConsumedFood}.
+     * Returns an unmodifiable view of the list of {@code DisplayFood}.
      */
     @Override
-    public ObservableList<ConsumedFood> getCurrentFilteredDailyList() {
+    public ObservableList<DisplayFood> getCurrentFilteredDailyList() {
         return currentFilteredDailyList;
     }
 
     @Override
-    public void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date)
+    public void updateCurrentFilteredDailyList(Predicate<DisplayFood> predicate, LocalDate date)
             throws CommandException {
         requireNonNull(predicate);
         consumptionRecord.setDailyListDate(date);
@@ -232,7 +232,7 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Updates existing ConsumedFood items having same name as {@code food} in consumption record for display.
+     * Updates existing DisplayFood items having same name as {@code food} in consumption record for display.
      * @param food food that has been updated.
      */
     @Override
@@ -253,7 +253,7 @@ public class ModelManager implements Model {
         }
     }
 
-    //=========== Filtered Food Record Accessors =============================================================
+    // Filtered Food Record Accessors
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of

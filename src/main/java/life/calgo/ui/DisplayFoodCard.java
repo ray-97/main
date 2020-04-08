@@ -6,19 +6,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 
 /**
  * Responsible for displaying each consumed food item.
  */
-public class ConsumedFoodCard extends UiPart<Region> {
+public class DisplayFoodCard extends UiPart<Region> {
 
     private static final String FXML = "DailyListCard.fxml";
 
     private static final String DATE_PATTERN = "E, dd-MMM-yyyy";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
-    public final ConsumedFood consumedFood;
+    public final DisplayFood displayFood;
 
     @javafx.fxml.FXML
     private HBox cardPane;
@@ -35,16 +35,16 @@ public class ConsumedFoodCard extends UiPart<Region> {
     @FXML
     private Label date;
 
-    public ConsumedFoodCard(ConsumedFood consumedFood, int displayedIndex) {
+    public DisplayFoodCard(DisplayFood displayFood, int displayedIndex) {
         super((FXML));
-        this.consumedFood = consumedFood;
+        this.displayFood = displayFood;
         id.setText(displayedIndex + ". ");
-        name.setText(consumedFood.getName().fullName);
-        portion.setText("Portions consumed: " + consumedFood.getPortion());
-        double calorieFromPortions = consumedFood.getPortion() * Double.parseDouble(consumedFood.getCalorie().value);
-        averageRating.setText("Average rating: " + consumedFood.getRating());
+        name.setText(displayFood.getName().fullName);
+        portion.setText("Portions consumed: " + displayFood.getPortion());
+        double calorieFromPortions = displayFood.getPortion() * Double.parseDouble(displayFood.getCalorie().value);
+        averageRating.setText("Average rating: " + displayFood.getRating());
         totalCalorie.setText("Total calories: " + calorieFromPortions);
-        date.setText("Date: " + formatter.format(consumedFood.getDate()));
+        date.setText("Date: " + formatter.format(displayFood.getDate()));
     }
 
     @Override
@@ -55,14 +55,14 @@ public class ConsumedFoodCard extends UiPart<Region> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof ConsumedFoodCard)) {
+        if (!(other instanceof DisplayFoodCard)) {
             return false;
         }
 
         // state check
-        ConsumedFoodCard card = (ConsumedFoodCard) other;
+        DisplayFoodCard card = (DisplayFoodCard) other;
         return id.getText().equals(card.id.getText())
-                && consumedFood.equals(card.consumedFood);
+                && displayFood.equals(card.displayFood);
     }
 
 }

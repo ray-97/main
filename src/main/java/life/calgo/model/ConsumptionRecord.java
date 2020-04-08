@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.UniqueDateToLogMap;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 
 /**
@@ -27,6 +27,7 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
 
     /**
      * Creates a ConsumptionRecord using the DailyFoodLog objects in the {@code toBeCopied}.
+     * @param toBeCopied
      */
     public ConsumptionRecord(ReadOnlyConsumptionRecord toBeCopied) {
         this();
@@ -75,7 +76,7 @@ public class ConsumptionRecord implements ReadOnlyConsumptionRecord {
     }
 
     @Override
-    public ObservableList<ConsumedFood> getDailyList() {
+    public ObservableList<DisplayFood> getDailyList() {
         return dateToLogMap.asUnmodifiableDailyList();
     }
 

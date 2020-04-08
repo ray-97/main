@@ -10,7 +10,7 @@ import life.calgo.commons.core.GuiSettings;
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
-import life.calgo.model.food.ConsumedFood;
+import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
 
@@ -20,7 +20,7 @@ import life.calgo.model.food.Name;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Food> PREDICATE_SHOW_ALL_FOODS = unused -> true;
-    Predicate<ConsumedFood> PREDICATE_SHOW_ALL_CONSUMED_FOODS = unused -> true;
+    Predicate<DisplayFood> PREDICATE_SHOW_ALL_CONSUMED_FOODS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -50,7 +50,7 @@ public interface Model {
     /**
      * Sets the user prefs' food record file path.
      */
-    void setFoodRecordFilePath(Path addressBookFilePath);
+    void setFoodRecordFilePath(Path foodRecordFilePath);
 
     ReadOnlyConsumptionRecord getConsumptionRecord();
 
@@ -63,7 +63,7 @@ public interface Model {
     ReadOnlyFoodRecord getFoodRecord();
 
     /**
-     * Returns true if a food with the same identity as {@code food} exists in the address book.
+     * Returns true if a food with the same identity as {@code food} exists in the FoodRecord.
      */
     boolean hasFood(Food food);
 
@@ -112,9 +112,9 @@ public interface Model {
      */
     void updateFilteredFoodRecord(Predicate<Food> predicate);
 
-    ObservableList<ConsumedFood> getCurrentFilteredDailyList();
+    ObservableList<DisplayFood> getCurrentFilteredDailyList();
 
-    void updateCurrentFilteredDailyList(Predicate<ConsumedFood> predicate, LocalDate date) throws CommandException;
+    void updateCurrentFilteredDailyList(Predicate<DisplayFood> predicate, LocalDate date) throws CommandException;
 
     void updateConsumedLists(Food food);
 

@@ -26,29 +26,28 @@ public class NomCommand extends Command {
             + CliSyntax.PREFIX_DATE + "2020-03-14 "
             + CliSyntax.PREFIX_PORTION + "2";
 
-    public static final String MESSAGE_SUCCESS = "Successfully consumed %1$s";
+    private static final String MESSAGE_SUCCESS = "Successfully consumed %1$s";
 
-    private final DailyFoodLog foodlog;
+    private final DailyFoodLog foodLog;
     private final Food foodConsumed;
 
     public NomCommand(DailyFoodLog foodLog, Food foodConsumed) {
         CollectionUtil.requireAllNonNull(foodLog, foodConsumed);
-        this.foodlog = foodLog;
+        this.foodLog = foodLog;
         this.foodConsumed = foodConsumed;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        if (!model.hasLogWithSameDate(foodlog)) {
-            model.addLog(foodlog);
+        if (!model.hasLogWithSameDate(foodLog)) {
+            model.addLog(foodLog);
         } else {
-            model.updateLog(foodlog);
+            model.updateLog(foodLog);
         }
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
-                foodlog.getLocalDate()); // updates display
+                foodLog.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed));
-        // , dayConsumed.getPortion(foodConsumed), dayConsumed.getLocalDate()));
     }
 
     @Override
@@ -56,6 +55,6 @@ public class NomCommand extends Command {
         return other == this // short circuit if same object
                 || (other instanceof NomCommand // instanceof handles nulls
                 && foodConsumed.equals(((NomCommand) other).foodConsumed)
-                && foodlog.equals(((NomCommand) other).foodlog));
+                && foodLog.equals(((NomCommand) other).foodLog));
     }
 }
