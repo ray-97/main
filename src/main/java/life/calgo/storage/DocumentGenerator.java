@@ -97,16 +97,22 @@ public abstract class DocumentGenerator {
      * @param sb A client StringBuilder object.
      * @param columns An ArrayList of String Arrays (columns) that contain respective lines of data.
      * @param currLine The current line number that is being iterated through.
+     * @param smallColumnWidth An Integer for the number of characters a small column should be.(For Numerical columns).
+     * @param largeColumnWidth An Integer for the number of characters a large column should be. (For Name columns).
      */
-    private void iterateColumn(StringBuilder sb, ArrayList<String[]> columns, int currLine) {
+    private void iterateColumn(StringBuilder sb, ArrayList<String[]> columns, int currLine, int smallColumnWidth,
+                               int largeColumnWidth) {
         int numArrays = columns.size();
         for (int column = 0; column < numArrays; column++) {
             String[] currArray = columns.get(column);
-            int columnWidth = ReportGenerator.VALUE_COLUMN_WIDTH;
+            int columnWidth = smallColumnWidth;
+            // first column is Food Name column
             if (column == 0) {
-                columnWidth = ReportGenerator.NAME_COLUMN_WIDTH;
+                columnWidth = largeColumnWidth;
             }
 
+            // only first line of that column is centralised.
+            // if column contains data that is spread across multiple lines, the other lines are not centralised.
             if (currLine == 0) {
                 sb.append(centraliseText(currArray[currLine], columnWidth + 1));
             } else if (currLine < currArray.length) {
@@ -125,16 +131,17 @@ public abstract class DocumentGenerator {
     /**
      * Combines columns to form a table. Goes line by line.
      * @param strings An ArrayList of Strings, where each element is a column.
-     * @param intervalWidth The distance between each column.
+     * @param smallColumnWidth An Integer for the number of characters a small column should be.(For Numerical columns).
+     * @param largeColumnWidth An Integer for the number of characters a large column should be. (For Name columns).
      * @return A stitched String with all columns combined together.
      */
-    public String combineColumns(ArrayList<String> strings, int intervalWidth) {
+    public String combineColumns(ArrayList<String> strings, int smallColumnWidth, int largeColumnWidth) {
         StringBuilder result = new StringBuilder();
         ArrayList<String[]> splitArrays = splitNewLines(strings);
         int maxNumLines = getMaxLines(splitArrays);
 
         for (int currLine = 0; currLine < maxNumLines; currLine++) {
-            iterateColumn(result, splitArrays, currLine);
+            iterateColumn(result, splitArrays, currLine, smallColumnWidth, largeColumnWidth);
         }
 
         return result.toString();

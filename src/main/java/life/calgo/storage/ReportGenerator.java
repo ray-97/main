@@ -136,7 +136,7 @@ public class ReportGenerator extends DocumentGenerator {
             columns.add(foodColumn);
             columns.add(portionColumn);
             columns.add(currCaloriesColumn);
-            String table = combineColumns(columns, 5);
+            String table = combineColumns(columns, VALUE_COLUMN_WIDTH, NAME_COLUMN_WIDTH);
             printWriter.println(table);
         }
         printSeparator();
