@@ -16,6 +16,9 @@ import life.calgo.model.tag.Tag;
 /**
  * Generating a user-friendly and editable copy of the current FoodRecord.
  * All Food entries will have all their details written into the file.
+ * Names that are too long will be truncated onto the next line, with nutritional details on the first line.
+ * Tags are outside of the dashed lines as users may have a large number of them.
+ * Tags are informal and hence less significant, so they should not be within the dashed lines.
  */
 public class ExportGenerator extends DocumentGenerator {
 
