@@ -49,6 +49,8 @@ public class ExportGenerator extends DocumentGenerator {
         return file.exists() && (file.length() != 0); // success check
     }
 
+    // Printing Methods
+
     /**
      * Writes the header of the document.
      */
@@ -59,11 +61,11 @@ public class ExportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Writes the concluding statement of the document.
+     * Writes the categories of the nutritional information of each Food in the Food Record.
      */
-    @Override
-    public void printFooter() {
-        printWriter.println(centraliseText("Eat Good, Live Well!", WIDTH_OF_DOCUMENT));
+    private void printCategories() {
+        printWriter.println(String.format("%-45s %-20s %-20s %-20s %-20s %-20s", "Name", "Calories",
+                "Protein(g)", "Carbohydrates(g)", "Fat(g)", "Tags: "));
     }
 
     /**
@@ -75,19 +77,21 @@ public class ExportGenerator extends DocumentGenerator {
 
         ObservableList<Food> sourceFoodRecord = foodRecord.getFoodList();
         for (Food food : sourceFoodRecord) {
-
-            Name name = food.getName();
-            Calorie calories = food.getCalorie();
-            Protein protein = food.getProtein();
-            Carbohydrate carbohydrate = food.getCarbohydrate();
-            Fat fat = food.getFat();
-            Set<Tag> tags = food.getTags();
-
-            printWriter.println(String.format("%-45s %-20s %-20s %-20s %-20s %-20s",
-                    name, calories, protein, carbohydrate, fat, accumulatedTagsString(tags)));
-
+            String processedString = generateFinalisedEntryString(food);
+            printWriter.println(processedString);
         }
+
     }
+
+    /**
+     * Writes the concluding statement of the document.
+     */
+    @Override
+    public void printFooter() {
+        printWriter.println(centraliseText("Eat Good, Live Well!", WIDTH_OF_DOCUMENT));
+    }
+
+    // String Manipulation Methods
 
     /**
      * Accumulates all the Tags into a space-separated String and returns this String.
@@ -104,10 +108,73 @@ public class ExportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Writes the categories of the nutritional information of each Food in the Food Record.
+     * Generates the full String representing the Food with all its nutritional details.
+     * Names too long are truncated onto the next line.
+     *
+     * @param food the Food of interest.
+     * @return the String representation for the Food entry.
      */
-    private void printCategories() {
-        printWriter.println(String.format("%-45s %-20s %-20s %-20s %-20s %-20s", "Name", "Calories",
-                "Protein(g)", "Carbohydrates(g)", "Fat(g)", "Tags: "));
+    private String generateFinalisedEntryString(Food food) {
+        Name name = food.getName();
+        Calorie calorie = food.getCalorie();
+        Protein protein = food.getProtein();
+        Carbohydrate carbohydrate = food.getCarbohydrate();
+        Fat fat = food.getFat();
+        Set<Tag> tags = food.getTags();
+
+        if (name.toString().length() <= 45) {
+            return generateFirstLine(name, calorie, protein, carbohydrate, fat, tags);
+        } else {
+            // to generate first line preview to suit column format of size 45
+            String nameString = name.toString();
+            String truncatedNameString = nameString.substring(0, 45);
+
+            String firstLine = generateFirstLine(new Name(truncatedNameString), calorie, protein,
+                    carbohydrate, fat, tags);
+
+            // keep truncating until the end with newline generated each time
+            String remainderLines = generateRemainderPartName(nameString);
+
+            return firstLine + remainderLines;
+        }
     }
+
+    /**
+     * Generates the first line of the String representing the Food with all its nutritional details.
+     * Names too long should be truncated onto the next line and uses {@link #generateRemainderPartName(String)}.
+     *
+     * @param name the Name of the Food.
+     * @param calorie the Calorie of the Food.
+     * @param protein the Protein of the Food.
+     * @param carbohydrate the Carbohydrate of the Food.
+     * @param fat the Fat of the Food.
+     * @param tags the Set of Tags of the Food.
+     * @return the first and possibly only line of the String representing the Food with all its nutritional details.
+     */
+    private String generateFirstLine(Name name, Calorie calorie, Protein protein,
+                                     Carbohydrate carbohydrate, Fat fat, Set<Tag> tags) {
+        return String.format("%-45s %-20s %-20s %-20s %-20s %-20s",
+                name, calorie, protein, carbohydrate, fat, accumulatedTagsString(tags));
+    }
+
+    /**
+     * Obtains the remainder part of the Name that does not appear in the same line as the nutritional details.
+     *
+     * @param fullName the String representing the full name of the Food.
+     * @return the remainder part of the Name not previously shown.
+     */
+    private String generateRemainderPartName(String fullName) {
+        // first 45 already taken
+        String result = "\n";
+        String workablePart = fullName.substring(45);
+        while (workablePart.length() >= 45) {
+            result += workablePart.substring(0, 45) + "\n";
+            workablePart = workablePart.substring(45);
+            System.out.println(workablePart);
+        }
+        result += workablePart;
+
+        return result;
+    }
+
 }

@@ -40,6 +40,13 @@ public abstract class DocumentGenerator {
         }
     }
 
+    // Printing Methods
+
+    /**
+     * Writes the context/meta-information of the document.
+     */
+    public abstract void printHeader();
+
     /**
      * Writes a line for neatness in formatting.
      */
@@ -49,49 +56,18 @@ public abstract class DocumentGenerator {
     }
 
     /**
-     * Wraps a String s into lines of n characters.
-     *
-     * @param s the String to be wrapped about.
-     * @param n the number of characters allowed in a line.
-     * @return the processed String after wrapping.
+     * Writes an empty line.
      */
-    public String stringWrap(String s, int n) {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            if (i != 0 && i % (n - 1) == 0) {
-                result.append("\n");
-            }
-            result.append(s.charAt(i));
-        }
-
-        return result.toString();
+    public void printEmptyLine() {
+        printWriter.println("");
     }
 
     /**
-     * A method that converts each String into a String array containing substrings that are split by "\n".
-     * @param strings An ArrayList of strings.
-     * @return An ArrayList of String arrays, which contain resulting substrings after split by "\n".
+     * Writes the concluding remarks in the document.
      */
-    private ArrayList<String[]> splitNewLines(ArrayList<String> strings) {
-        ArrayList<String[]> result = new ArrayList<>();
-        for (String string : strings) {
-            String[] curr = string.split("\n");
-            result.add(curr);
-        }
-        return result;
-    }
+    public abstract void printFooter();
 
-    /**
-     * Takes in a list of String arrays {@code splitStrings} and returns the maximum length of the String
-     * array elements.
-     */
-    private int getMaxLines(ArrayList<String[]> splitStrings) {
-        int maxLines = 0;
-        for (String[] stringArray : splitStrings) {
-            maxLines = Math.max(maxLines, stringArray.length);
-        }
-        return maxLines;
-    }
+    // String Manipulation Methods
 
     /**
      * @param sb A client StringBuilder object.
@@ -148,10 +124,22 @@ public abstract class DocumentGenerator {
     }
 
     /**
-     * Writes an empty line.
+     * Wraps a String s into lines of n characters.
+     *
+     * @param s the String to be wrapped about.
+     * @param n the number of characters allowed in a line.
+     * @return the processed String after wrapping.
      */
-    public void printEmptyLine() {
-        printWriter.println("");
+    public String stringWrap(String s, int n) {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (i != 0 && i % (n - 1) == 0) {
+                result.append("\n");
+            }
+            result.append(s.charAt(i));
+        }
+
+        return result.toString();
     }
 
     /**
@@ -169,6 +157,32 @@ public abstract class DocumentGenerator {
         return addNTrailingWhitespace(prefixedText, numWhitespace);
     }
 
+    /**
+     * A method that converts each String into a String array containing substrings that are split by "\n".
+     * @param strings An ArrayList of strings.
+     * @return An ArrayList of String arrays, which contain resulting substrings after split by "\n".
+     */
+    private ArrayList<String[]> splitNewLines(ArrayList<String> strings) {
+        ArrayList<String[]> result = new ArrayList<>();
+        for (String string : strings) {
+            String[] curr = string.split("\n");
+            result.add(curr);
+        }
+        return result;
+    }
+
+    /**
+     * Takes in a list of String arrays {@code splitStrings} and returns the maximum length of the String
+     * array elements.
+     */
+    private int getMaxLines(ArrayList<String[]> splitStrings) {
+        int maxLines = 0;
+        for (String[] stringArray : splitStrings) {
+            maxLines = Math.max(maxLines, stringArray.length);
+        }
+        return maxLines;
+    }
+
     public String addNLeadingWhitespace(String text, int n) {
         return " ".repeat(n) + text;
     }
@@ -177,13 +191,4 @@ public abstract class DocumentGenerator {
         return text + " ".repeat(n);
     }
 
-    /**
-     * Writes the context/meta-information of the document.
-     */
-    public abstract void printHeader();
-
-    /**
-     * Writes the concluding remarks in the document.
-     */
-    public abstract void printFooter();
 }
