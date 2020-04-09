@@ -61,7 +61,7 @@ public class NameContainsKeywordsPredicateTest {
         // Zero keywords
         Assert.assertThrows(IllegalArgumentException.class,
                 "Names should only contain alphanumeric characters and spaces, "
-                + "and it should not be blank", () -> new NameContainsKeywordsPredicate(new Name("")));
+                + "and it should not be blank.", () -> new NameContainsKeywordsPredicate(new Name("")));
 
         // Non-matching keyword
         NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(new Name("Chocolate"));
