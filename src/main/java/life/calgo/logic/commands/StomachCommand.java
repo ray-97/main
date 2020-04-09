@@ -41,6 +41,7 @@ public class StomachCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof StomachCommand); // instanceof handles nulls
+                || (other instanceof StomachCommand
+                && date.equals(((StomachCommand) other).date)); // instanceof handles nulls
     }
 }
