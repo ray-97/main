@@ -27,7 +27,7 @@ public class ExportGenerator extends DocumentGenerator {
             + "%-" + VALUE_COLUMN_SIZE + "s "
             + "%-" + VALUE_COLUMN_SIZE + "s "
             + "%-" + VALUE_COLUMN_SIZE + "s";
-    private ReadOnlyFoodRecord foodRecord;  
+    private ReadOnlyFoodRecord foodRecord;
 
     public ExportGenerator(ReadOnlyFoodRecord foodRecord) {
         super(PATH_NAME, LogsCenter.getLogger(ExportGenerator.class));

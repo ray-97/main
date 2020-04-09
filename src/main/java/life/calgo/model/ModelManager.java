@@ -139,9 +139,10 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Updates ModelManager's DailyGoal to the new targetDailyCalories
-     * @param targetDailyCalories the new targeted number of calories to consume each day by user
-     * @return the updated DailyGoal object
+     * Updates ModelManager's DailyGoal to the new targetDailyCalories.
+     *
+     * @param targetDailyCalories the new targeted number of calories to consume each day by user.
+     * @return the updated DailyGoal object.
      */
     public DailyGoal updateDailyGoal(int targetDailyCalories) {
         if (isGoalMade()) {
@@ -153,8 +154,9 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Checks if goal already exists
-     * @return true if there is already some goal
+     * Checks if goal already exists.
+     *
+     * @return true if there is already some goal.
      */
     public boolean isGoalMade() {
         return this.targetDailyCalories != null;
@@ -230,6 +232,7 @@ public class ModelManager implements Model {
 
     /**
      * Updates existing DisplayFood items having same name as {@code food} in consumption record for display.
+     *
      * @param food food that has been updated.
      */
     @Override
@@ -254,7 +257,7 @@ public class ModelManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
-     * {@code versionedFoodRecord}
+     * {@code versionedFoodRecord}.
      */
     @Override
     public ObservableList<Food> getFilteredFoodRecord() {

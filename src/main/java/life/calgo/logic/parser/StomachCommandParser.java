@@ -25,6 +25,7 @@ public class StomachCommandParser implements Parser<StomachCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the StomachCommand.
+     *
      * @param args a String of arguments provided by user.
      * @return a StomachCommand object for execution.
      * @throws ParseException if the user does not conform to the expected format.
@@ -39,7 +40,7 @@ public class StomachCommandParser implements Parser<StomachCommand> {
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
             date = ParserUtil.parseDate(argMultimap.getValue(PREFIX_DATE).get());
         }
-        boolean hasInvalidArg = !argMultimap.getValue(PREFIX_DATE).isPresent() && args.split(" ").length > 1;
+        boolean hasInvalidArg = argMultimap.getValue(PREFIX_DATE).isEmpty() && args.split(" ").length > 1;
         if (hasInvalidArg) {
             throw new ParseException(
                     String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, StomachCommand.MESSAGE_USAGE));

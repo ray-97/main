@@ -18,7 +18,7 @@ import life.calgo.model.food.Name;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /** {@code Predicate} that always evaluate to true. */
     Predicate<Food> PREDICATE_SHOW_ALL_FOODS = unused -> true;
     Predicate<DisplayFood> PREDICATE_SHOW_ALL_CONSUMED_FOODS = unused -> true;
 
@@ -67,7 +67,7 @@ public interface Model {
      */
     boolean hasFood(Food food);
 
-    /** Returns the existing Food item in FoodRecord */
+    /** Returns the existing Food item in FoodRecord. */
     Food getExistingFood(Food toAdd);
 
     /**
@@ -101,7 +101,7 @@ public interface Model {
 
     DailyFoodLog getLogByDate(LocalDate localDate);
 
-    public double getRemainingCalories(LocalDate date);
+    double getRemainingCalories(LocalDate date);
 
     /** Returns an unmodifiable view of the filtered food record. */
     ObservableList<Food> getFilteredFoodRecord();

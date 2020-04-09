@@ -67,6 +67,7 @@ public class ReportGenerator extends DocumentGenerator {
 
     /**
      * Driver method for generation of comprehensive report of consumption patterns
+     *
      * @return a boolean value that is true only if report has been successfully generated
      */
     public boolean generateReport() {
@@ -228,6 +229,7 @@ public class ReportGenerator extends DocumentGenerator {
 
     /**
      * Calculates number of calories remaining for user to meet goal.
+     *
      * @return the number of calories remaining for user to meet goal
      */
     public double calculateRemainingCalories() {

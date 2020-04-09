@@ -1,6 +1,7 @@
 package life.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
@@ -38,6 +39,7 @@ public class NomCommandParser implements Parser<NomCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the NomCommand.
+     *
      * @param args A String of arguments provided by user.
      * @return A NomCommand object for execution.
      * @throws ParseException If user does not conform to expected format.
@@ -66,6 +68,7 @@ public class NomCommandParser implements Parser<NomCommand> {
 
     /**
      * Acts as a helper to update DailyFoodLog with a date.
+     *
      * @param toFix DailyFoodLog that you want to have date set.
      * @param argMultimap ArgumentMultimap containing value of date.
      * @return DailyFoodLog with updated date.
@@ -84,6 +87,7 @@ public class NomCommandParser implements Parser<NomCommand> {
 
     /**
      * Acts as a helper function for getting the portion required to add to food.
+     *
      * @param argMultimap ArgumentMultimap containing prefix of portion mapped to its value.
      * @return Double representing the portion that is parsed.
      * @throws ParseException If value's string representation exceeds 10 character or is negative.
@@ -98,6 +102,7 @@ public class NomCommandParser implements Parser<NomCommand> {
 
     /**
      * Acts as a helper function for getting the food that is being consumed.
+     *
      * @param argMultimap ArgumentMultimap containing prefix of food name mapped to its value.
      * @return Optional wrapped food object.
      * @throws ParseException If food does not exist in Food Record.
@@ -105,7 +110,7 @@ public class NomCommandParser implements Parser<NomCommand> {
     private Optional<Food> fixNomFood(ArgumentMultimap argMultimap) throws ParseException {
         Optional<Food> optionalFood = model.getFoodByName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
-        if (!optionalFood.isPresent()) {
+        if (optionalFood.isEmpty()) {
             throw new ParseException(MESSAGE_NONEXISTENT_FOOD);
         }
         return optionalFood;
@@ -113,6 +118,7 @@ public class NomCommandParser implements Parser<NomCommand> {
 
     /**
      * Acts as a helper function for getting the food that is being consumed.
+     *
      * @param toFix DailyFoodLog that rating is to be added to.
      * @param optionalFood Optional wrapped food object that is to be rated.
      * @param argMultimap ArgumentMultimap containing prefix of rating mapped to its value.

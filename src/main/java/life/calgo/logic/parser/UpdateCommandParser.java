@@ -25,6 +25,7 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the UpdateCommand
      * and returns an UpdateCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     public UpdateCommand parse(String args) throws ParseException {
@@ -65,6 +66,7 @@ public class UpdateCommandParser implements Parser<UpdateCommand> {
 
     /**
      * Parses the foodName and returns it back in Title Case.
+     *
      * @param foodName the foodName in non-titled case.
      * @return the foodName back in Title Case,
      */

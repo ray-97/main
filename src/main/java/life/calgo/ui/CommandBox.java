@@ -94,7 +94,7 @@ public class CommandBox extends UiPart<Region> {
     @FunctionalInterface
     public interface CommandListener {
         /**
-         * Listens into the command and filters the FoodListPanel accordingly
+         * Listens into the command and filters the FoodListPanel accordingly.
          *
          * @see Logic#getSimilarFood(String)
          */

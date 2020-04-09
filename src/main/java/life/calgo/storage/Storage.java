@@ -21,7 +21,7 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Gets the json user preferences file path.
      *
-     * @return the Path for the UserPrefs json storage file.
+     * @return The Path for the UserPrefs json storage file.
      */
     @Override
     public Path getUserPrefsFilePath();
@@ -29,9 +29,9 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Returns a UserPrefs object wrapped in an Optional after reading the json user preferences file.
      *
-     * @return an empty Optional if no such file exists, or the derived UserPrefs object wrapped in an Optional.
-     * @throws DataConversionException if the file format is not as expected.
-     * @throws IOException if there was any problem when reading from the file.
+     * @return An empty Optional if no such file exists, or the derived UserPrefs object wrapped in an Optional.
+     * @throws DataConversionException If the file format is not as expected.
+     * @throws IOException If there was any problem when reading from the file.
      */
     @Override
     Optional<UserPrefs> readUserPrefs() throws DataConversionException, IOException;
@@ -39,8 +39,8 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Saves the ReadOnlyUserPrefs in a json file.
      *
-     * @param userPrefs the user preferences to save, which cannot be null.
-     * @throws IOException if there was any problem when writing to the file.
+     * @param userPrefs The user preferences to save, which cannot be null.
+     * @throws IOException If there was any problem when writing to the file.
      */
     @Override
     void saveUserPrefs(ReadOnlyUserPrefs userPrefs) throws IOException;
@@ -50,7 +50,7 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Gets the json FoodRecord file path.
      *
-     * @return the Path for the FoodRecord json storage file.
+     * @return The Path for the FoodRecord json storage file.
      */
     @Override
     Path getFoodRecordFilePath();
@@ -58,9 +58,9 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Returns a ReadOnlyFoodRecord object wrapped in an Optional after reading the json FoodRecord file.
      *
-     * @return an empty Optional if no such file exists, or the derived ReadOnlyFoodRecord object in an Optional.
-     * @throws DataConversionException if the file format is not as expected.
-     * @throws IOException if there was any problem when reading from the file.
+     * @return An empty Optional if no such file exists, or the derived ReadOnlyFoodRecord object in an Optional.
+     * @throws DataConversionException If the file format is not as expected.
+     * @throws IOException If there was any problem when reading from the file.
      */
     @Override
     Optional<ReadOnlyFoodRecord> readFoodRecord() throws DataConversionException, IOException;
@@ -68,8 +68,8 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Saves the ReadOnlyFoodRecord in a json file.
      *
-     * @param foodRecord the ReadOnlyFoodRecord to be saved which cannot be null.
-     * @throws IOException if there was any problem when writing to the file.
+     * @param foodRecord The ReadOnlyFoodRecord to be saved which cannot be null.
+     * @throws IOException If there was any problem when writing to the file.
      */
     @Override
     void saveFoodRecord(ReadOnlyFoodRecord foodRecord) throws IOException;
@@ -79,7 +79,7 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Gets the json ConsumptionRecord file path.
      *
-     * @return the Path for the ConsumptionRecord json storage file.
+     * @return The Path for the ConsumptionRecord json storage file.
      */
     @Override
     public Path getConsumptionRecordFilePath();
@@ -87,9 +87,9 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Returns a ReadOnlyConsumptionRecord object wrapped in an Optional after reading the json ConsumptionRecord file.
      *
-     * @return an empty Optional if no such file exists, or the derived ReadOnlyConsumptionRecord inside an Optional.
-     * @throws DataConversionException if the file format is not as expected.
-     * @throws IOException if there was any problem when reading from the file.
+     * @return An empty Optional if no such file exists, or the derived ReadOnlyConsumptionRecord inside an Optional.
+     * @throws DataConversionException If the file format is not as expected.
+     * @throws IOException If there was any problem when reading from the file.
      */
     @Override
     public Optional<ReadOnlyConsumptionRecord> readConsumptionRecord() throws DataConversionException, IOException;
@@ -97,8 +97,8 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Saves the ReadOnlyConsumptionRecord in a json file.
      *
-     * @param consumptionRecord the ReadOnlyConsumptionRecord to be saved which cannot be null.
-     * @throws IOException if there was any problem when writing to the file.
+     * @param consumptionRecord The ReadOnlyConsumptionRecord to be saved which cannot be null.
+     * @throws IOException Tf there was any problem when writing to the file.
      */
     @Override
     public void saveConsumptionRecord(ReadOnlyConsumptionRecord consumptionRecord) throws IOException;
@@ -108,7 +108,7 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Gets the json goal file path.
      *
-     * @return the Path for the goal json storage file.
+     * @return The Path for the goal json storage file.
      */
     @Override
     public Path getGoalFilePath();
@@ -116,9 +116,9 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Returns a ReadOnlyGoal object wrapped in an Optional after reading the json goal file.
      *
-     * @return an empty Optional if no such file exists, or the derived ReadOnlyGoal inside an Optional.
-     * @throws DataConversionException if the file format is not as expected.
-     * @throws IOException if there was any problem when reading from the file.
+     * @return An empty Optional if no such file exists, or the derived ReadOnlyGoal inside an Optional.
+     * @throws DataConversionException If the file format is not as expected.
+     * @throws IOException If there was any problem when reading from the file.
      */
     @Override
     public Optional<ReadOnlyGoal> readGoal() throws DataConversionException, IOException;
@@ -126,8 +126,8 @@ public interface Storage extends UserPrefsStorage, FoodRecordStorage, Consumptio
     /**
      * Saves the ReadOnlyGoal in a json file.
      *
-     * @param goal the ReadOnlyGoal to be saved which cannot be null.
-     * @throws IOException if there was any problem when writing to the file.
+     * @param goal The ReadOnlyGoal to be saved which cannot be null.
+     * @throws IOException If there was any problem when writing to the file.
      */
     @Override
     public void saveGoal(ReadOnlyGoal goal) throws IOException;

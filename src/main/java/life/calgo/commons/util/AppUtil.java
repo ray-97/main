@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import life.calgo.MainApp;
 
 /**
- * A container for App specific utility functions
+ * A container for App specific utility functions.
  */
 public class AppUtil {
 
@@ -18,7 +18,7 @@ public class AppUtil {
     /**
      * Checks that {@code condition} is true. Used for validating arguments to methods.
      *
-     * @throws IllegalArgumentException if {@code condition} is false.
+     * @throws IllegalArgumentException If {@code condition} is false.
      */
     public static void checkArgument(Boolean condition) {
         if (!condition) {
@@ -29,7 +29,7 @@ public class AppUtil {
     /**
      * Checks that {@code condition} is true. Used for validating arguments to methods.
      *
-     * @throws IllegalArgumentException with {@code errorMessage} if {@code condition} is false.
+     * @throws IllegalArgumentException With {@code errorMessage} if {@code condition} is false.
      */
     public static void checkArgument(Boolean condition, String errorMessage) {
         if (!condition) {

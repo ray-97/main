@@ -15,7 +15,7 @@ class JsonAdaptedTag {
     /**
      * Constructs a {@code JsonAdaptedTag} with the given String {@code tagName}.
      *
-     * @param tagName the String that represents a Tag to form the JsonAdaptedTag with.
+     * @param tagName The String that represents a Tag to form the JsonAdaptedTag with.
      */
     @JsonCreator
     public JsonAdaptedTag(String tagName) {
@@ -25,7 +25,7 @@ class JsonAdaptedTag {
     /**
      * Converts a given {@code Tag} into this class for Jackson use.
      *
-     * @param source the source Tag object we wish to convert from.
+     * @param source The source Tag object we wish to convert from.
      */
     public JsonAdaptedTag(Tag source) {
         tagName = source.tagName;
@@ -41,7 +41,7 @@ class JsonAdaptedTag {
     /**
      * Converts this Jackson-friendly adapted tag object into the model's {@code Tag} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted tag.
+     * @throws IllegalValueException If there were any data constraints violated in the adapted tag.
      */
     public Tag toModelType() throws IllegalValueException {
         if (!Tag.isValidTagName(tagName)) {

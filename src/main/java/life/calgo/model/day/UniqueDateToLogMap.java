@@ -34,6 +34,7 @@ public class UniqueDateToLogMap {
 
     /**
      * Checks if internalMap has an existing DailyFoodLog with same date.
+     *
      * @param foodLog DailyFoodLog containing the date you want to search with.
      * @return True if internalMap contains a DailyFoodLog with same date as foodLog.
      */
@@ -43,6 +44,7 @@ public class UniqueDateToLogMap {
 
     /**
      * Populates internalMap with LocalDate and DailyFoodLog key value pairs.
+     *
      * @param dateToLogMap HashMap containing data to populate internalMap.
      */
     public void setDateToLogMap(HashMap<LocalDate, DailyFoodLog> dateToLogMap) {
@@ -65,6 +67,7 @@ public class UniqueDateToLogMap {
 
     /**
      * Updates every food with same name in each DailyFoodLog in internalMap.
+     *
      * @param food Food that is most up-to-date with Food Record.
      */
     public void updateMapWithFood(Food food) {
@@ -78,7 +81,8 @@ public class UniqueDateToLogMap {
     }
 
     /**
-     * Updates internal key-value pair by updating the value of the given date key
+     * Updates internal key-value pair by updating the value of the given date key.
+     *
      * @param logAfterConsumption The updated day object after consuming a certain food
      */
     public void updateLog(DailyFoodLog logAfterConsumption) {
@@ -88,6 +92,7 @@ public class UniqueDateToLogMap {
 
     /**
      * Sets internalList to reflect a DailyFoodLog with DisplayFood items.
+     *
      * @param date Date of DailyFoodLog be reflected.
      * @throws CommandException If user requests to display an empty DailyFoodLog.
      */
