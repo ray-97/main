@@ -3,6 +3,8 @@ package life.calgo.logic.parser;
 import static life.calgo.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static life.calgo.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static life.calgo.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static life.calgo.logic.parser.ParserUtil.MESSAGE_INVALID_DATE;
+import static life.calgo.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -38,8 +40,10 @@ public class StomachCommandParserTest {
     @Test
     public void parse_invalidDateFormat_parseExceptionThrown() {
         String expectedMessage = MESSAGE_INVALID_DATE;
-        assertThrows(
-                ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple d/2020/09/08"));
+        String invalidUserInput = "stomach d/2020/09/08";
+
+        assertThrows(ParseException.class,
+                expectedMessage, () -> parser.parse(invalidUserInput));
     }
 
     @Test
@@ -47,7 +51,7 @@ public class StomachCommandParserTest {
         String expectedMessage = MESSAGE_INVALID_DATE;
         String invalidUserInput = "stomach d/2020-02-31";
         assertThrows(ParseException.class,
-                expectedMessage, () -> StomachCommandParser.parse(invalidUserInput));
+                expectedMessage, () -> parser.parse(invalidUserInput));
     }
 
 }
