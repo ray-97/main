@@ -20,6 +20,7 @@ public class StomachCommandParserTest {
     private StomachCommandParser parser = new StomachCommandParser();
 
     DailyFoodLog dailyLog = TypicalDailyFoodLog.getAppleOnlyLog();
+
     @Test
     public void parse_validArgs_returnsStomachCommand() {
         String userInput = "stomach";
@@ -32,6 +33,13 @@ public class StomachCommandParserTest {
         String invalidUserInput = "stomach 1";
         CommandParserTestUtil.assertParseFailure(
                 parser, invalidUserInput, String.format(expectedMessage, StomachCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidDateFormat_parseExceptionThrown() {
+        String expectedMessage = MESSAGE_INVALID_DATE;
+        assertThrows(
+                ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple d/2020/09/08"));
     }
 
     @Test
