@@ -66,7 +66,7 @@ public class StorageManager implements Storage {
     /**
      * Similar to {@link #readFoodRecord()}, but now reads from the specified file path.
      *
-     * @param filePath the file path of the source file.
+     * @param filePath The file path of the source file.
      */
     @Override
     public Optional<ReadOnlyFoodRecord> readFoodRecord(Path filePath) throws DataConversionException, IOException {
@@ -82,7 +82,7 @@ public class StorageManager implements Storage {
     /**
      * Similar to {@link #saveFoodRecord(ReadOnlyFoodRecord)}, but now saves to the specified file path.
      *
-     * @param filePath the path of the storage file we want to save at.
+     * @param filePath The path of the storage file we want to save at.
      */
     @Override
     public void saveFoodRecord(ReadOnlyFoodRecord foodRecord, Path filePath) throws IOException {
@@ -105,7 +105,7 @@ public class StorageManager implements Storage {
     /**
      * Similar to {@link #readConsumptionRecord()}, but now reads from the specified file path.
      *
-     * @param filePath the file path of the source file.
+     * @param filePath The file path of the source file.
      */
     @Override
     public Optional<ReadOnlyConsumptionRecord> readConsumptionRecord(Path filePath)
@@ -122,7 +122,7 @@ public class StorageManager implements Storage {
     /**
      * Similar to {@link #saveConsumptionRecord(ReadOnlyConsumptionRecord)}, but now saves to a specified file path.
      *
-     * @param filePath the path of the storage file we want to save at.
+     * @param filePath The path of the storage file we want to save at.
      */
     @Override
     public void saveConsumptionRecord(ReadOnlyConsumptionRecord consumptionRecord, Path filePath) throws IOException {
@@ -145,7 +145,7 @@ public class StorageManager implements Storage {
     /**
      * Similar to {@link #readGoal()}, but now reads from a specified file path.
      *
-     * @param filePath the file path of the source file.
+     * @param filePath The file path of the source file.
      */
     @Override
     public Optional<ReadOnlyGoal> readGoal(Path filePath) throws DataConversionException, IOException {
@@ -161,7 +161,7 @@ public class StorageManager implements Storage {
     /**
      * Similar to {@link #saveGoal(ReadOnlyGoal)}, but now saves to a specified file path.
      *
-     * @param filePath the path of the storage file we want to save at.
+     * @param filePath The path of the storage file we want to save at.
      */
     @Override
     public void saveGoal(ReadOnlyGoal goal, Path filePath) throws IOException {

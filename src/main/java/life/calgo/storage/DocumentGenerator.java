@@ -106,6 +106,7 @@ public abstract class DocumentGenerator {
     }
     /**
      * Combines columns to form a table. Goes line by line.
+     *
      * @param strings An ArrayList of Strings, where each element is a column.
      * @param smallColumnWidth An Integer for the number of characters a small column should be.(For Numerical columns).
      * @param largeColumnWidth An Integer for the number of characters a large column should be. (For Name columns).
@@ -145,9 +146,9 @@ public abstract class DocumentGenerator {
     /**
      * Centralises the specified String.
      *
-     * @param text the String to be centralised.
-     * @param width the width of the line whereby String should be centralised.
-     * @return the processed String that has been centralised.
+     * @param text The String to be centralised.
+     * @param width The width of the line whereby String should be centralised.
+     * @return The processed String that has been centralised.
      */
     public String centraliseText(String text, int width) {
 

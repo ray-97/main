@@ -21,6 +21,7 @@ import life.calgo.model.food.Food;
 public interface Logic {
     /**
      * Executes the command and returns the result.
+     *
      * @param commandText The command as entered by the user.
      * @return the result of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -30,6 +31,7 @@ public interface Logic {
 
     /**
      * Returns a list of food objects with similar name.
+     *
      * @param foodName The name of the food entered by user so far.
      */
     List<Food> getSimilarFood(String foodName);

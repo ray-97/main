@@ -39,6 +39,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the VomitCommand.
+     *
      * @param args given String of arguments.
      * @return a VomitCommand object for execution.
      * @throws ParseException if the user does not conform to the expected format.
@@ -74,6 +75,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     /**
      * Acts as a helper function for getting the date that vomit occurs.
+     *
      * @param toFix DailyFoodLog that needs date to be set.
      * @param argMultimap ArgumentMultimap containing prefix of date mapped to its value.
      * @return DailyFoodLog with the date set.
@@ -89,6 +91,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     /**
      * Acts as a helper function for getting the portion that you wish to vomit.
+     *
      * @param argMultimap ArgumentMultimap containing prefix of portion mapped to its value.
      * @return OptionalDouble representing the portion.
      * @throws ParseException If value's string representation exceeds 10 character or is negative.
@@ -104,6 +107,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     /**
      * Acts as a helper function for getting the index of food that you wish to vomit.
+     *
      * @param argMultimap ArgumentMultimap containing prefix of portion mapped to its value.
      * @return Int representing the index of food to be removed.
      * @throws ParseException If index is out of bound.
@@ -114,6 +118,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     /**
      * Acts as a helper function for getting the corresponding DailyFoodLog to the date where vomit happens.
+     *
      * @param toFix The DailyFoodLog used to retrieve an existing DailyFoodLog in model with the same date.
      * @param model Model representing all the data of the program.
      * @return DailyFoodLog that is retrieved from model.
@@ -130,6 +135,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     /**
      * Acts as a helper function for getting the type of Food to vomit.
+     *
      * @param foodLog DailyFoodLog that contains food to vomit.
      * @param indexOfFood Index of food to vomit.
      * @return Optional wrapped Food object at specified index.

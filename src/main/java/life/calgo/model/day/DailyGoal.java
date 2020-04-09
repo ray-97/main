@@ -27,8 +27,9 @@ public class DailyGoal implements ReadOnlyGoal {
 
     /**
      * Changes <code>targetDailyCalories</code>  to <code>newTarget</code>
-     * @param newTarget the new desired number of calories to consume each day
-     * @return update on successful change of daily goal
+     *
+     * @param newTarget the new desired number of calories to consume each day.
+     * @return update on successful change of daily goal.
      */
     public DailyGoal updateDailyGoal(int newTarget) {
         return new DailyGoal(newTarget);
