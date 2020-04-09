@@ -82,7 +82,48 @@ public abstract class DocumentGenerator {
     }
 
     /**
-     * Combines columns to form a table.
+     * Takes in a list of String arrays {@code splitStrings} and returns the maximum length of the String
+     * array elements.
+     */
+    private int getMaxLines(ArrayList<String[]> splitStrings) {
+        int maxLines = 0;
+        for (String[] stringArray : splitStrings) {
+            maxLines = Math.max(maxLines, stringArray.length);
+        }
+        return maxLines;
+    }
+
+    /**
+     * @param sb A client StringBuilder object.
+     * @param columns An ArrayList of String Arrays (columns) that contain respective lines of data.
+     * @param currLine The current line number that is being iterated through.
+     */
+    private void iterateColumn(StringBuilder sb, ArrayList<String[]> columns, int currLine) {
+        int numArrays = columns.size();
+        for (int column = 0; column < numArrays; column++) {
+            String[] currArray = columns.get(column);
+            int columnWidth = ReportGenerator.VALUE_COLUMN_WIDTH;
+            if (column == 0) {
+                columnWidth = ReportGenerator.NAME_COLUMN_WIDTH;
+            }
+
+            if (currLine == 0) {
+                sb.append(centraliseText(currArray[currLine], columnWidth + 1));
+            } else if (currLine < currArray.length) {
+                String currString = currArray[currLine];
+                sb.append(addNTrailingWhitespace(currString,
+                        columnWidth - currString.length() + 1));
+            } else {
+                sb.append(addNTrailingWhitespace(" ", columnWidth + 1));
+            }
+
+            if (column == numArrays - 1) {
+                sb.append("\n");
+            }
+        }
+    }
+    /**
+     * Combines columns to form a table. Goes line by line.
      * @param strings An ArrayList of Strings, where each element is a column.
      * @param intervalWidth The distance between each column.
      * @return A stitched String with all columns combined together.
@@ -90,28 +131,10 @@ public abstract class DocumentGenerator {
     public String combineColumns(ArrayList<String> strings, int intervalWidth) {
         StringBuilder result = new StringBuilder();
         ArrayList<String[]> splitArrays = splitNewLines(strings);
-        int numArrays = splitArrays.size();
-        int maxNumLines = 0;
-
-        for (String[] splitArray : splitArrays) {
-            maxNumLines = Math.max(maxNumLines, splitArray.length);
-        }
+        int maxNumLines = getMaxLines(splitArrays);
 
         for (int currLine = 0; currLine < maxNumLines; currLine++) {
-            for (int s = 0; s < numArrays; s++) {
-                String[] currArray = splitArrays.get(s);
-                if (currLine < currArray.length) {
-                    result.append(centraliseText(currArray[currLine], ReportGenerator.COLUMN_WIDTH));
-                } else {
-                    result.append(centraliseText("", ReportGenerator.COLUMN_WIDTH));
-                }
-
-                if (s == numArrays - 1) {
-                    result.append("\n");
-                } else {
-                    result.append(" ".repeat(intervalWidth));
-                }
-            }
+            iterateColumn(result, splitArrays, currLine);
         }
 
         return result.toString();
@@ -135,10 +158,16 @@ public abstract class DocumentGenerator {
 
         int lengthOfText = text.length();
         int numWhitespace = (width - lengthOfText) / 2;
+        String prefixedText = addNLeadingWhitespace(text, numWhitespace);
+        return addNTrailingWhitespace(prefixedText, numWhitespace);
+    }
 
-        return  " ".repeat(numWhitespace) +
-                text +
-                " ".repeat(numWhitespace);
+    public String addNLeadingWhitespace(String text, int n) {
+        return " ".repeat(n) + text;
+    }
+
+    public String addNTrailingWhitespace(String text, int n) {
+        return text + " ".repeat(n);
     }
 
     /**

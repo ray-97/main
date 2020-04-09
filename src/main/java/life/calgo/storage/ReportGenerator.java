@@ -17,8 +17,8 @@ import life.calgo.model.food.Food;
  * Responsible for generating statistics of the user's consumption patterns on a given day.
  */
 public class ReportGenerator extends DocumentGenerator {
-    public static final int COLUMN_WIDTH = 25;
-    public static final int COLUMN_INTERVAL_WIDTH = 3;
+    public static final int VALUE_COLUMN_WIDTH = 25;
+    public static final int NAME_COLUMN_WIDTH = 50;
 
     // for Header
     private static final String HEADER_MESSAGE = "Report of Consumption Pattern on %tF";
@@ -86,7 +86,8 @@ public class ReportGenerator extends DocumentGenerator {
      */
     @Override
     public void printHeader() {
-        printWriter.println(centraliseText(String.format(HEADER_MESSAGE, this.queryLog.getLocalDate()), WIDTH_OF_DOCUMENT));
+        printWriter.println(centraliseText(String.format(HEADER_MESSAGE, this.queryLog.getLocalDate()),
+                WIDTH_OF_DOCUMENT));
         printSeparator();
     }
 
@@ -114,17 +115,12 @@ public class ReportGenerator extends DocumentGenerator {
         printEmptyLine();
 
         DailyFoodLog foodLog = queryLog;
-        String columnInterval = "";
-        for (int i = 0; i < COLUMN_INTERVAL_WIDTH; i++) {
-            if (i == COLUMN_INTERVAL_WIDTH / 2) {
-                columnInterval += "|";
-            }
-            columnInterval += " ";
-        }
-        String foodHeader = centraliseText("Food", COLUMN_WIDTH) + columnInterval;
-        String portionHeader = centraliseText("Total Quantity", COLUMN_WIDTH) + columnInterval;
-        String caloriesHeader = centraliseText("Total Calories", COLUMN_WIDTH);
+        String columnInterval = "|";
+        String foodHeader = centraliseText("Food", NAME_COLUMN_WIDTH) + columnInterval;
+        String portionHeader = centraliseText("Total Quantity", VALUE_COLUMN_WIDTH) + columnInterval;
+        String caloriesHeader = centraliseText("Total Calories", VALUE_COLUMN_WIDTH);
         printWriter.println(foodHeader + portionHeader + caloriesHeader);
+        printEmptyLine();
 
         for (Food food : foodLog.getFoods()) {
             double portion = foodLog.getPortion(food);
@@ -133,16 +129,14 @@ public class ReportGenerator extends DocumentGenerator {
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
-            String foodColumn = stringWrap(food.getFoodNameString(), COLUMN_WIDTH);
-            String portionColumn = stringWrap(String.format("%.1f", portion), COLUMN_WIDTH);
-            String currCaloriesColumn = stringWrap(String.format("%.0f", currCalories), COLUMN_WIDTH);
+            String foodColumn = stringWrap(food.getFoodNameString(), NAME_COLUMN_WIDTH);
+            String portionColumn = stringWrap(String.format("%.1f", portion), VALUE_COLUMN_WIDTH);
+            String currCaloriesColumn = stringWrap(String.format("%.0f", currCalories), VALUE_COLUMN_WIDTH);
             ArrayList<String> columns = new ArrayList<>();
             columns.add(foodColumn);
             columns.add(portionColumn);
             columns.add(currCaloriesColumn);
             String table = combineColumns(columns, 5);
-//            printWriter.println(String.format("%-25s %-20s %-20s", foodName,
-//                    portionString, currCaloriesString));
             printWriter.println(table);
         }
         printSeparator();

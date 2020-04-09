@@ -95,6 +95,12 @@ public class ParserUtil {
         return true;
     }
 
+    /**
+     * Parses {@code goal} into an integer and returns it.
+     *
+     * @throws ParseException If the specified value is invalid (not an integer that is >= MINIMUM_ACCEPTABLE_CALORIES
+     * and <= MAXIMUM_ACCEPTABLE CALORIES.
+     */
     public static int parseGoal(String goal) throws ParseException {
         if (!(isInteger(goal) && goal.length() <= 5 && Integer.parseInt(goal) >= GoalCommand.MINIMUM_ACCEPTABLE_CALORIES
                 && Integer.parseInt(goal) <= GoalCommand.MAXIMUM_ACCEPTABLE_CALORIES)) {
