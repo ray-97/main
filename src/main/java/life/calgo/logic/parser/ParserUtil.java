@@ -48,6 +48,7 @@ public class ParserUtil {
 
     /**
      * Acts as helper method to check if input length is valid.
+     *
      * @param input String representing input.
      * @param message Message to display if check fails.
      * @throws ParseException If input length exceeds validation length.
@@ -323,7 +324,7 @@ public class ParserUtil {
     /**
      * Returns whether all Prefixes appear in the Argument Multimap.
      *
-     * @param argumentMultimap the Argument Multimap we search each Prefix through.
+     * @param argumentMultimap The Argument Multimap we search each Prefix through.
      * @param prefixes Each Prefix we need to search for matches.
      * @return Whether every Prefix appears in the Argument Multimap.
      */
@@ -334,8 +335,8 @@ public class ParserUtil {
     /**
      * Removes leading zeros from a source String which represents an Integer.
      *
-     * @param source the source String which represents an Integer and can only contain Integer values.
-     * @return the processed String which has leading zeros removed.
+     * @param source The source String which represents an Integer and can only contain Integer values.
+     * @return The processed String which has leading zeros removed.
      */
     private static String removeLeadingZerosFromIntegerString(String source) {
         int processedValue = Integer.parseInt(source);

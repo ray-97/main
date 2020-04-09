@@ -25,6 +25,7 @@ public class StomachCommandParser implements Parser<StomachCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the StomachCommand.
+     *
      * @param args a String of arguments provided by user.
      * @return a StomachCommand object for execution.
      * @throws ParseException if the user does not conform to the expected format.
