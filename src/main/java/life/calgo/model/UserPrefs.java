@@ -26,7 +26,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     /**
      * Creates a {@code UserPrefs} with the prefs in {@code userPrefs}.
      *
-     * @param userPrefs the user preferences we wish to set.
+     * @param userPrefs The user preferences we wish to set.
      */
     public UserPrefs(ReadOnlyUserPrefs userPrefs) {
         this();
@@ -36,7 +36,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     /**
      * Resets the existing data of this {@code UserPrefs} with {@code newUserPrefs}.
      *
-     * @param newUserPrefs the user preferences we wish to set.
+     * @param newUserPrefs The user preferences we wish to set.
      */
     public void resetData(ReadOnlyUserPrefs newUserPrefs) {
         requireNonNull(newUserPrefs);
@@ -48,7 +48,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
      * Obtain current GUI settings.
      * This includes settings like Window size.
      *
-     * @return the current GUI settings for the user.
+     * @return The current GUI settings for the user.
      */
     public GuiSettings getGuiSettings() {
         return guiSettings;
@@ -57,7 +57,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     /**
      * Sets the GUI settings to be that of the specified.
      *
-     * @param guiSettings the specified GUI settings we wish to change to.
+     * @param guiSettings The specified GUI settings we wish to change to.
      */
     public void setGuiSettings(GuiSettings guiSettings) {
         requireNonNull(guiSettings);
@@ -68,7 +68,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
      * Obtains the FoodRecord's json file path.
      * This path stores all relevant Food data in a certain format.
      *
-     * @return the FoodRecord's json file path.
+     * @return The FoodRecord's json file path.
      */
     public Path getFoodRecordFilePath() {
         return foodRecordFilePath;
@@ -78,7 +78,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
      * Sets the file path for the json file of the FoodRecord.
      * It is best to keep this in a convenient and appropriate location.
      *
-     * @param foodRecordFilePath the new file path we wish to set to.
+     * @param foodRecordFilePath The new file path we wish to set to.
      */
     public void setFoodRecordFilePath(Path foodRecordFilePath) {
         requireNonNull(foodRecordFilePath);
@@ -89,7 +89,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
      * Obtains the ConsumptionRecord's json file path.
      * This path stores all relevant Food data in a certain format.
      *
-     * @return the ConsumptionRecord's json file path.
+     * @return The ConsumptionRecord's json file path.
      */
     public Path getConsumptionRecordFilePath() {
         return consumptionRecordFilePath;
@@ -99,7 +99,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
      * Obtains the json file path for the file representing the goal set by the user.
      * This path stores all relevant goal data in a certain format.
      *
-     * @return the goal's json file path.
+     * @return The goal's json file path.
      */
     public Path getGoalFilePath() {
         return goalFilePath;
@@ -108,8 +108,8 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     /**
      * Checks for equivalence between UserPrefs.
      *
-     * @param other the other user preferences we wish to compare with.
-     * @return whether the two UserPrefs are equivalent.
+     * @param other The other user preferences we wish to compare with.
+     * @return Whether the two UserPrefs are equivalent.
      */
     @Override
     public boolean equals(Object other) {
@@ -129,7 +129,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     /**
      * Obtains hashcode for the UserPrefs object.
      *
-     * @return the supposedly unique hashcode for the UserPrefs object.
+     * @return The supposedly unique hashcode for the UserPrefs object.
      */
     @Override
     public int hashCode() {
@@ -138,7 +138,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     /**
      * Obtains String representation of the UserPrefs object, specifying the appropriate file paths and data.
-     * @return the String representation of the UserPrefs object.
+     * @return The String representation of the UserPrefs object.
      */
     @Override
     public String toString() {

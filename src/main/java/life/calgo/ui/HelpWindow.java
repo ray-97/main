@@ -15,7 +15,7 @@ import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.commands.HelpCommand;
 
 /**
- * Controller for a help page
+ * Controller for a help page.
  */
 public class HelpWindow extends UiPart<Stage> {
     public static final String USERGUIDE_URL = "https://ay1920s2-cs2103t-f11-1.github.io/main/UserGuide.html";

@@ -18,7 +18,7 @@ import life.calgo.model.food.Name;
  * The API of the Model component.
  */
 public interface Model {
-    /** {@code Predicate} that always evaluate to true */
+    /** {@code Predicate} that always evaluate to true. */
     Predicate<Food> PREDICATE_SHOW_ALL_FOODS = unused -> true;
     Predicate<DisplayFood> PREDICATE_SHOW_ALL_CONSUMED_FOODS = unused -> true;
 
@@ -67,7 +67,7 @@ public interface Model {
      */
     boolean hasFood(Food food);
 
-    /** Returns the existing Food item in FoodRecord */
+    /** Returns the existing Food item in FoodRecord. */
     Food getExistingFood(Food toAdd);
 
     /**

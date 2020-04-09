@@ -29,8 +29,8 @@ public class Tag {
     /**
      * Returns true if a given String is a valid Tag name.
      *
-     * @param test the String to check for validity.
-     * @return whether the given String can be used for a valid Tag name.
+     * @param test The String to check for validity.
+     * @return Whether the given String can be used for a valid Tag name.
      */
     public static boolean isValidTagName(String test) {
         return test.matches(VALIDATION_REGEX);
@@ -39,8 +39,8 @@ public class Tag {
     /**
      * Checks if the current Tag can be considered equivalent to the other, based on identity and tagName.
      *
-     * @param other the other Tag to compare with.
-     * @return whether the current Tag and the other can be considered equivalent.
+     * @param other The other Tag to compare with.
+     * @return Whether the current Tag and the other can be considered equivalent.
      */
     @Override
     public boolean equals(Object other) {

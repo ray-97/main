@@ -3,7 +3,7 @@ package life.calgo.model.food;
 import java.time.LocalDate;
 
 /**
- * To represent food objects that have been consumed by the user
+ * To represent food objects that have been consumed by the user.
  */
 public class DisplayFood extends Food {
 
