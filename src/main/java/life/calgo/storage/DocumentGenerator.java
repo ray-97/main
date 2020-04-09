@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import life.calgo.model.food.Name;
+
 /**
  * An abstract class representing functionality for ReportGenerator and ExportGenerator.
  */
@@ -72,22 +74,79 @@ public abstract class DocumentGenerator {
      */
     public abstract void printFooter();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // String Manipulation Methods
+
+    /**
+     * Obtains the wrapped String representation of the given Name suited for the specified width.
+     *
+     * @param name the Name of the Food which we want to wrap.
+     * @param width the maximum allowed width of the Name segment.
+     * @return the wrapped String representation of the Name for the given width.
+     */
+    protected String generateWrappedNameString(Name name, int width) {
+
+        String result = "";
+
+        String workablePart = getNameString(name);
+        while (!hasAcceptableLength(workablePart, width)) {
+            result += getNextSegment(workablePart, width); // in a new line each time to follow visual format
+            workablePart = getNextWorkablePart(workablePart, width);
+        }
+        assert (hasAcceptableLength(workablePart, width)) : "The supposedly truncated String is still too long.";
+        result += workablePart; // definitely within acceptable length at this point
+
+        return result;
+
+    }
+
+    // Utility Methods
+
+    /**
+     * Removes the first (width) number of characters and returns the remaining String to continue working with.
+     *
+     * @param workablePart the original String to work with.
+     * @param width the number of characters to remove.
+     * @return the remaining String after characters are removed.
+     */
+    protected String getNextWorkablePart(String workablePart, int width) {
+        return workablePart.substring(width);
+    }
+
+    /**
+     * Obtains the truncated part (in a new line) from the middle of a String considered too long for the formatting.
+     *
+     * @param workablePart the String we extract the part from.
+     * @param width the length of the extracted part.
+     * @return the truncated part we wish to extract.
+     */
+    protected String getNextSegment(String workablePart, int width) {
+        return workablePart.substring(0, width) + "\n";
+    }
+
+    protected String getNameString(Name name) {
+        return name.toString();
+    }
+
+    /**
+     * Checks whether the current Name contains a String within the acceptable length for the visual format.
+     *
+     * @param part the current String to check, which can represent a substring of another String.
+     * @param length the acceptable length.
+     * @return whether the given String is within acceptable limits.
+     */
+    protected boolean hasAcceptableLength(String part, int length) {
+        return (part.length() <= length);
+    }
+
+
+
+
+
+
+
+
+
+    // Remove if Unused thanks!
 
     /**
      * @param sb A client StringBuilder object.
@@ -211,5 +270,15 @@ public abstract class DocumentGenerator {
     public String addNTrailingWhitespace(String text, int n) {
         return text + " ".repeat(n);
     }
+
+
+
+
+
+
+
+
+
+
 
 }

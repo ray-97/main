@@ -6,34 +6,49 @@ skinparam classBackgroundColor STORAGE_COLOR
 
 package "Storage Component"{
 Interface Storage <<Interface>>
-Interface UserPrefsStorage <<Interface>>
 Interface FoodRecordStorage <<Interface>>
+Interface ConsumptionRecordStorage <<Interface>>
+Interface UserPrefsStorage <<Interface>>
 Interface GoalStorage <<Interface>>
 
+Class "{abstract}\nCommand" as Command{
+}
+
 Class DocumentGenerator <<Abstract>>
+Class ReportGenerator
+Class ExportGenerator
 Class StorageManager
 Class JsonUserPrefsStorage
 Class JsonFoodRecordStorage
+Class JsonConsumptionRecordStorage
 Class JsonGoalStorage
 Class JsonSerializableGoal
+Class JsonSerializableFoodRecord
+Class JsonSerializableConsumptionRecord
+Class JsonAdaptedFood
 Class JsonAdaptedGoal
-
-Class ReportGenerator
-Class ExportGenerator
+Class JsonAdaptedTag
+Class JsonAdaptedDailyFoodLog
 
 DocumentGenerator <|-- ReportGenerator
 DocumentGenerator <|-- ExportGenerator
 
 StorageManager .up.|> Storage
 StorageManager o--> UserPrefsStorage
+StorageManager o--> ConsumptionRecordStorage
 StorageManager o--> FoodRecordStorage
 StorageManager o--> GoalStorage
+
+JsonConsumptionRecordStorage .up.|> ConsumptionRecordStorage
+JsonConsumptionRecordStorage .down.> JsonSerializableConsumptionRecord
+JsonSerializableConsumptionRecord .down.> JsonAdaptedDailyFoodLog
 
 JsonGoalStorage .up.|> GoalStorage
 JsonGoalStorage ..> JsonSerializableGoal
 JsonSerializableGoal ..> JsonAdaptedGoal
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
+
 JsonFoodRecordStorage .up.|> FoodRecordStorage
 JsonFoodRecordStorage .down.> JsonSerializableFoodRecord
 JsonSerializableFoodRecord .down.> JsonAdaptedFood

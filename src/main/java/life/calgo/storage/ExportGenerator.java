@@ -195,7 +195,8 @@ public class ExportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Obtains the remainder part of the Name that does not appear in the same line as the nutritional details.
+     * Obtains the equivalent of the remainder part of the Name that does not appear in the same line
+     * as the nutritional details.
      *
      * @param remainder the Name representing the untruncated part of the name of the Food.
      * @param width the maximum allowed width of the name segment.
@@ -205,13 +206,9 @@ public class ExportGenerator extends DocumentGenerator {
 
         String result = "\n"; // adding to the truncated front part, hence a newline is needed
 
-        String workablePart = getNameString(remainder);
-        while (!hasAcceptableLength(workablePart, width)) {
-            result += getNextSegment(workablePart, width); // in a new line each time to follow visual format
-            workablePart = getNextWorkablePart(workablePart, width);
-        }
-        assert (hasAcceptableLength(workablePart, width)) : "Supposedly truncated String still too long.";
-        result += workablePart; // definitely within acceptable length at this point
+        // Wraps the remaining part of the Name so that it suits the required formatting
+        result += super.generateWrappedNameString(remainder, width);
+
 
         return result;
 
@@ -257,33 +254,8 @@ public class ExportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Removes the first (width) number of characters and returns the remaining String to continue working with.
-     *
-     * @param workablePart the original String to work with.
-     * @param width the number of characters to remove.
-     * @return the remaining String after characters are removed.
-     */
-    private String getNextWorkablePart(String workablePart, int width) {
-        return workablePart.substring(width);
-    }
-
-    /**
-     * Obtains the truncated part (in a new line) from the middle of a String considered too long for the formatting.
-     *
-     * @param workablePart the String we extract the part from.
-     * @param width the length of the extracted part.
-     * @return the truncated part we wish to extract.
-     */
-    private String getNextSegment(String workablePart, int width) {
-        return workablePart.substring(0, width) + "\n";
-    }
-
-    private String getNameString(Name name) {
-        return name.toString();
-    }
-
-    /**
      * Checks whether the current Name contains a String within the acceptable length for the visual format.
+     * Similar to {@link #hasAcceptableLength(String, int)}, but now takes in a Name rather than a String.
      *
      * @param name the current Name to check.
      * @param length the acceptable length.
@@ -291,15 +263,6 @@ public class ExportGenerator extends DocumentGenerator {
      */
     private boolean hasAcceptableLength(Name name, int length) {
         return (getNameString(name).length() <= length);
-    }
-
-    /**
-     * Similar to {@link #hasAcceptableLength(Name, int)}, but now takes in a String rather than a Name.
-     *
-     * @param part the String to check.
-     */
-    private boolean hasAcceptableLength(String part, int length) {
-        return (part.length() <= length);
     }
 
 }
