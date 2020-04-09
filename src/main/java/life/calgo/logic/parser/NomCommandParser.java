@@ -1,6 +1,7 @@
 package life.calgo.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CALORIES;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_CARBOHYDRATE;
 import static life.calgo.logic.parser.CliSyntax.PREFIX_DATE;
@@ -105,7 +106,7 @@ public class NomCommandParser implements Parser<NomCommand> {
     private Optional<Food> fixNomFood(ArgumentMultimap argMultimap) throws ParseException {
         Optional<Food> optionalFood = model.getFoodByName(
                 ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
-        if (!optionalFood.isPresent()) {
+        if (optionalFood.isEmpty()) {
             throw new ParseException(MESSAGE_NONEXISTENT_FOOD);
         }
         return optionalFood;
