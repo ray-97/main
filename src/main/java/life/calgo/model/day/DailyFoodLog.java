@@ -152,7 +152,7 @@ public class DailyFoodLog {
      * Retrieves a Food object by its position in the LinkedHashMap.
      * @param index Zero based index of the food object.
      * @return Food object within an optional wrapper.
-     * @throws IndexOutOfBoundsException
+     * @throws IndexOutOfBoundsException If given index is invalid.
      */
     public Optional<Food> getFoodByIndex(int index) throws IndexOutOfBoundsException {
         ArrayList<Food> temp = new ArrayList<>(foods.keySet());
@@ -170,6 +170,18 @@ public class DailyFoodLog {
             return 0.0;
         }
         return foods.get(food);
+    }
+
+    /**
+     * Calculates the total number of calories consumed based on all food objects stored in DailyFoodLog object.
+     * @return total number of calories consumed in this DailyFoodLog object.
+     */
+    public double getTotalCalories() {
+        double totalCalories = 0.0;
+        for (Food food : foods.keySet()) {
+            totalCalories += Integer.parseInt(food.getCalorie().value) * foods.get(food);
+        }
+        return totalCalories;
     }
 
     /**
@@ -192,13 +204,6 @@ public class DailyFoodLog {
     public double getRating(Food food) {
         return getMeanRating(food);
     }
-
-    /**
-     * Acts as a helper method to consume method.
-     * @param foodToAdd Food object to be added to LinkedHashMap as key.
-     * @param quantity Double representing portion, to be stored as value in LinkedHashMap.
-     * @return LinkedHashMap containing the Food and portion as key-value pairs.
-     */
 
     /**
      * Acts as a helper method to calculate mean rating for getRating method.
