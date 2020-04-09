@@ -19,7 +19,15 @@ import life.calgo.model.tag.Tag;
  */
 public class ExportGenerator extends DocumentGenerator {
     private static final String PATH_NAME = "data/exports/FoodRecord.txt";
-    private ReadOnlyFoodRecord foodRecord;
+    private static final int NAME_COLUMN_SIZE = 45;
+    private static final int VALUE_COLUMN_SIZE = 20;
+    private static final String STRING_FORMAT = "%-" + NAME_COLUMN_SIZE + "s "
+            + "%-" + VALUE_COLUMN_SIZE + "s "
+            + "%-" + VALUE_COLUMN_SIZE + "s "
+            + "%-" + VALUE_COLUMN_SIZE + "s "
+            + "%-" + VALUE_COLUMN_SIZE + "s "
+            + "%-" + VALUE_COLUMN_SIZE + "s";
+    private ReadOnlyFoodRecord foodRecord;  
 
     public ExportGenerator(ReadOnlyFoodRecord foodRecord) {
         super(PATH_NAME, LogsCenter.getLogger(ExportGenerator.class));
@@ -64,7 +72,7 @@ public class ExportGenerator extends DocumentGenerator {
      * Writes the categories of the nutritional information of each Food in the Food Record.
      */
     private void printCategories() {
-        printWriter.println(String.format("%-45s %-20s %-20s %-20s %-20s %-20s", "Name", "Calories",
+        printWriter.println(String.format(STRING_FORMAT, "Name", "Calories",
                 "Protein(g)", "Carbohydrates(g)", "Fat(g)", "Tags: "));
     }
 
@@ -94,20 +102,6 @@ public class ExportGenerator extends DocumentGenerator {
     // String Manipulation Methods
 
     /**
-     * Accumulates all the Tags into a space-separated String and returns this String.
-     *
-     * @param tags the tags to be converted into String representation.
-     * @return the space-separated String of all the tags given.
-     */
-    private String accumulatedTagsString(Set<Tag> tags) {
-        String result = "";
-        for (Tag tag: tags) {
-            result += tag + " ";
-        }
-        return result;
-    }
-
-    /**
      * Generates the full String representing the Food with all its nutritional details.
      * Names too long are truncated onto the next line.
      *
@@ -122,12 +116,12 @@ public class ExportGenerator extends DocumentGenerator {
         Fat fat = food.getFat();
         Set<Tag> tags = food.getTags();
 
-        if (name.toString().length() <= 45) {
+        if (name.toString().length() <= NAME_COLUMN_SIZE) {
             return generateFirstLine(name, calorie, protein, carbohydrate, fat, tags);
         } else {
-            // to generate first line preview to suit column format of size 45
+            // to generate first line preview to suit column format of size NAME_COLUMN_SIZE
             String nameString = name.toString();
-            String truncatedNameString = nameString.substring(0, 45);
+            String truncatedNameString = nameString.substring(0, NAME_COLUMN_SIZE);
 
             String firstLine = generateFirstLine(new Name(truncatedNameString), calorie, protein,
                     carbohydrate, fat, tags);
@@ -153,8 +147,8 @@ public class ExportGenerator extends DocumentGenerator {
      */
     private String generateFirstLine(Name name, Calorie calorie, Protein protein,
                                      Carbohydrate carbohydrate, Fat fat, Set<Tag> tags) {
-        return String.format("%-45s %-20s %-20s %-20s %-20s %-20s",
-                name, calorie, protein, carbohydrate, fat, accumulatedTagsString(tags));
+        return String.format(STRING_FORMAT,
+                name, calorie, protein, carbohydrate, fat, generateAccumulatedTagsString(tags));
     }
 
     /**
@@ -166,15 +160,31 @@ public class ExportGenerator extends DocumentGenerator {
     private String generateRemainderPartName(String fullName) {
         // first 45 already taken
         String result = "\n";
-        String workablePart = fullName.substring(45);
-        while (workablePart.length() >= 45) {
-            result += workablePart.substring(0, 45) + "\n";
-            workablePart = workablePart.substring(45);
+        String workablePart = fullName.substring(NAME_COLUMN_SIZE);
+        while (workablePart.length() >= NAME_COLUMN_SIZE) {
+            result += workablePart.substring(0, NAME_COLUMN_SIZE) + "\n";
+            workablePart = workablePart.substring(NAME_COLUMN_SIZE);
             System.out.println(workablePart);
         }
         result += workablePart;
 
         return result;
     }
+
+
+    /**
+     * Accumulates all the Tags into a space-separated String and returns this String.
+     *
+     * @param tags the tags to be converted into String representation.
+     * @return the space-separated String of all the tags given.
+     */
+    private String generateAccumulatedTagsString(Set<Tag> tags) {
+        String result = "";
+        for (Tag tag: tags) {
+            result += tag + " ";
+        }
+        return result;
+    }
+
 
 }
