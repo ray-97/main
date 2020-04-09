@@ -18,7 +18,11 @@ import life.calgo.model.tag.Tag;
  * All Food entries will have all their details written into the file.
  */
 public class ExportGenerator extends DocumentGenerator {
+
     private static final String PATH_NAME = "data/exports/FoodRecord.txt";
+
+    // Formatting
+
     private static final int NAME_COLUMN_SIZE = 45;
     private static final int VALUE_COLUMN_SIZE = 20;
     private static final String STRING_FORMAT = "%-" + NAME_COLUMN_SIZE + "s "
@@ -27,6 +31,7 @@ public class ExportGenerator extends DocumentGenerator {
             + "%-" + VALUE_COLUMN_SIZE + "s "
             + "%-" + VALUE_COLUMN_SIZE + "s "
             + "%-" + VALUE_COLUMN_SIZE + "s";
+
     private ReadOnlyFoodRecord foodRecord;
 
     public ExportGenerator(ReadOnlyFoodRecord foodRecord) {
@@ -35,22 +40,15 @@ public class ExportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Formats and details the current Food Record into a txt file.
+     * Formats and details the current Food Record into a txt file, then returns true if successful.
      *
      * @return a boolean value that is true only if FoodRecord.txt is successfully generated.
      */
     public boolean generateExport() {
-        printSeparator();
-        printSeparator();
+
         printHeader();
-        printSeparator();
-        printSeparator();
-
-        printFoodRecordEntirely();
-
-        printSeparator();
+        printBody();
         printFooter();
-        printSeparator();
 
         printWriter.close();
 
@@ -64,30 +62,28 @@ public class ExportGenerator extends DocumentGenerator {
      */
     @Override
     public void printHeader() {
-        String title = centraliseText("Your Food Record: A Collection of Your Past Entries", WIDTH_OF_DOCUMENT);
-        printWriter.println(title);
-    }
 
-    /**
-     * Writes the categories of the nutritional information of each Food in the Food Record.
-     */
-    private void printCategories() {
-        printWriter.println(String.format(STRING_FORMAT, "Name", "Calories",
-                "Protein(g)", "Carbohydrates(g)", "Fat(g)", "Tags: "));
+        printSeparator();
+        printSeparator();
+
+        printHeaderComponent();
+
+        printSeparator();
+        printSeparator();
+
     }
 
     /**
      * Writes the entire current Food Record into the FoodRecord.txt.
      */
-    public void printFoodRecordEntirely() {
-        printCategories();
+    @Override
+    public void printBody() {
+
+        printCategoriesComponent(); // categories are part of the body to indicate the table format visually to user
+
         printSeparator();
 
-        ObservableList<Food> sourceFoodRecord = foodRecord.getFoodList();
-        for (Food food : sourceFoodRecord) {
-            String processedString = generateFinalisedEntryString(food);
-            printWriter.println(processedString);
-        }
+        printBodyComponent();
 
     }
 
@@ -96,7 +92,49 @@ public class ExportGenerator extends DocumentGenerator {
      */
     @Override
     public void printFooter() {
-        printWriter.println(centraliseText("Eat Good, Live Well!", WIDTH_OF_DOCUMENT));
+
+        printSeparator();
+
+        printFooterComponent();
+
+        printSeparator();
+
+    }
+
+    /**
+     * Writes the main part of the header.
+     */
+    private void printHeaderComponent() {
+        String title = centraliseText("Your Food Record: A Collection of Your Past Entries", WIDTH_OF_DOCUMENT);
+        printWriter.println(title);
+    }
+
+    /**
+     * Writes the main part of the body.
+     */
+    private void printBodyComponent() {
+        ObservableList<Food> sourceFoodRecord = foodRecord.getFoodList();
+        for (Food food : sourceFoodRecord) {
+            String processedString = generateFinalisedEntryString(food);
+            printWriter.println(processedString);
+        }
+    }
+
+    /**
+     * Writes the main part of the footer.
+     */
+    private void printFooterComponent() {
+        String footer = centraliseText("Eat Good, Live Well!", WIDTH_OF_DOCUMENT);
+        printWriter.println(footer);
+    }
+
+    /**
+     * Writes the categories of the nutritional information of each Food in the Food Record.
+     */
+    private void printCategoriesComponent() {
+        String categories = String.format(
+                STRING_FORMAT, "Name", "Calories", "Protein(g)", "Carbohydrates(g)", "Fat(g)", "Tags: ");
+        printWriter.println(categories);
     }
 
     // String Manipulation Methods
@@ -109,6 +147,7 @@ public class ExportGenerator extends DocumentGenerator {
      * @return the String representation for the Food entry.
      */
     private String generateFinalisedEntryString(Food food) {
+
         Name name = food.getName();
         Calorie calorie = food.getCalorie();
         Protein protein = food.getProtein();
@@ -116,26 +155,27 @@ public class ExportGenerator extends DocumentGenerator {
         Fat fat = food.getFat();
         Set<Tag> tags = food.getTags();
 
-        if (name.toString().length() <= NAME_COLUMN_SIZE) {
+        if (hasAcceptableLength(name, NAME_COLUMN_SIZE)) {
+
             return generateFirstLine(name, calorie, protein, carbohydrate, fat, tags);
+
         } else {
-            // to generate first line preview to suit column format of size NAME_COLUMN_SIZE
-            String nameString = name.toString();
-            String truncatedNameString = nameString.substring(0, NAME_COLUMN_SIZE);
 
-            String firstLine = generateFirstLine(new Name(truncatedNameString), calorie, protein,
-                    carbohydrate, fat, tags);
-
-            // keep truncating until the end with newline generated each time
-            String remainderLines = generateRemainderPartName(nameString);
+            Name truncatedName = getTruncatedName(name, NAME_COLUMN_SIZE);
+            String firstLine = generateFirstLine(truncatedName, calorie, protein, carbohydrate, fat, tags);
+            Name untruncatedName = getUntruncatedName(name, NAME_COLUMN_SIZE);
+            String remainderLines = generateRemainderLines(untruncatedName, NAME_COLUMN_SIZE);
 
             return firstLine + remainderLines;
+
         }
+
     }
 
     /**
      * Generates the first line of the String representing the Food with all its nutritional details.
-     * Names too long should be truncated onto the next line and uses {@link #generateRemainderPartName(String)}.
+     * Names too long should be truncated onto the next line and
+     * uses {@link #generateRemainderLines(Name, int)}.
      *
      * @param name the Name of the Food.
      * @param calorie the Calorie of the Food.
@@ -154,23 +194,25 @@ public class ExportGenerator extends DocumentGenerator {
     /**
      * Obtains the remainder part of the Name that does not appear in the same line as the nutritional details.
      *
-     * @param fullName the String representing the full name of the Food.
+     * @param remainder the Name representing the untruncated part of the name of the Food.
+     * @param width the maximum allowed width of the name segment.
      * @return the remainder part of the Name not previously shown.
      */
-    private String generateRemainderPartName(String fullName) {
-        // first 45 already taken
-        String result = "\n";
-        String workablePart = fullName.substring(NAME_COLUMN_SIZE);
-        while (workablePart.length() >= NAME_COLUMN_SIZE) {
-            result += workablePart.substring(0, NAME_COLUMN_SIZE) + "\n";
-            workablePart = workablePart.substring(NAME_COLUMN_SIZE);
-            System.out.println(workablePart);
+    private String generateRemainderLines(Name remainder, int width) {
+
+        String result = "\n"; // adding to the truncated front part, hence a newline is needed
+
+        String workablePart = getNameString(remainder);
+        while (!hasAcceptableLength(workablePart, width)) {
+            result += getNextSegment(workablePart, width); // in a new line each time to follow visual format
+            workablePart = getNextWorkablePart(workablePart, width);
         }
-        result += workablePart;
+        assert (hasAcceptableLength(workablePart, width)) : "Supposedly truncated String still too long.";
+        result += workablePart; // definitely within acceptable length at this point
 
         return result;
-    }
 
+    }
 
     /**
      * Accumulates all the Tags into a space-separated String and returns this String.
@@ -186,5 +228,75 @@ public class ExportGenerator extends DocumentGenerator {
         return result;
     }
 
+    // Utility Method
+
+    /**
+     * Gets a new Name object containing the truncated full name of the original Name object.
+     *
+     * @param name the original Name object we wish to truncate from.
+     */
+    private Name getTruncatedName(Name name, int truncateLength) {
+        String nameString = getNameString(name);
+        String truncatedNameString = nameString.substring(0, truncateLength);
+        return new Name(truncatedNameString);
+    }
+
+    /**
+     * Gets a new Name object containing the untruncated part of the name of the original Name object.
+     * This is complementary to the {@link #getTruncatedName(Name, int)} method.
+     *
+     * @param name the original Name object we wish to truncate from.
+     */
+    private Name getUntruncatedName(Name name, int truncateLength) {
+        String nameString = getNameString(name);
+        String truncatedNameString = nameString.substring(truncateLength);
+        return new Name(truncatedNameString);
+    }
+
+    /**
+     * Removes the first (width) number of characters and returns the remaining String to continue working with.
+     *
+     * @param workablePart the original String to work with.
+     * @param width the number of characters to remove.
+     * @return the remaining String after characters are removed.
+     */
+    private String getNextWorkablePart(String workablePart, int width) {
+        return workablePart.substring(width);
+    }
+
+    /**
+     * Obtains the truncated part (in a new line) from the middle of a String considered too long for the formatting.
+     *
+     * @param workablePart the String we extract the part from.
+     * @param width the length of the extracted part.
+     * @return the truncated part we wish to extract.
+     */
+    private String getNextSegment(String workablePart, int width) {
+        return workablePart.substring(0, width) + "\n";
+    }
+
+    private String getNameString(Name name) {
+        return name.toString();
+    }
+
+    /**
+     * Checks whether the current Name contains a String within the acceptable length for the visual format.
+     *
+     * @param name the current Name to check.
+     * @param length the acceptable length.
+     * @return whether the current Name is within acceptable limits.
+     */
+    private boolean hasAcceptableLength(Name name, int length) {
+        return (getNameString(name).length() <= length);
+    }
+
+    /**
+     * Similar to {@link #hasAcceptableLength(Name, int)}, but now takes in a String rather than a Name.
+     *
+     * @param part the String to check.
+     */
+    private boolean hasAcceptableLength(String part, int length) {
+        return (part.length() <= length);
+    }
 
 }

@@ -72,10 +72,7 @@ public class ReportGenerator extends DocumentGenerator {
      */
     public boolean generateReport() {
         printHeader();
-        printGoalInformation();
-        printFoodwiseStatistics();
-        printAggregateStatistics();
-        printInsights();
+        printBody();
         // printSuggestions();
         printFooter();
         printWriter.close();
@@ -90,6 +87,16 @@ public class ReportGenerator extends DocumentGenerator {
         printWriter.println(centraliseText(String.format(HEADER_MESSAGE, this.queryLog.getLocalDate()),
                 WIDTH_OF_DOCUMENT));
         printSeparator();
+    }
+
+    /**
+     * Writes the body of the report document.
+     */
+    public void printBody() {
+        printGoalInformation();
+        printFoodwiseStatistics();
+        printAggregateStatistics();
+        printInsights();
     }
 
     /**

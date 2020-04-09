@@ -48,9 +48,14 @@ public abstract class DocumentGenerator {
     public abstract void printHeader();
 
     /**
+     * Writes the body of the document.
+     */
+    public abstract void printBody();
+
+    /**
      * Writes a line for neatness in formatting.
      */
-    public void printSeparator() {
+    protected void printSeparator() {
         printWriter.println("--------------------------------------------------------------------------------"
                 + "---------------------------------------");
     }
@@ -58,7 +63,7 @@ public abstract class DocumentGenerator {
     /**
      * Writes an empty line.
      */
-    public void printEmptyLine() {
+    protected void printEmptyLine() {
         printWriter.println("");
     }
 
@@ -66,6 +71,21 @@ public abstract class DocumentGenerator {
      * Writes the concluding remarks in the document.
      */
     public abstract void printFooter();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // String Manipulation Methods
 
