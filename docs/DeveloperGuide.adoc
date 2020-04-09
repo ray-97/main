@@ -169,12 +169,13 @@ image::StorageClassDiagram.png[]
 
 *API* : link:{repoURL}/blob/master/src/main/java/life/calgo/storage/Storage.java[`Storage.java`]
 
-The `Storage` component can do the following:
+The `Storage` component allows us to save `FoodRecord`, `UserPref`, `Goal`, and `ConsumptionRecord`  data in json format onto the disk, and read them back later on during the next session.
 
-. Saves `UserPref` objects in json format and read it back for the next session.
-. Saves `FoodRecord` data in json format and read it back for the next session.
-. Generates an insights report based on user food consumption.
-. Generates a user-friendly version of the current `FoodRecord`.
+This would facilitate the following functions:
+
+. Load past user App data and preferences.
+. Generate and save insights reports based on previously and currently recorded user consumption.
+. Generate and save a user-friendly version of the accumulated `FoodRecord`.
 
 [[Design-Commons]]
 === Common classes
