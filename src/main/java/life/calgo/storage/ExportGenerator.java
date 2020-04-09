@@ -54,7 +54,7 @@ public class ExportGenerator extends DocumentGenerator {
      */
     @Override
     public void printHeader() {
-        String title = centraliseText("Your Food Record: A Collection of Your Past Entries");
+        String title = centraliseText("Your Food Record: A Collection of Your Past Entries", WIDTH_OF_DOCUMENT);
         printWriter.println(title);
     }
 
@@ -63,7 +63,7 @@ public class ExportGenerator extends DocumentGenerator {
      */
     @Override
     public void printFooter() {
-        printWriter.println(centraliseText("Eat Good, Live Well!"));
+        printWriter.println(centraliseText("Eat Good, Live Well!", WIDTH_OF_DOCUMENT));
     }
 
     /**

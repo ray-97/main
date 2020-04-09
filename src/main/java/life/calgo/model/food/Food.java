@@ -137,6 +137,8 @@ public class Food implements Comparable<Food> {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
+        int numTags = getTags().size();
+
         builder.append(getName())
                 .append(" Calories: ")
                 .append(getCalorie())
@@ -145,9 +147,11 @@ public class Food implements Comparable<Food> {
                 .append(" Carbohydrates (g): ")
                 .append(getCarbohydrate())
                 .append(" Fats (g): ")
-                .append(getFat())
-                .append(" Tags: ");
-        getTags().forEach(builder::append);
+                .append(getFat());
+        if (numTags != 0) {
+            builder.append(" Tags: ");
+            getTags().forEach(builder::append);
+        }
         return builder.toString();
     }
 

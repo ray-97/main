@@ -291,7 +291,7 @@ Your goal will also be used to provide helpful insights regarding your consumpti
 The range of acceptable values are: +
 
 *  Minimum acceptable value: 1 +
-* Maximum acceptable value: 2147483647
+* Maximum acceptable value: 99999
 
 Format: `goal GOAL`
 
