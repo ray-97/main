@@ -228,7 +228,7 @@ public class ExportGenerator extends DocumentGenerator {
         return result;
     }
 
-    // Utility Method
+    // Utility Methods
 
     /**
      * Gets a new Name object containing the truncated full name of the original Name object.
