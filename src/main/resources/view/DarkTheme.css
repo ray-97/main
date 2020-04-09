@@ -100,11 +100,11 @@
 }
 
 .list-cell:filled:even {
-    -fx-background-color: #de6437;
+    -fx-background-color: #c46c3d;
 }
 
 .list-cell:filled:odd {
-    -fx-background-color: #d96e48;
+    -fx-background-color: #b55633;
 }
 
 .list-cell:filled:selected {
@@ -347,17 +347,17 @@
 }
 
 #resultDisplay .content {
-    -fx-background-color: transparent, #e04e09, transparent, #e04e09;
+    -fx-background-color: transparent, #db6d3b, transparent, #db6d3b;
     -fx-background-radius: 0;
 }
 
 #goalDisplay .content {
-    -fx-background-color: transparent, #e04e09, transparent, #e04e09;
+    -fx-background-color: transparent, #db6d3b, transparent, #db6d3b;
     -fx-background-radius: 0;
 }
 
 #remainingCaloriesDisplay .content {
-    -fx-background-color: transparent, #e04e09, transparent, #e04e09;
+    -fx-background-color: transparent, #db6d3b, transparent, #db6d3b;
     -fx-background-radius: 0;
 }
 
