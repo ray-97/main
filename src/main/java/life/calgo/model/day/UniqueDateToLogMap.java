@@ -33,7 +33,9 @@ public class UniqueDateToLogMap {
     }
 
     /**
-     * Returns true if internalMap contains a DailyFoodLog with same date as foodLog.
+     * Checks if internalMap has an existing DailyFoodLog with same date.
+     * @param foodLog DailyFoodLog containing the date you want to search with.
+     * @return True if internalMap contains a DailyFoodLog with same date as foodLog.
      */
     public boolean hasLogWithSameDate(DailyFoodLog foodLog) {
         return internalMap.containsKey(foodLog.getLocalDate());
@@ -41,7 +43,7 @@ public class UniqueDateToLogMap {
 
     /**
      * Populates internalMap with LocalDate and DailyFoodLog key value pairs.
-     * @param dateToLogMap the HashMap containing data to populate internalMap.
+     * @param dateToLogMap HashMap containing data to populate internalMap.
      */
     public void setDateToLogMap(HashMap<LocalDate, DailyFoodLog> dateToLogMap) {
         internalMap.clear();
@@ -62,7 +64,8 @@ public class UniqueDateToLogMap {
     }
 
     /**
-     * Updates every DailyFoodLog in internalMap with respective food item that is updated.
+     * Updates every food with same name in each DailyFoodLog in internalMap.
+     * @param food Food that is most up-to-date with Food Record.
      */
     public void updateMapWithFood(Food food) {
         for (DailyFoodLog log: internalMap.values()) {
@@ -75,8 +78,8 @@ public class UniqueDateToLogMap {
     }
 
     /**
-     * updates internal key-value pair by updating the value of the given date key
-     * @param logAfterConsumption the updated day object after consuming a certain food
+     * Updates internal key-value pair by updating the value of the given date key
+     * @param logAfterConsumption The updated day object after consuming a certain food
      */
     public void updateLog(DailyFoodLog logAfterConsumption) {
         requireAllNonNull(logAfterConsumption);
@@ -85,8 +88,8 @@ public class UniqueDateToLogMap {
 
     /**
      * Sets internalList to reflect a DailyFoodLog with DisplayFood items.
-     * @param date date of DailyFoodLog be reflected.
-     * @throws CommandException if user requests to display an empty DailyFoodLog.
+     * @param date Date of DailyFoodLog be reflected.
+     * @throws CommandException If user requests to display an empty DailyFoodLog.
      */
     public void setDailyListDate(LocalDate date) throws CommandException {
         internalList.clear();
