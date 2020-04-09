@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 import life.calgo.commons.core.index.Index;
 import life.calgo.commons.util.StringUtil;
+import life.calgo.logic.commands.GoalCommand;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.food.Calorie;
 import life.calgo.model.food.Carbohydrate;
@@ -94,6 +95,23 @@ public class ParserUtil {
         }
         return true;
     }
+
+    /**
+     * Parses {@code goal} into an integer and returns it.
+     *
+     * @throws ParseException If the specified value is invalid (not an integer that is >= MINIMUM_ACCEPTABLE_CALORIES
+     * and <= MAXIMUM_ACCEPTABLE CALORIES.
+     */
+    public static int parseGoal(String goal) throws ParseException {
+        if (!(isInteger(goal) && goal.length() <= 5 && Integer.parseInt(goal) >= GoalCommand.MINIMUM_ACCEPTABLE_CALORIES
+                && Integer.parseInt(goal) <= GoalCommand.MAXIMUM_ACCEPTABLE_CALORIES)) {
+            throw new ParseException(String.format(GoalCommand.MESSAGE_FAILURE, GoalCommand.MINIMUM_ACCEPTABLE_CALORIES,
+                    GoalCommand.MAXIMUM_ACCEPTABLE_CALORIES));
+        } else {
+            return Integer.parseInt(goal);
+        }
+    }
+
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it.

@@ -49,7 +49,6 @@ public class DailyFoodLog {
 
     /**
      * Returns a new DailyFoodLog with same data fields, but different date.
-     *
      * @param date Date you wish to set the log to.
      * @return Replica of this DailyFoodLog, with different date.
      */
@@ -161,7 +160,7 @@ public class DailyFoodLog {
      *
      * @param index Zero based index of the food object.
      * @return Food object within an optional wrapper.
-     * @throws IndexOutOfBoundsException
+     * @throws IndexOutOfBoundsException If given index is invalid.
      */
     public Optional<Food> getFoodByIndex(int index) throws IndexOutOfBoundsException {
         ArrayList<Food> temp = new ArrayList<>(foods.keySet());
@@ -180,6 +179,19 @@ public class DailyFoodLog {
             return 0.0;
         }
         return foods.get(food);
+    }
+
+    /**
+     * Calculates the total number of calories consumed based on all food objects stored in DailyFoodLog object.
+     *
+     * @return total number of calories consumed in this DailyFoodLog object.
+     */
+    public double getTotalCalories() {
+        double totalCalories = 0.0;
+        for (Food food : foods.keySet()) {
+            totalCalories += Integer.parseInt(food.getCalorie().value) * foods.get(food);
+        }
+        return totalCalories;
     }
 
     /**
@@ -230,8 +242,6 @@ public class DailyFoodLog {
 
     /**
      * Returns a copy of this DailyFoodLog's ratings.
-     *
-     * @return LinkedHashMap mapping food to array of integer ratings.
      */
     public LinkedHashMap<Food, ArrayList<Integer>> copyRatings() {
         LinkedHashMap<Food, ArrayList<Integer>> ratings = new LinkedHashMap<>();
@@ -243,8 +253,6 @@ public class DailyFoodLog {
 
     /**
      * Returns a copy of this DailyFoodLog's foods.
-     *
-     * @return LinkedHashMap mapping food to double.
      */
     public LinkedHashMap<Food, Double> copyFoods() {
         LinkedHashMap<Food, Double> foods = new LinkedHashMap<>();

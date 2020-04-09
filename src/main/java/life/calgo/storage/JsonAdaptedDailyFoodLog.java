@@ -97,6 +97,7 @@ public class JsonAdaptedDailyFoodLog {
 
     /**
      * Converts this Jackson-friendly adapted DailyFoodLog object into the model's {@code DailyFoodLog} object.
+     *
      * @return DailyFoodLog equivalent of this adaptedDailyFoodLog object.
      * @throws IllegalValueException If there were any data constraints violated in the adaptedDailyFoodLog.
      */

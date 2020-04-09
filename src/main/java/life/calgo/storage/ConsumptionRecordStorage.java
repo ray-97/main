@@ -21,8 +21,8 @@ public interface ConsumptionRecordStorage {
      * Returns ConsumptionRecord data as a {@link ReadOnlyConsumptionRecord}.
      * Returns {@code Optional.empty()} if storage file is not found.
      *
-     * @throws DataConversionException if the data in storage is not in the expected format.
-     * @throws IOException if there was any problem when reading from the storage.
+     * @throws DataConversionException If the data in storage is not in the expected format.
+     * @throws IOException If there was any problem when reading from the storage.
      */
     Optional<ReadOnlyConsumptionRecord> readConsumptionRecord() throws DataConversionException, IOException;
 
@@ -34,8 +34,9 @@ public interface ConsumptionRecordStorage {
 
     /**
      * Saves the given {@link ReadOnlyConsumptionRecord} to the storage.
-     * @param consumptionRecord cannot be null.
-     * @throws IOException if there was any problem writing to the file.
+     *
+     * @param consumptionRecord Cannot be null.
+     * @throws IOException If there was any problem writing to the file.
      */
     void saveConsumptionRecord(ReadOnlyConsumptionRecord consumptionRecord) throws IOException;
 

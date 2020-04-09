@@ -19,7 +19,6 @@ import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
-import life.calgo.storage.ReportGenerator;
 
 /**
  * Represents the in-memory model of the food record data.
@@ -129,22 +128,21 @@ public class ModelManager implements Model {
         DailyGoal goal = getDailyGoal();
         DailyFoodLog todayFoodLog = getLogByDate(date);
         if (goal == null) {
-            return 0.0;
+            return DailyGoal.DUMMY_VALUE;
         }
-        // user did not consume anything today
+        // user did not consume anything on given date
         if (todayFoodLog == null) {
             return goal.getTargetDailyCalories();
+        } else {
+            return goal.getTargetDailyCalories() - todayFoodLog.getTotalCalories();
         }
-
-        ReportGenerator reportGenerator = new ReportGenerator(date, goal, getConsumptionRecord());
-        reportGenerator.generateReport();
-        return reportGenerator.calculateRemainingCalories();
     }
 
     /**
-     * Updates ModelManager's DailyGoal to the new targetDailyCalories
-     * @param targetDailyCalories the new targeted number of calories to consume each day by user
-     * @return the updated DailyGoal object
+     * Updates ModelManager's DailyGoal to the new targetDailyCalories.
+     *
+     * @param targetDailyCalories the new targeted number of calories to consume each day by user.
+     * @return the updated DailyGoal object.
      */
     public DailyGoal updateDailyGoal(int targetDailyCalories) {
         if (isGoalMade()) {
@@ -156,8 +154,9 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Checks if goal already exists
-     * @return true if there is already some goal
+     * Checks if goal already exists.
+     *
+     * @return true if there is already some goal.
      */
     public boolean isGoalMade() {
         return this.targetDailyCalories != null;
@@ -233,6 +232,7 @@ public class ModelManager implements Model {
 
     /**
      * Updates existing DisplayFood items having same name as {@code food} in consumption record for display.
+     *
      * @param food food that has been updated.
      */
     @Override
@@ -257,7 +257,7 @@ public class ModelManager implements Model {
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
-     * {@code versionedFoodRecord}
+     * {@code versionedFoodRecord}.
      */
     @Override
     public ObservableList<Food> getFilteredFoodRecord() {
