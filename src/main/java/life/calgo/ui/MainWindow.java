@@ -54,6 +54,7 @@ public class MainWindow extends UiPart<Stage> {
     private GoalDisplay goalDisplay;
     private RemainingCaloriesDisplay remainingCaloriesDisplay;
     private HelpWindow helpWindow;
+    private GraphPanel graphDisplay;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -138,7 +139,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Fills up all the placeholders of this window.
      */
-    void fillInnerParts() {
+    void fillInnerParts() throws ParseException {
         foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
         foodListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
 
@@ -163,6 +164,9 @@ public class MainWindow extends UiPart<Stage> {
         fillGoal();
 
         fillRemainingCalories();
+
+        graphDisplay = new GraphPanel(logic.getFilteredDailyList());
+        graphDisplayPlaceholder.getChildren().add(graphDisplay.getGraph(logic));
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
