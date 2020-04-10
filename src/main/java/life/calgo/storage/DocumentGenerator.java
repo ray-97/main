@@ -46,12 +46,17 @@ public abstract class DocumentGenerator {
     /**
      * Writes the context/meta-information of the document.
      */
-    public abstract void printHeader();
+    protected abstract void printHeader();
 
     /**
      * Writes the body of the document.
      */
-    public abstract void printBody();
+    protected abstract void printBody();
+
+    /**
+     * Writes the concluding remarks in the document.
+     */
+    protected abstract void printFooter();
 
     /**
      * Writes a line for neatness in formatting.
@@ -67,12 +72,6 @@ public abstract class DocumentGenerator {
     protected void printEmptyLine() {
         printWriter.println("");
     }
-
-    /**
-     * Writes the concluding remarks in the document.
-     */
-    public abstract void printFooter();
-
 
     // String Manipulation Methods
 
@@ -97,6 +96,43 @@ public abstract class DocumentGenerator {
 
         return result;
 
+    }
+
+    /**
+     * Centralises the specified String.
+     *
+     * @param text The String to be centralised.
+     * @param width The width of the line whereby String should be centralised.
+     * @return The processed String that has been centralised.
+     */
+    protected String centraliseText(String text, int width) {
+
+        int lengthOfText = text.length();
+        int numWhitespace = (width - lengthOfText) / 2;
+        String prefixedText = addNLeadingWhitespace(text, numWhitespace);
+        return addNTrailingWhitespace(prefixedText, numWhitespace);
+    }
+
+    /**
+     * Adds a prefix of a given number of whitespaces to a given string.
+     *
+     * @param text The given string.
+     * @param n The number of whitespaces to add before the given string.
+     * @return The string with leading whitespaces.
+     */
+    protected String addNLeadingWhitespace(String text, int n) {
+        return " ".repeat(n) + text;
+    }
+
+    /**
+     * Adds a suffix of a given number of whitespaces to a given string.
+     *
+     * @param text The given string.
+     * @param n The number of whitespaces to add after the given string.
+     * @return The string with trailing whitespaces.
+     */
+    protected String addNTrailingWhitespace(String text, int n) {
+        return text + " ".repeat(n);
     }
 
     // Utility Methods
@@ -136,43 +172,6 @@ public abstract class DocumentGenerator {
      */
     protected boolean hasAcceptableLength(String part, int length) {
         return (part.length() <= length);
-    }
-
-    /**
-     * Centralises the specified String.
-     *
-     * @param text The String to be centralised.
-     * @param width The width of the line whereby String should be centralised.
-     * @return The processed String that has been centralised.
-     */
-    protected String centraliseText(String text, int width) {
-
-        int lengthOfText = text.length();
-        int numWhitespace = (width - lengthOfText) / 2;
-        String prefixedText = addNLeadingWhitespace(text, numWhitespace);
-        return addNTrailingWhitespace(prefixedText, numWhitespace);
-    }
-
-    /**
-     * Adds a prefix of a given number of whitespaces to a given string.
-     *
-     * @param text The given string.
-     * @param n The number of whitespaces to add before the given string.
-     * @return The string with leading whitespaces.
-     */
-    protected String addNLeadingWhitespace(String text, int n) {
-        return " ".repeat(n) + text;
-    }
-
-    /**
-     * Adds a suffix of a given number of whitespaces to a given string.
-     *
-     * @param text The given string.
-     * @param n The number of whitespaces to add after the given string.
-     * @return The string with trailing whitespaces.
-     */
-    protected String addNTrailingWhitespace(String text, int n) {
-        return text + " ".repeat(n);
     }
 
 }

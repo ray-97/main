@@ -16,6 +16,8 @@ import life.calgo.model.food.Food;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class DailyFoodLog {
+    // Constants
+    public static final int RATING_DUMMY_VALUE = -1;
 
     // Data fields
     private final LinkedHashMap<Food, Double> foods;
@@ -234,7 +236,7 @@ public class DailyFoodLog {
     private double getMeanRating(Food food) {
         OptionalDouble average = ratings.get(food).stream().mapToInt(i -> i).average();
         if (average.isEmpty()) {
-            return -1;
+            return RATING_DUMMY_VALUE;
         } else {
             return average.getAsDouble();
         }
