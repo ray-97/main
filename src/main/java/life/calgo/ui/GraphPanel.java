@@ -14,9 +14,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 
 import life.calgo.logic.Logic;
-import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.day.DailyFoodLog;
 
+/**
+ * The Graph Panel, containing both the ui part for displaying a line chart of
+ * total calories against date for the past seven days,
+ * and the logic to create that chart.
+ */
 public class GraphPanel extends UiPart<Region> {
 
     private static GraphPanel graphPanelInstance = null;
@@ -35,12 +39,10 @@ public class GraphPanel extends UiPart<Region> {
 
     public GraphPanel() {
         super(FXML);
-        System.out.println("a");
     }
 
-    // static method to create instance of Singleton class
+    // static method creates a singleton graphPanel
     public static GraphPanel getGraphPanelInstance() {
-        // To ensure only one instance is created
         if (graphPanelInstance == null) {
             graphPanelInstance = new GraphPanel();
         }
@@ -50,13 +52,13 @@ public class GraphPanel extends UiPart<Region> {
 
 
     //Wrapper
-    private void makeGraph(Logic logic) throws ParseException {
+    private void makeGraph(Logic logic) {
         initialiseTreeMap(logic);
         initialiseGraph();
         updateSeries();
     }
 
-    public LineChart<String, Number> getGraph(Logic logic) throws ParseException {
+    public LineChart<String, Number> getGraph(Logic logic) {
         makeGraph(logic);
         return graph;
     }
@@ -65,6 +67,11 @@ public class GraphPanel extends UiPart<Region> {
         pastWeekLogs = logic.getPastWeekLogs();
     }
 
+    /**
+     * Sets up the treemap containing mapping of date to total calories consumed on that day.
+     * Days where there are no records are counted as 0 calories consumed.
+     * @param logic module that contains method for obtaining daily food logs.
+     */
     private void initialiseTreeMap(Logic logic) {
         caloriesAgainstDate.clear();
         setPastWeekLogs(logic);
@@ -80,8 +87,11 @@ public class GraphPanel extends UiPart<Region> {
         }
     }
 
+    /**
+     * Sets up line chart axes, and adds a series to provide data.
+     */
     private void initialiseGraph() {
-        //graph.getData().removeAll(series);
+        graph.getData().removeAll(series);
         series = new XYChart.Series<>();
 
         xAxis.setLabel("Day");
@@ -94,16 +104,17 @@ public class GraphPanel extends UiPart<Region> {
         graph.getData().add(series);
     }
 
+
+    /**
+     * Updates the series that provides data to the graph.
+     */
     private void updateSeries() {
         series.getData().clear();
 
         caloriesAgainstDate.forEach((date, calories) -> {
             String dateString = date.toString();
-            series.getData().add(new XYChart.Data<String, Number>(dateString, calories));
+            series.getData().add(new XYChart.Data<>(dateString, calories));
         });
     }
-
-
-    // private void updateMapAdd()
 
 }

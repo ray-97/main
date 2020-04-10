@@ -143,7 +143,7 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Fills up all the placeholders of this window.
      */
-    void fillInnerParts() throws ParseException {
+    void fillInnerParts() {
         foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
         foodListPanelPlaceholder.getChildren().add(foodListPanel.getRoot());
 
