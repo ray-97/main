@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -83,6 +84,9 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane graphDisplayPlaceholder;
 
+    @FXML
+    private Label dailyListDate;
+
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
 
@@ -154,6 +158,9 @@ public class MainWindow extends UiPart<Stage> {
 
         remainingCaloriesDisplay = new RemainingCaloriesDisplay();
         caloriesDisplayPlaceholder.getChildren().add(remainingCaloriesDisplay.getRoot());
+
+        dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
+        dailyListDate.setStyle("-fx-text-fill: white; -fx-font-size: 12");
 
         if (logic.getDailyGoal().getGoal().equals(DailyGoal.DUMMY_VALUE)) {
             resultDisplay.setFeedbackToUser(GREETING_MESSAGE_NO_GOAL);
@@ -274,6 +281,8 @@ public class MainWindow extends UiPart<Stage> {
 
             fillGoal();
             fillRemainingCalories();
+
+            dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
 
             if (commandResult.isShowHelp()) {
                 handleHelpHelper(commandResult.getFeedbackToUser());

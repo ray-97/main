@@ -3,6 +3,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Scene?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.stage.Stage?>
 
-<fx:root minHeight="600" minWidth="1100.0" onCloseRequest="#handleExit" title="Calgo App" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root minHeight="600" minWidth="1150.0" onCloseRequest="#handleExit" title="Calgo App" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <icons>
         <Image url="@/images/address_book_32.png" />
     </icons>
@@ -46,7 +47,7 @@
                     </padding>
                 </StackPane>
                 <HBox VBox.vgrow="ALWAYS">
-                    <VBox fx:id="foodList" minWidth="222.0" prefHeight="322.0" prefWidth="222.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
+                    <VBox fx:id="foodList" minWidth="222.0" prefHeight="322.0" prefWidth="322.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
@@ -63,13 +64,13 @@
                                     </padding>
                                 </StackPane>
                             </HBox>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily List of #getDate" VBox.vgrow="ALWAYS" />
+                  <Label fx:id="dailyListDate" text="Daily List:" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
 <!--                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Graph" />-->
 <!--                        <StackPane fx:id="graphDisplayPlaceholder" />-->
                     </VBox>
 
-                    <VBox fx:id="dailyList" minWidth="340" prefWidth="340" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
+                    <VBox fx:id="dailyList" minWidth="315.0" prefHeight="322.0" prefWidth="315.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                         <padding>
                             <Insets bottom="10" left="10" right="10" top="10" />
                         </padding>
