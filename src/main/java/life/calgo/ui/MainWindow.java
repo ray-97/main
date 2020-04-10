@@ -83,6 +83,9 @@ public class MainWindow extends UiPart<Stage> {
     @FXML
     private StackPane graphDisplayPlaceholder;
 
+    @FXML
+    private Label dailyListDate;
+
     public MainWindow(Stage primaryStage, Logic logic) {
         super(FXML, primaryStage);
 

@@ -28,7 +28,7 @@ import life.calgo.model.food.Name;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private LocalDate currentDate;
+    private LocalDate currentDate = LocalDate.now();
     private final FoodRecord foodRecord;
     private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
