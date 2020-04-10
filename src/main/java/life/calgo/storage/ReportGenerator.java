@@ -3,8 +3,6 @@ package life.calgo.storage;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import life.calgo.commons.core.LogsCenter;
@@ -22,12 +20,13 @@ public class ReportGenerator extends DocumentGenerator {
 
     private static final int NAME_COLUMN_WIDTH = DOCUMENT_WIDTH / 2;
     private static final int VALUE_COLUMN_WIDTH = DOCUMENT_WIDTH / 4; // there are at most 4 value columns in report.
-    private static final String COLUMN_INTERVAL = "|";
     private static final int FOOD_COLUMN_NUMBER = 0;
+    private static final String COLUMN_INTERVAL = "|";
     private static final String AGGREGATE_STATISTICS_FORMAT = "\t\t %-" + VALUE_COLUMN_WIDTH + ".0f "
             + "%-" + VALUE_COLUMN_WIDTH + ".0f "
             + "%-" + VALUE_COLUMN_WIDTH + ".0f "
             + "%-" + VALUE_COLUMN_WIDTH + ".0f ";
+
     // Messages
 
     // for Header
@@ -63,6 +62,22 @@ public class ReportGenerator extends DocumentGenerator {
 
     private static final String GOAL_DEFICIT_MESSAGE = "You have consumed %.0f more calories than your target. "
             + "Don't lose heart. You can do better!";
+
+    // for Suggestions
+    private static final String SUGGESTIONS_HEADER_MESSAGE = "Suggestions for You";
+
+    private static final String FAVOURITE_FOOD_MESSAGE = "Your favourite food in the past week has been: %s.";
+
+    private static final String ADVICE_TO_ABSTAIN = "Unfortunately, after evaluating your daily goal,"
+            + "Calgo advices you not to eat %s at all.";
+
+    private static final String ADVICE_TO_CONTINUE = "Based on your goal, Calgo has verified that your favourite food,"
+            + " %s, is sufficiently healthy!";
+
+    private static final String ADVICE_TO_EXERCISE = "Calgo has verified that your favourite food is preventing you "
+            + "from reaching your daily goal. \n"
+            + "If you do eat %s, you may want to exercise to burn off those excess calories! \n"
+            + "A jog around your neighbourhood sounds like a good idea! Don't you agree?";
 
     // for Footer
     private static final String FOOTER_MESSAGE = "This marks the end of your report";
@@ -142,7 +157,7 @@ public class ReportGenerator extends DocumentGenerator {
         printFoodwiseStatistics();
         printAggregateStatistics();
         printInsights();
-        // printSuggestions();
+        printSuggestions();
     }
 
     /**
@@ -340,41 +355,52 @@ public class ReportGenerator extends DocumentGenerator {
      * Creates a list of recommended food items to eat that will match goal of user.
      */
     private void printSuggestions() {
-        // instantiate a list with past 7 days of consumed food data
-        ArrayList<DailyFoodLog> dailyFoodLogs = new ArrayList<>();
-        LocalDate currentDate = this.queryDate;
-        for (int i = 1; i <= 7; i++) {
-            if (dateToLogMap.containsKey(currentDate)) {
-                dailyFoodLogs.add(this.dateToLogMap.get(currentDate));
-            }
-            currentDate = currentDate.minus(Period.ofDays(1));
-        }
-        // flatten list
-        ArrayList<Food> foodInPastWeek = new ArrayList<>();
-        for (DailyFoodLog foodLog : dailyFoodLogs) {
-            foodInPastWeek.addAll(foodLog.getFoods());
+        printSuggestionsHeader();
+        printSuggestionsBody();
+        printSeparator();
+    }
+
+    /**
+     * Writes the header of the Suggestions section.
+     */
+    private void printSuggestionsHeader() {
+        printWriter.println(centraliseText(SUGGESTIONS_HEADER_MESSAGE, DOCUMENT_WIDTH));
+        printEmptyLine();
+    }
+
+    /**
+     * Writes the main information of the Suggestions section.
+     */
+    private void printSuggestionsBody() {
+        // Store past 7 days of consumed food data in an ArrayList
+        ArrayList<DailyFoodLog> weeklyLogs = getPastWeekLogs();
+
+        HashMap<Food, double[]> foodInPastWeek = getPortionAndRatings(weeklyLogs);
+
+        Food favouriteFood = getFavouriteFood(foodInPastWeek);
+        String favouriteFoodName = favouriteFood.getFoodNameString();
+
+        printWriter.println(String.format(FAVOURITE_FOOD_MESSAGE, favouriteFoodName));
+        printEmptyLine();
+
+        int favouriteFoodCalories = Integer.parseInt(favouriteFood.getCalorie().value);
+        int difference = userGoal.getTargetDailyCalories() - favouriteFoodCalories;
+
+        // if Goal is not set, cannot form personalised suggestions
+        if (!isGoalSet()) {
+            printWriter.println(NO_GOAL_MESSAGE);
+            return;
         }
 
-        HashMap<Food, Integer> frequencyMap = new HashMap<>();
-        for (Food food : foodInPastWeek) {
-            if (frequencyMap.containsKey(food)) {
-                frequencyMap.put(food, frequencyMap.get(food) + 1);
-            } else {
-                frequencyMap.put(food, 1);
-            }
-        }
-
-        Collections.sort(foodInPastWeek, Comparator.comparingInt(frequencyMap::get));
-
-        // ensure sum up to goal calories
-        printWriter.println(centraliseText("Suggestions", DOCUMENT_WIDTH));
-        double goal = userGoal.getTargetDailyCalories();
-        while (goal >= 0 && !foodInPastWeek.isEmpty()) {
-            Food consumedFood = foodInPastWeek.remove(0);
-            printWriter.println(consumedFood);
-            goal -= Double.parseDouble(consumedFood.getCalorie().toString());
+        if (difference < 0) {
+            printWriter.println(String.format(ADVICE_TO_ABSTAIN, favouriteFoodName));
+        } else if (isSufficientlyHealthy(favouriteFoodCalories)) {
+            printWriter.println(String.format(ADVICE_TO_CONTINUE, favouriteFoodName));
+        } else {
+            printWriter.println(String.format(ADVICE_TO_EXERCISE, favouriteFoodName));
         }
     }
+
 
     // String Manipulation Methods
 
@@ -429,7 +455,7 @@ public class ReportGenerator extends DocumentGenerator {
 
             if (currLine < currColumn.length) {
                 String currText = currColumn[currLine];
-                sb.append(addNTrailingWhitespace(currText,columnWidth - currText.length() + 1));
+                sb.append(addNTrailingWhitespace(currText, columnWidth - currText.length() + 1));
             } else {
                 sb.append(addNTrailingWhitespace("", columnWidth));
             }
@@ -471,4 +497,106 @@ public class ReportGenerator extends DocumentGenerator {
         return userGoal.getTargetDailyCalories() != DailyGoal.DUMMY_VALUE;
     }
 
+    /**
+     * Gets DailyFoodLog objects of the past week.
+     */
+    private ArrayList<DailyFoodLog> getPastWeekLogs() {
+        ArrayList<DailyFoodLog> result = new ArrayList<>();
+        LocalDate currentDate = this.queryDate;
+        for (int i = 1; i <= 7; i++) {
+            if (dateToLogMap.containsKey(currentDate)) {
+                result.add(this.dateToLogMap.get(currentDate));
+            }
+            currentDate = currentDate.minus(Period.ofDays(1));
+        }
+        return result;
+    }
+
+    /**
+     * Updates Map object with number of portions and ratings of every Food object consumed in past 7 days.
+     */
+    private HashMap<Food, double[]> getPortionAndRatings(ArrayList<DailyFoodLog> weeklyLogs) {
+        HashMap<Food, double[]> result = new HashMap<>();
+        for (DailyFoodLog foodLog : weeklyLogs) {
+            updateAllPortionAndRatings(result, foodLog);
+        }
+        return result;
+    }
+
+    /**
+     * Updates all portions and all ratings of all food items from a specific DailyFoodLog.
+     */
+    private void updateAllPortionAndRatings(HashMap<Food, double[]> foodHashMap, DailyFoodLog foodLog) {
+        for (Food food : foodLog.getFoods()) {
+            updateFoodPortionsAndRatings(foodHashMap, foodLog, food);
+        }
+    }
+
+    /**
+     * Updates portions and ratings of a specific Food item with the values from a specific DailyFoodLog.
+     */
+    private void updateFoodPortionsAndRatings(HashMap<Food, double[]> foodHashMap, DailyFoodLog foodLog, Food food) {
+        double[] data = new double[2];
+        if (foodHashMap.containsKey(food)) {
+            data = foodHashMap.get(food);
+            double oldPortion = data[0];
+            double newPortion = oldPortion + foodLog.getPortion(food);
+            double rating = foodLog.getRating(food);
+
+            data[0] = newPortion;
+            if (rating != DailyFoodLog.RATING_DUMMY_VALUE) {
+                data[1] = (foodLog.getRating(food) * oldPortion + foodLog.getRating(food)) / newPortion;
+            }
+        } else {
+            double rating = foodLog.getRating(food);
+            if (rating != DailyFoodLog.RATING_DUMMY_VALUE) {
+                data[1] = foodLog.getRating(food);
+            }
+            data[0] = foodLog.getPortion(food);
+        }
+
+        foodHashMap.put(food, data);
+    }
+
+    /**
+     * Compares two Food objects based on ratings and portions consumed.
+     *
+     * @param f1 Food object one.
+     * @param f2 Food object two.
+     * @param foodInPastWeek A Map of all Food objects consumed in the past week and their [portions, ratings].
+     * @return -1 if f1 has > value than f2 and 1 otherwise.
+     */
+    private int compare(Food f1, Food f2, HashMap<Food, double[]> foodInPastWeek) {
+        // if both foods have a valid rating, compare by rating
+        double ratingF1 = foodInPastWeek.get(f1)[1];
+        double ratingF2 = foodInPastWeek.get(f2)[1];
+        boolean haveRatings = ratingF1 != 0.0 && ratingF2 != 0.0;
+
+        if (haveRatings) {
+            return ratingF2 - ratingF1 < 0 ? -1 : 1;
+        }
+
+        // else compare by rating
+        double portionF1 = foodInPastWeek.get(f1)[0];
+        double portionF2 = foodInPastWeek.get(f2)[0];
+
+        return portionF2 - portionF1 < 0 ? -1 : 1;
+    }
+
+    /**
+     * Returns favourite food item of past 7 days based on portions consumed and ratings.
+     */
+    private Food getFavouriteFood(HashMap<Food, double[]> foodHashMap) {
+        ArrayList<Food> foodList = new ArrayList<>(foodHashMap.keySet());
+        foodList.sort((Food f1, Food f2) -> compare(f1, f2, foodHashMap));
+        return foodList.get(0);
+    }
+
+    /**
+     * Returns whether specified Food object's calories is sufficiently healthy based on user goal.
+     * A food is defined to be sufficiently healthy if it can be consumed 3 times a day.
+     */
+    private boolean isSufficientlyHealthy(int foodCalories) {
+        return (foodCalories * 3) < userGoal.getTargetDailyCalories();
+    }
 }
