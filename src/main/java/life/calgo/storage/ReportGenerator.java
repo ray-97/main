@@ -192,10 +192,10 @@ public class ReportGenerator extends DocumentGenerator {
      */
     private void printGoalInformationBody() {
         String goalInformation;
-        if (userGoal.getTargetDailyCalories() == DailyGoal.DUMMY_VALUE) {
+        if (userGoal.getGoal() == DailyGoal.DUMMY_VALUE) {
             goalInformation = NO_GOAL_MESSAGE;
         } else {
-            goalInformation = String.format(GOAL_MESSAGE, this.userGoal.getTargetDailyCalories());
+            goalInformation = String.format(GOAL_MESSAGE, this.userGoal.getGoal());
         }
         printWriter.println(goalInformation);
     }
@@ -384,7 +384,7 @@ public class ReportGenerator extends DocumentGenerator {
         printEmptyLine();
 
         int favouriteFoodCalories = Integer.parseInt(favouriteFood.getCalorie().value);
-        int difference = userGoal.getTargetDailyCalories() - favouriteFoodCalories;
+        int difference = userGoal.getGoal() - favouriteFoodCalories;
 
         // if Goal is not set, cannot form personalised suggestions
         if (!isGoalSet()) {
@@ -487,14 +487,14 @@ public class ReportGenerator extends DocumentGenerator {
      * @return the number of calories remaining for user to meet goal
      */
     private double calculateRemainingCalories() {
-        return ((double) userGoal.getTargetDailyCalories()) - totalCalories;
+        return ((double) userGoal.getGoal()) - totalCalories;
     }
 
     /**
      * Checks if goal is provided by user.
      */
     private boolean isGoalSet() {
-        return userGoal.getTargetDailyCalories() != DailyGoal.DUMMY_VALUE;
+        return userGoal.getGoal() != DailyGoal.DUMMY_VALUE;
     }
 
     /**
@@ -597,6 +597,6 @@ public class ReportGenerator extends DocumentGenerator {
      * A food is defined to be sufficiently healthy if it can be consumed 3 times a day.
      */
     private boolean isSufficientlyHealthy(int foodCalories) {
-        return (foodCalories * 3) < userGoal.getTargetDailyCalories();
+        return (foodCalories * 3) < userGoal.getGoal();
     }
 }

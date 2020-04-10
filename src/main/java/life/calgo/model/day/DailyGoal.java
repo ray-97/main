@@ -6,6 +6,12 @@ import life.calgo.model.ReadOnlyGoal;
  * Represents the daily number of calories the user is aiming to consume.
  */
 public class DailyGoal implements ReadOnlyGoal {
+    public static final int MINIMUM_HEALTHY_CALORIES = 1200;
+
+    public static final int MINIMUM_ACCEPTABLE_CALORIES = 1;
+
+    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 99999;
+
     public static final int DUMMY_VALUE = 0;
 
     public static final String MESSAGE_CONSTRAINTS = "Daily caloric goals should be positive integers. "
@@ -36,15 +42,12 @@ public class DailyGoal implements ReadOnlyGoal {
     }
 
     public static boolean isValidGoal(int targetDailyCalories) {
-        return targetDailyCalories > 0;
+        return targetDailyCalories >= MINIMUM_ACCEPTABLE_CALORIES && targetDailyCalories <= MAXIMUM_ACCEPTABLE_CALORIES;
     }
 
-    public int getTargetDailyCalories() {
-        return this.targetDailyCalories;
-    }
     @Override
     public String toString() {
-        return "Calorie goal: " + String.valueOf(this.targetDailyCalories);
+        return "Calorie goal: " + this.targetDailyCalories;
     }
 
     public Integer getGoal() {

@@ -124,18 +124,22 @@ public class ModelManager implements Model {
         return consumptionRecord.getLogByDate(localDate);
     }
 
-    public double getRemainingCalories(LocalDate date) {
+    /**
+     * Gets remaining calories after considering all food consumed in currentFilteredDailyList.
+     */
+    public double getRemainingCalories() {
         DailyGoal goal = getDailyGoal();
-        DailyFoodLog todayFoodLog = getLogByDate(date);
         if (goal == null) {
             return DailyGoal.DUMMY_VALUE;
         }
-        // user did not consume anything on given date
-        if (todayFoodLog == null) {
-            return goal.getTargetDailyCalories();
-        } else {
-            return goal.getTargetDailyCalories() - todayFoodLog.getTotalCalories();
+        int currCaloriesConsumed = 0;
+        for (DisplayFood food : currentFilteredDailyList) {
+            double currCalories = Integer.parseInt(food.getCalorie().value);
+            double currPortion = food.getPortion();
+            currCaloriesConsumed += currCalories * currPortion;
         }
+
+        return goal.getGoal() - currCaloriesConsumed;
     }
 
     /**

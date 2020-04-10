@@ -3,6 +3,7 @@ package life.calgo.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import life.calgo.model.Model;
+import life.calgo.model.day.DailyGoal;
 
 /**
  * Updates daily caloric goal of user.
@@ -26,12 +27,6 @@ public class GoalCommand extends Command {
             + "We'll accept this now because Calgo will help you to eventually reach the minimum daily calorie count of"
             + " %d.";
 
-    public static final int MINIMUM_HEALTHY_CALORIES = 1200;
-
-    public static final int MINIMUM_ACCEPTABLE_CALORIES = 1;
-
-    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 99999;
-
     private final int numCaloriesDaily;
 
     public GoalCommand(int numberCaloriesDaily) {
@@ -42,8 +37,8 @@ public class GoalCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateDailyGoal(this.numCaloriesDaily);
-        if (this.numCaloriesDaily < MINIMUM_HEALTHY_CALORIES) {
-            return new CommandResult(String.format(MESSAGE_WARNING, MINIMUM_HEALTHY_CALORIES));
+        if (this.numCaloriesDaily < DailyGoal.MINIMUM_HEALTHY_CALORIES) {
+            return new CommandResult(String.format(MESSAGE_WARNING, DailyGoal.MINIMUM_HEALTHY_CALORIES));
         }
         return new CommandResult(String.format(MESSAGE_SUCCESS, numCaloriesDaily));
     }

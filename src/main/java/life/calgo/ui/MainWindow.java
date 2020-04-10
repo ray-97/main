@@ -37,8 +37,8 @@ public class MainWindow extends UiPart<Stage> {
             + "do remember to set a daily calorie goal using the goal command.";
     private static final String GREETING_MESSAGE = "Welcome back to Calgo! We're all ready to help you meet your\n"
             + "daily caloric goals.";
-    private static final String POSITIVE_CALORIES_MESSAGE = "%s more calories today.";
-    private static final String NEGATIVE_CALORIES_MESSAGE = "Over by %s calories today.";
+    private static final String POSITIVE_CALORIES_MESSAGE = "%s calories left";
+    private static final String NEGATIVE_CALORIES_MESSAGE = "Exceeded %s calories";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -170,20 +170,19 @@ public class MainWindow extends UiPart<Stage> {
         CommandBox commandBox = new CommandBox(this::executeCommand, this::getSuggestions);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
-
     }
 
     /**
      * Fills Goal stack pane with daily goal data.
      */
-    void fillGoal() {
+    private void fillGoal() {
         goalDisplay.setGoalOfUser(logic.getDailyGoal().toString());
     }
 
     /**
      * Fills remaining calories pane with number of remaining calories for the day.
      */
-    void fillRemainingCalories() {
+    public void fillRemainingCalories() {
         double remainingCalories = logic.getRemainingCalories();
         if (remainingCalories < 0.0) {
             remainingCaloriesDisplay.setCaloriesOfUser(String.format(NEGATIVE_CALORIES_MESSAGE,

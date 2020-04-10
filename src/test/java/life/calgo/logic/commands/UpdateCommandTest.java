@@ -251,7 +251,7 @@ public class UpdateCommandTest {
         }
 
         @Override
-        public double getRemainingCalories(LocalDate date) {
+        public double getRemainingCalories() {
             throw new AssertionError("This method should not be called.");
         }
     }
