@@ -2,6 +2,7 @@ package life.calgo.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -16,6 +17,7 @@ import life.calgo.logic.parser.FoodRecordParser;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
@@ -74,6 +76,11 @@ public class LogicManager implements Logic {
     @Override
     public double getRemainingCalories() {
         return model.getRemainingCalories();
+    }
+
+    @Override
+    public ArrayList<DailyFoodLog> getPastWeekLogs() {
+        return model.getPastWeekLogs();
     }
 
     @Override
