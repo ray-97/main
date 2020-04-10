@@ -43,6 +43,7 @@ public class VomitCommand extends Command {
         model.updateLog(foodLog);
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 foodLog.getLocalDate());
+        model.updateDate(foodLog.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodVomited));
     }
 }

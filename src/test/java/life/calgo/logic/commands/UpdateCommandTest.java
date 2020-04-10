@@ -261,6 +261,11 @@ public class UpdateCommandTest {
         }
 
         @Override
+        public void updateDate(LocalDate date) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ArrayList<DailyFoodLog> getPastWeekLogs() {
             throw new AssertionError("This method should not be called.");
         }

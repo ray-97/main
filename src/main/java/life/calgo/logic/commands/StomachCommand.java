@@ -35,6 +35,7 @@ public class StomachCommand extends Command {
         requireNonNull(model);
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 date);
+        model.updateDate(date);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
