@@ -42,10 +42,10 @@ public class DailyListPanel extends UiPart<Region> {
     }
 
     private TableColumn<DisplayFood, String> setUpRatingColumn() {
-        TableColumn<DisplayFood, String> rating = new TableColumn<>("Rating");
+        TableColumn<DisplayFood, String> rating = new TableColumn<>("Avg Rating");
         rating.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getRating()));
         rating.setCellFactory(tableColumn -> new RatingTableCell());
-        rating.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.10));
+        rating.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.15));
         rating.setResizable(false);
         rating.setMinWidth(60.0);
         return rating;
@@ -55,7 +55,7 @@ public class DailyListPanel extends UiPart<Region> {
         TableColumn<DisplayFood, String> foodName = new TableColumn<>("Food Name");
         foodName.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getName().fullName));
         foodName.setCellFactory(tableColumn -> new NameTableCell());
-        foodName.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.70));
+        foodName.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.65));
         foodName.setResizable(false);
         return foodName;
     }

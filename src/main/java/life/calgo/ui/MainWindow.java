@@ -244,6 +244,14 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
+    /**
+     * Gets current date of daily list.
+     */
+    @FXML
+    public String getDate() {
+        return logic.getDate().toString();
+    }
+
     public FoodListPanel getFoodListPanel() {
         return foodListPanel;
     }
