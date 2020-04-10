@@ -3,11 +3,12 @@ package life.calgo.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.CliSyntax;
 import life.calgo.model.Model;
-import life.calgo.model.ReadOnlyConsumptionRecord;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.storage.ReportGenerator;
 
@@ -49,8 +50,10 @@ public class ReportCommand extends Command {
             throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + String.format(NO_SUCH_DATE, queryDate));
         }
         DailyGoal dailyGoal = model.getDailyGoal();
-        ReadOnlyConsumptionRecord consumptionRecord = model.getConsumptionRecord();
-        ReportGenerator reportGenerator = new ReportGenerator(queryDate, dailyGoal, consumptionRecord);
+        DailyFoodLog foodLog = model.getLogByDate(queryDate);
+        ArrayList<DailyFoodLog> pastWeekLogs = model.getPastWeekLogs();
+
+        ReportGenerator reportGenerator = new ReportGenerator(queryDate, dailyGoal, foodLog, pastWeekLogs);
         boolean isGenerated = reportGenerator.generateReport();
         if (!isGenerated) {
             throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + INPUT_OUTPUT_EXCEPTION);

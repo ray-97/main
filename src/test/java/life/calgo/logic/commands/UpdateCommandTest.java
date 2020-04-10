@@ -236,7 +236,7 @@ public class UpdateCommandTest {
         }
 
         @Override
-        public DailyGoal updateDailyGoal(int targetDailyCalories) {
+        public void updateDailyGoal(int targetDailyCalories) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -252,6 +252,16 @@ public class UpdateCommandTest {
 
         @Override
         public double getRemainingCalories() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public LocalDate getDate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ArrayList<DailyFoodLog> getPastWeekLogs() {
             throw new AssertionError("This method should not be called.");
         }
     }

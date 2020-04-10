@@ -1,12 +1,10 @@
 package life.calgo.storage;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import life.calgo.commons.core.LogsCenter;
-import life.calgo.model.ReadOnlyConsumptionRecord;
 import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.Food;
@@ -84,10 +82,11 @@ public class ReportGenerator extends DocumentGenerator {
 
     // Attributes
 
-    private HashMap<LocalDate, DailyFoodLog> dateToLogMap;
-    private DailyFoodLog queryLog;
-    private LocalDate queryDate;
     private DailyGoal userGoal;
+    private DailyFoodLog queryLog;
+    private ArrayList<DailyFoodLog> pastWeekLogs;
+
+
 
     // Statistics
 
@@ -96,13 +95,13 @@ public class ReportGenerator extends DocumentGenerator {
     private double totalCarbs = 0.0;
     private double totalFats = 0.0;
 
-    public ReportGenerator(LocalDate queryDate, DailyGoal userGoal, ReadOnlyConsumptionRecord consumptionRecord) {
+    public ReportGenerator(LocalDate queryDate, DailyGoal userGoal, DailyFoodLog queryLog,
+                           ArrayList<DailyFoodLog> pastWeekLogs) {
         super("data/reports/" + queryDate.toString() + "_report.txt",
                 LogsCenter.getLogger(ReportGenerator.class));
 
-        this.dateToLogMap = consumptionRecord.getDateToLogMap();
-        this.queryLog = this.dateToLogMap.get(queryDate);
-        this.queryDate = queryDate;
+        this.pastWeekLogs = pastWeekLogs;
+        this.queryLog = queryLog;
         this.userGoal = userGoal;
     }
 
@@ -372,10 +371,8 @@ public class ReportGenerator extends DocumentGenerator {
      * Writes the main information of the Suggestions section.
      */
     private void printSuggestionsBody() {
-        // Store past 7 days of consumed food data in an ArrayList
-        ArrayList<DailyFoodLog> weeklyLogs = getPastWeekLogs();
 
-        HashMap<Food, double[]> foodInPastWeek = getPortionAndRatings(weeklyLogs);
+        HashMap<Food, double[]> foodInPastWeek = getPortionAndRatings(pastWeekLogs);
 
         Food favouriteFood = getFavouriteFood(foodInPastWeek);
         String favouriteFoodName = favouriteFood.getFoodNameString();
@@ -495,21 +492,6 @@ public class ReportGenerator extends DocumentGenerator {
      */
     private boolean isGoalSet() {
         return userGoal.getGoal() != DailyGoal.DUMMY_VALUE;
-    }
-
-    /**
-     * Gets DailyFoodLog objects of the past week.
-     */
-    private ArrayList<DailyFoodLog> getPastWeekLogs() {
-        ArrayList<DailyFoodLog> result = new ArrayList<>();
-        LocalDate currentDate = this.queryDate;
-        for (int i = 1; i <= 7; i++) {
-            if (dateToLogMap.containsKey(currentDate)) {
-                result.add(this.dateToLogMap.get(currentDate));
-            }
-            currentDate = currentDate.minus(Period.ofDays(1));
-        }
-        return result;
     }
 
     /**
