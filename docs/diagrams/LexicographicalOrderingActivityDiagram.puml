@@ -1,4 +1,5 @@
 @startuml
+
 start
 if() then ([Calgo startup])
 :Read from storage json file;
