@@ -63,7 +63,7 @@
                                     </padding>
                                 </StackPane>
                             </HBox>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily List" VBox.vgrow="ALWAYS" />
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Daily List of #getDate" VBox.vgrow="ALWAYS" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
 <!--                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Graph" />-->
 <!--                        <StackPane fx:id="graphDisplayPlaceholder" />-->
