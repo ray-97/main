@@ -23,22 +23,22 @@ import life.calgo.testutil.Assert;
 import life.calgo.testutil.FoodBuilder;
 import life.calgo.testutil.FoodUtil;
 
-public class FoodRecordParserTest {
+public class CalgoParserTest {
 
-    private final FoodRecordParser parser = new FoodRecordParser();
+    private final CalgoParser parser = new CalgoParser();
     private final Model model = new ModelManager();
 
     @Test
     public void parseCommand_update() throws Exception {
         Food food = new FoodBuilder().build();
-        UpdateCommand command = (UpdateCommand) parser.parseCommand(FoodUtil.getUpdateCommand(food), model);
+        UpdateCommand command = (UpdateCommand) parser.parseCommand(FoodUtil.getUpdateCommand(food));
         assertEquals(new UpdateCommand(food), command);
     }
 
     @Test
     public void parseCommand_clear() throws Exception {
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD, model) instanceof ClearCommand);
-        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3", model) instanceof ClearCommand);
+        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD) instanceof ClearCommand);
+        assertTrue(parser.parseCommand(ClearCommand.COMMAND_WORD + " 3") instanceof ClearCommand);
     }
 
     @Test
@@ -52,35 +52,35 @@ public class FoodRecordParserTest {
                 .withFat("0")
                 .build();
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " n/" + foodName, model);
+                DeleteCommand.COMMAND_WORD + " n/" + foodName);
         assertEquals(new DeleteCommand(foodToDelete), command);
     }
 
 
     @Test
     public void parseCommand_exit() throws Exception {
-        assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD, model) instanceof ExitCommand);
-        assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD + " 3", model) instanceof ExitCommand);
+        assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD) instanceof ExitCommand);
+        assertTrue(parser.parseCommand(ExitCommand.COMMAND_WORD + " 3") instanceof ExitCommand);
     }
 
     @Test
     public void parseCommand_find() throws Exception {
         String keywords = "Hamburger and Fries";
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " n/" + keywords, model);
+                FindCommand.COMMAND_WORD + " n/" + keywords);
         assertEquals(new FindCommand(new NameContainsKeywordsPredicate(new Name(keywords))), command);
     }
 
     @Test
     public void parseCommand_help() throws Exception {
-        assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD, model) instanceof HelpCommand);
-        assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3", model) instanceof HelpCommand);
+        assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD) instanceof HelpCommand);
+        assertTrue(parser.parseCommand(HelpCommand.COMMAND_WORD + " 3") instanceof HelpCommand);
     }
 
     @Test
     public void parseCommand_list() throws Exception {
-        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD, model) instanceof ListCommand);
-        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3", model) instanceof ListCommand);
+        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD) instanceof ListCommand);
+        assertTrue(parser.parseCommand(ListCommand.COMMAND_WORD + " 3") instanceof ListCommand);
     }
 
     @Test

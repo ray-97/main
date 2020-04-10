@@ -199,13 +199,13 @@ public class ParserUtil {
     public static int parseRating(String rating) throws ParseException {
         requireNonNull(rating);
         String trimmedRating = rating.trim();
-        boolean withinRange = false;
+        boolean isWithinRange = false;
         int parsedInt = INT_INVALID_RATING;
         if (isInteger(trimmedRating)) {
             parsedInt = Integer.parseInt(trimmedRating);
-            withinRange = parsedInt >= INT_MINIMUM_NATURAL_NUMBER && parsedInt <= INT_MAXIMUM_RATING;
+            isWithinRange = parsedInt >= INT_MINIMUM_NATURAL_NUMBER && parsedInt <= INT_MAXIMUM_RATING;
         }
-        if (!withinRange) {
+        if (!isWithinRange) {
             throw new ParseException(MESSAGE_INVALID_RATING);
         }
         return parsedInt;

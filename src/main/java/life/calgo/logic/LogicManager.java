@@ -13,7 +13,7 @@ import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.commands.Command;
 import life.calgo.logic.commands.CommandResult;
 import life.calgo.logic.commands.exceptions.CommandException;
-import life.calgo.logic.parser.FoodRecordParser;
+import life.calgo.logic.parser.CalgoParser;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
@@ -32,12 +32,12 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
-    private final FoodRecordParser foodRecordParser;
+    private final CalgoParser calgoParser;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        foodRecordParser = new FoodRecordParser();
+        calgoParser = new CalgoParser();
     }
 
     @Override
@@ -53,7 +53,9 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = foodRecordParser.parseCommand(commandText, model);
+        Command command = calgoParser.doesParserRequireModel(commandText)
+                ? calgoParser.parseCommand(commandText, model)
+                : calgoParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
         try {

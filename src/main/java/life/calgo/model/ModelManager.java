@@ -249,7 +249,7 @@ public class ModelManager implements Model {
         try {
             updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());
         } catch (Exception e) {
-            logger.warning("Error refreshing filtered list.");
+            logger.info("Filtered List not initialized for the day yet.");
         }
     }
 
