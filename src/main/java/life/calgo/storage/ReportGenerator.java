@@ -98,6 +98,9 @@ public class ReportGenerator extends DocumentGenerator {
 
     // Update Statistics Methods
 
+    /**
+     * Updates aggregate statistics based on DailyFoodLog.
+     */
     private void updateStatistics() {
         for (Food food : queryLog.getFoods()) {
             double portion = queryLog.getPortion(food);
@@ -174,11 +177,17 @@ public class ReportGenerator extends DocumentGenerator {
         printSeparator();
     }
 
+    /**
+     * Prints the header of the Foodwise Statistics section.
+     */
     private void printFoodwiseStatisticsHeader() {
         printWriter.println(centraliseText(FOODWISE_HEADER_MESSAGE, DOCUMENT_WIDTH));
         printEmptyLine();
     }
 
+    /**
+     * Prints the headers of the table in the Foodwise Statistics section.
+     */
     private void printFoodwiseStatisticsTableHeader() {
         String columnInterval = "|";
         String foodHeader = centraliseText("Food", NAME_COLUMN_WIDTH) + columnInterval;
@@ -188,6 +197,9 @@ public class ReportGenerator extends DocumentGenerator {
         printEmptyLine();
     }
 
+    /**
+     * Prints the main information in a table of the Foodwise Statistics section.
+     */
     private void printFoodwiseStatisticsTable() {
         for (Food food : queryLog.getFoods()) {
             double portion = queryLog.getPortion(food);
