@@ -27,11 +27,12 @@ import life.calgo.model.tag.Tag;
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
-    public static final String MESSAGE_EXCESS_FIND_FILTERS = "Please specify 1 and only 1 parameter for "
+    public static final String MESSAGE_EXCESS_FIND_FILTERS = "Please specify 1 and only 1 correct parameter for "
             + "filtering using the find command.";
 
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand, returning a FindCommand object.
+     *
      * @throws ParseException if the user input does not conform to the expected format
      */
     public FindCommand parse(String args) throws ParseException {

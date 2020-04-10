@@ -19,8 +19,8 @@ public class StringUtil {
      *       containsWordIgnoreCase("ABc def", "DEF") == true
      *       containsWordIgnoreCase("ABc def", "AB") == true //not a full word match
      *       </pre>
-     * @param sentence cannot be null
-     * @param word cannot be null, cannot be empty, must be a single word
+     * @param sentence Cannot be null.
+     * @param word Cannot be null, cannot be empty, must be a single word.
      */
     public static boolean containsWordIgnoreCase(String sentence, String word) {
         requireNonNull(sentence);
@@ -45,9 +45,9 @@ public class StringUtil {
     /**
      * Returns true if the String array contains at least one String containing the substring, regardless of casing.
      *
-     * @param words the String array to search in.
-     * @param substringWord the substring keyword to find if the Strings from the String array contain it.
-     * @return whether the String array contains at least one String containing the substring.
+     * @param words String array to search in.
+     * @param substringWord Substring keyword to find if the Strings from the String array contain it.
+     * @return Whether the String array contains at least one String containing the substring.
      */
     private static boolean containsSubstringWord(String[] words, String substringWord) {
         for (String word: words) {
@@ -62,9 +62,9 @@ public class StringUtil {
      * Returns if the Food has the stated nutritional value.
      * Nutritional value can be either Calorie, Protein, Carbohydrate, or Fat.
      *
-     * @param origin the Food's nutritional value.
-     * @param query the stated nutritional value of the same type.
-     * @return whether the Food has the stated nutritional value.
+     * @param origin The Food's nutritional value.
+     * @param query The stated nutritional value of the same type.
+     * @return Whether the Food has the stated nutritional value.
      */
     public static boolean containsNutritionalValueEqualTo(String origin, String query) {
         requireNonNull(origin);
@@ -91,11 +91,11 @@ public class StringUtil {
     }
 
     /**
-     * Returns true if {@code s} represents a non-zero unsigned integer
+     * Returns true if {@code s} represents a non-zero unsigned integer.
      * e.g. 1, 2, 3, ..., {@code Integer.MAX_VALUE} <br>
-     * Will return false for any other non-null string input
+     * Will return false for any other non-null string input.
      * e.g. empty string, "-1", "0", "+1", and " 2 " (untrimmed), "3 0" (contains whitespace), "1 a" (contains letters)
-     * @throws NullPointerException if {@code s} is null.
+     * @throws NullPointerException If {@code s} is null.
      */
     public static boolean isNonZeroUnsignedInteger(String s) {
         requireNonNull(s);

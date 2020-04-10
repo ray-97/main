@@ -18,6 +18,7 @@ public class ReportCommandParser implements Parser<ReportCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the ReportCommand
+     *
      * @param args a String of arguments provided by user
      * @return a ReportCommand object for execution
      * @throws ParseException if user does not conform to expected format

@@ -27,7 +27,8 @@ import life.calgo.model.food.Food;
  */
 public class VomitCommandParser implements Parser<VomitCommand> {
 
-    public static final String MESSAGE_NONEXISTENT_LOG = "You have not eaten on %s yet!";
+    public static final String MESSAGE_NONEXISTENT_LOG =
+            "Record not initialized yet as you have not eaten anything on %s before.";
     public static final String MESSAGE_INVALID_POSITION = "Position required an integer within range of list!";
 
     private final Model model;
@@ -38,6 +39,7 @@ public class VomitCommandParser implements Parser<VomitCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the VomitCommand.
+     *
      * @param args given String of arguments.
      * @return a VomitCommand object for execution.
      * @throws ParseException if the user does not conform to the expected format.
@@ -71,6 +73,14 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         return new VomitCommand(foodLog, optionalFood.get());
     }
 
+    /**
+     * Acts as a helper function for getting the date that vomit occurs.
+     *
+     * @param toFix DailyFoodLog that needs date to be set.
+     * @param argMultimap ArgumentMultimap containing prefix of date mapped to its value.
+     * @return DailyFoodLog with the date set.
+     * @throws ParseException If date is not valid according to calendar, or if date has invalid format.
+     */
     private DailyFoodLog fixVomitDate(DailyFoodLog toFix, ArgumentMultimap argMultimap) throws ParseException {
         DailyFoodLog foodLog = toFix;
         if (argMultimap.getValue(PREFIX_DATE).isPresent()) {
@@ -79,6 +89,13 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         return foodLog;
     }
 
+    /**
+     * Acts as a helper function for getting the portion that you wish to vomit.
+     *
+     * @param argMultimap ArgumentMultimap containing prefix of portion mapped to its value.
+     * @return OptionalDouble representing the portion.
+     * @throws ParseException If value's string representation exceeds 10 character or is negative.
+     */
     private OptionalDouble fixVomitPortion(ArgumentMultimap argMultimap) throws ParseException {
         OptionalDouble portion = OptionalDouble.empty();
         if (argMultimap.getValue(PREFIX_PORTION).isPresent()) {
@@ -88,10 +105,25 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         return portion;
     }
 
+    /**
+     * Acts as a helper function for getting the index of food that you wish to vomit.
+     *
+     * @param argMultimap ArgumentMultimap containing prefix of portion mapped to its value.
+     * @return Int representing the index of food to be removed.
+     * @throws ParseException If index is out of bound.
+     */
     private int fixVomitIndex(ArgumentMultimap argMultimap) throws ParseException {
         return ParserUtil.parsePosition(argMultimap.getValue(PREFIX_POSITION).get()) - 1;
     }
 
+    /**
+     * Acts as a helper function for getting the corresponding DailyFoodLog to the date where vomit happens.
+     *
+     * @param toFix The DailyFoodLog used to retrieve an existing DailyFoodLog in model with the same date.
+     * @param model Model representing all the data of the program.
+     * @return DailyFoodLog that is retrieved from model.
+     * @throws ParseException If user has not consumed anything on the date before, hence log does not exist.
+     */
     private DailyFoodLog fixVomitFoodLogByDate(DailyFoodLog toFix, Model model) throws ParseException {
         DailyFoodLog foodLog = toFix;
         if (!model.hasLogWithSameDate(foodLog)) {
@@ -101,6 +133,14 @@ public class VomitCommandParser implements Parser<VomitCommand> {
         return foodLog;
     }
 
+    /**
+     * Acts as a helper function for getting the type of Food to vomit.
+     *
+     * @param foodLog DailyFoodLog that contains food to vomit.
+     * @param indexOfFood Index of food to vomit.
+     * @return Optional wrapped Food object at specified index.
+     * @throws ParseException If index out of bound.
+     */
     private Optional<Food> fixVomitFood(DailyFoodLog foodLog, int indexOfFood) throws ParseException {
         try {
             return foodLog.getFoodByIndex(indexOfFood);

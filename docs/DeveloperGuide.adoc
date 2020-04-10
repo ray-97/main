@@ -169,12 +169,13 @@ image::StorageClassDiagram.png[]
 
 *API* : link:{repoURL}/blob/master/src/main/java/life/calgo/storage/Storage.java[`Storage.java`]
 
-The `Storage` component can do the following:
+The `Storage` component allows us to save `FoodRecord`, `UserPref`, `Goal`, and `ConsumptionRecord`  data in json format onto the disk, and read them back later on during the next session.
 
-. Saves `UserPref` objects in json format and read it back for the next session.
-. Saves `FoodRecord` data in json format and read it back for the next session.
-. Generates an insights report based on user food consumption.
-. Generates a user-friendly version of the current `FoodRecord`.
+This would facilitate the following functions:
+
+. Load past user App data and preferences.
+. Generate and save insights reports based on previously and currently recorded user consumption.
+. Generate and save a user-friendly version of the accumulated `FoodRecord`.
 
 [[Design-Commons]]
 === Common classes
@@ -187,72 +188,51 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-// tag::lexicographicallistcommand[]
-=== Lexicographical-sorted `list`
+[[Implementation-Configuration]]
+=== Configuration
 
-With a large number of `Food` objects in the App, it will be useful to see all entries sorted in lexicographic order. +
+Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
 
-Here, the `list` command displays all the current `Food` entries in the `Model`.
-This is often more useful after a `find` command, which narrows down the displayed entries after a search.
-While it may seem that the `list` command is responsible for keeping the `Food` entries sorted, that is not the case; instead,
-the entries are sorted whenever they are added or edited.
+// tag::helpcommand[]
+[[Implementation-HelpGuide]]
+=== Command guide `help` command
 
 ==== Implementation
 
-Sorting `Food` objects by lexicographic order is actually done by the `UniqueFoodList`.
-`Food` objects are able to be sorted because the `Food` class implements the `Comparable<Food>` interface. +
+As with any application with a plethora of commands, it is useful to have an in-app and offline method by which users can view the purpose and usage format of each command.
 
-How the `UniqueFoodList` works:
+This help feature is a functionality that is carried out by the FoodRecordParser to guide users on how to utilise the App's commands. The guide is displayed in a separate window, as handled by HelpWindow.
 
-* Existing `Food` objects are arranged in lexicographic order by `Name`.
-* Thereafter, `UniqueFoodList` sorts the `Food` whenever they are added or edited in the `Model`.
-* When the App starts up, it reads from the source json file (if any), creating a new `UniqueFoodList` and sorting entries as they are added.
+With this, a top-level idea of the execution of the help command is given in the sequence diagram below:
 
-With this, a top-level idea of the execution of the lexicographical `list` command is given in the sequence diagram below:
+.Sequence Diagram for Help Command
+image::HelpSequenceDiagram.png[]
+// end::helpcommand[]
 
-image::ListCommandSequenceDiagram.png[]
+Step 1: `LogicManager` takes in the user input of "help". +
+Step 2: `FoodRecordParser` is passed the String input and is parsed using `parseCommand`. +
+Step 3: This results in a `HelpCommand` object which is executed by the `LogicManager`. +
+Step 4: The `LogicManager` encapsulates the result as a `CommandResult` object which is passed back to the `MainWindow`. +
+Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpWindow` if it is not already being displayed. +
+Step 6: `HelpWindow` is displayed as a separate popup.
 
-Step 1: `UI` detects that the user has entered a `String`. +
-Step 2: `UI` passes this `String` into `Logic` to eventually produce a `ListCommand`. +
-Step 3: `Logic` executes the `ListCommand` to filter out relevant `Food` entries from the `Model`. +
-Step 4: All `Food` entries are shown in the GUI. +
-Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
-
-<<<
+// end::helpcommand[]
 
 ==== Design considerations
-
-===== Aspect: How `list` executes sorting operation
-
-* **Alternative 1 (current choice):** Sort whenever `Food` is added or edited in the `Model`.
-** Pros: Will guarantee correctness of sorting. Furthermore, since `Food` objects are sorted whenever they are added or edited one by one, each sorting operation will not be too expensive.
-** Cons: Need to ensure that the implementations of each individual underlying command are correct and do not interfere with the sorting process. Moreover, this may be expensive if there are many unsorted `Food` objects at once, which - thankfully - is seldom the case.
-* **Alternative 2:** Sort only when calling the `list` command.
-** Pros: Easier to implement, may be less computationally expensive.
-** Cons: May lead to certain bugs, especially during adding or editing such as through the `update` command. Also, not guaranteed to work when reading in from `foodrecord.json` for the next session.
-
-===== Aspect: Data structure to store `Food` objects
-
-* **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
-** Pros: Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually. Also, we do not need to maintain a separate list, simply reusing what is already in the codebase.
-** Cons: Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
-* **Alternative 2:** Use a simpler data structure like an `ArrayList`.
-** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
-** Cons: More troublesome as we to implement methods to display on the GUI. Also, the methods create a risk to violations of certain software engineering principles, if not careful. These methods are also subject to being changed which can introduce regression in the future.
-
-<<<
+===== Aspect: How Help is displayed
+* **Alternative 1 (current choice):** `HelpWindow` is displayed as a self-contained popup.
+** Pros: User can refer to the command guide in a window separately from the main app. Additionally, no internet access is required as all information on commands are stored offline.
+** Cons: As `help` does not redirect to a url containing the most up-to-date User Guide, any changes to command functionality or addition of new commands must be updated for local display.
+* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
+** Pros: No possibility of a popup blocking the main app, and all information is contained within a single window.
+** Cons: User must use the `help` command every time they require a guide, as `ResultDisplay` will be overwritten after every command.
 
 ==== Summary
+`help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
 
-`list` will make the GUI display a lexicographically sorted list of `Food` previously entered. This can be exemplified in an activity diagram below:
 
-.Activity Diagram for List command
-image::ListActivityDiagram.png[]
-// end::lexicographiclistcommand[]
-
-<<<
-
-=== Food consumption management
+[[Implementation-ConsumptionManagement]]
+=== `Food` consumption management
 In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
 When adding food to be consumed, removing food, or displaying food consumed on certain days,
 a `FilteredList` will be populated with relevant `ConsumedFood`.
@@ -310,61 +290,8 @@ The `nom` command adds a `Food` item consumed by the user into the `stomach`. Th
 .Activity Diagram for Nom
 image::NomActivityDiagram.png[]
 
-<<<
-
-=== Updating `FoodRecord`
-This feature allows you to add a food preset with all its nutritional details into the `FoodRecord`.
-This makes it convenient for you to keep track of your `Food` consumed in the day without having to manually key in the nutritional details every time you do so.
-
-==== Implementation
-The update mechanism is facilitated by `FoodRecord` and `UpdateCommand`. An additional operation was implemented into `FoodRecord`:
-
-* `FoodRecord#hasExistingFood()` - Checks if there is an existing `Food` in `FoodRecord` based on its name only
-
-This operation was exposed in the `Model` interface as `Model#hasExistingFood()`.
-
-The update feature first checks if there is already an existing `Food` item with the same name
-inside `FoodRecord` using the method `FoodRecord#hasExistingFood()`.
-
-If there is already an existing `Food` with the same name, the existing `Food` item will override the `Food` item inside `FoodRecord` with
-the new nutritional information provided by the user. +
-Otherwise, the new `Food` item will be added into the `FoodRecord`.
-
-The following sequence diagram shows how the update operation works in both cases:
-
-.Sequence Diagram for Update command
-image::UpdateSequenceDiagram.png[]
-NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-<<<
-
-==== Design considerations
-
-===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
-
-* *Alternative 1 (current choice):* Overrides the existing `Food` item with the new `Food` item
-** Pros: No need for a separate command of `edit` to deal with existing `Food` item apart from `add` to add new `Food` item into the `FoodRecord`.
-Instead, a smarter command of `update` is used to deal with both scenarios.
-** Cons:
-This might not be intuitive for the user since the word "update" is generally assumed to be for editing something only, and not necessarily adding something.
-
-* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another function `edit` to edit the existing `Food` instead.
-** Pros: In the event where the user is unaware that there is already an existing `Food` item, this two step process will be clearer to him that he is
-in fact editing a `Food` item and not adding a new one in.
-** Cons: This is more tedious for the user since more steps is required to change an existing `Food` item. On top of that, an additional command of `edit` will be required and `update`
-should be replaced with `add` for clearer user experience.
-
-==== Summary
-The `update` command is a smart command that either updates an existing `Food` item in the `FoodRecord` with new nutritional information,
-or updates a new `Food` item into the `FoodRecord`
-The following activity diagram summarises what happens when a user enters a valid `update` command:
-
-.Activity Diagram for Update command
-image::UpdateActivityDiagram.png[]
-
-<<<
-
 //tag:: Report[]
+[[Implementation-InsightsReport]]
 === Generate insights report
 This feature allows a user to generate a report that contains statistics and deliverable insights based on
 personal food consumption patterns.
@@ -441,42 +368,79 @@ The following activity diagram summarizes what happens when user executes a `rep
 .Activity Diagram for Report command
 image::ReportActivityDiagram.png[]
 
+// tag::lexicographicalfoodrecord[]
+[[Implementation-LexicographicOrder]]
+=== Lexicographically-sorted `FoodRecord`
 
-// tag::helpcommand[]
-=== Command guide `help` command
+This section addresses how the `Food` entries are able to be sorted in lexicographical order. +
+
+With a large number of `Food` objects in the App, it will be useful to see all entries sorted in some order. Intuitively, this should be the lexicographical order for a good user-centric experience. +
+
+While it may seem that the `list` command is responsible for keeping the `Food` entries in the `FoodRecord` sorted, that is not the case -- the `list` command does no sorting whatsoever. It simply resets the display after a `find` command to once again show all `Food` entries in the appropriate part of the GUI.
+Instead, `Food` entries are sorted by the `UniqueFoodList` whenever they are added or edited using the `update` command. This new ordering is reflected in real-time. +
+
+[NOTE]
+For a better understanding of the `update` command, please refer to its relevant section <<Implementation-SmartUpdate, here>>.
 
 ==== Implementation
 
-As with any application with a plethora of commands, it is useful to have an in-app and offline method by which users can view the purpose and usage format of each command.
+The `UniqueFoodList` is responsible for sorting the `Food` objects, where the `Food` class implements the `Comparable<Food>` interface. +
 
-This help feature is a functionality that is carried out by the FoodRecordParser to guide users on how to utilise the App's commands. The guide is displayed in a separate window, as handled by HelpWindow.
+[source,java]
+----
+public int compareTo(Food other) {
+    String currentName = this.getName().toString();
+    String otherName = other.getName().toString();
+    return currentName.compareTo(otherName);
+}
+----
+How the `UniqueFoodList` works:
 
-With this, a top-level idea of the execution of the help command is given in the sequence diagram below:
+* When the App starts up, it reads from the source json file (if any), creating a new `UniqueFoodList` and sorting entries as they are added.
+* Existing `Food` objects are therefore arranged in lexicographic order by `Name`.
+* Thereafter, `UniqueFoodList` sorts the `Food` whenever they are added or edited in the `Model`.
 
-.Sequence Diagram for Help Command
-image::HelpSequenceDiagram.png[]
-// end::helpcommand[]
+A high-level visualisation of how the lexicographic order is maintained when a `Food` entry is updated is given in the sequence diagram below:
 
-Step 1: `LogicManager` takes in the user input of "help". +
-Step 2: `FoodRecordParser` is passed the String input and is parsed using `parseCommand`. +
-Step 3: This results in a `HelpCommand` object which is executed by the `LogicManager`. +
-Step 4: The `LogicManager` encapsulates the result as a `CommandResult` object which is passed back to the `MainWindow`. +
-Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpWindow` if it is not already being displayed. +
-Step 6: `HelpWindow` is displayed as a separate popup.
+image::LexicographicalOrdering.png[]
 
-// end::helpcommand[]
+Step 1: `UI` detects that the user has entered a `String`. +
+Step 2: `UI` passes this `String` into `Logic` to eventually produce a `ListCommand`. +
+Step 3: `Logic` executes the `ListCommand` to filter out relevant `Food` entries from the `Model`. +
+Step 4: All `Food` entries are shown in the GUI. +
+Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
 
-==== Design consideration
-===== Aspect: How Help is displayed
-* **Alternative 1 (current choice):** `HelpWindow` is displayed as a self-contained popup.
-** Pros: User can refer to the command guide in a window separately from the main app. Additionally, no internet access is required as all information on commands are stored offline.
-** Cons: As `help` does not redirect to a url containing the most up-to-date User Guide, any changes to command functionality or addition of new commands must be updated for local display.
-* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
-** Pros: No possibility of a popup blocking the main app, and all information is contained within a single window.
-** Cons: User must use the `help` command every time they require a guide, as `ResultDisplay` will be overwritten after every command.
+<<<
+
+==== Design considerations
+
+===== Aspect: How `list` executes sorting operation
+
+* **Alternative 1 (current choice):** Sort whenever `Food` is added or edited in the `Model`.
+** Pros: Will guarantee correctness of sorting. Furthermore, since `Food` objects are sorted whenever they are added or edited one by one, each sorting operation will not be too expensive.
+** Cons: Need to ensure that the implementations of each individual underlying command are correct and do not interfere with the sorting process. Moreover, this may be expensive if there are many unsorted `Food` objects at once, which - thankfully - is seldom the case.
+* **Alternative 2:** Sort only when calling the `list` command.
+** Pros: Easier to implement, may be less computationally expensive.
+** Cons: May lead to certain bugs, especially during adding or editing such as through the `update` command. Also, not guaranteed to work when reading in from `foodrecord.json` for the next session.
+
+===== Aspect: Data structure to store `Food` objects
+
+* **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
+** Pros: Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually. Also, we do not need to maintain a separate list, simply reusing what is already in the codebase.
+** Cons: Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
+* **Alternative 2:** Use a simpler data structure like an `ArrayList`.
+** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
+** Cons: More troublesome as we to implement methods to display on the GUI. Also, the methods create a risk to violations of certain software engineering principles, if not careful. These methods are also subject to being changed which can introduce regression in the future.
+
+<<<
 
 ==== Summary
-`help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
+
+`list` will make the GUI display a lexicographically sorted list of `Food` previously entered. This can be exemplified in an activity diagram below:
+
+.Activity Diagram for List command
+image::ListActivityDiagram.png[]
+// end::lexicographiclistcommand[]
 
 === Logging
 
@@ -493,10 +457,56 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
 
-[[Implementation-Configuration]]
-=== Configuration
+[[Implementation-SmartUpdate]]
+=== Updating `FoodRecord`
+This feature allows you to add a food preset with all its nutritional details into the `FoodRecord`.
+This makes it convenient for you to keep track of your `Food` consumed in the day without having to manually key in the nutritional details every time you do so.
 
-Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
+==== Implementation
+The update mechanism is facilitated by `FoodRecord` and `UpdateCommand`. An additional operation was implemented into `FoodRecord`:
+
+* `FoodRecord#hasExistingFood()` - Checks if there is an existing `Food` in `FoodRecord` based on its name only
+
+This operation was exposed in the `Model` interface as `Model#hasExistingFood()`.
+
+The update feature first checks if there is already an existing `Food` item with the same name
+inside `FoodRecord` using the method `FoodRecord#hasExistingFood()`.
+
+If there is already an existing `Food` with the same name, the existing `Food` item will override the `Food` item inside `FoodRecord` with
+the new nutritional information provided by the user. +
+Otherwise, the new `Food` item will be added into the `FoodRecord`.
+
+The following sequence diagram shows how the update operation works in both cases:
+
+.Sequence Diagram for Update command
+image::UpdateSequenceDiagram.png[]
+NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+<<<
+
+==== Design considerations
+
+===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
+
+* *Alternative 1 (current choice):* Overrides the existing `Food` item with the new `Food` item
+** Pros: No need for a separate command of `edit` to deal with existing `Food` item apart from `add` to add new `Food` item into the `FoodRecord`.
+Instead, a smarter command of `update` is used to deal with both scenarios.
+** Cons:
+This might not be intuitive for the user since the word "update" is generally assumed to be for editing something only, and not necessarily adding something.
+
+* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another function `edit` to edit the existing `Food` instead.
+** Pros: In the event where the user is unaware that there is already an existing `Food` item, this two step process will be clearer to him that he is
+in fact editing a `Food` item and not adding a new one in.
+** Cons: This is more tedious for the user since more steps is required to change an existing `Food` item. On top of that, an additional command of `edit` will be required and `update`
+should be replaced with `add` for clearer user experience.
+
+==== Summary
+The `update` command is a smart command that either updates an existing `Food` item in the `FoodRecord` with new nutritional information,
+or updates a new `Food` item into the `FoodRecord`
+The following activity diagram summarises what happens when a user enters a valid `update` command:
+
+.Activity Diagram for Update command
+image::UpdateActivityDiagram.png[]
 
 == Documentation
 

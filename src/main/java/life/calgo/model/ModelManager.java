@@ -5,6 +5,8 @@ import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -19,7 +21,6 @@ import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 import life.calgo.model.food.Name;
-import life.calgo.storage.ReportGenerator;
 
 /**
  * Represents the in-memory model of the food record data.
@@ -27,6 +28,7 @@ import life.calgo.storage.ReportGenerator;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private LocalDate currentDate = LocalDate.now();
     private final FoodRecord foodRecord;
     private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
@@ -125,39 +127,23 @@ public class ModelManager implements Model {
         return consumptionRecord.getLogByDate(localDate);
     }
 
-    public double getRemainingCalories(LocalDate date) {
-        DailyGoal goal = getDailyGoal();
-        DailyFoodLog todayFoodLog = getLogByDate(date);
-        if (goal == null) {
-            return 0.0;
-        }
-        // user did not consume anything today
-        if (todayFoodLog == null) {
-            return goal.getTargetDailyCalories();
-        }
-
-        ReportGenerator reportGenerator = new ReportGenerator(date, goal, getConsumptionRecord());
-        reportGenerator.generateReport();
-        return reportGenerator.calculateRemainingCalories();
-    }
-
     /**
-     * Updates ModelManager's DailyGoal to the new targetDailyCalories
-     * @param targetDailyCalories the new targeted number of calories to consume each day by user
-     * @return the updated DailyGoal object
+     * Updates ModelManager's DailyGoal to the new targetDailyCalories.
+     *
+     * @param targetDailyCalories the new targeted number of calories to consume each day by user.
      */
-    public DailyGoal updateDailyGoal(int targetDailyCalories) {
+    public void updateDailyGoal(int targetDailyCalories) {
         if (isGoalMade()) {
             this.targetDailyCalories = this.targetDailyCalories.updateDailyGoal(targetDailyCalories);
         } else {
             this.targetDailyCalories = new DailyGoal(targetDailyCalories);
         }
-        return this.targetDailyCalories;
     }
 
     /**
-     * Checks if goal already exists
-     * @return true if there is already some goal
+     * Checks if goal already exists.
+     *
+     * @return true if there is already some goal.
      */
     public boolean isGoalMade() {
         return this.targetDailyCalories != null;
@@ -231,8 +217,29 @@ public class ModelManager implements Model {
         currentFilteredDailyList.setPredicate(predicate);
     }
 
+    public LocalDate getDate() {
+        return currentDate;
+    }
+
+    public void updateDate(LocalDate date) {
+        currentDate = date;
+    }
+
+    public ArrayList<DailyFoodLog> getPastWeekLogs() {
+        ArrayList<DailyFoodLog> result = new ArrayList<>();
+        LocalDate currentDate = getDate();
+        for (int i = 1; i <= 7; i++) {
+            if (consumptionRecord.getDateToLogMap().containsKey(currentDate)) {
+                result.add(consumptionRecord.getDateToLogMap().get(currentDate));
+            }
+            currentDate = currentDate.minus(Period.ofDays(1));
+        }
+        return result;
+    }
+
     /**
      * Updates existing DisplayFood items having same name as {@code food} in consumption record for display.
+     *
      * @param food food that has been updated.
      */
     @Override
@@ -249,15 +256,34 @@ public class ModelManager implements Model {
         try {
             updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS, LocalDate.now());
         } catch (Exception e) {
-            logger.warning("Error refreshing filtered list.");
+            logger.info("Filtered List not initialized for the day yet.");
         }
+    }
+
+    /**
+     * Gets remaining calories after considering all food consumed in currentFilteredDailyList.
+     */
+    @Override
+    public double getRemainingCalories() {
+        DailyGoal goal = getDailyGoal();
+        if (goal == null) {
+            return DailyGoal.DUMMY_VALUE;
+        }
+        int currCaloriesConsumed = 0;
+        for (DisplayFood food : currentFilteredDailyList) {
+            double currCalories = Integer.parseInt(food.getCalorie().value);
+            double currPortion = food.getPortion();
+            currCaloriesConsumed += currCalories * currPortion;
+        }
+
+        return goal.getGoal() - currCaloriesConsumed;
     }
 
     // Filtered Food Record Accessors
 
     /**
      * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
-     * {@code versionedFoodRecord}
+     * {@code versionedFoodRecord}.
      */
     @Override
     public ObservableList<Food> getFilteredFoodRecord() {

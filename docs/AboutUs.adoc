@@ -4,9 +4,9 @@
 :imagesDir: images
 :stylesDir: stylesheets
 
-Calgo was developed by the http://github.com/AY1920S2-CS2103T-F11-1[F11-1] team. +
+Calgo was developed by the http://github.com/AY1920S2-CS2103T-F11-1[CS2103T F11-1] team. +
 {empty} +
-We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
+We are a student team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
 == Project Team: F11-1
 
@@ -51,6 +51,6 @@ image::j-dan23.png[width="150", align="left"]
 {empty}[https://github.com/J-Dan23[github]] [<<j-dan23#, portfolio>>]
 
 Role: Software Developer +
-Responsibilities: GUI & Handling User Inputs, Documentation
+Responsibilities: User Experience, Graphical Interface & Documentation
 
 '''

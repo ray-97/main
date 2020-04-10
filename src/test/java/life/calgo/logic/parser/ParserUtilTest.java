@@ -1,5 +1,6 @@
 package life.calgo.logic.parser;
 
+import static life.calgo.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -47,7 +48,6 @@ public class ParserUtilTest {
 
     @Test
     public void parseIndex_outOfRangeInput_throwsParseException() {
-        String MESSAGE_INVALID_INDEX = "Index should be a positive number.";
         Assert.assertThrows(ParseException.class, MESSAGE_INVALID_INDEX, ()
             -> ParserUtil.parseIndex(Long.toString(Integer.MAX_VALUE + 1)));
     }

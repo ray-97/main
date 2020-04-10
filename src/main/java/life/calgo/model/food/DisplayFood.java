@@ -3,7 +3,7 @@ package life.calgo.model.food;
 import java.time.LocalDate;
 
 /**
- * To represent food objects that have been consumed by the user
+ * To represent food objects that have been consumed by the user.
  */
 public class DisplayFood extends Food {
 
@@ -24,7 +24,7 @@ public class DisplayFood extends Food {
     }
 
     public String getRating() {
-        return rating == -1 ? "Not available yet" : String.format("%.2f", rating) + "/10";
+        return rating == -1 ? "Not available yet" : String.format("%.1f", rating);
     }
 
     @Override

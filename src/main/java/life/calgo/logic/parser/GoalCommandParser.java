@@ -21,16 +21,8 @@ public class GoalCommandParser implements Parser<GoalCommand> {
                     String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, GoalCommand.MESSAGE_USAGE)
             );
         }
-        int targetCalories = 0;
-        try {
-            targetCalories = Integer.parseInt(splitArgs[1]);
-        } catch (NumberFormatException e) {
-            throw new ParseException(GoalCommand.MESSAGE_FAILURE_TYPE);
-        }
-        if (targetCalories <= 0) {
-            throw new ParseException(GoalCommand.MESSAGE_FAILURE_NEGATIVE);
-        }
-
+        String goalArg = splitArgs[1];
+        int targetCalories = ParserUtil.parseGoal(goalArg);
         return new GoalCommand(targetCalories);
     }
 }

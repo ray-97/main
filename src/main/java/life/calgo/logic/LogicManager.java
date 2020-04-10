@@ -3,6 +3,7 @@ package life.calgo.logic;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,10 +14,11 @@ import life.calgo.commons.core.LogsCenter;
 import life.calgo.logic.commands.Command;
 import life.calgo.logic.commands.CommandResult;
 import life.calgo.logic.commands.exceptions.CommandException;
-import life.calgo.logic.parser.FoodRecordParser;
+import life.calgo.logic.parser.CalgoParser;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
@@ -32,12 +34,12 @@ public class LogicManager implements Logic {
 
     private final Model model;
     private final Storage storage;
-    private final FoodRecordParser foodRecordParser;
+    private final CalgoParser calgoParser;
 
     public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
-        foodRecordParser = new FoodRecordParser();
+        calgoParser = new CalgoParser();
     }
 
     @Override
@@ -53,7 +55,9 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = foodRecordParser.parseCommand(commandText, model);
+        Command command = calgoParser.doesParserRequireModel(commandText)
+                ? calgoParser.parseCommand(commandText, model)
+                : calgoParser.parseCommand(commandText);
         commandResult = command.execute(model);
 
         try {
@@ -74,7 +78,17 @@ public class LogicManager implements Logic {
 
     @Override
     public double getRemainingCalories() {
-        return model.getRemainingCalories(LocalDate.now());
+        return model.getRemainingCalories();
+    }
+
+    @Override
+    public ArrayList<DailyFoodLog> getPastWeekLogs() {
+        return model.getPastWeekLogs();
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return model.getDate();
     }
 
     @Override

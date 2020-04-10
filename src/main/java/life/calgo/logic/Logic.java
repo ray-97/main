@@ -1,6 +1,8 @@
 package life.calgo.logic;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
@@ -11,6 +13,7 @@ import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
@@ -21,6 +24,7 @@ import life.calgo.model.food.Food;
 public interface Logic {
     /**
      * Executes the command and returns the result.
+     *
      * @param commandText The command as entered by the user.
      * @return the result of the command execution.
      * @throws CommandException If an error occurs during command execution.
@@ -30,6 +34,7 @@ public interface Logic {
 
     /**
      * Returns a list of food objects with similar name.
+     *
      * @param foodName The name of the food entered by user so far.
      */
     List<Food> getSimilarFood(String foodName);
@@ -40,9 +45,16 @@ public interface Logic {
     DailyGoal getDailyGoal();
 
     /**
+     * Returns the date of the daily list in Model.
+     */
+    LocalDate getDate();
+
+    /**
      * Returns remaining number of calories of the user for the goal.
      */
     double getRemainingCalories();
+
+    ArrayList<DailyFoodLog> getPastWeekLogs();
 
     /**
      * Returns the FoodRecord.

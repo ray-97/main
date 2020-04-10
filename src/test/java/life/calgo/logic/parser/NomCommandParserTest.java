@@ -35,71 +35,65 @@ public class NomCommandParserTest {
     @Test
     public void parse_missingNamePrefix_parseExceptionThrown() {
         String expectedMessage = String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, NomCommand.MESSAGE_USAGE);
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom"));
+        assertThrows(ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom"));
     }
 
     @Test
     public void parse_missingNameValue_parseExceptionThrown() {
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/"));
+        assertThrows(ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/"));
     }
 
     @Test
     public void parse_foodNotInFoodRecord_parseExceptionThrown() {
         String expectedMessage = MESSAGE_NONEXISTENT_FOOD;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/SHaRk fIn SoUp"));
+        assertThrows(ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/SHaRk fIn SoUp"));
     }
 
     @Test
     public void parse_invalidDateFormat_parseExceptionThrown() {
         String expectedMessage = MESSAGE_INVALID_DATE;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/Apple d/2020/09/08"));
+        assertThrows(
+                ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple d/2020/09/08"));
     }
 
     @Test
     public void parse_nonExistentDate_parseExceptionThrown() {
         String expectedMessage = MESSAGE_INVALID_DATE;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/Apple d/2020-02-31"));
+        assertThrows(
+                ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple d/2020-02-31"));
     }
 
     @Test
     public void parse_negativePortion_parseExceptionThrown() {
         String expectedMessage = MESSAGE_NON_POSITIVE_PORTION;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/Apple portion/-1"));
+        assertThrows(
+                ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple portion/-1"));
     }
 
     @Test
     public void parse_overSizedPortion_parseExceptionThrown() {
         String expectedMessage = MESSAGE_PORTION_LENGTH;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/Apple portion/99999999999"));
+        assertThrows(ParseException.class,
+                expectedMessage, () -> nomCommandParser.parse("nom n/Apple portion/99999999999"));
     }
 
     @Test
     public void parse_negativeRating_parseExceptionThrown() {
         String expectedMessage = MESSAGE_INVALID_RATING;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/Apple r/-1"));
+        assertThrows(ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple r/-1"));
     }
 
     @Test
     public void parse_doubleForRating_parseExceptionThrown() {
         String expectedMessage = MESSAGE_INVALID_RATING;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/Apple r/1.5"));
+        assertThrows(ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple r/1.5"));
     }
 
     @Test
     public void parse_ratingOutOfRange_parseExceptionThrown() {
         String expectedMessage = MESSAGE_INVALID_RATING;
-        assertThrows(ParseException.class, expectedMessage,
-                () -> nomCommandParser.parse("nom n/Apple r/11"));
+        assertThrows(ParseException.class, expectedMessage, () -> nomCommandParser.parse("nom n/Apple r/11"));
     }
 
     @Test

@@ -11,7 +11,7 @@ import life.calgo.commons.util.AppUtil;
 public class Protein {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Protein should only contain non-negative integers and it should not be blank";
+            "Protein should only contain non-negative integers within 5 digits and it should not be blank.";
 
     public static final String VALIDATION_REGEX = "[0-9]+(?=$|\\s)";
 

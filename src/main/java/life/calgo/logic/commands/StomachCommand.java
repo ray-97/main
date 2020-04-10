@@ -26,6 +26,7 @@ public class StomachCommand extends Command {
     private LocalDate date;
 
     public StomachCommand(LocalDate date) {
+        requireNonNull(date);
         this.date = date;
     }
 
@@ -34,6 +35,14 @@ public class StomachCommand extends Command {
         requireNonNull(model);
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 date);
+        model.updateDate(date);
         return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof StomachCommand
+                && date.equals(((StomachCommand) other).date)); // instanceof handles nulls
     }
 }
