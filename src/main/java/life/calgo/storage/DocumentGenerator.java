@@ -46,17 +46,17 @@ public abstract class DocumentGenerator {
     /**
      * Writes the context/meta-information of the document.
      */
-    public abstract void printHeader();
+    protected abstract void printHeader();
 
     /**
      * Writes the body of the document.
      */
-    public abstract void printBody();
+    protected abstract void printBody();
 
     /**
      * Writes the concluding remarks in the document.
      */
-    public abstract void printFooter();
+    protected abstract void printFooter();
 
     /**
      * Writes a line for neatness in formatting.

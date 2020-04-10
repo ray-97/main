@@ -30,8 +30,10 @@ public class ReportGenerator extends DocumentGenerator {
 
     // for Goal Information section
     private static final String GOAL_HEADER_MESSAGE = "Your Goal Information";
+
     private static final String NO_GOAL_MESSAGE = "You did not set any goal for daily caloric intake yet."
             + " If you want to generate personalised insights, please set one!";
+
     private static final String GOAL_MESSAGE = "You have set a goal to consume at most %d calories in a day.";
 
     // for Foodwise Statistics
@@ -42,14 +44,18 @@ public class ReportGenerator extends DocumentGenerator {
 
     // for Insights
     private static final String INSIGHTS_HEADER_MESSAGE = "Insights for You";
+
     private static final String GOAL_ACHIEVED_MESSAGE = "You have achieved your goal! Congratulations. "
             + "Keep up the great work and you will definitely make tremendous \n"
             + "improvements in your health and fitness.";
+
     private static final String GOAL_FAILED_MESSAGE = "You did not manage to achieve your goal today. "
             + "You may want to re-design your diet plan so that\n"
             + "you can make improvements in your health and fitness!";
+
     private static final String GOAL_SURPLUS_MESSAGE = "You have consumed %.0f fewer calories than your target. "
             + "Great job!";
+
     private static final String GOAL_DEFICIT_MESSAGE = "You have consumed %.0f more calories than your target. "
             + "Don't lose heart. You can do better!";
 
@@ -99,26 +105,25 @@ public class ReportGenerator extends DocumentGenerator {
     // Update Statistics Methods
 
     /**
-     * Updates aggregate statistics based on DailyFoodLog.
+     * Updates aggregate statistics based on DailyFoodLog attribute.
      */
     private void updateStatistics() {
         for (Food food : queryLog.getFoods()) {
             double portion = queryLog.getPortion(food);
-            double currCalories = portion * (double) Integer.parseInt(food.getCalorie().value);
-            totalCalories += currCalories;
+            totalCalories += portion * (double) Integer.parseInt(food.getCalorie().value);
             totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
             totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
             totalFats += portion * (double) Integer.parseInt(food.getFat().value);
         }
     }
 
-    // Printing Methods
+    // Overriding Printing Methods
 
     /**
      * Writes the meta-information of the report.
      */
     @Override
-    public void printHeader() {
+    protected void printHeader() {
         printWriter.println(centraliseText(String.format(HEADER_MESSAGE, this.queryLog.getLocalDate()),
                 DOCUMENT_WIDTH));
         printSeparator();
@@ -128,13 +133,23 @@ public class ReportGenerator extends DocumentGenerator {
      * Writes the body of the report document.
      */
     @Override
-    public void printBody() {
+    protected void printBody() {
         printGoalInformation();
         printFoodwiseStatistics();
         printAggregateStatistics();
         printInsights();
         // printSuggestions();
     }
+
+    /**
+     * Writes the concluding remarks in the report.
+     */
+    @Override
+    protected void printFooter() {
+        printWriter.println(centraliseText(FOOTER_MESSAGE, DOCUMENT_WIDTH));
+    }
+
+    // ReportGenerator-Specific Printing Methods
 
     /**
      * Prints information on what the goal is.
@@ -173,7 +188,6 @@ public class ReportGenerator extends DocumentGenerator {
         printFoodwiseStatisticsHeader();
         printFoodwiseStatisticsTableHeader();
         printFoodwiseStatisticsTable();
-
         printSeparator();
     }
 
@@ -219,7 +233,7 @@ public class ReportGenerator extends DocumentGenerator {
     /**
      * Writes aggregated statistics of all food items consumed in the given day.
      */
-    public void printAggregateStatistics() {
+    private void printAggregateStatistics() {
         printWriter.println(centraliseText(AGGREGATE_HEADER_MESSAGE, DOCUMENT_WIDTH));
         printEmptyLine();
         printWriter.println(String.format("%s %-20s %-20s %-20s", "Total Calories in kcal", "| Total Protein in grams",
@@ -232,7 +246,7 @@ public class ReportGenerator extends DocumentGenerator {
     /**
      * Writes the actionable insights a user can take based on user consumption patterns for the given day.
      */
-    public void printInsights() {
+    private void printInsights() {
         // compare method returns -1 if left argument < right argument and 0 if left argument == right argument
         if (userGoal.getTargetDailyCalories() != DailyGoal.DUMMY_VALUE) {
             boolean isGoalAchieved = (int) calculateRemainingCalories() >= 0;
@@ -254,7 +268,7 @@ public class ReportGenerator extends DocumentGenerator {
     /**
      * Creates a list of recommended food items to eat that will match goal of user.
      */
-    public void printSuggestions() {
+    private void printSuggestions() {
         // instantiate a list with past 7 days of consumed food data
         ArrayList<DailyFoodLog> dailyFoodLogs = new ArrayList<>();
         LocalDate currentDate = this.queryDate;
@@ -292,20 +306,11 @@ public class ReportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Writes the concluding remarks in the report.
-     */
-    @Override
-    public void printFooter() {
-        printWriter.println(centraliseText(FOOTER_MESSAGE, DOCUMENT_WIDTH));
-    }
-
-
-    /**
      * Calculates number of calories remaining for user to meet goal.
      *
      * @return the number of calories remaining for user to meet goal
      */
-    public double calculateRemainingCalories() {
+    private double calculateRemainingCalories() {
         return userGoal.getTargetDailyCalories() - totalCalories;
     }
 
@@ -319,7 +324,7 @@ public class ReportGenerator extends DocumentGenerator {
      * @param n The number of characters allowed in a line.
      * @return The processed String after wrapping.
      */
-    public String stringWrap(String s, int n) {
+    private String stringWrap(String s, int n) {
         StringBuilder result = new StringBuilder();
 
 
@@ -379,7 +384,7 @@ public class ReportGenerator extends DocumentGenerator {
      * @param largeColumnWidth An Integer for the number of characters a large column should be. (For Name columns).
      * @return A stitched String with all columns combined together.
      */
-    public String combineColumns(ArrayList<String> strings, int smallColumnWidth, int largeColumnWidth) {
+    private String combineColumns(ArrayList<String> strings, int smallColumnWidth, int largeColumnWidth) {
         StringBuilder result = new StringBuilder();
         ArrayList<String[]> splitArrays = splitNewLines(strings);
         int maxNumLines = getMaxLines(splitArrays);

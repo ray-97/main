@@ -64,7 +64,7 @@ public class ExportGenerator extends DocumentGenerator {
      * Writes the header of the document.
      */
     @Override
-    public void printHeader() {
+    protected void printHeader() {
 
         printSeparator();
         printSeparator();
@@ -80,7 +80,7 @@ public class ExportGenerator extends DocumentGenerator {
      * Writes the entire current Food Record into the FoodRecord.txt.
      */
     @Override
-    public void printBody() {
+    protected void printBody() {
 
         printCategoriesComponent(); // categories are part of the body to indicate the table format visually to user
 
@@ -94,7 +94,7 @@ public class ExportGenerator extends DocumentGenerator {
      * Writes the concluding statement of the document.
      */
     @Override
-    public void printFooter() {
+    protected void printFooter() {
 
         printSeparator();
 
