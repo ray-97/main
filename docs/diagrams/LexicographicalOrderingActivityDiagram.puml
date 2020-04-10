@@ -1,0 +1,26 @@
+@startuml
+start
+if() then ([Calgo startup])
+:Read from storage json file;
+
+if () then ([storage file available])
+:Obtain previously saved data;
+else ([else])
+:Obtain default entries;
+endif
+:Initialise UniqueFoodList using obtained information;
+
+else([user update command])
+:UpdateCommand for Food f;
+if () then ([f exists in UniqueFoodList])
+:Get existing food e equivalent to f;
+:Replace e with f in UniqueFoodList's internalList;
+else ([else])
+:Add f to UniqueFoodList's internalList;
+endif
+
+endif
+:Sort UniqueFoodList's internalList;
+:Reflect in GUI's Food Record;
+stop
+@enduml

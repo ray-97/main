@@ -1,0 +1,65 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":UpdateCommand" as UpdateCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":ModelManager" as ModelManager MODEL_COLOR
+participant ":FoodRecord" as FoodRecord MODEL_COLOR
+participant ":UniqueFoodList" as UniqueFoodList MODEL_COLOR
+end box
+
+activate UpdateCommand
+
+group sd ordering
+
+alt Food already exists in FoodRecord
+
+    UpdateCommand -> ModelManager : getExistingFood(toAdd)
+    activate ModelManager
+    ModelManager -> FoodRecord : getExistingFood(toAdd)
+    activate FoodRecord
+    FoodRecord -> UniqueFoodList : getExistingFood(toAdd)
+    activate UniqueFoodList
+    UniqueFoodList --> FoodRecord : existingFood
+    deactivate UniqueFoodList
+    FoodRecord --> ModelManager : existingFood
+    deactivate FoodRecord
+    ModelManager --> UpdateCommand : existingFood
+    deactivate ModelManager
+
+    UpdateCommand -> ModelManager : setFood(existingFood, toAdd)
+    activate ModelManager
+    ModelManager -> FoodRecord : setFood(existingFood, toAdd)
+    activate FoodRecord
+    FoodRecord -> UniqueFoodList : setFood(existingFood, toAdd)
+    activate UniqueFoodList
+    UniqueFoodList -> UniqueFoodList : sortInternalList()
+    activate UniqueFoodList
+    deactivate UniqueFoodList
+    deactivate UniqueFoodList
+    deactivate FoodRecord
+    deactivate ModelManager
+
+else else
+
+    UpdateCommand -> ModelManager : addFood(toAdd)
+    activate ModelManager
+    ModelManager -> FoodRecord : addFood(toAdd)
+    activate FoodRecord
+    FoodRecord -> UniqueFoodList : add(toAdd)
+    activate UniqueFoodList
+    UniqueFoodList -> UniqueFoodList : sortInternalList()
+    activate UniqueFoodList
+    deactivate UniqueFoodList
+    deactivate UniqueFoodList
+    deactivate FoodRecord
+    deactivate ModelManager
+
+end
+
+end
+@enduml
+
