@@ -1,5 +1,7 @@
 package life.calgo.storage;
 
+import static life.calgo.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -28,6 +30,7 @@ public class StorageManager implements Storage {
     public StorageManager(FoodRecordStorage foodRecordStorage, ConsumptionRecordStorage consumptionRecordStorage,
                           UserPrefsStorage userPrefsStorage, GoalStorage goalStorage) {
         super();
+        requireAllNonNull(foodRecordStorage, consumptionRecordStorage, userPrefsStorage, goalStorage);
         this.foodRecordStorage = foodRecordStorage;
         this.consumptionRecordStorage = consumptionRecordStorage;
         this.userPrefsStorage = userPrefsStorage;

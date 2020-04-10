@@ -2,6 +2,7 @@ package life.calgo.model;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -91,6 +92,11 @@ public interface Model {
 
     Optional<Food> getFoodByName(Name parseName);
 
+    /** Returns an unmodifiable view of the filtered food record. */
+    ObservableList<Food> getFilteredFoodRecord();
+
+    // Consumption Record related methods
+
     boolean hasLogWithSameDate(DailyFoodLog foodLog);
 
     boolean hasLogWithSameDate(LocalDate date);
@@ -101,10 +107,7 @@ public interface Model {
 
     DailyFoodLog getLogByDate(LocalDate localDate);
 
-    double getRemainingCalories(LocalDate date);
-
-    /** Returns an unmodifiable view of the filtered food record. */
-    ObservableList<Food> getFilteredFoodRecord();
+    double getRemainingCalories();
 
     /**
      * Updates the filter of the filtered food record to filter by the given {@code predicate}.
@@ -118,7 +121,13 @@ public interface Model {
 
     void updateConsumedLists(Food food);
 
-    DailyGoal updateDailyGoal(int targetDailyCalories);
+    LocalDate getDate();
+
+    ArrayList<DailyFoodLog> getPastWeekLogs();
+
+    // Goal related methods
+
+    void updateDailyGoal(int targetDailyCalories);
 
     boolean isGoalMade();
 

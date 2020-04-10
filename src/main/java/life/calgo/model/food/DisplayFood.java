@@ -24,7 +24,7 @@ public class DisplayFood extends Food {
     }
 
     public String getRating() {
-        return rating == -1 ? "Not available yet" : String.format("%.2f", rating) + "/10";
+        return rating == -1 ? "Not available yet" : String.format("%.1f", rating);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package life.calgo.logic;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import life.calgo.logic.commands.exceptions.CommandException;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.Model;
 import life.calgo.model.ReadOnlyFoodRecord;
+import life.calgo.model.day.DailyFoodLog;
 import life.calgo.model.day.DailyGoal;
 import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
@@ -45,6 +47,8 @@ public interface Logic {
      * Returns remaining number of calories of the user for the goal.
      */
     double getRemainingCalories();
+
+    ArrayList<DailyFoodLog> getPastWeekLogs();
 
     /**
      * Returns the FoodRecord.
