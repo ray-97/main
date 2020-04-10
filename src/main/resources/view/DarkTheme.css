@@ -6,7 +6,8 @@
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: #555555;
+    -fx-text-fill: #e4e4e4;
+    -fx-opacity: 0.9;
     -fx-opacity: 0.9;
 }
 
@@ -67,7 +68,7 @@
 .table-view .column-header .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: #878786;
+    -fx-text-fill: #e4e4e4;
     -fx-alignment: center-left;
     -fx-padding: 0, 0, 25, 0;
     -fx-opacity: 1;
