@@ -158,7 +158,7 @@ public class MainWindow extends UiPart<Stage> {
         remainingCaloriesDisplay = new RemainingCaloriesDisplay();
         caloriesDisplayPlaceholder.getChildren().add(remainingCaloriesDisplay.getRoot());
 
-        dailyListDate.setText("Daily List: " + getDate());
+        dailyListDate.setText("Daily List:  " + getDate());
         dailyListDate.setStyle("-fx-text-fill: white; -fx-font-size: 12");
 
         if (logic.getDailyGoal().getGoal().equals(DailyGoal.DUMMY_VALUE)) {
