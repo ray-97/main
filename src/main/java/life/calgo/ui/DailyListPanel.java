@@ -33,7 +33,7 @@ public class DailyListPanel extends UiPart<Region> {
         dailyListView.setItems(dailyList);
     }
 
-
+    @SuppressWarnings("unchecked") // suppressed an inevitable unchecked warning due to use of varargs
     private void setUpColumns() {
         TableColumn<DisplayFood, String> foodName = setUpFoodNameColumn();
         TableColumn<DisplayFood, String> portion = setUpPortionColumn();

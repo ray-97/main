@@ -278,6 +278,8 @@ public class MainWindow extends UiPart<Stage> {
             fillGoal();
             fillRemainingCalories();
 
+            dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
+
             if (commandResult.isShowHelp()) {
                 handleHelpHelper(commandResult.getFeedbackToUser());
             }
