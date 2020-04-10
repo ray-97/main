@@ -53,21 +53,21 @@
 }
 
 .table-view .column-header, .table-view .filler {
-    -fx-size: 35;
+    -fx-size: 23;
     -fx-border-width: 0 0 1 0;
     -fx-background-color: transparent;
-    -fx-border-color:
-        transparent
-        transparent
-        derive(-fx-base, 80%)
-        transparent;
+    /*-fx-border-color:*/
+    /*    transparent*/
+    /*    transparent*/
+    /*    derive(-fx-base, 80%)*/
+    /*    transparent;*/
     -fx-border-insets: 0 10 1 0;
 }
 
 .table-view .column-header .label {
-    -fx-font-size: 20pt;
+    -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: grey;
     -fx-alignment: center-left;
     -fx-opacity: 1;
 }
