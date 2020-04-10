@@ -1,7 +1,5 @@
 package life.calgo.ui;
 
-import static java.util.Objects.requireNonNull;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,18 +24,18 @@ public class GraphPanel extends UiPart<Region> {
 
     private ArrayList<DailyFoodLog> pastWeekLogs;
     private Map<LocalDate, Double> caloriesAgainstDate = new TreeMap<>();
-    private LineChart<LocalDate, Double> graph;
-    private XYChart.Series<LocalDate, Double> series;
+    private CategoryAxis xAxis = new CategoryAxis();
+    private NumberAxis yAxis = new NumberAxis();
+    private LineChart<String, Number> graph = new LineChart<>(xAxis, yAxis);
+    private XYChart.Series<String, Number> series;
     private LocalDate date;
 
     @FXML
     private TextArea graphPanel;
 
-    final CategoryAxis xAxis = new CategoryAxis();
-    final NumberAxis yAxis = new NumberAxis();
-
     public GraphPanel() {
         super(FXML);
+        System.out.println("a");
     }
 
     // static method to create instance of Singleton class
@@ -46,6 +44,7 @@ public class GraphPanel extends UiPart<Region> {
         if (graphPanelInstance == null) {
             graphPanelInstance = new GraphPanel();
         }
+
         return graphPanelInstance;
     }
 
@@ -57,7 +56,7 @@ public class GraphPanel extends UiPart<Region> {
         updateSeries();
     }
 
-    public LineChart<LocalDate, Double> getGraph(Logic logic)  throws ParseException {
+    public LineChart<String, Number> getGraph(Logic logic) throws ParseException {
         makeGraph(logic);
         return graph;
     }
@@ -82,6 +81,9 @@ public class GraphPanel extends UiPart<Region> {
     }
 
     private void initialiseGraph() {
+        //graph.getData().removeAll(series);
+        series = new XYChart.Series<>();
+
         xAxis.setLabel("Day");
         yAxis.setLabel("Calories");
 
@@ -96,7 +98,8 @@ public class GraphPanel extends UiPart<Region> {
         series.getData().clear();
 
         caloriesAgainstDate.forEach((date, calories) -> {
-            series.getData().add(new XYChart.Data<LocalDate, Double>(date, calories));
+            String dateString = date.toString();
+            series.getData().add(new XYChart.Data<String, Number>(dateString, calories));
         });
     }
 

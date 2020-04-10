@@ -82,7 +82,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane caloriesDisplayPlaceholder;
 
     @FXML
-    private StackPane graphDisplayPlaceholder;
+    private StackPane graphPanelPlaceholder;
 
     @FXML
     private Label dailyListDate;
@@ -173,7 +173,7 @@ public class MainWindow extends UiPart<Stage> {
         fillRemainingCalories();
 
         graphPanel = GraphPanel.getGraphPanelInstance();
-        graphDisplayPlaceholder.getChildren().add(graphPanel.getGraph(logic));
+        graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
