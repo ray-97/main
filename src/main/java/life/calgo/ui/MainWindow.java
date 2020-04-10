@@ -55,7 +55,7 @@ public class MainWindow extends UiPart<Stage> {
     private GoalDisplay goalDisplay;
     private RemainingCaloriesDisplay remainingCaloriesDisplay;
     private HelpWindow helpWindow;
-    private GraphPanel graphDisplay;
+    private GraphPanel graphPanel;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -172,8 +172,8 @@ public class MainWindow extends UiPart<Stage> {
 
         fillRemainingCalories();
 
-        graphDisplay = new GraphPanel(logic.getFilteredDailyList());
-        graphDisplayPlaceholder.getChildren().add(graphDisplay.getGraph(logic));
+        graphPanel = GraphPanel.getGraphPanelInstance();
+        graphDisplayPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
