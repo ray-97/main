@@ -145,7 +145,7 @@
 }
 
 .status-bar {
-    -fx-background-color: derive(#4f53b3, 20%);
+    -fx-background-color: derive(#4f53b3, 10%);
 }
 
 .result-display {
@@ -158,14 +158,14 @@
 .goal-display {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 10pt;
+    -fx-font-size: 12pt;
     -fx-text-fill: white;
 }
 
 .remaining-calories-display {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 10pt;
+    -fx-font-size: 12pt;
     -fx-text-fill: white;
 }
 
@@ -354,9 +354,6 @@
     -fx-font-weight: bold;
 }
 
-
-
-
 #cardPane {
     -fx-background-color: transparent;
     -fx-border-width: 0;
@@ -364,7 +361,7 @@
 
 #commandTypeLabel {
     -fx-font-size: 11px;
-    -fx-text-fill: #F70D1A;
+    -fx-text-fill: #b2060f;
 }
 
 #commandTextField {
@@ -373,7 +370,7 @@
     -fx-border-color:  #1d1d1d #ffffff #1d1d1d;
     -fx-border-insets: 0;
     -fx-border-width: 1;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 13pt;
     -fx-text-fill: white;
 }
@@ -383,17 +380,17 @@
 }
 
 #resultDisplay .content {
-    -fx-background-color: transparent, #db6d3b, transparent, #db6d3b;
+    -fx-background-color: transparent, #CD6839, transparent, #CD6839;
     -fx-background-radius: 0;
 }
 
 #goalDisplay .content {
-    -fx-background-color: transparent, #db6d3b, transparent, #db6d3b;
+    -fx-background-color: transparent, #CD6839, transparent, #CD6839;
     -fx-background-radius: 0;
 }
 
 #remainingCaloriesDisplay .content {
-    -fx-background-color: transparent, #db6d3b, transparent, #db6d3b;
+    -fx-background-color: transparent, #CD6839, transparent,#CD6839;
     -fx-background-radius: 0;
 }
 
