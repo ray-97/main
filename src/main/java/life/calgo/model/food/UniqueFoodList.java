@@ -49,7 +49,7 @@ public class UniqueFoodList implements Iterable<Food> {
             throw new DuplicateFoodException();
         }
         internalList.add(toAdd);
-        Collections.sort(internalList);
+        sortInternalList();
     }
 
 
@@ -71,7 +71,7 @@ public class UniqueFoodList implements Iterable<Food> {
         }
 
         internalList.set(index, editedFood);
-        Collections.sort(internalList);
+        sortInternalList();
     }
 
     /**
@@ -85,10 +85,15 @@ public class UniqueFoodList implements Iterable<Food> {
         }
     }
 
+    /**
+     * Similar to {@link #setFoods(List)}, but now takes in a UniqueFoodList.
+     *
+     * @param replacement the new source UniqueFoodList.
+     */
     public void setFoods(UniqueFoodList replacement) {
         requireNonNull(replacement);
         internalList.setAll(replacement.internalList);
-        Collections.sort(internalList);
+        sortInternalList();
     }
 
     /**
@@ -102,7 +107,7 @@ public class UniqueFoodList implements Iterable<Food> {
         }
 
         internalList.setAll(foods);
-        Collections.sort(internalList);
+        sortInternalList();
     }
 
     public Optional<Food> getFoodByName(Name name) {
@@ -158,5 +163,13 @@ public class UniqueFoodList implements Iterable<Food> {
             }
         }
         return true;
+    }
+
+    /**
+     * Sorts the UniqueFoodList according to the order specified for the Food objects.
+     * As of v1.4, it is the lexicographical order.
+     */
+    private void sortInternalList() {
+        Collections.sort(internalList);
     }
 }
