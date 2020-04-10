@@ -104,7 +104,6 @@ public class GraphPanel extends UiPart<Region> {
         graph.getData().add(series);
     }
 
-
     /**
      * Updates the series that provides data to the graph.
      */
