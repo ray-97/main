@@ -5,16 +5,13 @@ skinparam arrowColor STORAGE_COLOR
 skinparam classBackgroundColor STORAGE_COLOR
 
 package "Storage Component"{
-Interface Storage <<Interface>>
-Interface FoodRecordStorage <<Interface>>
-Interface ConsumptionRecordStorage <<Interface>>
-Interface UserPrefsStorage <<Interface>>
-Interface GoalStorage <<Interface>>
+Interface Storage <<interface>>
+Interface FoodRecordStorage <<interface>>
+Interface ConsumptionRecordStorage <<interface>>
+Interface UserPrefsStorage <<interface>>
+Interface GoalStorage <<interface>>
 
-Class "{abstract}\nCommand" as Command{
-}
-
-Class DocumentGenerator <<Abstract>>
+Class "{abstract}\nDocumentGenerator"
 Class ReportGenerator
 Class ExportGenerator
 Class StorageManager
@@ -30,28 +27,28 @@ Class JsonAdaptedGoal
 Class JsonAdaptedTag
 Class JsonAdaptedDailyFoodLog
 
-DocumentGenerator <|-- ReportGenerator
-DocumentGenerator <|-- ExportGenerator
+"{abstract}\nDocumentGenerator" <|-- ReportGenerator
+"{abstract}\nDocumentGenerator" <|-- ExportGenerator
 
 StorageManager .up.|> Storage
-StorageManager o--> UserPrefsStorage
-StorageManager o--> ConsumptionRecordStorage
-StorageManager o--> FoodRecordStorage
-StorageManager o--> GoalStorage
+StorageManager o--> "1" UserPrefsStorage
+StorageManager o--> "1" ConsumptionRecordStorage
+StorageManager o--> "1" FoodRecordStorage
+StorageManager o--> "1" GoalStorage
 
 JsonConsumptionRecordStorage .up.|> ConsumptionRecordStorage
 JsonConsumptionRecordStorage .down.> JsonSerializableConsumptionRecord
-JsonSerializableConsumptionRecord .down.> JsonAdaptedDailyFoodLog
+JsonSerializableConsumptionRecord "1" .down.> "*" JsonAdaptedDailyFoodLog
 
 JsonGoalStorage .up.|> GoalStorage
 JsonGoalStorage ..> JsonSerializableGoal
-JsonSerializableGoal ..> JsonAdaptedGoal
+JsonSerializableGoal "1" ..> "0...1" JsonAdaptedGoal
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
 
 JsonFoodRecordStorage .up.|> FoodRecordStorage
 JsonFoodRecordStorage .down.> JsonSerializableFoodRecord
-JsonSerializableFoodRecord .down.> JsonAdaptedFood
-JsonAdaptedFood .right.> JsonAdaptedTag
+JsonSerializableFoodRecord "1" .down.> "*" JsonAdaptedFood
+JsonAdaptedFood "1" .right.> "*" JsonAdaptedTag
 }
 @enduml

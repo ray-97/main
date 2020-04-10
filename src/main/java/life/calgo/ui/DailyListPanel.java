@@ -6,7 +6,10 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 
 import javafx.scene.layout.StackPane;
@@ -34,46 +37,80 @@ public class DailyListPanel extends UiPart<Region> {
     private void setUpColumns() {
         TableColumn<DisplayFood, String> foodName = setUpFoodNameColumn();
         TableColumn<DisplayFood, String> portion = setUpPortionColumn();
-        dailyListView.getColumns().addAll(foodName, portion);
+        TableColumn<DisplayFood, String> rating = setUpRatingColumn();
+        dailyListView.getColumns().addAll(foodName, portion, rating);
+    }
+
+    private TableColumn<DisplayFood, String> setUpRatingColumn() {
+        TableColumn<DisplayFood, String> rating = new TableColumn<>("Rating");
+        rating.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getRating()));
+        rating.setCellFactory(tableColumn -> new RatingTableCell());
+        rating.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.10));
+        rating.setResizable(false);
+        rating.setMinWidth(60.0);
+        return rating;
     }
 
     private TableColumn<DisplayFood, String> setUpFoodNameColumn() {
         TableColumn<DisplayFood, String> foodName = new TableColumn<>("Food Name");
         foodName.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getName().fullName));
         foodName.setCellFactory(tableColumn -> new NameTableCell());
-        foodName.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.7));
+        foodName.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.70));
         foodName.setResizable(false);
         return foodName;
     }
 
     private TableColumn<DisplayFood, String> setUpPortionColumn() {
         TableColumn<DisplayFood, String> portion = new TableColumn<>("Portion");
-        portion.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(Double.toString(param.getValue().getPortion())));
+        portion.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(
+                Double.toString(param.getValue().getPortion())));
         portion.setCellFactory(tableColumn -> new PortionTableCell());
-        portion.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.2));
+        portion.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.15));
         portion.setResizable(false);
         return portion;
     }
 
+    /**
+     * Custom {@code RatingTableCell} that displays the graphics of a {@code TableCell} using a {@code DisplayFood}.
+     */
+    class RatingTableCell extends TableCell<DisplayFood, String> {
+        @Override
+        protected void updateItem(String rating, boolean empty) {
+            super.updateItem(rating, empty);
+            if (empty || rating == null) {
+                setGraphic(null);
+                setText(null);
+            } else {
+                setGraphic(new RatingLabel(rating).getPane());
+                setStyle("-fx-padding: 0 0 0 0");
+            }
+        }
+    }
+
+    /**
+     * Custom {@code NameTableCell} that displays the graphics of a {@code TableCell} using a {@code DisplayFood}.
+     */
     class NameTableCell extends TableCell<DisplayFood, String> {
         @Override
-        protected void updateItem(String foodName, boolean empty) {
-            super.updateItem(foodName, empty);
-            if (empty || foodName == null) {
+        protected void updateItem(String food, boolean empty) {
+            super.updateItem(food, empty);
+            if (empty || food == null) {
                 setGraphic(null);
                 setText(null);
             } else {
                 Label label = new Label();
-                label.setText(foodName);
-                StackPane pane = new StackPane();
-                pane.getChildren().add(label);
-                pane.setAlignment(Pos.CENTER_LEFT);
-                setGraphic(pane);
+                label.setText(food);
+                label.setStyle("-fx-text-fill: white");
+                setGraphic(label);
             }
 
         }
 
     }
+
+    /**
+     * Custom {@code PortionTableCell} that displays the graphics of a {@code TableCell} using a {@code portion}.
+     */
     class PortionTableCell extends TableCell<DisplayFood, String> {
         @Override
         protected void updateItem(String portion, boolean empty) {
@@ -84,6 +121,7 @@ public class DailyListPanel extends UiPart<Region> {
             } else {
                 Label label = new Label();
                 label.setText(portion);
+                label.getStyleClass().add("portionLabel");
                 StackPane pane = new StackPane();
                 pane.getChildren().add(label);
                 pane.setAlignment(Pos.CENTER_LEFT);
@@ -91,27 +129,5 @@ public class DailyListPanel extends UiPart<Region> {
             }
 
         }
-
     }
-
-
-
-
-    /**
-//     * Responsible for containing the display of each food item consumed in the given day.
-//     */
-//    class DailyListViewCell extends ListCell<DisplayFood> {
-//        @Override
-//        protected void updateItem(DisplayFood food, boolean empty) {
-//            super.updateItem(food, empty);
-//
-//            if (empty || food == null) {
-//                setGraphic(null);
-//                setText(null);
-//            } else {
-//                setGraphic(new DisplayFoodCard(food, getIndex() + 1).getRoot());
-//            }
-//        }
-//    }
 }
-
