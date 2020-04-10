@@ -173,12 +173,13 @@ The `export` command comes in handy for situations like these. It provides you w
 ****
 * FoodRecord.txt shows the `Food Record` in alphabetical order of `Food` names, and includes the corresponding details of each `Food` neatly in a table.
 * If a previous FoodRecord.txt file exists, do close any instances of the file (if previously opened) before running the `export` command. The file will be replaced by an updated version representing your latest `Food Record`.
+* `Tags` are placed outside of the dashed lines.
 ****
 
 [TIP]
 This lets you manually track your diet using a reference sheet of your past `Food` entries. You can freely edit this reference sheet to include information outside of the App. +
 [NOTE]
-Certain `Food` names and nutritional values may be too long to fit into the given columns. The reference sheet allows the storage of these values by going beyond the columns originally intended. While some entries may be misaligned, rest assured that all the information will still be captured and separated by space(s). Individual entries will also appear on separate lines.
+Certain `Food` names may be too long to fit into the given space. The reference sheet truncates these names and shows the remainder on the following lines. Rest assured that all your information is still captured and will be separated with space(s). Individual entries will also appear on separate lines.
 
 Format: `export`
 
@@ -205,7 +206,7 @@ Alternatively, you can choose to search for a keyword which appears in the `Name
 [TIP]
 You don't have to capitalise each keyword. The search is always case insensitive when searching for keyword(s) via `Name` or `Tag`. +
 [TIP]
-You don't actually have to type out the entire keyword. Incomplete keywords will be matched to `Food` entries containing them in the specified parameter of `Name` or `Tag`. +
+You don't actually have to type out the entire keyword either. For your comfort, incomplete keywords will be matched to `Food` entries containing them in the specified parameter of `Name` or `Tag`. +
 [TIP]
 You can search for multiple `Name` keywords by using a single `n/` prefix, separating them with space(s). +
 
@@ -271,7 +272,7 @@ The `list` command resets the display accordingly to show all entries in the cur
 
 [TIP]
 You can think of this as the undo of a `find` command.
-After a `find` command, you are advised to complete your intended actions first, before using the `list` command. This allows for a smoother workflow as you will now avoid the need to perform the same `find` command again.
+After a `find` command, you are advised to complete your intended actions first, before using the `list` command to reset the display. This allows for a smoother workflow as you will now avoid the need to perform the same `find` command again.
 
 Format: `list`
 
@@ -341,15 +342,18 @@ Whenever you begin to key in the name of the `Food`, Calgo shows you the existin
 
 == FAQ
 
-*Q*: How do I transfer my data to another Computer? +
-*A*: Install the App in the other computer and overwrite/paste the `data` folder from the source computer into the folder containing the *Calgo* App.
+*Q*: How do I transfer my *Calgo* data to another Computer? +
+*A*: Install *Calgo* in a folder inside the target computer and copy over your current `data` folder into that folder.
+
+*Q*: Where can I find my exported `Food Record` entries and consumption reports? +
+*A*: They are both found in the `exports` and `reports` subfolders in the `data` folder respectively. Please do not remove the json files in the `data` folder. These are system files.
 
 == Command Summary
 
 [width="59%",cols="17%,<18%,<20%,<25%,<20%",options="header",]
 |=======================================================================
 |Command Category|Command Name|Usage|Format|Example (if applicable)
-.3+|Navigate app|Exit|Exits the app|`exit`|-
+.3+|Navigate App|Exit|Exits the app|`exit`|-
 |Goal|Sets your daily caloric goal.|`goal GOAL`|`goal 2500`
 |Help|Displays a guide for all commands. Can also display only commands containing the given command word.
     |`help [COMMAND_WORD]`|`help`*OR*`help nom`
