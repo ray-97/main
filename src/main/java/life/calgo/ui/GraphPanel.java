@@ -5,36 +5,48 @@ import static java.util.Objects.requireNonNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
 
-import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 
 import life.calgo.logic.Logic;
 import life.calgo.logic.parser.exceptions.ParseException;
 import life.calgo.model.day.DailyFoodLog;
-import life.calgo.model.food.DisplayFood;
 
 public class GraphPanel extends UiPart<Region> {
 
+    private static GraphPanel graphPanelInstance = null;
     private static final String FXML = "GraphPanel.fxml";
 
     private ArrayList<DailyFoodLog> pastWeekLogs;
-    private Map<LocalDate, Double> caloriesAgainstDate;
+    private Map<LocalDate, Double> caloriesAgainstDate = new TreeMap<>();
     private LineChart<LocalDate, Double> graph;
     private XYChart.Series<LocalDate, Double> series;
-    private ObservableList<DisplayFood> foodList;
+    private LocalDate date;
+
+    @FXML
+    private TextArea graphPanel;
 
     final CategoryAxis xAxis = new CategoryAxis();
     final NumberAxis yAxis = new NumberAxis();
 
-    public GraphPanel(ObservableList<DisplayFood> foodList) throws ParseException {
+    public GraphPanel() {
         super(FXML);
-        requireNonNull(foodList);
-        this.foodList = foodList;
+    }
+
+    // static method to create instance of Singleton class
+    public static GraphPanel getGraphPanelInstance() {
+        // To ensure only one instance is created
+        if (graphPanelInstance == null) {
+            graphPanelInstance = new GraphPanel();
+        }
+        return graphPanelInstance;
     }
 
 
@@ -57,11 +69,15 @@ public class GraphPanel extends UiPart<Region> {
     private void initialiseTreeMap(Logic logic) {
         caloriesAgainstDate.clear();
         setPastWeekLogs(logic);
+        date = logic.getDate();
 
-        for (DailyFoodLog log : pastWeekLogs) {
-            LocalDate date = log.getLocalDate();
+        for (int counter = pastWeekLogs.size() - 1; counter >= 0; counter--) {
+            int daysToSubtract = pastWeekLogs.size() - 1 - counter;
+            LocalDate logDate = date.minusDays(daysToSubtract);
+
+            DailyFoodLog log = pastWeekLogs.get(counter);
             Double totalCalories = log.getTotalCalories();
-            caloriesAgainstDate.put(date, totalCalories);
+            caloriesAgainstDate.put(logDate, totalCalories);
         }
     }
 

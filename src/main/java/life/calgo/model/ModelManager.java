@@ -231,7 +231,10 @@ public class ModelManager implements Model {
         for (int i = 1; i <= 7; i++) {
             if (consumptionRecord.getDateToLogMap().containsKey(currentDate)) {
                 result.add(consumptionRecord.getDateToLogMap().get(currentDate));
+            } else {
+                result.add(new DailyFoodLog());
             }
+
             currentDate = currentDate.minus(Period.ofDays(1));
         }
         return result;
