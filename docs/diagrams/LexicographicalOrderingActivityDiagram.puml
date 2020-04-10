@@ -23,4 +23,5 @@ endif
 :Sort UniqueFoodList's internalList;
 :Reflect in GUI's Food Record;
 stop
+
 @enduml
