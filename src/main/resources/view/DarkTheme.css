@@ -390,7 +390,7 @@
 }
 
 #remainingCaloriesDisplay .content {
-    -fx-background-color: transparent, #CD6839, transparent,#CD6839;
+    -fx-background-color: transparent, #CD6839, transparent, #CD6839;
     -fx-background-radius: 0;
 }
 
