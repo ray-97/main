@@ -145,7 +145,7 @@ public abstract class DocumentGenerator {
      * @param width The width of the line whereby String should be centralised.
      * @return The processed String that has been centralised.
      */
-    public String centraliseText(String text, int width) {
+    protected String centraliseText(String text, int width) {
 
         int lengthOfText = text.length();
         int numWhitespace = (width - lengthOfText) / 2;
