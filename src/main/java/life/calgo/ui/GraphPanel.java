@@ -91,7 +91,7 @@ public class GraphPanel extends UiPart<Region> {
      * Sets up line chart axes, and adds a series to provide data.
      */
     private void initialiseGraph() {
-        graph.getData().removeAll(series);
+        //graph.getData().removeAll(series);
         series = new XYChart.Series<>();
 
         xAxis.setLabel("Day");
@@ -115,5 +115,4 @@ public class GraphPanel extends UiPart<Region> {
             series.getData().add(new XYChart.Data<>(dateString, calories));
         });
     }
-
 }
