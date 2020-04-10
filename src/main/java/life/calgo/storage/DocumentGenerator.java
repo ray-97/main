@@ -54,6 +54,11 @@ public abstract class DocumentGenerator {
     public abstract void printBody();
 
     /**
+     * Writes the concluding remarks in the document.
+     */
+    public abstract void printFooter();
+
+    /**
      * Writes a line for neatness in formatting.
      */
     protected void printSeparator() {
@@ -67,12 +72,6 @@ public abstract class DocumentGenerator {
     protected void printEmptyLine() {
         printWriter.println("");
     }
-
-    /**
-     * Writes the concluding remarks in the document.
-     */
-    public abstract void printFooter();
-
 
     // String Manipulation Methods
 
