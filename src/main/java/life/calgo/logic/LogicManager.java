@@ -2,6 +2,7 @@ package life.calgo.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -81,6 +82,11 @@ public class LogicManager implements Logic {
     @Override
     public ArrayList<DailyFoodLog> getPastWeekLogs() {
         return model.getPastWeekLogs();
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return model.getDate();
     }
 
     @Override

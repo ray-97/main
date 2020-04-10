@@ -28,6 +28,7 @@ import life.calgo.model.food.Name;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private LocalDate currentDate;
     private final FoodRecord foodRecord;
     private final ConsumptionRecord consumptionRecord;
     private final UserPrefs userPrefs;
@@ -217,7 +218,11 @@ public class ModelManager implements Model {
     }
 
     public LocalDate getDate() {
-        return currentFilteredDailyList.get(0).getDate();
+        return currentDate;
+    }
+
+    public void updateDate(LocalDate date) {
+        currentDate = date;
     }
 
     public ArrayList<DailyFoodLog> getPastWeekLogs() {

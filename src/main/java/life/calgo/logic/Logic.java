@@ -1,6 +1,7 @@
 package life.calgo.logic;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,11 @@ public interface Logic {
      * Returns the daily caloric goal of the user.
      */
     DailyGoal getDailyGoal();
+
+    /**
+     * Returns the date of the daily list in Model.
+     */
+    LocalDate getDate();
 
     /**
      * Returns remaining number of calories of the user for the goal.

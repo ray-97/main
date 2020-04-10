@@ -123,6 +123,8 @@ public interface Model {
 
     LocalDate getDate();
 
+    void updateDate(LocalDate date);
+
     ArrayList<DailyFoodLog> getPastWeekLogs();
 
     // Goal related methods
