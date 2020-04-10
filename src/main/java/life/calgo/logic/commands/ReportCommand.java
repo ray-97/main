@@ -46,9 +46,10 @@ public class ReportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        if (!model.hasLogWithSameDate(queryDate)) {
+        if (!model.hasLogWithSameDate(queryDate) || model.getLogByDate(queryDate).getFoods().size() == 0) {
             throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + String.format(NO_SUCH_DATE, queryDate));
         }
+
         DailyGoal dailyGoal = model.getDailyGoal();
         DailyFoodLog foodLog = model.getLogByDate(queryDate);
         ArrayList<DailyFoodLog> pastWeekLogs = model.getPastWeekLogs();
