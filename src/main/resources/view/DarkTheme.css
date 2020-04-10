@@ -52,28 +52,29 @@
     -fx-background-color: transparent;
 }
 
+.table-cell {
+    -fx-border-width: 0;
+    -fx-padding: 5;
+}
+
 .table-view .column-header, .table-view .filler {
-    -fx-size: 35;
-    -fx-border-width: 0 0 1 0;
+    -fx-size: 23;
+    -fx-border-width: 0 0 0 0;
     -fx-background-color: transparent;
-    -fx-border-color:
-        transparent
-        transparent
-        derive(-fx-base, 80%)
-        transparent;
     -fx-border-insets: 0 10 1 0;
 }
 
 .table-view .column-header .label {
-    -fx-font-size: 20pt;
+    -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: #878786;
     -fx-alignment: center-left;
+    -fx-padding: 0, 0, 25, 0;
     -fx-opacity: 1;
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -fx-focus-color;
+    -fx-background-color: transparent;
 }
 
 .split-pane:horizontal .split-pane-divider {
@@ -320,6 +321,40 @@
 .scroll-bar:horizontal .increment-arrow, .scroll-bar:horizontal .decrement-arrow {
     -fx-padding: 8 1 8 1;
 }
+
+.ratingCircleEmpty {
+    -fx-fill: #4285F4;
+    -fx-stroke-width: 0;
+}
+
+.ratingCircleFilledGood {
+    -fx-fill: #25C823;
+    -fx-stroke-width: 0;
+}
+
+.ratingCircleFilledAverage {
+    -fx-fill: #ECF146;
+    -fx-stroke-width: 0;
+}
+
+.ratingCircleFilledBad {
+    -fx-fill: #FD5959;
+    -fx-stroke-width: 0;
+}
+
+.portionLabel {
+    -fx-text-fill: black;
+    -fx-background-color: #FF8650;
+    -fx-padding: 2 5 2 5;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-font-size: 11;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+}
+
+
+
 
 #cardPane {
     -fx-background-color: transparent;
