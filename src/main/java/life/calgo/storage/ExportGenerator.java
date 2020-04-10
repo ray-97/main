@@ -108,7 +108,7 @@ public class ExportGenerator extends DocumentGenerator {
      * Writes the main part of the header.
      */
     private void printHeaderComponent() {
-        String title = centraliseText("Your Food Record: A Collection of Your Past Entries", WIDTH_OF_DOCUMENT);
+        String title = centraliseText("Your Food Record: A Collection of Your Past Entries", DOCUMENT_WIDTH);
         printWriter.println(title);
     }
 
@@ -127,7 +127,7 @@ public class ExportGenerator extends DocumentGenerator {
      * Writes the main part of the footer.
      */
     private void printFooterComponent() {
-        String footer = centraliseText("Eat Good, Live Well!", WIDTH_OF_DOCUMENT);
+        String footer = centraliseText("Eat Good, Live Well!", DOCUMENT_WIDTH);
         printWriter.println(footer);
     }
 

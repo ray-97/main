@@ -17,20 +17,29 @@ import life.calgo.model.food.Food;
  * Responsible for generating statistics of the user's consumption patterns on a given day.
  */
 public class ReportGenerator extends DocumentGenerator {
-    public static final int VALUE_COLUMN_WIDTH = 25;
-    public static final int NAME_COLUMN_WIDTH = 50;
+
+    // Formatting
+
+    private static final int NAME_COLUMN_WIDTH = DOCUMENT_WIDTH / 2;
+    private static final int VALUE_COLUMN_WIDTH = DOCUMENT_WIDTH / 4; // there are at most 4 value columns in report.
+
+    // Messages
 
     // for Header
     private static final String HEADER_MESSAGE = "Report of Consumption Pattern on %tF";
+
     // for Goal Information section
     private static final String GOAL_HEADER_MESSAGE = "Your Goal Information";
     private static final String NO_GOAL_MESSAGE = "You did not set any goal for daily caloric intake yet."
             + " If you want to generate personalised insights, please set one!";
     private static final String GOAL_MESSAGE = "You have set a goal to consume at most %d calories in a day.";
+
     // for Foodwise Statistics
     private static final String FOODWISE_HEADER_MESSAGE = "Food-wise Statistics";
-    // for Aggregrate Statistics
-    private static final String AGGREGRATE_HEADER_MESSAGE = "Aggregrate Statistics";
+
+    // for Aggregate Statistics
+    private static final String AGGREGATE_HEADER_MESSAGE = "Aggregate Statistics";
+
     // for Insights
     private static final String INSIGHTS_HEADER_MESSAGE = "Insights for You";
     private static final String GOAL_ACHIEVED_MESSAGE = "You have achieved your goal! Congratulations. "
@@ -43,22 +52,29 @@ public class ReportGenerator extends DocumentGenerator {
             + "Great job!";
     private static final String GOAL_DEFICIT_MESSAGE = "You have consumed %.0f more calories than your target. "
             + "Don't lose heart. You can do better!";
+
     // for Footer
     private static final String FOOTER_MESSAGE = "This marks the end of your report. Personalised insights coming up"
             + " in v1.4.";
 
-    private LocalDate queryDate;
-    private DailyFoodLog queryLog;
+    // Attributes
+
     private HashMap<LocalDate, DailyFoodLog> dateToLogMap;
+    private DailyFoodLog queryLog;
+    private LocalDate queryDate;
+    private DailyGoal userGoal;
+
+    // Statistics
+
     private double totalCalories = 0.0;
     private double totalProteins = 0.0;
     private double totalCarbs = 0.0;
     private double totalFats = 0.0;
-    private DailyGoal userGoal;
 
     public ReportGenerator(LocalDate queryDate, DailyGoal userGoal, ReadOnlyConsumptionRecord consumptionRecord) {
         super("data/reports/" + queryDate.toString() + "_report.txt",
                 LogsCenter.getLogger(ReportGenerator.class));
+
         this.dateToLogMap = consumptionRecord.getDateToLogMap();
         this.queryLog = this.dateToLogMap.get(queryDate);
         this.queryDate = queryDate;
@@ -66,18 +82,37 @@ public class ReportGenerator extends DocumentGenerator {
     }
 
     /**
-     * Driver method for generation of comprehensive report of consumption patterns
+     * Driver method for generation of comprehensive report of consumption patterns.
      *
-     * @return a boolean value that is true only if report has been successfully generated
+     * @return a boolean value that is true only if report has been successfully generated.
      */
     public boolean generateReport() {
+        updateStatistics();
         printHeader();
         printBody();
-        // printSuggestions();
         printFooter();
         printWriter.close();
         return file.exists() && (file.length() != 0); // success check
     }
+
+
+    // Update Statistics Methods
+
+    /**
+     * Updates aggregate statistics based on DailyFoodLog.
+     */
+    private void updateStatistics() {
+        for (Food food : queryLog.getFoods()) {
+            double portion = queryLog.getPortion(food);
+            double currCalories = portion * (double) Integer.parseInt(food.getCalorie().value);
+            totalCalories += currCalories;
+            totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
+            totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
+            totalFats += portion * (double) Integer.parseInt(food.getFat().value);
+        }
+    }
+
+    // Printing Methods
 
     /**
      * Writes the meta-information of the report.
@@ -85,26 +120,43 @@ public class ReportGenerator extends DocumentGenerator {
     @Override
     public void printHeader() {
         printWriter.println(centraliseText(String.format(HEADER_MESSAGE, this.queryLog.getLocalDate()),
-                WIDTH_OF_DOCUMENT));
+                DOCUMENT_WIDTH));
         printSeparator();
     }
 
     /**
      * Writes the body of the report document.
      */
+    @Override
     public void printBody() {
         printGoalInformation();
         printFoodwiseStatistics();
         printAggregateStatistics();
         printInsights();
+        // printSuggestions();
     }
 
     /**
      * Prints information on what the goal is.
      */
-    public void printGoalInformation() {
-        printWriter.println(centraliseText(GOAL_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
+    private void printGoalInformation() {
+        printGoalInformationHeader();
+        printGoalInformationBody();
+        printSeparator();
+    }
+
+    /**
+     * Prints goal information section header.
+     */
+    private void printGoalInformationHeader() {
+        printWriter.println(centraliseText(GOAL_HEADER_MESSAGE, DOCUMENT_WIDTH));
         printEmptyLine();
+    }
+
+    /**
+     * Prints goal information section body.
+     */
+    private void printGoalInformationBody() {
         String goalInformation;
         if (userGoal.getTargetDailyCalories() == DailyGoal.DUMMY_VALUE) {
             goalInformation = NO_GOAL_MESSAGE;
@@ -112,31 +164,46 @@ public class ReportGenerator extends DocumentGenerator {
             goalInformation = String.format(GOAL_MESSAGE, this.userGoal.getTargetDailyCalories());
         }
         printWriter.println(goalInformation);
-        printSeparator();
     }
 
     /**
      * Writes relevant statistics related to each food quantity consumed in the given day.
      */
-    public void printFoodwiseStatistics() {
-        printWriter.println(centraliseText(FOODWISE_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
-        printEmptyLine();
+    private void printFoodwiseStatistics() {
+        printFoodwiseStatisticsHeader();
+        printFoodwiseStatisticsTableHeader();
+        printFoodwiseStatisticsTable();
 
-        DailyFoodLog foodLog = queryLog;
+        printSeparator();
+    }
+
+    /**
+     * Prints the header of the Foodwise Statistics section.
+     */
+    private void printFoodwiseStatisticsHeader() {
+        printWriter.println(centraliseText(FOODWISE_HEADER_MESSAGE, DOCUMENT_WIDTH));
+        printEmptyLine();
+    }
+
+    /**
+     * Prints the headers of the table in the Foodwise Statistics section.
+     */
+    private void printFoodwiseStatisticsTableHeader() {
         String columnInterval = "|";
         String foodHeader = centraliseText("Food", NAME_COLUMN_WIDTH) + columnInterval;
         String portionHeader = centraliseText("Total Quantity", VALUE_COLUMN_WIDTH) + columnInterval;
         String caloriesHeader = centraliseText("Total Calories", VALUE_COLUMN_WIDTH);
         printWriter.println(foodHeader + portionHeader + caloriesHeader);
         printEmptyLine();
+    }
 
-        for (Food food : foodLog.getFoods()) {
-            double portion = foodLog.getPortion(food);
+    /**
+     * Prints the main information in a table of the Foodwise Statistics section.
+     */
+    private void printFoodwiseStatisticsTable() {
+        for (Food food : queryLog.getFoods()) {
+            double portion = queryLog.getPortion(food);
             double currCalories = portion * (double) Integer.parseInt(food.getCalorie().value);
-            totalCalories += currCalories;
-            totalProteins += portion * (double) Integer.parseInt(food.getProtein().value);
-            totalCarbs += portion * (double) Integer.parseInt(food.getCarbohydrate().value);
-            totalFats += portion * (double) Integer.parseInt(food.getFat().value);
             String foodColumn = stringWrap(food.getFoodNameString(), NAME_COLUMN_WIDTH);
             String portionColumn = stringWrap(String.format("%.1f", portion), VALUE_COLUMN_WIDTH);
             String currCaloriesColumn = stringWrap(String.format("%.0f", currCalories), VALUE_COLUMN_WIDTH);
@@ -147,14 +214,13 @@ public class ReportGenerator extends DocumentGenerator {
             String table = combineColumns(columns, VALUE_COLUMN_WIDTH, NAME_COLUMN_WIDTH);
             printWriter.println(table);
         }
-        printSeparator();
     }
 
     /**
      * Writes aggregated statistics of all food items consumed in the given day.
      */
     public void printAggregateStatistics() {
-        printWriter.println(centraliseText(AGGREGRATE_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
+        printWriter.println(centraliseText(AGGREGATE_HEADER_MESSAGE, DOCUMENT_WIDTH));
         printEmptyLine();
         printWriter.println(String.format("%s %-20s %-20s %-20s", "Total Calories in kcal", "| Total Protein in grams",
                 "| Total Carbohydrates in grams", "| Total Fats in grams"));
@@ -170,7 +236,7 @@ public class ReportGenerator extends DocumentGenerator {
         // compare method returns -1 if left argument < right argument and 0 if left argument == right argument
         if (userGoal.getTargetDailyCalories() != DailyGoal.DUMMY_VALUE) {
             boolean isGoalAchieved = (int) calculateRemainingCalories() >= 0;
-            printWriter.println(centraliseText(INSIGHTS_HEADER_MESSAGE, WIDTH_OF_DOCUMENT));
+            printWriter.println(centraliseText(INSIGHTS_HEADER_MESSAGE, DOCUMENT_WIDTH));
             printEmptyLine();
             if (isGoalAchieved) {
                 printWriter.println(GOAL_ACHIEVED_MESSAGE);
@@ -216,7 +282,7 @@ public class ReportGenerator extends DocumentGenerator {
         Collections.sort(foodInPastWeek, Comparator.comparingInt(frequencyMap::get));
 
         // ensure sum up to goal calories
-        printWriter.println(centraliseText("Suggestions", WIDTH_OF_DOCUMENT));
+        printWriter.println(centraliseText("Suggestions", DOCUMENT_WIDTH));
         double goal = userGoal.getTargetDailyCalories();
         while (goal >= 0 && !foodInPastWeek.isEmpty()) {
             Food consumedFood = foodInPastWeek.remove(0);
@@ -230,7 +296,7 @@ public class ReportGenerator extends DocumentGenerator {
      */
     @Override
     public void printFooter() {
-        printWriter.println(centraliseText(FOOTER_MESSAGE, WIDTH_OF_DOCUMENT));
+        printWriter.println(centraliseText(FOOTER_MESSAGE, DOCUMENT_WIDTH));
     }
 
 
@@ -242,4 +308,116 @@ public class ReportGenerator extends DocumentGenerator {
     public double calculateRemainingCalories() {
         return userGoal.getTargetDailyCalories() - totalCalories;
     }
+
+
+    // String Manipulation Methods
+
+    /**
+     * Wraps a string s into lines of n characters.
+     *
+     * @param s The string to be wrapped about.
+     * @param n The number of characters allowed in a line.
+     * @return The processed String after wrapping.
+     */
+    public String stringWrap(String s, int n) {
+        StringBuilder result = new StringBuilder();
+
+
+        for (int i = 0; i < s.length(); i++) {
+            if (i != 0 && i % (n - 1) == 0) {
+                result.append("\n");
+            }
+            result.append(s.charAt(i));
+        }
+
+        return result.toString();
+    }
+
+
+
+
+    /**
+     * @param sb A client StringBuilder object.
+     * @param columns An ArrayList of String Arrays (columns) that contain respective lines of data.
+     * @param currLine The current line number that is being iterated through.
+     * @param smallColumnWidth An Integer for the number of characters a small column should be.(For Numerical columns).
+     * @param largeColumnWidth An Integer for the number of characters a large column should be. (For Name columns).
+     */
+    private void iterateColumn(StringBuilder sb, ArrayList<String[]> columns, int currLine, int smallColumnWidth,
+                               int largeColumnWidth) {
+        int numArrays = columns.size();
+        for (int column = 0; column < numArrays; column++) {
+            String[] currArray = columns.get(column);
+            int columnWidth = smallColumnWidth;
+            // first column is Food Name column
+            if (column == 0) {
+                columnWidth = largeColumnWidth;
+            }
+
+            // only first line of that column is centralised.
+            // if column contains data that is spread across multiple lines, the other lines are not centralised.
+            if (currLine == 0) {
+                sb.append(centraliseText(currArray[currLine], columnWidth + 1));
+            } else if (currLine < currArray.length) {
+                String currString = currArray[currLine];
+                sb.append(addNTrailingWhitespace(currString,
+                        columnWidth - currString.length() + 1));
+            } else {
+                sb.append(addNTrailingWhitespace(" ", columnWidth + 1));
+            }
+
+            if (column == numArrays - 1) {
+                sb.append("\n");
+            }
+        }
+    }
+    /**
+     * Combines columns to form a table. Goes line by line.
+     *
+     * @param strings An ArrayList of Strings, where each element is a column.
+     * @param smallColumnWidth An Integer for the number of characters a small column should be.(For Numerical columns).
+     * @param largeColumnWidth An Integer for the number of characters a large column should be. (For Name columns).
+     * @return A stitched String with all columns combined together.
+     */
+    public String combineColumns(ArrayList<String> strings, int smallColumnWidth, int largeColumnWidth) {
+        StringBuilder result = new StringBuilder();
+        ArrayList<String[]> splitArrays = splitNewLines(strings);
+        int maxNumLines = getMaxLines(splitArrays);
+
+        for (int currLine = 0; currLine < maxNumLines; currLine++) {
+            iterateColumn(result, splitArrays, currLine, smallColumnWidth, largeColumnWidth);
+        }
+
+        return result.toString();
+    }
+
+
+
+
+    /**
+     * A method that converts each String into a String array containing substrings that are split by "\n".
+     * @param strings An ArrayList of strings.
+     * @return An ArrayList of String arrays, which contain resulting substrings after split by "\n".
+     */
+    private ArrayList<String[]> splitNewLines(ArrayList<String> strings) {
+        ArrayList<String[]> result = new ArrayList<>();
+        for (String string : strings) {
+            String[] curr = string.split("\n");
+            result.add(curr);
+        }
+        return result;
+    }
+
+    /**
+     * Takes in a list of String arrays {@code splitStrings} and returns the maximum length of the String
+     * array elements.
+     */
+    private int getMaxLines(ArrayList<String[]> splitStrings) {
+        int maxLines = 0;
+        for (String[] stringArray : splitStrings) {
+            maxLines = Math.max(maxLines, stringArray.length);
+        }
+        return maxLines;
+    }
+
 }
