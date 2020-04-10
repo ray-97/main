@@ -2,7 +2,6 @@ package life.calgo.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -74,7 +73,7 @@ public class LogicManager implements Logic {
 
     @Override
     public double getRemainingCalories() {
-        return model.getRemainingCalories(LocalDate.now());
+        return model.getRemainingCalories();
     }
 
     @Override
