@@ -257,7 +257,7 @@ The `find` command allows us to search through the `FoodRecord` (via categorical
 The `list` command allows us to reset the GUI's `Food Record` to once again show all the `Food` entries in lexicographical order, and can be thought of as the reverse of a `find` command. The `list` command does not use any `Prefix`, and ignores anything after the 'find' keyword entered by the user in the GUI.
 
 [NOTE]
-For more information on lexicographical ordering, please refer to its relevant section <<Implementation-LexicographicOrder, here>>.
+For more information on lexicographical ordering, please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
 
 `FindCommand` and `ListCommand` both use a `Predicate<Food>` and the GUI's `Food Record` will eventually show `Food` entries that evaluate these predicates to be true.
 
@@ -287,7 +287,7 @@ Step 3: `LogicManager` calls the `execute` method on the `FindCommand` created, 
 
 The `find` command therefore searches through the existing `FoodRecord` and then displays the relevant search results in the GUI's `Food Record`. To once again show all `Food` entries in the display, we use the `list` command.
 
-In constrast to the `FindCommand`, the `ListCommand` takes in no arguments and simply uses `Model.PREDICATE_SHOW_ALL_FOODS` defined in the `Model` interface, as it must always show all `Food` entries. This is described by the sequence diagram below:
+In constrast to the `FindCommand`, the `ListCommand` takes in no arguments (any arguments are ignored) and simply uses the predicate `Model.PREDICATE_SHOW_ALL_FOODS` defined in the `Model` interface, as it must always show all `Food` entries. This is described by the sequence diagram below:
 
 image::ListSequenceDiagram.png[]
 .Sequence Diagram for `list` command
@@ -346,6 +346,7 @@ The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects 
 
 .Activity Diagram for Lexicographical Ordering
 image::LexicographicalOrderingActivityDiagram.png[]
+
 // end::categoricalsubstringfindlist[]
 <<<
 
@@ -488,7 +489,7 @@ The following activity diagram summarizes what happens when user executes a `rep
 image::ReportActivityDiagram.png[]
 
 // tag::lexicographicalordering[]
-[[Implementation-LexicographicOrder]]
+[[Implementation-LexicographicalOrder]]
 === Lexicographical `Food` order
 (by Eugene)
 
@@ -530,8 +531,11 @@ image::LexicographicalOrderingStartupSequenceDiagram.png[]
 .Lexicographical Ordering Sequence Diagram for App Start-up
 
 Based on the above diagram, when Calgo starts: +
+
 Step 1: We initialise the `ModelManager`. For this, we use previously stored user data if available. Otherwise, we use the default Calgo `Food` entries. +
+
 Step 2: In creating a `ModelManager`, we require the creation of a `FoodRecord` which requires the creation of a `UniqueFoodList`. +
+
 Step 3: The next step in the creation of the `FoodRecord` is the introduction of the initialising data, into the `UniqueFoodList`. Here, the `sortInternalList` method sorts the `ObservableList<Food>` contained in `UniqueFoodList` according to the specified lexicographical order defined in the `Food` class.
 
 
@@ -930,6 +934,7 @@ Use case ends.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Calgo should work on both 32-bit and 64-bit environments.
 .  The product expects users to initially find out about `Food` items and their respective nutritional values for creating `Food` item entries for the first time.
+.  The minimum screen size for the App window to fully display its GUI is 1250 x 600.
 
 [appendix]
 == Glossary
@@ -939,31 +944,16 @@ Use case ends.
 This contains nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
 They can also contains a series of `Tag` s.
 
-[[food-records]] Food Records::
+[[food-records]] FoodRecord::
 The accumulated list of all `Food` items entered by the user, containing nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
+
+
+[[gui-food-records]] Food Record::
+The GUI's `Food Record` box.
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
 
-[[food-records]] Food records::
-The accumulated list of all Food items entered by the user, containing nutritional values of calorie, number of grams of protein, carbohydrates and fats.
-
-[appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...
 
 [appendix]
 == Instructions for Manual Testing
