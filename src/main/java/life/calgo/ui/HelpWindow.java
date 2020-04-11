@@ -19,7 +19,7 @@ import life.calgo.logic.commands.HelpCommand;
  */
 public class HelpWindow extends UiPart<Stage> {
     public static final String USERGUIDE_URL = "https://ay1920s2-cs2103t-f11-1.github.io/main/UserGuide.html";
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String HELP_MESSAGE = "A summarised user guide is shown below. For the full user guide, refer to: " + USERGUIDE_URL;
     //public static final String COMMAND_MESSAGE = "";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
