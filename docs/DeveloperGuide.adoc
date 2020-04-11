@@ -565,6 +565,35 @@ The following activity diagram summarises what happens when a user enters a vali
 .Activity Diagram for Update command
 image::UpdateActivityDiagram.png[]
 
+// tag::caloriegraph[]
+[[Implementation-CalorieGraph]]
+=== Past seven days calorie data graph
+This feature displays to the user a summary of their past seven days' daily total calorie consumption in the form of a line graph.
+
+This functionality is automatic. The graph will always display the past seven days' data at the bottom of the app, and will update
+whenever app data is changed.
+
+==== Implementation
+This feature is facilitated by the `GraphPanel` class in the `Ui` component.
+
+`GraphPanel` contains a `LineChart` of `String` date against `Number` calories, and is populated with
+data from an `XYChart.series`. The data is in turn obtained from the `Logic` component, which provides only the past seven days'
+of `DailyFoodLog`. The implementation of the `GraphPanel` class will be further explained.
+
+`GraphPanel` class implements the following operations:
+
+* `GraphPanel#initialiseTreeMap(Logic logic)` - Sets up the TreeMap that maps `LocalDate` date of `DailyFoodLog` to the `Double`
+total calorie consumption n that day.
+* `GraphPanel#initialseGraph()` - Sets up the `LineChart` with xAxis a `String` representing date, and yAxis a `Double` representing
+total calories consumed on that date.
+* `GraphPanel#updateSeries()` - Ensures the `XYChart.series` that populates the graph with data is always updated with the
+most recent app data.
+* `GraphPanel#makeGraph(Logic logic)` - Wrapper function that calls the above three methods.
+* `GraphPanel#getGraph(Logic logic)` - Public accessor function to generate and retrieve the `LineChart`.
+
+Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having `MainWindow`
+call `GraphPanel#getGraph(Logic logic)` on startup and after execution of commands.
+
 == Documentation
 
 Refer to the guide <<Documentation#, here>>.
