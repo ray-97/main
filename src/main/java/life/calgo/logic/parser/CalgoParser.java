@@ -46,6 +46,18 @@ public class CalgoParser {
 
         switch (commandWord) {
 
+        case HelpCommand.COMMAND_WORD:
+            return new HelpCommand(arguments);
+
+        case ClearCommand.COMMAND_WORD:
+            return new ClearCommand();
+
+        case ListCommand.COMMAND_WORD:
+            return new ListCommand();
+
+        case FindCommand.COMMAND_WORD:
+            return new FindCommandParser().parse(arguments);
+
         case UpdateCommand.COMMAND_WORD:
             return new UpdateCommandParser().parse(arguments);
 
@@ -55,29 +67,17 @@ public class CalgoParser {
         case StomachCommand.COMMAND_WORD:
             return new StomachCommandParser().parse(arguments);
 
-        case ReportCommand.COMMAND_WORD:
-            return new ReportCommandParser().parse(arguments);
-
-        case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
-
-        case FindCommand.COMMAND_WORD:
-            return new FindCommandParser().parse(arguments);
-
         case ExportCommand.COMMAND_WORD:
             return new ExportCommand();
 
-        case ListCommand.COMMAND_WORD:
-            return new ListCommand();
+        case ReportCommand.COMMAND_WORD:
+            return new ReportCommandParser().parse(arguments);
 
         case GoalCommand.COMMAND_WORD:
             return new GoalCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
-
-        case HelpCommand.COMMAND_WORD:
-            return new HelpCommand(arguments);
 
         default:
             throw new ParseException(Messages.MESSAGE_UNKNOWN_COMMAND);
