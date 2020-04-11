@@ -10,7 +10,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Region;
-
 import life.calgo.logic.Logic;
 import life.calgo.model.day.DailyFoodLog;
 
