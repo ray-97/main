@@ -1,0 +1,141 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
+participant ":FindCommandParser" as FindCommandParserCategory LOGIC_COLOR
+participant "fcCategory:FindCommand" as FindCommandCategory LOGIC_COLOR
+participant ":CommandResult" as CommandResultCategory LOGIC_COLOR
+participant ":FindCommandParser" as FindCommandParserSubstring LOGIC_COLOR
+participant "fcSubstring:FindCommand" as FindCommandSubstring LOGIC_COLOR
+participant ":CommandResult" as CommandResultSubstring LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+end box
+
+alt user performs find via nutritional category
+
+[-> LogicManager : execute("find p/3")
+activate LogicManager
+
+LogicManager -> CalgoParser : parseCommand("find p/3")
+activate CalgoParser
+
+create FindCommandParserCategory
+CalgoParser -> FindCommandParserCategory : new FindCommandParser()
+activate FindCommandParserCategory
+FindCommandParserCategory --> CalgoParser
+deactivate FindCommandParserCategory
+
+CalgoParser -> FindCommandParserCategory : parse("p/3")
+activate FindCommandParserCategory
+
+FindCommandParserCategory -> FindCommandParserCategory : generateFindCommandPredicate(argMultimap)
+activate FindCommandParserCategory
+FindCommandParserCategory --> FindCommandParserCategory : proteinContainsKeywordsPredicate
+deactivate FindCommandParserCategory
+
+create FindCommandCategory
+FindCommandParserCategory -> FindCommandCategory : new FindCommand(proteinContainsKeywordsPredicate)
+activate FindCommandCategory
+
+FindCommandCategory --> FindCommandParserCategory : fcCategory
+deactivate FindCommandCategory
+
+FindCommandParserCategory --> CalgoParser : fcCategory
+deactivate FindCommandParserCategory
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+FindCommandParserCategory -[hidden]-> CalgoParser
+destroy FindCommandParserCategory
+
+CalgoParser --> LogicManager : fcCategory
+deactivate CalgoParser
+
+LogicManager -> FindCommandCategory : execute(model)
+activate FindCommandCategory
+FindCommandCategory -> Model : updateFilteredFoodRecord(predicate)
+activate Model
+deactivate Model
+
+create CommandResultCategory
+FindCommandCategory -> CommandResultCategory : new CommandResult(resultMessage)
+activate CommandResultCategory
+
+CommandResultCategory --> FindCommandCategory : result
+deactivate CommandResultCategory
+
+FindCommandCategory --> LogicManager : result
+deactivate FindCommandCategory
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+FindCommandCategory -[hidden]-> CalgoParser
+destroy FindCommandCategory
+[<--LogicManager : result
+
+deactivate LogicManager
+
+else user performs find via Name or Tag
+
+[-> LogicManager : execute("find n/Sandwich")
+activate LogicManager
+
+LogicManager -> CalgoParser : parseCommand("find n/Sandwich")
+activate CalgoParser
+
+create FindCommandParserSubstring
+CalgoParser -> FindCommandParserSubstring : new FindCommandParser()
+activate FindCommandParserSubstring
+FindCommandParserSubstring --> CalgoParser
+deactivate FindCommandParserSubstring
+
+CalgoParser -> FindCommandParserSubstring : parse("n/Sandwich")
+activate FindCommandParserSubstring
+
+FindCommandParserSubstring -> FindCommandParserSubstring : generateFindCommandPredicate(argMultimap)
+activate FindCommandParserSubstring
+FindCommandParserSubstring --> FindCommandParserSubstring : nameContainsKeywordsPredicate
+deactivate FindCommandParserSubstring
+
+create FindCommandSubstring
+FindCommandParserSubstring -> FindCommandSubstring : new FindCommand(nameContainsKeywordsPredicate)
+activate FindCommandSubstring
+
+FindCommandSubstring --> FindCommandParserSubstring : fcSubstring
+deactivate FindCommandSubstring
+
+FindCommandParserSubstring --> CalgoParser : fcSubstring
+deactivate FindCommandParserSubstring
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+FindCommandParserSubstring -[hidden]-> CalgoParser
+destroy FindCommandParserSubstring
+
+CalgoParser --> LogicManager : fcSubstring
+deactivate CalgoParser
+
+LogicManager -> FindCommandSubstring : execute(model)
+activate FindCommandSubstring
+FindCommandSubstring -> Model : updateFilteredFoodRecord(predicate)
+activate Model
+deactivate Model
+
+create CommandResultSubstring
+FindCommandSubstring -> CommandResultSubstring : new CommandResult(resultMessage)
+activate CommandResultSubstring
+
+CommandResultSubstring --> FindCommandSubstring : result
+deactivate CommandResultSubstring
+
+FindCommandSubstring --> LogicManager : result
+deactivate FindCommandSubstring
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+FindCommandSubstring -[hidden]-> CalgoParser
+destroy FindCommandSubstring
+[<--LogicManager : result
+
+deactivate LogicManager
+
+end
+
+@enduml
