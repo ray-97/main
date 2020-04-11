@@ -34,8 +34,8 @@ public class GraphPanel extends UiPart<Region> {
     private XYChart.Series<String, Number> series;
     private LocalDate date;
 
-    @FXML
-    private TextArea graphPanel;
+//    @FXML
+//    private TextArea graphPanel;
 
     public GraphPanel() {
         super(FXML);
@@ -101,6 +101,7 @@ public class GraphPanel extends UiPart<Region> {
         graph.setTitle("Your Calorie Data (Past 7 Days)");
         xAxis.setLabel("Day");
         yAxis.setLabel("Calories");
+        graph.setLegendVisible(false);
 
         yAxis.setTickUnit(1);
         yAxis.setMinorTickCount(1);
