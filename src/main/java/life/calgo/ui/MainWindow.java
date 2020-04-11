@@ -38,8 +38,8 @@ public class MainWindow extends UiPart<Stage> {
             + "do remember to set a daily calorie goal using the goal command.";
     private static final String GREETING_MESSAGE = "Welcome back to Calgo! We're all ready to help you meet your\n"
             + "daily caloric goals.";
-    private static final String POSITIVE_CALORIES_MESSAGE = "%s calories left";
-    private static final String NEGATIVE_CALORIES_MESSAGE = "Exceeded %s calories";
+    private static final String POSITIVE_CALORIES_MESSAGE = "%s calories left for the day";
+    private static final String NEGATIVE_CALORIES_MESSAGE = "Exceeded %s calories for the day";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -159,8 +159,8 @@ public class MainWindow extends UiPart<Stage> {
         remainingCaloriesDisplay = new RemainingCaloriesDisplay();
         caloriesDisplayPlaceholder.getChildren().add(remainingCaloriesDisplay.getRoot());
 
-        dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
-        dailyListDate.setStyle("-fx-text-fill: white; -fx-font-size: 12");
+        dailyListDate.setText("Food Consumed On: " + getDate()); // this is where it is set
+        // dailyListDate.setStyle("-fx-text-fill: white; -fx-font-size: 12");
 
         if (logic.getDailyGoal().getGoal().equals(DailyGoal.DUMMY_VALUE)) {
             resultDisplay.setFeedbackToUser(GREETING_MESSAGE_NO_GOAL);
