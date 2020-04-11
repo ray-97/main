@@ -52,7 +52,7 @@
                         </padding>
 
                         <Label fx:id="goalInformation" text = "Your Goal Information"/>
-                        <HBox maxHeight="100.0" maxWidth="600.0" VBox.vgrow="NEVER">
+                        <HBox maxHeight="100.0" VBox.vgrow="NEVER">
                             <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-stack-pane" HBox.hgrow="NEVER">
                                 <padding>
                                     <Insets bottom="5" right="15" top = "5"/>
@@ -67,7 +67,7 @@
                         </HBox>
                         <Label fx:id="dailyListDate" text="Stomach" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
-                        <StackPane fx:id="graphPanelPlaceholder" prefHeight="150.0" prefWidth="200.0"/>
+                        <StackPane fx:id="graphPanelPlaceholder" />
 
                     </VBox>
 
