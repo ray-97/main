@@ -1,35 +1,26 @@
 @startuml
-(*) --> "Enter user input"
---> "Parse user input"
---> "Determine command type"
 
-if "" then
--right-> [find] "Determine prefix"
--> "Determine which Predicate<Food> to create"
+start
+:Execute user command;
+:Parse user input;
+:Determine command;
+if() then ([list or find])
 
-    if "" then
-      -->[Name] "NameContainsKeywordsPredicate"
-    else
-      -->[Calorie] "CalorieContainsKeywordsPredicate"
-    else
-      -->[Protein] "ProteinContainsKeywordsPredicate"
-    else
-      -->[Carbohydrate] "CarbohydrateContainsKeywordsPredicate"
-    else
-      -->[Fat] "FatContainsKeywordsPredicate"
-    else
-      -->[Tag] "TagContainsKeywordsPredicate"
-    endif
-
-    if ""
-    endif
-              --> "Create FindCommand using Predicate<Food>"
-        --> Update GUI Food Record
-
-else
--left-> [list] yes
-
+if () then ([list])
+:Create new ListCommand;
+:Update Model using Model.PREDICATE_SHOW_ALL_FOODS;
+else ([find])
+:Create new FindCommandParser;
+:Generate predicate based on Prefix;
+:Use predicate generated to create new FindCommand;
+:Update Model using predicate in FindCommand;
 endif
---> (*)
+
+else([other commands])
+:Perform relevant action;
+endif
+
+:Reflect changes in GUI to user;
+stop
 
 @enduml
