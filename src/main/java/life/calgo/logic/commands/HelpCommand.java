@@ -33,10 +33,10 @@ public class HelpCommand extends Command {
             + "Exits the program.\n"
             + "Format: exit\n\n";
     public static final String HELP_EXPORT_MESSAGE = "export:\n"
-            + "Saves a human-readable text file (FoodRecords.txt) in the target folder\n"
-            + "(default: same folder as the Calgo application), containing all Food item records including\n"
-            + "All Calgo data is also automatically saved after each command.\n"
-            + "Format: export [location/LOCATION]\n\n";
+            + "Saves an editable text file (FoodRecords.txt) in data/exports folder.\n"
+            + "This helps you to take printouts of your records whenever you can't be around your laptop.\n"
+            + "The FoodRecords.txt file contains all Food item records including their nutritional content.\n"
+            + "Format: export\n\n";
     public static final String HELP_FIND_MESSAGE = "find:\n"
             + "Finds all Food items whose names contain any of the keyword(s)\n"
             + "Alternatively, Food items can also be found by entering a specific value of its attributes,\n"
@@ -45,12 +45,13 @@ public class HelpCommand extends Command {
             + "Alt format: find KEYWORD [MORE_KEYWORDS]\n\n";
     public static final String HELP_GOAL_MESSAGE = "goal:\n"
             + "Sets a numerical goal for the desired number of calories to be consumed in a day.\n"
-            + "This goal will be used to provide helpful insights for users in the Report.\n"
+            + "Subsequently, Calgo will provide you with insights on how to reach your goal.\n"
+            + "Side Note: These helpful insights are given through the report feature.\n"
             + "Format: goal GOAL\n\n";
     public static final String HELP_HELP_MESSAGE = "help:\n"
             + "Shows a list of all commands and their usage and format.\n"
             + "Alternatively, search for a specific group of commands using a keyword.\n"
-            + "Format: help [COMMMAND_WORD]\n\n";
+            + "Format: help [COMMAND_WORD]\n\n";
     public static final String HELP_LIST_MESSAGE = "list:\n"
             + "Shows a list of all Food items in the Food Records,\n"
             + "with their respective nutritional values of calories, proteins, carbohydrates, and fats.\n"
@@ -59,9 +60,11 @@ public class HelpCommand extends Command {
             + "Adds a food item into the log which keeps track of what the user has eaten on that day.\n"
             + "Format: nom n/NAME [d/DATE] [portion/PORTION]\n\n";
     public static final String HELP_REPORT_MESSAGE = "report:\n"
-            + "Given a date, the command generates a document (in pdf format) of relevant insights about\n"
-            + "the user’s food consumption pattern of the same date.\n"
-            + "report dd-mm-yyyy\n\n";
+            + "Given a date, the command generates a text document that contains the following:\n"
+            + "\t - Your goal information"
+            + "\t - Your calorie consumption on the given date"
+            + "\t - Motivation and tips on how to better reach your goal.\n"
+            + "Format: report d/yyyy-MM-dd\n\n";
     public static final String HELP_STOMACH_MESSAGE = "stomach: \n"
             + "Displays a list of food items along side how many portions have been consumed on that day.\n"
             + "For a more detailed statistical report with nutritional values of food consumed, see report command.\n"

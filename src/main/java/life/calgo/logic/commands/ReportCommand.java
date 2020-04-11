@@ -21,9 +21,9 @@ public class ReportCommand extends Command {
     public static final String COMMAND_WORD = "report";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Generates a report containing statistics of "
-            + "all foods consumed on any given date and saves the report in a .txt file in the data/reports/ folder\n"
+            + "all foods consumed on a given date and saves the report in a text file in the data/reports folder.\n"
             + "Parameters: "
-            + CliSyntax.PREFIX_DATE + "DATE "
+            + CliSyntax.PREFIX_DATE + "DATE\n"
             + "Example: " + COMMAND_WORD + " "
             + CliSyntax.PREFIX_DATE + "2020-05-27";
 
@@ -37,6 +37,7 @@ public class ReportCommand extends Command {
     public static final String INPUT_OUTPUT_EXCEPTION = "There was an error in creating and/or "
             + "writing to your report file. Kindly revise your system settings to enable the app to create a new file.";
 
+    // the date the user enters
     private LocalDate queryDate;
 
     public ReportCommand(LocalDate queryDate) {
@@ -46,19 +47,26 @@ public class ReportCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        // if there is no food consumed on the given date, do not execute command
         if (!model.hasLogWithSameDate(queryDate) || model.getLogByDate(queryDate).getFoods().size() == 0) {
             throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + String.format(NO_SUCH_DATE, queryDate));
         }
 
         DailyGoal dailyGoal = model.getDailyGoal();
         DailyFoodLog foodLog = model.getLogByDate(queryDate);
-        ArrayList<DailyFoodLog> pastWeekLogs = model.getPastWeekLogs();
+        ArrayList<DailyFoodLog> pastWeekLogs = model.getPastWeekLogs(); // for suggestions feature
+
+        assert foodLog.getFoods().size() > 0 : "ReportCommand is wrongly processing an empty food log.";
 
         ReportGenerator reportGenerator = new ReportGenerator(queryDate, dailyGoal, foodLog, pastWeekLogs);
         boolean isGenerated = reportGenerator.generateReport();
+
+        // if report does not successfully generate, inform user of failure in command execution
         if (!isGenerated) {
             throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + INPUT_OUTPUT_EXCEPTION);
         }
+
         return new CommandResult(String.format(MESSAGE_REPORT_SUCCESS, queryDate));
     }
 
@@ -66,6 +74,6 @@ public class ReportCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ReportCommand // instanceof handles nulls
-                && queryDate.equals(((ReportCommand) other).queryDate));
+                && queryDate.equals(((ReportCommand) other).queryDate)); // attribute check
     }
 }
