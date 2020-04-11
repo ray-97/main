@@ -13,7 +13,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.model.food.DisplayFood;
 
@@ -80,7 +79,9 @@ public class DailyListPanel extends UiPart<Region> {
         return portion;
     }
 
-
+    /**
+     * Responsible for displaying index of Food item in the list.
+     */
     class IndexTableCell extends TableCell<DisplayFood, Void> {
         @Override
         public void updateIndex(int index) {
