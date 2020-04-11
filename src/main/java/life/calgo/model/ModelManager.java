@@ -60,7 +60,7 @@ public class ModelManager implements Model {
         this(new FoodRecord(), new ConsumptionRecord(), new UserPrefs(), new DailyGoal());
     }
 
-    // ===================================== User prefs related methods ================================================
+    // User prefs related methods
 
     @Override
     public ReadOnlyUserPrefs getUserPrefs() {
@@ -95,7 +95,7 @@ public class ModelManager implements Model {
         userPrefs.setFoodRecordFilePath(foodRecordFilePath);
     }
 
-    // ================================== Day Model Classes related methods ====================================================
+    // Day package classes in Model component related methods
 
     @Override
     public Optional<Food> getFoodByName(Name name) {
@@ -168,11 +168,14 @@ public class ModelManager implements Model {
         return this.targetDailyCalories != null;
     }
 
+    /**
+     * Returns Integer value of user goal.
+     */
     public DailyGoal getDailyGoal() {
         return this.targetDailyCalories;
     }
 
-    //=================================  FoodRecord-related methods ===================================================
+    // FoodRecord-related methods
 
     @Override
     public ReadOnlyFoodRecord getFoodRecord() {

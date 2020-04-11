@@ -24,7 +24,7 @@ public interface Model {
     Predicate<DisplayFood> PREDICATE_SHOW_ALL_CONSUMED_FOODS = unused -> true;
 
 
-    // ================================== User prefs related methods ==================================================
+    // User prefs related methods
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -56,7 +56,7 @@ public interface Model {
      */
     void setFoodRecordFilePath(Path foodRecordFilePath);
 
-    // ================================== FoodRecord related methods ==================================================
+    // FoodRecord related methods
 
     // Getter methods
 
@@ -108,7 +108,7 @@ public interface Model {
      */
     boolean hasFood(Food food);
 
-    // ========================= Consumption Record related methods ===================================================
+    // Consumption Record related methods
 
     // Getter methods
 
@@ -137,7 +137,7 @@ public interface Model {
     boolean hasLogWithSameDate(LocalDate date);
 
 
-    // ====================================== Goal related methods ====================================================
+    // Goal related methods
 
     // Getter methods
 

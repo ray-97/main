@@ -23,7 +23,7 @@ import life.calgo.model.food.Food;
  */
 public interface Logic {
 
-    //  =================================== General execute method ===================================================
+    //  General execute method for all commands
 
     /**
      * Executes the command and returns the result.
@@ -35,7 +35,7 @@ public interface Logic {
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
-    //  ============================= Getter Methods for Food, Date==============================================
+    //  Getter Methods for Day package classes in Model
 
     /**
      * Returns a list of food objects with similar name.
@@ -67,7 +67,7 @@ public interface Logic {
     ObservableList<DisplayFood> getFilteredDailyList();
 
 
-    //  =================================== Goal related Methods ===================================================
+    //  Goal related Methods
 
     /**
      * Returns the daily caloric goal of the user.
@@ -80,7 +80,7 @@ public interface Logic {
     double getRemainingCalories();
 
 
-    //  =================================== User Pref Methods ===================================================
+    //   User Pref Methods
 
     /**
      * Returns the user prefs' food record file path.

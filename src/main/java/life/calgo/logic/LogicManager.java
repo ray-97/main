@@ -42,7 +42,7 @@ public class LogicManager implements Logic {
         calgoParser = new CalgoParser();
     }
 
-    //  =================================== General execute method ===================================================
+    // General execute method for all commands
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
@@ -65,7 +65,7 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
-    //  ============================= Getter Methods for Food, Date==============================================
+    // Getter Methods for Day package classes in Model
 
     @Override
     public List<Food> getSimilarFood(String foodName) {
@@ -100,7 +100,7 @@ public class LogicManager implements Logic {
         return model.getCurrentFilteredDailyList();
     }
 
-    //  =================================== Goal related Methods ===================================================
+    // Goal related Methods
 
     @Override
     public DailyGoal getDailyGoal() {
@@ -113,7 +113,7 @@ public class LogicManager implements Logic {
     }
 
 
-    //  =================================== User Pref Methods ===================================================
+    // User Pref Methods
 
     @Override
     public Path getFoodRecordFilePath() {
