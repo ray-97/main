@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 
 /**
- * A ui for the status bar that displays the daily calorie goal of the user.
+ * A ui for the stack pane that displays the daily calorie goal of the user.
  */
 public class GoalDisplay extends UiPart<Region> {
     private static final String FXML = "GoalDisplay.fxml";
