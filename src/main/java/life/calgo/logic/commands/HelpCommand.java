@@ -2,6 +2,7 @@ package life.calgo.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 import javafx.collections.FXCollections;
@@ -85,7 +86,7 @@ public class HelpCommand extends Command {
             + HELP_UPDATE_MESSAGE
             + HELP_VOMIT_MESSAGE;
 
-    private static final ObservableMap<String, String> internalMap = FXCollections.observableHashMap();
+    private static final LinkedHashMap<String, String> internalMap = new LinkedHashMap<>();
     private static Set<String> internalSet;
 
     private static String filteredGuide;
