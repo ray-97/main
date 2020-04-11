@@ -345,20 +345,26 @@ Displays a list of `Food` the user has consumed today.
 === Updating the current `Food Record` : `update`
 (by Zhang Xian)
 
-Your `Food Record` stores all the nutritional information of all the `Food` that you consume frequently. This `update` command helps you `update` your `Food Record` with either
-a new `Food`  or `update` an existing `Food`  in the `Food Record`.
+Your `Food Record` stores all the nutritional values of all the `Food` that you consume frequently.
+This command helps you to either `update` a new `Food` into your `Food Record` or
+`update` an existing `Food` in your `Food Record` with new nutritional values.
 
-There is only two scenarios in which you will use this `update` command:
+// mentioned sentence case and insensitvity
 
-* Scenario 1: You want to update a new `Food`  into `Food Record`
-** The `Food` , along with the nutritional values that you inputted will be added into the `Food Record` as a new `Food` .
-* Scenario 2: You want to update an existing `Food` item in the `Food Record` with nutritional values
-** The existing `Food`  in the `Food Record` will be updated with new nutritional values that you have inputted.
-
-In both scenarios, we have kept the format the same for you: +
 Format: `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
 
 Examples:
+
+* Suppose you often eat Mee Goreng but see that your Food Record does not have a record for this `Food`. After searching online, you can
+update a new Food item of Mee Goreng, along with its nutritional values into Calgo.
+
+
+
+
+
+
+
+
 
 * `update n/pizza cal/200 p/10 c/200 f/200` +
 This command adds a new `Food`, pizza into the user’s food presets with nutritional values of 200 `Calorie`, 10g of `Protein`, 200g of `Carbohydrate` and 200g of `Fat`.
