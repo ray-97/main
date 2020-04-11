@@ -239,6 +239,9 @@ Step 6: `HelpWindow` is displayed as a separate popup.
 ==== Summary
 `help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
 
+.Activity Diagram for Help
+image::HelpActivityDiagram.png[]
+
 
 [[Implementation-ConsumptionManagement]]
 === `Food` consumption management
