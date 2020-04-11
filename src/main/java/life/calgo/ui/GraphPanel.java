@@ -78,8 +78,7 @@ public class GraphPanel extends UiPart<Region> {
         date = logic.getDate();
 
         for (int counter = pastWeekLogs.size() - 1; counter >= 0; counter--) {
-            int daysToSubtract = pastWeekLogs.size() - 1 - counter;
-            LocalDate logDate = date.minusDays(daysToSubtract);
+            LocalDate logDate = date.minusDays(counter);
 
             DailyFoodLog log = pastWeekLogs.get(counter);
             Double totalCalories = log.getTotalCalories();
