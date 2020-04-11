@@ -60,7 +60,7 @@ public class ModelManager implements Model {
         this(new FoodRecord(), new ConsumptionRecord(), new UserPrefs(), new DailyGoal());
     }
 
-    // UserPref-related methods
+    // ===================================== User prefs related methods ================================================
 
     @Override
     public ReadOnlyUserPrefs getUserPrefs() {
@@ -95,7 +95,7 @@ public class ModelManager implements Model {
         userPrefs.setFoodRecordFilePath(foodRecordFilePath);
     }
 
-    // Day Model-related methods
+    // ================================== Day Model Classes related methods ====================================================
 
     @Override
     public Optional<Food> getFoodByName(Name name) {
@@ -128,6 +128,25 @@ public class ModelManager implements Model {
     }
 
     /**
+     * Gets remaining calories after considering all food consumed in currentFilteredDailyList.
+     */
+    @Override
+    public double getRemainingCalories() {
+        DailyGoal goal = getDailyGoal();
+        if (goal == null) {
+            return DailyGoal.DUMMY_VALUE;
+        }
+        int currCaloriesConsumed = 0;
+        for (DisplayFood food : currentFilteredDailyList) {
+            double currCalories = Integer.parseInt(food.getCalorie().value);
+            double currPortion = food.getPortion();
+            currCaloriesConsumed += currCalories * currPortion;
+        }
+
+        return goal.getGoal() - currCaloriesConsumed;
+    }
+
+    /**
      * Updates ModelManager's DailyGoal to the new targetDailyCalories.
      *
      * @param targetDailyCalories the new targeted number of calories to consume each day by user.
@@ -153,7 +172,7 @@ public class ModelManager implements Model {
         return this.targetDailyCalories;
     }
 
-    // FoodRecord-related methods
+    //=================================  FoodRecord-related methods ===================================================
 
     @Override
     public ReadOnlyFoodRecord getFoodRecord() {
@@ -197,6 +216,42 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedFood);
 
         foodRecord.setFood(target, editedFood);
+    }
+
+    // Filtered Food Record Accessors
+
+    /**
+     * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
+     * {@code versionedFoodRecord}.
+     */
+    @Override
+    public ObservableList<Food> getFilteredFoodRecord() {
+        return filteredFoods;
+    }
+
+    @Override
+    public void updateFilteredFoodRecord(Predicate<Food> predicate) {
+        requireNonNull(predicate);
+        filteredFoods.setPredicate(predicate);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof ModelManager)) {
+            return false;
+        }
+
+        // state check
+        ModelManager other = (ModelManager) obj;
+        return foodRecord.equals(other.foodRecord)
+                && userPrefs.equals(other.userPrefs)
+                && filteredFoods.equals(other.filteredFoods);
     }
 
     // Filtered Consumption Record Accessors
@@ -261,61 +316,6 @@ public class ModelManager implements Model {
         } catch (Exception e) {
             logger.info("Filtered List not initialized for the day yet.");
         }
-    }
-
-    /**
-     * Gets remaining calories after considering all food consumed in currentFilteredDailyList.
-     */
-    @Override
-    public double getRemainingCalories() {
-        DailyGoal goal = getDailyGoal();
-        if (goal == null) {
-            return DailyGoal.DUMMY_VALUE;
-        }
-        int currCaloriesConsumed = 0;
-        for (DisplayFood food : currentFilteredDailyList) {
-            double currCalories = Integer.parseInt(food.getCalorie().value);
-            double currPortion = food.getPortion();
-            currCaloriesConsumed += currCalories * currPortion;
-        }
-
-        return goal.getGoal() - currCaloriesConsumed;
-    }
-
-    // Filtered Food Record Accessors
-
-    /**
-     * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
-     * {@code versionedFoodRecord}.
-     */
-    @Override
-    public ObservableList<Food> getFilteredFoodRecord() {
-        return filteredFoods;
-    }
-
-    @Override
-    public void updateFilteredFoodRecord(Predicate<Food> predicate) {
-        requireNonNull(predicate);
-        filteredFoods.setPredicate(predicate);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        // short circuit if same object
-        if (obj == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(obj instanceof ModelManager)) {
-            return false;
-        }
-
-        // state check
-        ModelManager other = (ModelManager) obj;
-        return foodRecord.equals(other.foodRecord)
-                && userPrefs.equals(other.userPrefs)
-                && filteredFoods.equals(other.filteredFoods);
     }
 
 }

@@ -23,6 +23,9 @@ public interface Model {
     Predicate<Food> PREDICATE_SHOW_ALL_FOODS = unused -> true;
     Predicate<DisplayFood> PREDICATE_SHOW_ALL_CONSUMED_FOODS = unused -> true;
 
+
+    // ================================== User prefs related methods ==================================================
+
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */
@@ -53,23 +56,26 @@ public interface Model {
      */
     void setFoodRecordFilePath(Path foodRecordFilePath);
 
-    ReadOnlyConsumptionRecord getConsumptionRecord();
+    // ================================== FoodRecord related methods ==================================================
 
-    /**
-     * Replaces food record data with the data in {@code foodRecord}.
-     */
-    void setFoodRecord(ReadOnlyFoodRecord foodRecord);
+    // Getter methods
 
     /** Returns the FoodRecord */
     ReadOnlyFoodRecord getFoodRecord();
 
-    /**
-     * Returns true if a food with the same identity as {@code food} exists in the FoodRecord.
-     */
-    boolean hasFood(Food food);
-
     /** Returns the existing Food item in FoodRecord. */
     Food getExistingFood(Food toAdd);
+
+    Optional<Food> getFoodByName(Name parseName);
+
+    /** Returns an unmodifiable view of the filtered food record. */
+    ObservableList<Food> getFilteredFoodRecord();
+
+    // Setter methods
+    /**
+     * Replaces food record data with the data in {@code foodRecord}.
+     */
+    void setFoodRecord(ReadOnlyFoodRecord foodRecord);
 
     /**
      * Deletes the given food.
@@ -90,49 +96,65 @@ public interface Model {
      */
     void setFood(Food target, Food editedFood);
 
-    Optional<Food> getFoodByName(Name parseName);
-
-    /** Returns an unmodifiable view of the filtered food record. */
-    ObservableList<Food> getFilteredFoodRecord();
-
-    // Consumption Record related methods
-
-    boolean hasLogWithSameDate(DailyFoodLog foodLog);
-
-    boolean hasLogWithSameDate(LocalDate date);
-
-    void addLog(DailyFoodLog foodLog);
-
-    void updateLog(DailyFoodLog logAfterConsumption);
-
-    DailyFoodLog getLogByDate(LocalDate localDate);
-
-    double getRemainingCalories();
-
     /**
      * Updates the filter of the filtered food record to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredFoodRecord(Predicate<Food> predicate);
 
+    // Utility method
+    /**
+     * Returns true if a food with the same identity as {@code food} exists in the FoodRecord.
+     */
+    boolean hasFood(Food food);
+
+    // ========================= Consumption Record related methods ===================================================
+
+    // Getter methods
+
+    DailyFoodLog getLogByDate(LocalDate localDate);
+
+    ReadOnlyConsumptionRecord getConsumptionRecord();
+
     ObservableList<DisplayFood> getCurrentFilteredDailyList();
+
+    ArrayList<DailyFoodLog> getPastWeekLogs();
+
+    // Setter methods
+
+    void addLog(DailyFoodLog foodLog);
+
+    void updateLog(DailyFoodLog logAfterConsumption);
 
     void updateCurrentFilteredDailyList(Predicate<DisplayFood> predicate, LocalDate date) throws CommandException;
 
     void updateConsumedLists(Food food);
 
+    // Utility methods
+
+    boolean hasLogWithSameDate(DailyFoodLog foodLog);
+
+    boolean hasLogWithSameDate(LocalDate date);
+
+
+    // ====================================== Goal related methods ====================================================
+
+    // Getter methods
+
+    DailyGoal getDailyGoal();
+
+    double getRemainingCalories();
+
     LocalDate getDate();
 
-    void updateDate(LocalDate date);
-
-    ArrayList<DailyFoodLog> getPastWeekLogs();
-
-    // Goal related methods
+    // Setter methods
 
     void updateDailyGoal(int targetDailyCalories);
 
-    boolean isGoalMade();
+    void updateDate(LocalDate date);
 
-    DailyGoal getDailyGoal();
+    // Utility method
+
+    boolean isGoalMade();
 
 }
