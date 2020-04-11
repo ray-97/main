@@ -19,9 +19,12 @@ import life.calgo.model.food.DisplayFood;
 import life.calgo.model.food.Food;
 
 /**
- * API of the Logic component
+ * API of the Logic component.
  */
 public interface Logic {
+
+    //  General execute method for all commands
+
     /**
      * Executes the command and returns the result.
      *
@@ -32,6 +35,8 @@ public interface Logic {
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
+    //  Getter Methods for Day package classes in Model
+
     /**
      * Returns a list of food objects with similar name.
      *
@@ -40,21 +45,14 @@ public interface Logic {
     List<Food> getSimilarFood(String foodName);
 
     /**
-     * Returns the daily caloric goal of the user.
+     * Returns an ArrayList of DailyFoodLog objects in the past week.
      */
-    DailyGoal getDailyGoal();
+    ArrayList<DailyFoodLog> getPastWeekLogs();
 
     /**
      * Returns the date of the daily list in Model.
      */
     LocalDate getDate();
-
-    /**
-     * Returns remaining number of calories of the user for the goal.
-     */
-    double getRemainingCalories();
-
-    ArrayList<DailyFoodLog> getPastWeekLogs();
 
     /**
      * Returns the FoodRecord.
@@ -67,6 +65,22 @@ public interface Logic {
     ObservableList<Food> getFilteredFoodRecord();
 
     ObservableList<DisplayFood> getFilteredDailyList();
+
+
+    //  Goal related Methods
+
+    /**
+     * Returns the daily caloric goal of the user.
+     */
+    DailyGoal getDailyGoal();
+
+    /**
+     * Returns remaining number of calories of the user for the goal.
+     */
+    double getRemainingCalories();
+
+
+    //   User Pref Methods
 
     /**
      * Returns the user prefs' food record file path.

@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 
 /**
- * A ui for the status bar that displays the remaining calories to be consumed by the user.
+ * A ui for the stack pane that displays the remaining calories to be consumed by the user.
  */
 public class RemainingCaloriesDisplay extends UiPart<Region> {
     private static final String FXML = "RemainingCaloriesDisplay.fxml";

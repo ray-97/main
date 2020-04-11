@@ -34,8 +34,7 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_DATE = String.format(
             "Invalid date entered. Give an actual date and follow the format of %s" , DATE_PATTERN);
     public static final String MESSAGE_INVALID_PORTION = "Portion is either a number or left empty.";
-    public static final String MESSAGE_NON_POSITIVE_PORTION =
-            "Portion should be a positive number.";
+    public static final String MESSAGE_NON_POSITIVE_PORTION = "Portion should be a positive number.";
     public static final String MESSAGE_INVALID_INDEX = "Index should be a positive number.";
     public static final String MESSAGE_INVALID_POSITION = "Position should be a positive integer!";
     public static final String MESSAGE_INVALID_RATING = "Rating should a an integer between 0 to 10.";
