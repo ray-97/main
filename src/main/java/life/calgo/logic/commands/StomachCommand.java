@@ -33,9 +33,9 @@ public class StomachCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        model.updateDate(date);
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 date);
-        model.updateDate(date);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
