@@ -102,6 +102,7 @@ public class GraphPanel extends UiPart<Region> {
         xAxis.setLabel("Day");
         yAxis.setLabel("Calories");
         graph.setLegendVisible(false);
+        graph.setAnimated(false);
 
         yAxis.setTickUnit(1);
         yAxis.setMinorTickCount(1);

@@ -34,7 +34,7 @@ public class HelpWindow extends UiPart<Stage> {
     private Label helpMessage;
 
     @FXML
-    private TextArea commandMessage;
+    private Label commandMessage;
 
     /**
      * Creates a new HelpWindow.
