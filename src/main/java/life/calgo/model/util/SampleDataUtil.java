@@ -85,11 +85,11 @@ public class SampleDataUtil {
     }
 
     public static ReadOnlyFoodRecord getSampleFoodRecord() {
-        FoodRecord sampleAb = new FoodRecord();
+        FoodRecord sampleFr = new FoodRecord();
         for (Food sampleFood : getSampleFoods()) {
-            sampleAb.addFood(sampleFood);
+            sampleFr.addFood(sampleFood);
         }
-        return sampleAb;
+        return sampleFr;
     }
 
     /**

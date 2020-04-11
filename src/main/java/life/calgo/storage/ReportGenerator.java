@@ -69,7 +69,7 @@ public class ReportGenerator extends DocumentGenerator {
             + "%s.";
 
     private static final String ADVICE_TO_ABSTAIN = "Unfortunately, after evaluating your daily goal, "
-            + "Calgo advices you not to eat %s at all.";
+            + "Calgo advices you not to eat %s at all because it has \n way too many calories relative to your goal.";
 
     private static final String ADVICE_TO_CONTINUE = "Based on your goal, Calgo has verified that your favourite food,"
             + " %s, is sufficiently healthy!";
@@ -80,6 +80,7 @@ public class ReportGenerator extends DocumentGenerator {
             + "A jog around your neighbourhood sounds like a good idea! Don't you agree?";
 
     // for Footer
+
     private static final String FOOTER_MESSAGE = "This marks the end of your report";
 
     // Attributes
@@ -87,7 +88,6 @@ public class ReportGenerator extends DocumentGenerator {
     private DailyGoal userGoal;
     private DailyFoodLog queryLog;
     private ArrayList<DailyFoodLog> pastWeekLogs;
-
 
 
     // Statistics
@@ -582,7 +582,7 @@ public class ReportGenerator extends DocumentGenerator {
 
     /**
      * Returns whether specified Food object's calories is sufficiently healthy based on user goal.
-     * A food is defined to be sufficiently healthy if it can be consumed 3 times a day.
+     * A food is defined to be sufficiently healthy if it can be consumed 3 times a day without exceeding user goal.
      */
     private boolean isSufficientlyHealthy(int foodCalories) {
         return (foodCalories * 3) < userGoal.getGoal();
