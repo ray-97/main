@@ -228,6 +228,7 @@ Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpW
 Step 6: `HelpWindow` is displayed as a separate popup.
 
 // end::helpcommand[]
+<<<
 
 ==== Design considerations
 ===== Aspect: How Help is displayed
@@ -716,8 +717,8 @@ The graph will always display the past seven days' data at the bottom of the app
 whenever app data is changed.
 
 [NOTE]
-If a command changes the date of the `Food Record` (such as `nom` or `stomach`), the graph will update to show
-that date and the six days prior to that date.
+If a command changes the date of the `Food Record` (such as `nom` or `stomach`), the graph will update to show data
+for the past seven days from that date, inclusive.
 
 ==== Implementation
 `GraphPanel` in the `Ui` component. It contains a `LineChart` of `String` date against `Number` calories, and is populated with
@@ -759,6 +760,21 @@ Third, `updateSeries` method is called to ensure the data populating the graph i
 
 After which, the `GraphPanel` adds the graph to `MainWindow`.
 
+<<<
+
+==== Design considerations
+
+===== Aspect: Choice of visuals for past seven days summary
+
+* *Alternative 1 (current choice):* Summary is represented using a line graph.
+
+* *Alternative 2:* Summary is represented in a table.
+
+===== Aspect: When graph's dates are based on
+
+* *Alternative 1 (current choice):* Dates are based on past seven days starting from date of `Consumption Record`, inclusive.
+
+* *Alternative 2:* Dates are based on past seven days starting from today's date, inclusive.
 
 == Documentation
 
