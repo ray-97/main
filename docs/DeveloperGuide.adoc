@@ -569,6 +569,7 @@ image::UpdateActivityDiagram.png[]
 [[Implementation-CalorieGraph]]
 === Past seven days calorie data graph
 This feature displays to the user a summary of their past seven days' daily total calorie consumption in the form of a line graph.
+Specifically, the graph shows the calorie consumption for the date of the `DailyList`, and the six days before it.
 
 This functionality is automatic. The graph will always display the past seven days' data at the bottom of the app, and will update
 whenever app data is changed.
