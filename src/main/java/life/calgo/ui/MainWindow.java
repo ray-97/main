@@ -55,6 +55,7 @@ public class MainWindow extends UiPart<Stage> {
     private GoalDisplay goalDisplay;
     private RemainingCaloriesDisplay remainingCaloriesDisplay;
     private HelpWindow helpWindow;
+    private GraphPanel graphPanel;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -81,7 +82,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane caloriesDisplayPlaceholder;
 
     @FXML
-    private StackPane graphDisplayPlaceholder;
+    private StackPane graphPanelPlaceholder;
 
     @FXML
     private Label dailyListDate;
@@ -170,6 +171,9 @@ public class MainWindow extends UiPart<Stage> {
         fillGoal();
 
         fillRemainingCalories();
+
+        graphPanel = GraphPanel.getGraphPanelInstance();
+        graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
@@ -279,6 +283,9 @@ public class MainWindow extends UiPart<Stage> {
             fillRemainingCalories();
 
             dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
+
+            graphPanelPlaceholder.getChildren().removeAll(graphPanel.getPreviousGraph());
+            graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
             if (commandResult.isShowHelp()) {
                 handleHelpHelper(commandResult.getFeedbackToUser());
