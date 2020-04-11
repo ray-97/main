@@ -68,7 +68,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveName = 'calgo_v1.3.jar'
+    archiveName = 'calgo_v1.4.jar'
 
     destinationDir = file("${buildDir}/jar/")
 }

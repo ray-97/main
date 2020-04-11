@@ -934,6 +934,7 @@ Use case ends.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Calgo should work on both 32-bit and 64-bit environments.
 .  The product expects users to initially find out about `Food` items and their respective nutritional values for creating `Food` item entries for the first time.
+.  The minimum screen size for the App window to fully display its GUI is 1250 x 600.
 
 [appendix]
 == Glossary

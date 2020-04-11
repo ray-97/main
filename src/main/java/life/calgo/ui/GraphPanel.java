@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
-
 import life.calgo.logic.Logic;
 import life.calgo.model.day.DailyFoodLog;
 
@@ -34,8 +31,6 @@ public class GraphPanel extends UiPart<Region> {
     private XYChart.Series<String, Number> series;
     private LocalDate date;
 
-//    @FXML
-//    private TextArea graphPanel;
 
     public GraphPanel() {
         super(FXML);
@@ -98,11 +93,11 @@ public class GraphPanel extends UiPart<Region> {
         graph.getData().removeAll(series);
         series = new XYChart.Series<>();
 
+        graph.setAnimated(false);
+        graph.setLegendVisible(false);
         graph.setTitle("Your Calorie Data (Past 7 Days)");
         xAxis.setLabel("Day");
         yAxis.setLabel("Calories");
-        graph.setAnimated(false);
-        graph.setLegendVisible(false);
 
         yAxis.setTickUnit(1);
         yAxis.setMinorTickCount(1);

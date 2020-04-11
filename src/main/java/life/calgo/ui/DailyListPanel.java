@@ -13,6 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.model.food.DisplayFood;
@@ -23,6 +25,7 @@ import life.calgo.model.food.DisplayFood;
 public class DailyListPanel extends UiPart<Region> {
 
     private static final String FXML = "DailyListPanel.fxml";
+    private static final String NO_FOOD = "You haven't consumed anything today!";
     private final Logger logger = LogsCenter.getLogger(DailyListPanel.class);
 
     @FXML
@@ -31,6 +34,10 @@ public class DailyListPanel extends UiPart<Region> {
     public DailyListPanel(ObservableList<DisplayFood> dailyList) {
         super(FXML);
         setUpColumns();
+        Text text = new Text(NO_FOOD);
+        text.setFill(Color.WHITE);
+        text.setFont(Font.font ("Segoe UI Semibold", 13));
+        dailyListView.setPlaceholder(text);
         dailyListView.setItems(dailyList);
     }
 
@@ -80,7 +87,9 @@ public class DailyListPanel extends UiPart<Region> {
         return portion;
     }
 
-
+    /**
+     * Responsible for displaying index of Food item in the list.
+     */
     class IndexTableCell extends TableCell<DisplayFood, Void> {
         @Override
         public void updateIndex(int index) {
