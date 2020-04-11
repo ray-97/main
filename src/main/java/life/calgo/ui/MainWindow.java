@@ -34,9 +34,10 @@ import life.calgo.model.food.Name;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
-    private static final String GREETING_MESSAGE_NO_GOAL = "Welcome to Calgo! Since this is your first time,\n"
-            + "do remember to set a daily calorie goal using the goal command.";
-    private static final String GREETING_MESSAGE = "Welcome back to Calgo! We're all ready to help you meet your\n"
+    private static final String GREETING_MESSAGE_NO_GOAL = "Welcome to Calgo! Since this is your first time, "
+            + "do remember to set a daily calorie goal using the goal command. Type 'help' to learn more "
+            + "about our commands!";
+    private static final String GREETING_MESSAGE = "Welcome back to Calgo! We're all ready to help you meet your "
             + "daily caloric goals.";
     private static final String POSITIVE_CALORIES_MESSAGE = "%s calories left for the day";
     private static final String NEGATIVE_CALORIES_MESSAGE = "Exceeded %s calories for the day";
