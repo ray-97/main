@@ -53,7 +53,7 @@ public class ReportGenerator extends DocumentGenerator {
 
     private static final String GOAL_FAILED_MESSAGE = "You did not manage to achieve your goal today. "
             + "You may want to re-design your diet plan so that you can make\n"
-            + "improvements in your health and fitness!";
+            + "improvements in your health and fitness! Check out Calgo's suggestions in the next section.";
 
     private static final String GOAL_SURPLUS_MESSAGE = "You have consumed %.0f fewer calories than your target. "
             + "Great job!";
@@ -64,17 +64,19 @@ public class ReportGenerator extends DocumentGenerator {
     // for Suggestions
     private static final String SUGGESTIONS_HEADER_MESSAGE = "Suggestions for You";
 
-    private static final String FAVOURITE_FOOD_MESSAGE = "Your favourite food in the past week has been: %s.";
+    private static final String FAVOURITE_FOOD_MESSAGE = "Your favourite food in the past week "
+            + "(based on a mix of ratings and portions consumed) has been:\n"
+            + "%s.";
 
-    private static final String ADVICE_TO_ABSTAIN = "Unfortunately, after evaluating your daily goal,"
+    private static final String ADVICE_TO_ABSTAIN = "Unfortunately, after evaluating your daily goal, "
             + "Calgo advices you not to eat %s at all.";
 
     private static final String ADVICE_TO_CONTINUE = "Based on your goal, Calgo has verified that your favourite food,"
             + " %s, is sufficiently healthy!";
 
     private static final String ADVICE_TO_EXERCISE = "Calgo has verified that your favourite food is preventing you "
-            + "from reaching your daily goal. \n"
-            + "If you do eat %s, you may want to exercise to burn off those excess calories! \n"
+            + "from reaching your daily goal.\n"
+            + "If you do eat %s, you may want to exercise to burn off those excess calories!\n"
             + "A jog around your neighbourhood sounds like a good idea! Don't you agree?";
 
     // for Footer
@@ -374,7 +376,7 @@ public class ReportGenerator extends DocumentGenerator {
 
         HashMap<Food, double[]> foodInPastWeek = getPortionAndRatings(pastWeekLogs);
 
-        Food favouriteFood = getFavouriteFood(foodInPastWeek);
+        Food favouriteFood = getHighestCalorieFavouriteFood(foodInPastWeek);
         String favouriteFoodName = favouriteFood.getFoodNameString();
 
         printWriter.println(String.format(FAVOURITE_FOOD_MESSAGE, favouriteFoodName));
@@ -568,8 +570,12 @@ public class ReportGenerator extends DocumentGenerator {
     /**
      * Returns favourite food item of past 7 days based on portions consumed and ratings.
      */
-    private Food getFavouriteFood(HashMap<Food, double[]> foodHashMap) {
+    private Food getHighestCalorieFavouriteFood(HashMap<Food, double[]> foodHashMap) {
         ArrayList<Food> foodList = new ArrayList<>(foodHashMap.keySet());
+        // in case all foods have same ratings and portion, 1st item should be the food with most calories.
+        foodList.sort((Food f1, Food f2) ->
+                Integer.parseInt(f2.getCalorie().value) - Integer.parseInt(f1.getCalorie().value));
+        // compare with portions and ratings
         foodList.sort((Food f1, Food f2) -> compare(f1, f2, foodHashMap));
         return foodList.get(0);
     }
