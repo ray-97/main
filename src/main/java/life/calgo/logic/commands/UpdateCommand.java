@@ -31,11 +31,11 @@ public class UpdateCommand extends Command {
             + CliSyntax.PREFIX_TAG + "Green "
             + CliSyntax.PREFIX_TAG + "Sweet";
 
-    public static final String MESSAGE_SUCCESS = "Updated all foods into Food Records:\n%1$s";
+    public static final String MESSAGE_SUCCESS = "Updated all foods into Food Record:\n%1$s";
     public static final String MESSAGE_UPDATE_EXISTING_FOOD_SUCCESS =
             "Updated existing food item in Food Record:\n%1$s";
     public static final String MESSAGE_UPDATE_EXISTING_FOOD_SAME_VALUES_FAILED =
-        "The nutritional value that you have entered is exactly the same as %1$s in the FoodRecord!";
+        "The nutritional value that you have entered is exactly the same as %1$s in the Food Record!";
 
     private final Food toAdd;
 
