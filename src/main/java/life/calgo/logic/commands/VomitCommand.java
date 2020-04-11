@@ -41,9 +41,9 @@ public class VomitCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         model.updateLog(foodLog);
+        model.updateDate(foodLog.getLocalDate());
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 foodLog.getLocalDate());
-        model.updateDate(foodLog.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodVomited));
     }
 }
