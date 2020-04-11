@@ -98,8 +98,8 @@ public class UniqueDateToLogMap {
      */
     public void setDailyListDate(LocalDate date) throws CommandException {
         if (!internalMap.containsKey(date)) {
-            throw new CommandException(String.format("No new information was loaded because you did not consume " +
-                    "anything on %s", date));
+            throw new CommandException(String.format("No new information was loaded because you did not consume "
+                    + "anything on %s", date));
         }
         internalList.clear();
         Set<Food> foods = internalMap.get(date).getFoods();

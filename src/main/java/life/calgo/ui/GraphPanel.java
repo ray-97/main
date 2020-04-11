@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
-
 import life.calgo.logic.Logic;
 import life.calgo.model.day.DailyFoodLog;
 
@@ -33,9 +30,6 @@ public class GraphPanel extends UiPart<Region> {
     private LineChart<String, Number> graph = new LineChart<>(xAxis, yAxis);
     private XYChart.Series<String, Number> series;
     private LocalDate date;
-
-//    @FXML
-//    private TextArea graphPanel;
 
     public GraphPanel() {
         super(FXML);

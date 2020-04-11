@@ -11,7 +11,8 @@ import life.calgo.model.Model;
 public class ClearCommand extends Command {
 
     public static final String COMMAND_WORD = "clear";
-    public static final String MESSAGE_SUCCESS = "Food Record has been cleared! Use the update command to add new food into your Food Record.";
+    public static final String MESSAGE_SUCCESS = "Food Record has been cleared! "
+            + "Use the update command to add new food into your Food Record.";
 
 
     @Override
