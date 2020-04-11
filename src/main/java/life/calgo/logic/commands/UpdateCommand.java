@@ -14,7 +14,7 @@ public class UpdateCommand extends Command {
     public static final String COMMAND_WORD = "update";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Updates the food entered into the Food Record."
-            + " If the food entered already exists, it will be overwritten by input values .\n"
+            + " If the food entered already exists, it will be overwritten by input values.\n"
             + "Parameters: "
             + CliSyntax.PREFIX_NAME + "NAME "
             + CliSyntax.PREFIX_CALORIES + "CALORIES "

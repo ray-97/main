@@ -20,6 +20,9 @@ public class HelpCommand extends Command {
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
 
+    public static final String NO_COMMAND = "Sorry, but no commands contain this keyword. "
+            + "Thus, a guide for all commands will be shown.\n\n";
+
     public static final String HELP_CLEAR_MESSAGE = "clear:\n"
             + "Clears all entries from the Food Record.\n"
             + "Format: clear\n\n";
@@ -160,6 +163,10 @@ public class HelpCommand extends Command {
             filteredGuide = DEFAULT_HELP_MESSAGE;
         } else {
             filteredGuide = printIfSubstring(keyword);
+        }
+
+        if (filteredGuide.isEmpty()) {
+            filteredGuide = NO_COMMAND + DEFAULT_HELP_MESSAGE;
         }
 
         return new CommandResult(SHOWING_HELP_MESSAGE,
