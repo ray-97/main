@@ -22,28 +22,46 @@ Have you always wanted to live a healthy lifestyle, but never managed to reach t
 
 Fear not!
 
-*Calgo* is an *all-in-one smart calorie tracker* to ensure that you are always one step ahead in your fitness goals!
+*Calgo* is an *all-in-one smart calorie tracker* to ensure that you are always one step ahead in your fitness goals! +
+Here is a list of what *Calgo* has to offer:
 
-
-* *Insights:* set goals, generate consumption reports and view progress and statistics
-* *Hassle-Free Convenience:* optimise your experience with features that tolerate incomplete search inputs, produce fast responses and suggestions, and smartly manage entry conflicts
-* *Flexibility:* generate a portable copy of your `Food Record` or personalised consumption reports so you can continue eating healthily even without the App
-* *Performance:* enjoy a smooth and fast workflow as *Calgo* uses the power and convenience of a *desktop application* which combines the robustness of our Command Line Interface (CLI) together with an objective and clear Graphical User Interface (GUI). +
+* *Insights:* set your personal goals, generate consumption reports and view your progress
+* *User-Friendly Software Interface:* optimise your experience with features that tolerate incomplete search inputs, produce fast responses and suggestions, and cleverly manage entry conflicts
+* *Hassle-Free Convenience:* generate a portable copy of your `Food Record` or personalised consumption reports with a single command, anytime, anywhere
+* *Performance:* you get to enjoy a smooth and fast workflow, which is powered by a combination of a robust Command Line Interface (CLI) and an objectively clear Graphical User Interface (GUI). +
 
 Beginners, fast typists, and health enthusiasts alike would therefore benefit from the plethora of features *Calgo* offers - centred about a convenient and smooth user experience.
 
 <<<
+== Additional Information
+
+Before continuing, it may be helpful to familiarize yourself with a few symbols that you will encounter in this User Guide:
+
+[NOTE]
+This tells you there is important information that you should take note of.
+
+[TIP]
+This informs you of useful tips about Calgo.
+
+[WARNING]
+This serves as a warning to alert you about something you need to be careful of.
 
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.
 .  Download the latest `calgo.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for the *Calgo* application.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Copy the `.jar` file to a folder which you will use as the home folder for the *Calgo* application.
+.  Double-click the `.jar` file to start the app. The GUI should appear in a few seconds as shown in <<gui>>.
+
 +
+.An illustration of Calgo on startup
+[[gui]]
+[reftext="Figure 3.1"]
+[caption="Figure 3.1: "]
 image::Ui.png[width="790"]
+
 +
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
+.  Type your desired command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 - You can refer to <<Commands>> below for details of each command.
 .  What are you waiting for? Your healthy lifestyle begins now! +
@@ -55,11 +73,11 @@ Start experimenting with the commands yourself and experience the convenience *C
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user
-** e.g. in `n/NAME`, `NAME` is a parameter which can be used as `n/kiwi` to name the `Food` as 'kiwi'.
+* Words in `UPPER_CASE` are parameters that are to be supplied by you
+** e.g. in `n/NAME`, `NAME` is a parameter. `n/kiwi` would mean that the name of the `Food` is 'kiwi'.
 * Items in square brackets (i.e. []) are optional
 ** e.g. in `[t/TAG]`, `TAG` is an optional parameter which can be used as `t/fruit` to tag the `Food` as a 'fruit'.
-* Parameters can be in any order, as long as the correct prefix appears before the parameter
+* Parameters can be given in any order, as long as the correct prefix appears before the parameter
 ** e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` gives the same functionality.
 * Items with `…`​ after them can be used multiple times (including zero times)
 ** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
