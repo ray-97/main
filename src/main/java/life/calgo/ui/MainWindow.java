@@ -34,12 +34,13 @@ import life.calgo.model.food.Name;
 public class MainWindow extends UiPart<Stage> {
 
     private static final String FXML = "MainWindow.fxml";
-    private static final String GREETING_MESSAGE_NO_GOAL = "Welcome to Calgo! Since this is your first time,\n"
-            + "do remember to set a daily calorie goal using the goal command.";
-    private static final String GREETING_MESSAGE = "Welcome back to Calgo! We're all ready to help you meet your\n"
+    private static final String GREETING_MESSAGE_NO_GOAL = "Welcome to Calgo! Since this is your first time, "
+            + "do remember to set a daily calorie goal using the goal command. Type 'help' to learn more "
+            + "about our commands!";
+    private static final String GREETING_MESSAGE = "Welcome back to Calgo! We're all ready to help you meet your "
             + "daily caloric goals.";
-    private static final String POSITIVE_CALORIES_MESSAGE = "%s calories left";
-    private static final String NEGATIVE_CALORIES_MESSAGE = "Exceeded %s calories";
+    private static final String POSITIVE_CALORIES_MESSAGE = "%s calories left for the day";
+    private static final String NEGATIVE_CALORIES_MESSAGE = "Exceeded %s calories for the day";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
@@ -55,6 +56,7 @@ public class MainWindow extends UiPart<Stage> {
     private GoalDisplay goalDisplay;
     private RemainingCaloriesDisplay remainingCaloriesDisplay;
     private HelpWindow helpWindow;
+    private GraphPanel graphPanel;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -81,7 +83,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane caloriesDisplayPlaceholder;
 
     @FXML
-    private StackPane graphDisplayPlaceholder;
+    private StackPane graphPanelPlaceholder;
 
     @FXML
     private Label dailyListDate;
@@ -158,8 +160,8 @@ public class MainWindow extends UiPart<Stage> {
         remainingCaloriesDisplay = new RemainingCaloriesDisplay();
         caloriesDisplayPlaceholder.getChildren().add(remainingCaloriesDisplay.getRoot());
 
-        dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
-        dailyListDate.setStyle("-fx-text-fill: white; -fx-font-size: 12");
+        dailyListDate.setText("Food Consumed On: " + getDate()); // this is where it is set
+        // dailyListDate.setStyle("-fx-text-fill: white; -fx-font-size: 12");
 
         if (logic.getDailyGoal().getGoal().equals(DailyGoal.DUMMY_VALUE)) {
             resultDisplay.setFeedbackToUser(GREETING_MESSAGE_NO_GOAL);
@@ -170,6 +172,9 @@ public class MainWindow extends UiPart<Stage> {
         fillGoal();
 
         fillRemainingCalories();
+
+        graphPanel = GraphPanel.getGraphPanelInstance();
+        graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getFoodRecordFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
@@ -279,6 +284,9 @@ public class MainWindow extends UiPart<Stage> {
             fillRemainingCalories();
 
             dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
+
+            graphPanelPlaceholder.getChildren().removeAll(graphPanel.getPreviousGraph());
+            graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
             if (commandResult.isShowHelp()) {
                 handleHelpHelper(commandResult.getFeedbackToUser());

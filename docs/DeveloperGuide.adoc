@@ -227,8 +227,19 @@ Step 6: `HelpWindow` is displayed as a separate popup.
 ** Pros: No possibility of a popup blocking the main app, and all information is contained within a single window.
 ** Cons: User must use the `help` command every time they require a guide, as `ResultDisplay` will be overwritten after every command.
 
+===== Aspect: Command guides can be selectively displayed
+* **Alternative 1 (current choice):** `help` displays all command guides by default. User can selectively filter to display only desired commands by entering an optional keyword after `help`.
+** Pros: User can filter out command guides they know they aren't looking for, thus having a more focused display.
+** Cons: If user does not know the name of the command they want, the filtered `help` is not useful.
+* **Alternative 2:** Always display all command guides to ensure user will find the guide they require.
+** Pros: No possibility of user being unable to find their desired command after sufficient searching.
+** Cons: Can be very overwhelming and frustrating to search through, should an experienced user be using the app.
+
 ==== Summary
 `help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
+
+.Activity Diagram for Help
+image::HelpActivityDiagram.png[]
 
 <<<
 // tag::categoricalsubstringfindsearch[]
@@ -660,6 +671,35 @@ The following activity diagram summarises what happens when a user enters a vali
 
 .Activity Diagram for Update command
 image::UpdateActivityDiagram.png[]
+
+// tag::caloriegraph[]
+[[Implementation-CalorieGraph]]
+=== Past seven days calorie data graph
+This feature displays to the user a summary of their past seven days' daily total calorie consumption in the form of a line graph.
+
+This functionality is automatic. The graph will always display the past seven days' data at the bottom of the app, and will update
+whenever app data is changed.
+
+==== Implementation
+This feature is facilitated by the `GraphPanel` class in the `Ui` component.
+
+`GraphPanel` contains a `LineChart` of `String` date against `Number` calories, and is populated with
+data from an `XYChart.series`. The data is in turn obtained from the `Logic` component, which provides only the past seven days'
+of `DailyFoodLog`. The implementation of the `GraphPanel` class will be further explained.
+
+`GraphPanel` class implements the following operations:
+
+* `GraphPanel#initialiseTreeMap(Logic logic)` - Sets up the TreeMap that maps `LocalDate` date of `DailyFoodLog` to the `Double`
+total calorie consumption n that day.
+* `GraphPanel#initialseGraph()` - Sets up the `LineChart` with xAxis a `String` representing date, and yAxis a `Double` representing
+total calories consumed on that date.
+* `GraphPanel#updateSeries()` - Ensures the `XYChart.series` that populates the graph with data is always updated with the
+most recent app data.
+* `GraphPanel#makeGraph(Logic logic)` - Wrapper function that calls the above three methods.
+* `GraphPanel#getGraph(Logic logic)` - Public accessor function to generate and retrieve the `LineChart`.
+
+Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having `MainWindow`
+call `GraphPanel#getGraph(Logic logic)` on startup and after execution of commands.
 
 == Documentation
 
