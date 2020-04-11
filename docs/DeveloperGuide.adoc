@@ -193,11 +193,7 @@ This section describes some noteworthy details on how certain features are imple
 
 Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
 
-// tag::helpcommand[]
-[[Implementation-HelpGuide]]
-=== Command guide `help` command
 
-==== Implementation
 
 As with any application with a plethora of commands, it is useful to have an in-app and offline method by which users can view the purpose and usage format of each command.
 
@@ -206,7 +202,22 @@ This help feature is a functionality that is carried out by the FoodRecordParser
 With this, a top-level idea of the execution of the help command is given in the sequence diagram below:
 
 .Sequence Diagram for Help Command
-image::HelpSequenceDiagram.png[]
+image::HelpSequenceDiagram.png[]// tag::helpcommand[]
+[[Implementation-HelpGuide]]
+=== Command guide `help` command
+
+This section addresses how the `help` command works.
+
+The `help` command allows us to reference a summarised version of the User Guide (called the command guide)
+containing the usages of the commands and their formats, arranged in alphabetical order. Users may enter an
+optional `Command_word` that filters the displayed command guide.
+
+[NOTE]
+`Command_word` filters out only commands which contain the `Command_word` as a substring. If no commands contain it
+as a substring, an error message will be displayed at the top of the `HelpWindow` and the full command guide will be shown.
+
+
+==== Implementation
 // end::helpcommand[]
 
 Step 1: `LogicManager` takes in the user input of "help". +
@@ -217,23 +228,41 @@ Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpW
 Step 6: `HelpWindow` is displayed as a separate popup.
 
 // end::helpcommand[]
+<<<
 
 ==== Design considerations
 ===== Aspect: How Help is displayed
-* **Alternative 1 (current choice):** `HelpWindow` is displayed as a self-contained popup.
-** Pros: User can refer to the command guide in a window separately from the main app. Additionally, no internet access is required as all information on commands are stored offline.
-** Cons: As `help` does not redirect to a url containing the most up-to-date User Guide, any changes to command functionality or addition of new commands must be updated for local display.
+* **Alternative 1 (current choice):** `HelpWindow` is displayed as a separate popup.
+** Pros:
+- User can refer to the command guide in a window separately from Calgo, keeping it present as they use the App.
+- Command guide can give a more detailed description of command usage and format as it has more space to display in.
+- No internet access is required as all information on commands is stored offline.
+** Cons:
+- `help` does not redirect to a url containing the most up-to-date User Guide. Changes made to the User Guide
+must be updated in `HelpCommand` separately.
+- `HelpWindow` might obstruct view of the App upon initially loading it, causing annoyance.
 * **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
-** Pros: No possibility of a popup blocking the main app, and all information is contained within a single window.
-** Cons: User must use the `help` command every time they require a guide, as `ResultDisplay` will be overwritten after every command.
+** Pros:
+- No possibility of a popup blocking the main app.
+- All information is contained within a single window.
+** Cons:
+- User must use the `help` command every time they require a guide, as `ResultDisplay` will be
+overwritten after other commands.
 
 ===== Aspect: Command guides can be selectively displayed
-* **Alternative 1 (current choice):** `help` displays all command guides by default. User can selectively filter to display only desired commands by entering an optional keyword after `help`.
-** Pros: User can filter out command guides they know they aren't looking for, thus having a more focused display.
-** Cons: If user does not know the name of the command they want, the filtered `help` is not useful.
+* **Alternative 1 (current choice):** `help` displays all command guides by default. User can selectively filter to
+display only desired commands by entering an optional keyword after `help`.
+** Pros:
+- Desired command can be more rapidly found.
+- Removes all unwanted commands from `HelpWindow`, reducing clutter.
+** Cons:
+- Filtered `help` does not benefit users who don't know the command they're looking for.
 * **Alternative 2:** Always display all command guides to ensure user will find the guide they require.
-** Pros: No possibility of user being unable to find their desired command after sufficient searching.
-** Cons: Can be very overwhelming and frustrating to search through, should an experienced user be using the app.
+** Pros:
+- No possibility of user being unable to find their desired command after sufficient searching.
+** Cons:
+- Relatively large array of commands can be overwhelming to a new user, deterring them from using the App.
+- Can be very frustrating to search through for experienced users.
 
 ==== Summary
 `help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
@@ -679,16 +708,20 @@ image::UpdateActivityDiagram.png[]
 // tag::caloriegraph[]
 [[Implementation-CalorieGraph]]
 === Past seven days calorie data graph
-This feature displays to the user a summary of their past seven days' daily total calorie consumption in the form of a line graph.
-Specifically, the graph shows the calorie consumption for the date of the `DailyList`, and the six days before it.
+(by Janice)
 
-This functionality is automatic. The graph will always display the past seven days' data at the bottom of the app, and will update
+This section addresses how the graph displaying the user's past seven day's daily total calorie consumption works.
+Note that the graph counts starting from the date on the current `Food Record`, and the six days prior to it.
+
+The graph will always display the past seven days' data at the bottom of the app, and will update
 whenever app data is changed.
 
-==== Implementation
-This feature is facilitated by the `GraphPanel` class in the `Ui` component.
+[NOTE]
+If a command changes the date of the `Food Record` (such as `nom` or `stomach`), the graph will update to show data
+for the past seven days from that date, inclusive.
 
-`GraphPanel` contains a `LineChart` of `String` date against `Number` calories, and is populated with
+==== Implementation
+`GraphPanel` in the `Ui` component. It contains a `LineChart` of `String` date against `Number` calories, and is populated with
 data from an `XYChart.series`. The data is in turn obtained from the `Logic` component, which provides only the past seven days'
 of `DailyFoodLog`. The implementation of the `GraphPanel` class will be further explained.
 
@@ -705,6 +738,43 @@ most recent app data.
 
 Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having `MainWindow`
 call `GraphPanel#getGraph(Logic logic)` on startup and after execution of commands.
+
+The sequence diagram below demonstrates how the `Graph` feature works, such as upon loading of `MainWindow`.
+
+image::GraphSequenceDiagram.png[]
+Sequence Diagram for `Graph` feature.
+
+Step 1: `MainWindow` requests for an instance of `GraphPanel`.
+
+If no instance exists, a new `GraphPanel` is created. Otherwise one is retrieved. This ensures that `GraphPanel`
+is a singleton.
+
+Step 2: `MainWindow` calls `GraphPanel` again to generate the graph and add it to the `GraphPanelPlaceholder` inside `MainWindow`.
+
+Step 3: Inside `GraphPanel`, a wrapper method `makeGraph` calls three methods in a row:
+
+First, `initialiseTreeMap`, which has `Logic` call the `getPastWeekLogs` method onto `GraphPanel`, generating
+a `TreeMap` of `String` date mapped to `Double` calories using the past seven days' `DailyFoodLog`.
+Second, `initialiseGraph` method is called to generate the graph itself.
+Third, `updateSeries` method is called to ensure the data populating the graph is up to date.
+
+After which, the `GraphPanel` adds the graph to `MainWindow`.
+
+<<<
+
+==== Design considerations
+
+===== Aspect: Choice of visuals for past seven days summary
+
+* *Alternative 1 (current choice):* Summary is represented using a line graph.
+
+* *Alternative 2:* Summary is represented in a table.
+
+===== Aspect: When graph's dates are based on
+
+* *Alternative 1 (current choice):* Dates are based on past seven days starting from date of `Consumption Record`, inclusive.
+
+* *Alternative 2:* Dates are based on past seven days starting from today's date, inclusive.
 
 == Documentation
 
