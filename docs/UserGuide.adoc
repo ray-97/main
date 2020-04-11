@@ -83,6 +83,9 @@ Start experimenting with the commands yourself and experience the convenience *C
 ** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
 ====
 
+TIP: As you begin to key in the name of the `Food` for any of these commands: `update`, `delete`, or `nom`, Calgo shows you
+`Food` with similar names that exists in the `Food Record`.
+
 === Clearing all entries : `clear`
 
 Clears all `Food` entries from the `Food Record`. +
@@ -117,7 +120,10 @@ Adds 2 portion of apple pie to the log tracking user's consumption today.
 This consumption will be rated 7/10.
 
 === Deleting a `Food` from current `Food Record`: `delete`
-Deletes the specified `Food` from the `Food Record`.
+(by Zhang Xian)
+
+If you no longer require Calgo to store a particular `Food` and its nutritional values for you, this `delete` command
+helps you with that.
 
 Format: `delete n/NAME`
 
@@ -337,26 +343,32 @@ Displays a list of `Food` user has consumed on 2020-03-04.
 Displays a list of `Food` the user has consumed today.
 
 === Updating the current `Food Record` : `update`
+(by Zhang Xian)
 
-Updates a `Food` into the `Food Record`.
+Your `Food Record` stores all the nutritional information of all the `Food` that you consume frequently. This `update` command helps you `update` your `Food Record` with either
+a new `Food`  or `update` an existing `Food`  in the `Food Record`.
 
-****
-* If `Food` is not present in the `Food Record`, this will create a new `Food` with all the nutritional details specified
-* If `Food` is already present in the `Food Record`, this will override that `Food` with all the nutritional details specified by user
-****
+There is only two scenarios in which you will use this `update` command:
 
+* Scenario 1: You want to update a new `Food`  into `Food Record`
+** The `Food` , along with the nutritional values that you inputted will be added into the `Food Record` as a new `Food` .
+* Scenario 2: You want to update an existing `Food` item in the `Food Record` with nutritional values
+** The existing `Food`  in the `Food Record` will be updated with new nutritional values that you have inputted.
+
+In both scenarios, we have kept the format the same for you: +
 Format: `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
 
 Examples:
 
 * `update n/pizza cal/200 p/10 c/200 f/200` +
-This command adds a new `Food`, pizza into the user’s food presets with nutritional details of 200 `Calorie` s, 10g of `Protein` s, 200g of `Carbohydrate` s and 200g of `Fat` s.
+This command adds a new `Food`, pizza into the user’s food presets with nutritional values of 200 `Calorie`, 10g of `Protein`, 200g of `Carbohydrate` and 200g of `Fat`.
 * `update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite` +
-As pizza is already in the user’s `Food Record`, this command overrides the nutritional details of pizza with 200 `Calorie` s, 10g of `Protein` s, 200g of `Carbohydrate` s and 20g of `Fat` s.
-The pizza is also tagged with the `Tag` s "Italiano" and "Favourite" .
+As pizza already exists in the user’s `Food Record`, this command overrides the nutritional values of pizza with 200 `Calorie`, 10g of `Protein`, 200g of `Carbohydrate` and 20g of `Fat`.
+The pizza is also tagged with the `Tag` "Italiano" and "Favourite" .
 
-[TIP]
-Whenever you begin to key in the name of the `Food`, Calgo shows you the existing `Food` items in `Food Record` with similar names, if any.
+[NOTE]
+As long as two Food items have the same name, they are deemed to be the same Food item! We suggest you to be as specific in naming your Food
+item as much as possible. Instead of naming your Food "Chocolate", perhaps "White Chocolate" or "Dark Chocolate" would be a better idea!
 
 == FAQ
 
