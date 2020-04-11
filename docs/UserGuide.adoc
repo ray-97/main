@@ -22,28 +22,46 @@ Have you always wanted to live a healthy lifestyle, but never managed to reach t
 
 Fear not!
 
-*Calgo* is an *all-in-one smart calorie tracker* to ensure that you are always one step ahead in your fitness goals!
+*Calgo* is an *all-in-one smart calorie tracker* to ensure that you are always one step ahead in your fitness goals! +
+Here is a list of what *Calgo* has to offer:
 
-
-* *Insights:* set goals, generate consumption reports and view progress and statistics
-* *Hassle-Free Convenience:* optimise your experience with features that tolerate incomplete search inputs, produce fast responses and suggestions, and smartly manage entry conflicts
-* *Flexibility:* generate a portable copy of your `Food Record` or personalised consumption reports so you can continue eating healthily even without the App
-* *Performance:* enjoy a smooth and fast workflow as *Calgo* uses the power and convenience of a *desktop application* which combines the robustness of our Command Line Interface (CLI) together with an objective and clear Graphical User Interface (GUI). +
+* *Insights:* set your personal goals, generate consumption reports and view your progress
+* *User-Friendly Software Interface:* optimise your experience with features that tolerate incomplete search inputs, produce fast responses and suggestions, and cleverly manage entry conflicts
+* *Hassle-Free Convenience:* generate a portable copy of your `Food Record` or personalised consumption reports with a single command, anytime, anywhere
+* *Performance:* you get to enjoy a smooth and fast workflow, which is powered by a combination of a robust Command Line Interface (CLI) and an objectively clear Graphical User Interface (GUI). +
 
 Beginners, fast typists, and health enthusiasts alike would therefore benefit from the plethora of features *Calgo* offers - centred about a convenient and smooth user experience.
 
 <<<
+== Additional Information
+
+Before continuing, it may be helpful to familiarize yourself with a few symbols that you will encounter in this User Guide:
+
+[NOTE]
+This tells you there is important information that you should take note of.
+
+[TIP]
+This informs you of useful tips about Calgo.
+
+[WARNING]
+This serves as a warning to alert you about something you need to be careful of.
 
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.
 .  Download the latest `calgo.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for the *Calgo* application.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
+.  Copy the `.jar` file to a folder which you will use as the home folder for the *Calgo* application.
+.  Double-click the `.jar` file to start the app. The GUI should appear in a few seconds as shown in <<gui>>.
+
 +
+.An illustration of Calgo on startup
+[[gui]]
+[reftext="Figure 3.1"]
+[caption="Figure 3.1: "]
 image::Ui.png[width="790"]
+
 +
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
+.  Type your desired command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
 - You can refer to <<Commands>> below for details of each command.
 .  What are you waiting for? Your healthy lifestyle begins now! +
@@ -55,15 +73,18 @@ Start experimenting with the commands yourself and experience the convenience *C
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user
-** e.g. in `n/NAME`, `NAME` is a parameter which can be used as `n/kiwi` to name the `Food` as 'kiwi'.
+* Words in `UPPER_CASE` are parameters that are to be supplied by you
+** e.g. in `n/NAME`, `NAME` is a parameter. `n/kiwi` would mean that the name of the `Food` is 'kiwi'.
 * Items in square brackets (i.e. []) are optional
 ** e.g. in `[t/TAG]`, `TAG` is an optional parameter which can be used as `t/fruit` to tag the `Food` as a 'fruit'.
-* Parameters can be in any order, as long as the correct prefix appears before the parameter
+* Parameters can be given in any order, as long as the correct prefix appears before the parameter
 ** e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` gives the same functionality.
 * Items with `…`​ after them can be used multiple times (including zero times)
 ** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
 ====
+
+TIP: As you begin to key in the name of the `Food` for any of these commands: `update`, `delete`, or `nom`, Calgo shows you
+`Food` with similar names that exists in the `Food Record`.
 
 === Clearing all entries : `clear`
 
@@ -99,7 +120,10 @@ Adds 2 portion of apple pie to the log tracking user's consumption today.
 This consumption will be rated 7/10.
 
 === Deleting a `Food` from current `Food Record`: `delete`
-Deletes the specified `Food` from the `Food Record`.
+(by Zhang Xian)
+
+If you no longer require Calgo to store a particular `Food` and its nutritional values for you, this `delete` command
+helps you with that.
 
 Format: `delete n/NAME`
 
@@ -319,26 +343,32 @@ Displays a list of `Food` user has consumed on 2020-03-04.
 Displays a list of `Food` the user has consumed today.
 
 === Updating the current `Food Record` : `update`
+(by Zhang Xian)
 
-Updates a `Food` into the `Food Record`.
+Your `Food Record` stores all the nutritional information of all the `Food` that you consume frequently. This `update` command helps you `update` your `Food Record` with either
+a new `Food`  or `update` an existing `Food`  in the `Food Record`.
 
-****
-* If `Food` is not present in the `Food Record`, this will create a new `Food` with all the nutritional details specified
-* If `Food` is already present in the `Food Record`, this will override that `Food` with all the nutritional details specified by user
-****
+There is only two scenarios in which you will use this `update` command:
 
+* Scenario 1: You want to update a new `Food`  into `Food Record`
+** The `Food` , along with the nutritional values that you inputted will be added into the `Food Record` as a new `Food` .
+* Scenario 2: You want to update an existing `Food` item in the `Food Record` with nutritional values
+** The existing `Food`  in the `Food Record` will be updated with new nutritional values that you have inputted.
+
+In both scenarios, we have kept the format the same for you: +
 Format: `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
 
 Examples:
 
 * `update n/pizza cal/200 p/10 c/200 f/200` +
-This command adds a new `Food`, pizza into the user’s food presets with nutritional details of 200 `Calorie` s, 10g of `Protein` s, 200g of `Carbohydrate` s and 200g of `Fat` s.
+This command adds a new `Food`, pizza into the user’s food presets with nutritional values of 200 `Calorie`, 10g of `Protein`, 200g of `Carbohydrate` and 200g of `Fat`.
 * `update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite` +
-As pizza is already in the user’s `Food Record`, this command overrides the nutritional details of pizza with 200 `Calorie` s, 10g of `Protein` s, 200g of `Carbohydrate` s and 20g of `Fat` s.
-The pizza is also tagged with the `Tag` s "Italiano" and "Favourite" .
+As pizza already exists in the user’s `Food Record`, this command overrides the nutritional values of pizza with 200 `Calorie`, 10g of `Protein`, 200g of `Carbohydrate` and 20g of `Fat`.
+The pizza is also tagged with the `Tag` "Italiano" and "Favourite" .
 
-[TIP]
-Whenever you begin to key in the name of the `Food`, Calgo shows you the existing `Food` items in `Food Record` with similar names, if any.
+[NOTE]
+As long as two Food items have the same name, they are deemed to be the same Food item! We suggest you to be as specific in naming your Food
+item as much as possible. Instead of naming your Food "Chocolate", perhaps "White Chocolate" or "Dark Chocolate" would be a better idea!
 
 == FAQ
 
