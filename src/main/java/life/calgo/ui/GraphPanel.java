@@ -98,6 +98,7 @@ public class GraphPanel extends UiPart<Region> {
         graph.getData().removeAll(series);
         series = new XYChart.Series<>();
 
+        graph.setTitle("Your Calorie Data (Past 7 Days)");
         xAxis.setLabel("Day");
         yAxis.setLabel("Calories");
 

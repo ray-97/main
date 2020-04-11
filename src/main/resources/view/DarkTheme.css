@@ -372,6 +372,7 @@
 
 .axis {
     -fx-tick-label-fill: #a8f7fb;
+    -fx-border-color: transparent;
 }
 
 .axis-label {
@@ -388,6 +389,10 @@
 
 .chart-horizontal-grid-lines {
     -fx-stroke: #CD6839;
+}
+
+.chart-content {
+    -fx-padding: 5px;
 }
 
 .help-label {

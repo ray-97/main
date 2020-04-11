@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 <?import javafx.stage.Stage?>
 
 <fx:root minHeight="600" minWidth="1150.0" onCloseRequest="#handleExit" title="Calgo App" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
@@ -49,33 +48,39 @@
                 <HBox VBox.vgrow="ALWAYS">
                     <VBox fx:id="foodList" minWidth="222.0" prefHeight="322.0" prefWidth="322.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
                         <padding>
-                            <Insets bottom="10" left="10" right="10" top="10" />
+                            <Insets left="10" right="10" />
                         </padding>
-                            <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
-                                <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-stack-pane" HBox.hgrow="NEVER">
-                                    <padding>
-                                        <Insets bottom="5" left="10" right="10" top="5" />
-                                    </padding>
-                                </StackPane>
 
-                                <StackPane fx:id="caloriesDisplayPlaceholder" styleClass="remaining-calories-display" HBox.hgrow="NEVER">
-                                    <padding>
-                                        <Insets bottom="5" left="10" right="10" top="5" />
-                                    </padding>
-                                </StackPane>
-                            </HBox>
-                        <Label fx:id="dailyListDate" text="Daily List:" />
+                        <Label fx:id="goalInformation" text = "Your Goal Information"/>
+                        <HBox maxHeight="100.0" VBox.vgrow="NEVER">
+                            <StackPane fx:id="goalDisplayPlaceholder" styleClass="goal-stack-pane" HBox.hgrow="NEVER">
+                                <padding>
+                                    <Insets bottom="5" right="15" top = "5"/>
+                                </padding>
+                            </StackPane>
+
+                            <StackPane fx:id="caloriesDisplayPlaceholder"  styleClass="remaining-calories-display" HBox.hgrow="NEVER">
+                                <padding>
+                                    <Insets bottom="5" left="15"  top="5" />
+                                </padding>
+                            </StackPane>
+                        </HBox>
+                        <Label fx:id="dailyListDate" text="Stomach" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
-                        <StackPane fx:id="graphPanelPlaceholder" prefHeight="150.0" prefWidth="200.0" />
+                        <StackPane fx:id="graphPanelPlaceholder" />
 
                     </VBox>
 
-                    <VBox fx:id="dailyList" minWidth="315.0" prefHeight="322.0" prefWidth="315.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
+                    <VBox fx:id="foodRecord" minWidth="315.0" prefHeight="322.0" prefWidth="315.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">
+                        <Label text = "Your Food Record"/>
                         <padding>
-                            <Insets bottom="10" left="10" right="10" top="10" />
+                            <Insets left="10" right="10"/>
                         </padding>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Food Record" />
-                        <StackPane fx:id="foodListPanelPlaceholder" VBox.vgrow="ALWAYS" />
+                        <StackPane fx:id="foodListPanelPlaceholder" VBox.vgrow="ALWAYS">
+                            <padding>
+                                <Insets top="7"/>
+                            </padding>
+                        </StackPane>
                     </VBox>
                 </HBox>
 
