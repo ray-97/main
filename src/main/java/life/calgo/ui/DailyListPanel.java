@@ -87,7 +87,9 @@ public class DailyListPanel extends UiPart<Region> {
         return portion;
     }
 
-
+    /**
+     * Responsible for displaying index of Food item in the list.
+     */
     class IndexTableCell extends TableCell<DisplayFood, Void> {
         @Override
         public void updateIndex(int index) {
