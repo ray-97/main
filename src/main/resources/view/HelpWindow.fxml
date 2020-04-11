@@ -11,10 +11,10 @@
 
 <fx:root height="500.0" title="Help" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <scene>
-        <Scene>
-            <AnchorPane>
-                <HBox>
-                    <Label fx:id="helpMessage" text="Label">
+        <Scene stylesheets="@DarkTheme.css">
+            <AnchorPane stylesheets="@DarkTheme.css">
+                <HBox stylesheets="@DarkTheme.css">
+                    <Label fx:id="helpMessage" styleClass="help-label" stylesheets="@DarkTheme.css" text="Label">
                         <HBox.margin>
                             <Insets left="5.0" />
                         </HBox.margin>
@@ -27,11 +27,16 @@
                             <Insets left="5.0" />
                         </HBox.margin>
                     </Button>
+               <Label fx:id="helpMessage1" layoutX="30.0" layoutY="15.0" styleClass="help-label" stylesheets="@DarkTheme.css" text="Label">
+                  <padding>
+                     <Insets left="5.0" />
+                  </padding>
+               </Label>
                     <padding>
                         <Insets bottom="10.0" left="15.0" right="10.0" top="5.0" />
                     </padding>
                 </HBox>
-                <TextArea fx:id="commandMessage" layoutX="-1.0" layoutY="43.0" text="\$commandGuide" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0" />
+                <TextArea fx:id="commandMessage" layoutX="-1.0" layoutY="43.0" styleClass="text-area" stylesheets="@DarkTheme.css" text="\$commandGuide" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0" />
                 </AnchorPane>
         </Scene>
     </scene>
