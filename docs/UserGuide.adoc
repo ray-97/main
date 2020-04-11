@@ -212,7 +212,7 @@ Example:
 // todo: image of resultant message on GUI, and describe that the FoodRecord.txt file is created in data/exports folder.
 
 <<<
-
+[[FindCommand]]
 === Finding a `Food` by nutritional value or keyword(s) : `find`
 (by Eugene) +
 
@@ -220,11 +220,13 @@ With many `Food` entries in the `Food Record`, it may be quite difficult to sear
 
 The `find` command shows all `Food` entries that have a nutritional value matching what you specify. This can be the number of `Calories`, or the number of grams of `Proteins`/`Carbohydrates`/`Fats`.
 
-Alternatively, you can choose to search for a keyword which appears in the `Name` or `Tag` associated with a particular `Food`.
+Alternatively, you can choose to search for a keyword which appears in any part of the `Name`, or in any part of any one of the `Tag` associated with a particular `Food`.
 
+Here is some key information about the command:
 ****
-* The `find` command takes in one, and only 1 parameter.
+* The `find` command takes in one, and only one parameter.
 * For finding via nutritional value, only `Food` matching the same exact value will be shown.
+* To facilitate the possibility of typing errors made by fast typists, any additional input typed without a preceding prefix (e.g. "n/", "p/") will be ignored.
 ****
 
 [TIP]
@@ -286,7 +288,7 @@ This generates a txt file containing the above-mentioned insights made on the co
 === Listing all `Food` in current `Food Record` : `list`
 (by Eugene) +
 
-With a large number of entries in the `Food Record`, we can use the `find` command to narrow down our search. However, this filtered information is only useful for a short amount of time and we will usually want to view all entries in the `Food Record` again. +
+With a large number of entries in the `Food Record`, we can use the <<FindCommand, `find`>> command to narrow down our search. However, this filtered information is only useful for a short amount of time and we will usually want to view all entries in the `Food Record` again. This is where the `list` command comes in handy. +
 
 The `list` command resets the display accordingly to show all entries in the current `Food Record`. These will be neatly sorted in alphabetical order, just as the `Food Record` previously appeared. +
 

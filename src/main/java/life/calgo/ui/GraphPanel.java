@@ -101,6 +101,7 @@ public class GraphPanel extends UiPart<Region> {
         graph.setTitle("Your Calorie Data (Past 7 Days)");
         xAxis.setLabel("Day");
         yAxis.setLabel("Calories");
+        graph.setAnimated(false);
         graph.setLegendVisible(false);
 
         yAxis.setTickUnit(1);
