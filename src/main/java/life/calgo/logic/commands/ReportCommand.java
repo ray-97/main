@@ -37,7 +37,7 @@ public class ReportCommand extends Command {
     public static final String INPUT_OUTPUT_EXCEPTION = "There was an error in creating and/or "
             + "writing to your report file. Kindly revise your system settings to enable the app to create a new file.";
 
-    // the date the user enters.
+    // the date the user enters
     private LocalDate queryDate;
 
     public ReportCommand(LocalDate queryDate) {
@@ -74,6 +74,6 @@ public class ReportCommand extends Command {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ReportCommand // instanceof handles nulls
-                && queryDate.equals(((ReportCommand) other).queryDate));
+                && queryDate.equals(((ReportCommand) other).queryDate)); // attribute check
     }
 }

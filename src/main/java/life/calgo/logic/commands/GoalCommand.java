@@ -30,7 +30,7 @@ public class GoalCommand extends Command {
             + "We'll accept this now because Calgo will eventually help you to reach a daily calorie count of \n"
             + "%d, which is the minimum calories you should eat to stay moderately healthy.";
 
-    // the number of calories the user enters.
+    // the number of calories the user enters
     private final int numCaloriesDaily;
 
     public GoalCommand(int numberCaloriesDaily) {
