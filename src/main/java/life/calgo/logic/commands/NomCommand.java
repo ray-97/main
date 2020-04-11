@@ -45,9 +45,9 @@ public class NomCommand extends Command {
         } else {
             model.updateLog(foodLog);
         }
+        model.updateDate(foodLog.getLocalDate());
         model.updateCurrentFilteredDailyList(Model.PREDICATE_SHOW_ALL_CONSUMED_FOODS,
                 foodLog.getLocalDate());
-        model.updateDate(foodLog.getLocalDate());
         return new CommandResult(String.format(MESSAGE_SUCCESS, foodConsumed));
     }
 
