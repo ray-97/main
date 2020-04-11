@@ -58,6 +58,10 @@ public class GraphPanel extends UiPart<Region> {
         updateSeries();
     }
 
+    public LineChart<String, Number> getPreviousGraph() {
+        return graph;
+    }
+
     public LineChart<String, Number> getGraph(Logic logic) {
         makeGraph(logic);
         return graph;
@@ -68,7 +72,7 @@ public class GraphPanel extends UiPart<Region> {
     }
 
     /**
-     * Sets up the treemap containing mapping of date to total calories consumed on that day.
+     * Sets up the TreeMap containing mapping of date to total calories consumed on that day.
      * Days where there are no records are counted as 0 calories consumed.
      * @param logic module that contains method for obtaining daily food logs.
      */
@@ -89,8 +93,9 @@ public class GraphPanel extends UiPart<Region> {
     /**
      * Sets up line chart axes, and adds a series to provide data.
      */
+    @SuppressWarnings("unchecked") // to hide the inevitable unchecked warning due to use of varargs
     private void initialiseGraph() {
-        //graph.getData().removeAll(series);
+        graph.getData().removeAll(series);
         series = new XYChart.Series<>();
 
         xAxis.setLabel("Day");

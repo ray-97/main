@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -283,6 +284,9 @@ public class MainWindow extends UiPart<Stage> {
             fillRemainingCalories();
 
             dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
+
+            graphPanelPlaceholder.getChildren().removeAll(graphPanel.getPreviousGraph());
+            graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
             if (commandResult.isShowHelp()) {
                 handleHelpHelper(commandResult.getFeedbackToUser());

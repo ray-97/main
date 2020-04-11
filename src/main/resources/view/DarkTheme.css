@@ -354,6 +354,12 @@
     -fx-font-weight: bold;
 }
 
+.graph {
+    -fx-font-size: 11px;
+    -fx-text-fill: #b2060f;
+    -fx-background-color: #b2060f;
+}
+
 #cardPane {
     -fx-background-color: transparent;
     -fx-border-width: 0;
