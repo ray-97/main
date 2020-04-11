@@ -25,7 +25,7 @@ public class Config {
     /**
      * Obtains the logging level for console messages.
      *
-     * @return the logging level for console messages.
+     * @return The logging level for console messages.
      */
     public Level getLogLevel() {
         return logLevel;
@@ -34,7 +34,7 @@ public class Config {
     /**
      * Sets the specified logging level for console messages.
      *
-     * @param logLevel the specified logging level for console messages.
+     * @param logLevel The specified logging level for console messages.
      */
     public void setLogLevel(Level logLevel) {
         this.logLevel = logLevel;
@@ -43,7 +43,7 @@ public class Config {
     /**
      * Obtains the user preference file path previously set.
      *
-     * @return the user preference file path previously set.
+     * @return The user preference file path previously set.
      */
     public Path getUserPrefsFilePath() {
         return userPrefsFilePath;
@@ -52,7 +52,7 @@ public class Config {
     /**
      * Sets the user preference file path to the current specified.
      *
-     * @param userPrefsFilePath user preference file path to the current specified.
+     * @param userPrefsFilePath User preference file path to the current specified.
      */
     public void setUserPrefsFilePath(Path userPrefsFilePath) {
         this.userPrefsFilePath = userPrefsFilePath;
@@ -61,8 +61,8 @@ public class Config {
     /**
      * Checks if the Config is the same as the other.
      *
-     * @param other the other Config to compare the current one with.
-     * @return if the Config is the same as the other.
+     * @param other The other Config to compare the current one with.
+     * @return If the Config is the same as the other.
      */
     @Override
     public boolean equals(Object other) {
@@ -82,7 +82,7 @@ public class Config {
     /**
      * Returns the hashcode of the user preference file.
      *
-     * @return the hashcode of the user preference file.
+     * @return The hashcode of the user preference file.
      */
     @Override
     public int hashCode() {
@@ -92,7 +92,7 @@ public class Config {
     /**
      * Gives a String representation of the Config, showing current logging level and preference file location.
      *
-     * @return a String representation of the Config, showing current logging level and preference file location.
+     * @return String representation of the Config, showing current logging level and preference file location.
      */
     @Override
     public String toString() {

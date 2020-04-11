@@ -354,6 +354,36 @@
     -fx-font-weight: bold;
 }
 
+.chart-series-line {
+    -fx-stroke-width: 3px;
+    -fx-effect: null;
+}
+
+.axis {
+    -fx-tick-label-fill: #a8f7fb;
+    -fx-border-color: transparent;
+}
+
+.axis-label {
+    -fx-text-fill: white;
+}
+
+.chart-plot-background {
+    -fx-background-color: #a8a6ee;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #CD6839;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #CD6839;
+}
+
+.chart-content {
+    -fx-padding: 5px;
+}
+
 #cardPane {
     -fx-background-color: transparent;
     -fx-border-width: 0;

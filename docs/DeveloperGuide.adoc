@@ -39,7 +39,7 @@ The `.puml` files used to create diagrams in this document can be found in
 the link:{repoURL}/tree/master/docs/diagrams/[diagrams] folder.
 Refer to the <<UsingPlantUml#, Using PlantUML guide>> to learn how to create and edit diagrams.
 
-The *_Architecture Diagram_* given above explains the high-level design of the Calgo Application. From now on, all
+The *_Architecture Diagram_* given above describes the high-level design of the Calgo Application. From now on, all
 instances of Calgo Application will be referred to as App.
 Given below is a quick overview of each component.
 
@@ -370,22 +370,26 @@ image::ReportActivityDiagram.png[]
 
 // tag::lexicographicalfoodrecord[]
 [[Implementation-LexicographicOrder]]
-=== Lexicographically-sorted `FoodRecord`
+=== Lexicographical `Food` order
+(by Eugene)
 
-This section addresses how the `Food` entries are able to be sorted in lexicographical order. +
+This section addresses how the GUI `Food Record` entries appear in lexicographical order, which is an effect of sorting `Food` objects in the `FoodRecord`.
 
-With a large number of `Food` objects in the App, it will be useful to see all entries sorted in some order. Intuitively, this should be the lexicographical order for a good user-centric experience. +
+Over time, users will eventually have many `Food` entries -- these should be sorted for a better experience. Intuitively, the lexicographical order is the most suitable here.
 
-While it may seem that the `list` command is responsible for keeping the `Food` entries in the `FoodRecord` sorted, that is not the case -- the `list` command does no sorting whatsoever. It simply resets the display after a `find` command to once again show all `Food` entries in the appropriate part of the GUI.
-Instead, `Food` entries are sorted by the `UniqueFoodList` whenever they are added or edited using the `update` command. This new ordering is reflected in real-time. +
+In essence, `Food` objects are sorted by the `UniqueFoodList` (which is inside `FoodRecord`).
+Sorting is performed each time `Food` object(s) are newly added to the `UniqueFoodList`, edited by the user, or when the `UniqueFoodList` is initialised during App start-up.
+There is no need to re-sort during deletion as the order is maintained.
 
 [NOTE]
-For a better understanding of the `update` command, please refer to its relevant section <<Implementation-SmartUpdate, here>>.
+For a better understanding of adding and editing `Food` objects using the `update` command, please refer to its relevant section <<Implementation-SmartUpdate, here>>.
+[NOTE]
+Although the the `list` command changes the GUI `Food Record` display, it does not actually perform sorting. It simply resets the GUI `Food Record` to show all `Food` entries, and is usually used after a `find` command.
 
 ==== Implementation
 
-The `UniqueFoodList` is responsible for sorting the `Food` objects, where the `Food` class implements the `Comparable<Food>` interface. +
-
+The `UniqueFoodList` is able to sort `Food` objects because the `Food` class implements the `Comparable<Food>` interface.
+This allows us to specify the lexicographical order for sorting `Food` objects via their `Name`, using the following compareTo method in the `Food` class:
 [source,java]
 ----
 public int compareTo(Food other) {
@@ -394,52 +398,93 @@ public int compareTo(Food other) {
     return currentName.compareTo(otherName);
 }
 ----
-How the `UniqueFoodList` works:
 
-* When the App starts up, it reads from the source json file (if any), creating a new `UniqueFoodList` and sorting entries as they are added.
+How the sorting process works:
+
+* When the App starts up, a new `UniqueFoodList` is created from the source json file (if available) or otherwise the default entries, and the created `Food` objects are sorted as they are added to it.
 * Existing `Food` objects are therefore arranged in lexicographic order by `Name`.
 * Thereafter, `UniqueFoodList` sorts the `Food` whenever they are added or edited in the `Model`.
 
-A high-level visualisation of how the lexicographic order is maintained when a `Food` entry is updated is given in the sequence diagram below:
+The sequence diagram below shows how the lexicographical ordering is performed when Calgo starts up:
 
-image::LexicographicalOrdering.png[]
+image::LexicographicalOrderingStartupSequenceDiagram.png[]
+.Lexicographical Ordering Sequence Diagram for App Start-up
 
-Step 1: `UI` detects that the user has entered a `String`. +
-Step 2: `UI` passes this `String` into `Logic` to eventually produce a `ListCommand`. +
-Step 3: `Logic` executes the `ListCommand` to filter out relevant `Food` entries from the `Model`. +
-Step 4: All `Food` entries are shown in the GUI. +
-Step 5: `Logic` produces a `CommandResult` which displays its status in the GUI.
+Based on the above diagram, when Calgo starts: +
+Step 1: We initialise the `ModelManager`. For this, we use previously stored user data if available. Otherwise, we use the default Calgo `Food` entries. +
+Step 2: In creating a `ModelManager`, we require the creation of a `FoodRecord` which requires the creation of a `UniqueFoodList`. +
+Step 3: The next step in the creation of the `FoodRecord` is the introduction of the initialising data, into the `UniqueFoodList`. Here, the `sortInternalList` method sorts the `ObservableList<Food>` contained in `UniqueFoodList` according to the specified lexicographical order defined in the `Food` class.
+
+
+The sequence diagram below (a reference frame omitting irrelevant `update` command details) describes the main sorting process when `Food` objects are added or edited using the `update` command:
+
+image::LexicographicalOrderingUpdateSequenceDiagram.png[]
+.Lexicographical Ordering Sequence Diagram for Updating (Note: this is in a reference frame as it is reused in the `update` section <<Implementation-SmartUpdate, here>>)
+
+
+Based on the above diagram, after parsing the user input and creating an `UpdateCommand` object:
+
+* If the user-entered `Food` already exists in `UniqueFoodList`:
+- Step 1: `UpdateCommand` calls `getExistingFood` method of `ModelManager` for the user-entered `Food`, which then calls that of `FoodRecord`, and subsequently that of `UniqueFoodList` to eventually obtain an existing `Food` object with an equivalent `Name`. +
+- Step 2: Using the same sequence of classes, we call the respective `setFood` methods, eventually setting the desired `Food` object and arriving at the `sortInternalList` method of `UniqueFoodList`. +
+- Step 3: The `sortInternalList` method then sorts the `ObservableList<Food>` contained in `UniqueFoodList` according to the specified lexicographical order defined in the `Food` class.
+
+* Otherwise, the user-entered `Food` is an entirely new `Food` object:
+- Step 1: Using the same sequence of classes as the former case, we call the respective `addFood` and `add` methods of the classes, eventually adding the `Food` object and arriving at the `sortInternalList` method of `UniqueFoodList`. +
+- Step 2: The `sortInternalList` method then sorts the `ObservableList<Food>` contained in `UniqueFoodList` according to the specified lexicographical order defined in the `Food` class.
+
+Any re-ordering will eventually be reflected in the GUI using the following (or its similar):
+[source,java]
+----
+model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
+----
+This allows for the GUI `Food Record` to be updated in real-time, once the user makes the changes to the `Model`.
 
 <<<
 
 ==== Design considerations
 
-===== Aspect: How `list` executes sorting operation
+===== Aspect: Frequency of sorting operation
 
-* **Alternative 1 (current choice):** Sort whenever `Food` is added or edited in the `Model`.
-** Pros: Will guarantee correctness of sorting. Furthermore, since `Food` objects are sorted whenever they are added or edited one by one, each sorting operation will not be too expensive.
-** Cons: Need to ensure that the implementations of each individual underlying command are correct and do not interfere with the sorting process. Moreover, this may be expensive if there are many unsorted `Food` objects at once, which - thankfully - is seldom the case.
+* **Alternative 1 (current choice):** Sort whenever a new `Food` is added or edited.
+** Pros:
+- Guarantees correctness of sorting.
+- Computational cost is not too expensive since the introduced `Food` objects usually come individually rather than as a collection (except during App start-up).
+- We save computational cost by not sorting during deletion as the order is maintained.
+** Cons:
+- Need to ensure implementations of various commands changing the `Model` are correct and do not interfere with the sorting process.
+- May be computationally expensive if there are many unsorted `Food` objects at once, which is possible when Calgo starts up.
 * **Alternative 2:** Sort only when calling the `list` command.
-** Pros: Easier to implement, may be less computationally expensive.
-** Cons: May lead to certain bugs, especially during adding or editing such as through the `update` command. Also, not guaranteed to work when reading in from `foodrecord.json` for the next session.
+** Pros:
+- Easier to implement with fewer existing dependencies.
+- Uses less computational resources since sorting is only done when `list` command is called.
+** Cons:
+- User experience is diminished.
+- May lead to bugs in overall product involving order of `Food` objects.
+- May be incompatible with certain `Storage` functionalities.
 
 ===== Aspect: Data structure to store `Food` objects
 
 * **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
-** Pros: Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually. Also, we do not need to maintain a separate list, simply reusing what is already in the codebase.
-** Cons: Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
+** Pros:
+- Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually.
+- Do not need to maintain a separate list, simply reusing what is already in the codebase.
+** Cons:
+- Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
 * **Alternative 2:** Use a simpler data structure like an `ArrayList`.
-** Pros: Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
-** Cons: More troublesome as we to implement methods to display on the GUI. Also, the methods create a risk to violations of certain software engineering principles, if not careful. These methods are also subject to being changed which can introduce regression in the future.
+** Pros:
+- Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
+** Cons:
+- More troublesome as we require self-defined methods, abstracted over the existing ones. If not careful, these self-defined methods can possibly contain violations of certain software engineering principles, which may introduce regression in the future.
 
 <<<
 
 ==== Summary
 
-`list` will make the GUI display a lexicographically sorted list of `Food` previously entered. This can be exemplified in an activity diagram below:
+The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects and hence their appearance in the GUI `Food Record`. This can be summarised in an activity diagram below:
 
-.Activity Diagram for List command
-image::ListActivityDiagram.png[]
+.Activity Diagram for Lexicographical Ordering
+image::LexicographicalOrderingActivityDiagram.png[]
 // end::lexicographiclistcommand[]
 
 === Logging
