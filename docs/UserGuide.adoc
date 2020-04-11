@@ -92,7 +92,7 @@ Clears all `Food` entries from the `Food Record`. +
 Format: `clear`
 
 === Consuming `Food` consumed on a certain day : `nom`
-
+(by Ruicong)
 The `nom` command allows you to keep track of your consumption on certain date. +
 
 Format: `nom n/NAME [d/DATE] [portion/PORTION][r/RATING]`
@@ -133,7 +133,7 @@ Example:
 Deletes pizza from the `Food Record`.
 
 === Deleting `Food` consumed on a certain day : `vomit`
-
+(by Ruicong)
 Deletes a `Food` that a user has previously added to the log tracking consumption on that day.
 
 Format: `vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
@@ -291,7 +291,7 @@ With a large number of entries in the `Food Record`, we can use the `find` comma
 The `list` command resets the display accordingly to show all entries in the current `Food Record`. These will be neatly sorted in alphabetical order, just as the `Food Record` previously appeared. +
 
 ****
-* `Food` entries will once again be listed with all their corresponding details. +
+* `Food` entries will once again be listed with all their corresponding details.
 ****
 
 [TIP]
@@ -322,6 +322,7 @@ Example:
 Sets the desired number of `Calorie` to be consumed to be 2580.
 
 === Showing all `Food` consumed on a particular day : `stomach`
+(by Ruicong)
 
 Displays a list of `Food` entries along side how many portions have been consumed on that day.
 For a more detailed statistical report with nutritional values of `Food` consumed, see the `report` command.
