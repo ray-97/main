@@ -69,7 +69,7 @@ public class ReportGenerator extends DocumentGenerator {
             + "%s.";
 
     private static final String ADVICE_TO_ABSTAIN = "Unfortunately, after evaluating your daily goal, "
-            + "Calgo advices you not to eat %s at all.";
+            + "Calgo advices you not to eat %s at all because it has \n way too many calories relative to your goal.";
 
     private static final String ADVICE_TO_CONTINUE = "Based on your goal, Calgo has verified that your favourite food,"
             + " %s, is sufficiently healthy!";
