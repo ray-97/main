@@ -1,0 +1,35 @@
+@startuml
+(*) --> "Enter user input"
+--> "Parse user input"
+--> "Determine command type"
+
+if "" then
+-right-> [find] "Determine prefix"
+-> "Determine which Predicate<Food> to create"
+
+    if "" then
+      -->[Name] "NameContainsKeywordsPredicate"
+    else
+      -->[Calorie] "CalorieContainsKeywordsPredicate"
+    else
+      -->[Protein] "ProteinContainsKeywordsPredicate"
+    else
+      -->[Carbohydrate] "CarbohydrateContainsKeywordsPredicate"
+    else
+      -->[Fat] "FatContainsKeywordsPredicate"
+    else
+      -->[Tag] "TagContainsKeywordsPredicate"
+    endif
+
+    if ""
+    endif
+              --> "Create FindCommand using Predicate<Food>"
+        --> Update GUI Food Record
+
+else
+-left-> [list] yes
+
+endif
+--> (*)
+
+@enduml

@@ -1,0 +1,63 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+Interface Predicate OTHER_COLOR
+
+Package Model <<Rectangle>> {
+
+Package Predicates {
+Class TagContainsKeywordsPredicate
+Class FatContainsKeywordsPredicate
+Class CarbohydrateContainsKeywordsPredicate
+Class ProteinContainsKeywordsPredicate
+Class CalorieContainsKeywordsPredicate
+Class NameContainsKeywordsPredicate
+}
+
+Package Food {
+Class Food
+Class Name
+Class Calorie
+Class Protein
+Class Carbohydrate
+Class Fat
+}
+
+Package Tag {
+Class Tag
+}
+
+NameContainsKeywordsPredicate .up.|> Predicate
+CalorieContainsKeywordsPredicate .up.|> Predicate
+ProteinContainsKeywordsPredicate .up.|> Predicate
+CarbohydrateContainsKeywordsPredicate .up.|> Predicate
+FatContainsKeywordsPredicate .up.|> Predicate
+TagContainsKeywordsPredicate .up.|> Predicate
+
+Food *--> "1" Name
+Food *--> "1" Calorie
+Food *--> "1" Carbohydrate
+Food *--> "1" Protein
+Food *--> "1" Fat
+Food *--> "*" Tag
+
+NameContainsKeywordsPredicate ..> Food
+CalorieContainsKeywordsPredicate ..> Food
+ProteinContainsKeywordsPredicate ..> Food
+CarbohydrateContainsKeywordsPredicate ..> Food
+FatContainsKeywordsPredicate ..> Food
+TagContainsKeywordsPredicate ..> Food
+
+NameContainsKeywordsPredicate .down.> Name
+CalorieContainsKeywordsPredicate .down.> Calorie
+ProteinContainsKeywordsPredicate .down.> Protein
+CarbohydrateContainsKeywordsPredicate .down.> Carbohydrate
+FatContainsKeywordsPredicate .down.> Fat
+TagContainsKeywordsPredicate .down.> Tag
+
+}
+
+@enduml
