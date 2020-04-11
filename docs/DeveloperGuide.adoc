@@ -196,7 +196,6 @@ Certain properties of the App can be controlled (e.g user prefs file location, l
 // tag::helpcommand[]
 [[Implementation-HelpGuide]]
 === Command guide `help` command
-(by Janice)
 
 ==== Implementation
 
@@ -241,6 +240,114 @@ Step 6: `HelpWindow` is displayed as a separate popup.
 
 .Activity Diagram for Help
 image::HelpActivityDiagram.png[]
+
+<<<
+// tag::categoricalsubstringfindsearch[]
+[[Implementation-FindList]]
+=== Searching for specific `Food` via categories and substrings
+(by Eugene)
+
+This section addresses how the `find` and `list` commands work. These commands are complementary to one another.
+
+The `find` command allows us to search through the `FoodRecord` (via categorical or substring search) based on what the user enters for the `Prefix`. Users may only enter 1 and only 1 `Prefix`. These search results can then be shown in the GUI's `Food Record`.
+
+[NOTE]
+`Prefix` here indicates which `Food` attribute we are interested in. Categorical search implies searching via `Calorie`, `Protein`, `Carbohydrate`, or `Fat`, while substring search implies searching via a substring which appears in any part of the the `Name` or in any part of any one of the `Tag` objects of the `Food`.
+
+The `list` command allows us to reset the GUI's `Food Record` to once again show all the `Food` entries in lexicographical order, and can be thought of as the reverse of a `find` command. The `list` command does not use any `Prefix`, and ignores anything after the 'find' keyword entered by the user in the GUI.
+
+[NOTE]
+For more information on lexicographical ordering, please refer to its relevant section <<Implementation-LexicographicOrder, here>>.
+
+`FindCommand` and `ListCommand` both use a `Predicate<Food>` and the GUI's `Food Record` will eventually show `Food` entries that evaluate these predicates to be true.
+
+==== Implementation
+To search via a particular `Food` attribute, we use the `FindCommandParser` (which matches the user-entered `Prefix` with the corresponding user-entered arguments) to create the corresponding `Predicate<Food>` based on the type of `Prefix` entered. This predicate is then used to construct a `FindCommand`, which upon execution, changes the GUI display.
+The class diagram below shows the relevant `Predicate<Food>` used in the construction of `FindCommand` objects. Note that only relevant information is shown.
+
+image::FindListCommandPredicateClassDiagram.png[]
+.Class Diagram showing the relevant predicates used in constructing `FindCommand` objects
+
+As seen in the above class diagram, each `Predicate<Food>` is specific to an attribute of `Food` and has a dependency to their related attribute. Moreover, each of these predicates test against a `Food` object, and therefore have a dependency on `Food`.
+
+The sequence diagram below demonstrates how the `find` command works, for both categorical searching and substring searching:
+
+image::FindSequenceDiagram.png[]
+.Sequence Diagram for `find` command: categorical search and substring search
+
+From the above, it is clear that both categorical search and substring search of the `find` command have similar steps: +
+
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `find` command, and creates a `FindCommandParser`. +
+
+Step 2: `FindCommandParser` parses the user-entered arguments that come after the `Prefix`, creating the respective `Predicate<Food>` which depends on which `Prefix` has been entered. A new `FindCommand` object is then made from this predicate, and returned to `LogicManager`. +
+
+- In the above diagram example, a `ProteinContainsKeywordsPredicate` is created for categorical search via `Protein` while a `NameContainsKeywordPredicate` is created for substring search. +
+
+Step 3: `LogicManager` calls the `execute` method on the `FindCommand` created, which filters out `Food` objects that satisfy the predicate created and returns a new `CommandResult` object reflecting the status of the execution. These changes are eventually reflected in the GUI's `Food Record`.
+
+The `find` command therefore searches through the existing `FoodRecord` and then displays the relevant search results in the GUI's `Food Record`. To once again show all `Food` entries in the display, we use the `list` command.
+
+In constrast to the `FindCommand`, the `ListCommand` takes in no arguments and simply uses `Model.PREDICATE_SHOW_ALL_FOODS` defined in the `Model` interface, as it must always show all `Food` entries. This is described by the sequence diagram below:
+
+image::ListSequenceDiagram.png[]
+.Sequence Diagram for `list` command
+
+How the `list` command works:
+
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `list` command and creates a new `ListCommand` object. +
+
+Step 2: `LogicManager` then calls the `execute` method on this `ListCommand`, which uses `Model.PREDICATE_SHOW_ALL_FOODS` which evaluates to true for all `Food` objects in the `FoodRecord`.
+
+Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` entries.
+
+<<<
+
+==== Design considerations
+
+===== Aspect: Predicate construction source
+
+* **Alternative 1 (current choice):** Each `Predicate<Food>` is created using a new object of type either `Name`, `Calorie`, `Protein`, `Carbohydrate`, `Fat`, `Tag`.
+** Pros:
+- Models objects well to reflect real-world.
+- Defensive programming by building new objects rather than relying on mutable sources.
+- Can reuse existing code and classes like ArgumentMultimap and their methods.
+** Cons:
+- May be more resource-intensive
+- New developers may not find this intuitive
+* **Alternative 2:** Each `Predicate<Food>` is created using a `String` which represents the keywords.
+** Pros:
+- Easier to implement with fewer existing dependencies.
+- Less resource-intensive.
+** Cons:
+- More prone to bugs.
+- More difficult to debug as `String` type is easily modified.
+- Does not reflect good Object-Oriented Programming practices
+
+===== Aspect: Enabling substring search
+
+* **Alternative 1 (current choice):** Allow substring search for both `Name` and `Tag`
+** Pros:
+- Improved user experience.
+- Can reuse some underlying code as the approach for both `Name` and `Tag` are similar.
+** Cons:
+- Require good understanding of `String` type and manipulation.
+* **Alternative 2:** Only allow exact word matches for `Name` and `Tag`
+** Pros:
+- Can simply reuse large parts of Address Book 3 existing code.
+- Less prone to bugs.
+- Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
+** Cons:
+- Diminishes user experience.
+- Does not satisfy the full user requirements.
+
+==== Summary
+
+The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects and hence their appearance in the GUI `Food Record`. This can be summarised in an activity diagram below:
+
+.Activity Diagram for Lexicographical Ordering
+image::LexicographicalOrderingActivityDiagram.png[]
+// end::categoricalsubstringfindlist[]
+<<<
 
 
 [[Implementation-ConsumptionManagement]]
@@ -380,7 +487,7 @@ The following activity diagram summarizes what happens when user executes a `rep
 .Activity Diagram for Report command
 image::ReportActivityDiagram.png[]
 
-// tag::lexicographicalfoodrecord[]
+// tag::lexicographicalordering[]
 [[Implementation-LexicographicOrder]]
 === Lexicographical `Food` order
 (by Eugene)
@@ -461,8 +568,8 @@ This allows for the GUI `Food Record` to be updated in real-time, once the user 
 * **Alternative 1 (current choice):** Sort whenever a new `Food` is added or edited.
 ** Pros:
 - Guarantees correctness of sorting.
+- Saves on computational cost by not sorting during deletion as the order is maintained.
 - Computational cost is not too expensive since the introduced `Food` objects usually come individually rather than as a collection (except during App start-up).
-- We save computational cost by not sorting during deletion as the order is maintained.
 ** Cons:
 - Need to ensure implementations of various commands changing the `Model` are correct and do not interfere with the sorting process.
 - May be computationally expensive if there are many unsorted `Food` objects at once, which is possible when Calgo starts up.
@@ -471,7 +578,7 @@ This allows for the GUI `Food Record` to be updated in real-time, once the user 
 - Easier to implement with fewer existing dependencies.
 - Uses less computational resources since sorting is only done when `list` command is called.
 ** Cons:
-- User experience is diminished.
+- Diminishes user experience.
 - May lead to bugs in overall product involving order of `Food` objects.
 - May be incompatible with certain `Storage` functionalities.
 
@@ -480,7 +587,7 @@ This allows for the GUI `Food Record` to be updated in real-time, once the user 
 * **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
 ** Pros:
 - Any changes to the `Model` are automatically reflected in the GUI. This is very useful for testing and debugging manually.
-- Do not need to maintain a separate list, simply reusing what is already in the codebase.
+- Removes the need to maintain a separate list-like data structure, simply reusing what is already in the codebase.
 ** Cons:
 - Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
 * **Alternative 2:** Use a simpler data structure like an `ArrayList`.
@@ -497,7 +604,7 @@ The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects 
 
 .Activity Diagram for Lexicographical Ordering
 image::LexicographicalOrderingActivityDiagram.png[]
-// end::lexicographiclistcommand[]
+// end::lexicographicalordering[]
 
 === Logging
 
