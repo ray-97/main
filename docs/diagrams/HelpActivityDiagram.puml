@@ -4,6 +4,12 @@ scale 175 width
 
 start
 :User executes Help command;
+if () then ([Keyword is present])
+    :Filter out only commands with keyword as substring;
+    :Display filtered out command guides;
+else ([Keyword is absent])
+    :Display default command guide (all);
+endif
 
 if () then ([Help Window is in Focus])
 else ([else])
