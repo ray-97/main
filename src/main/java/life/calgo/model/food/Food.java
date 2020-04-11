@@ -69,7 +69,7 @@ public class Food implements Comparable<Food> {
     }
 
     /**
-     * Returns true if both foods of the same name have the same name and calorie field.
+     * Returns true if both foods have the same Name.
      * This defines a weaker notion of equality between two foods.
      */
     public boolean isSameFood(Food otherFood) {

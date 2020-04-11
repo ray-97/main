@@ -207,7 +207,8 @@ This lets you manually track your diet using a reference sheet of your past `Foo
 [NOTE]
 Certain `Food` names may be too long to fit into the given space. The reference sheet truncates these names and shows the remainder on the following lines. Rest assured that all your information is still captured and will be separated with space(s). Individual entries will also appear on separate lines.
 
-Format: `export`
+Format: `export` +
+(any parameters entered are ignored)
 
 Example: +
 
@@ -227,7 +228,7 @@ You can find this copy (FoodRecord.txt) in the `data/exports` folder near the Ap
 === Finding a `Food` entry by nutritional value or keyword(s) : `find`
 (by Eugene) +
 
-With many `Food` entries in the `Food Record`, it may be quite difficult to search for a particular `Food` entry you want. This is where the `find` command comes in nicely.
+When you have many entries in the `Food Record`, it may be rather difficult to search for a particular one. This is where the `find` command comes in nicely.
 
 The `find` command shows all `Food` entries that have a nutritional value matching what you specify. This can be the number of `Calories`, or the number of grams of `Proteins`/`Carbohydrates`/`Fats`.
 
@@ -237,51 +238,51 @@ Here are some key pointers:
 ****
 * The `find` command takes in one, and only one parameter.
 * For finding via nutritional value, only `Food` matching the same exact value will be shown.
-* To facilitate the possibility of typing errors made by fast typists, any additional input (separated by spaces) typed without a preceding prefix (e.g. `n/`, `p/`) will be ignored.
-* The GUI changes as a result of using the `find` command. We can reset the `Food Record` to show all entries once again using the <<ListCommand, `list`>> command.
+* You don't have to capitalise each keyword. The search is always case insensitive when searching for keyword(s) via `Name` or `Tag`. +
+* You don't actually have to type out the entire keyword either. For your comfort, incomplete keywords will be matched to `Food` entries containing them in the specified parameter of `Name` or `Tag`. +
+* You can search for multiple `Name` keywords by using a single `n/` prefix, separating them with space(s). +
 ****
 
+[NOTE]
+If you're a fast typist, fear not! We understand the possibility that typing errors can be made quite often, so any additional input for the `find` command without a preceding prefix (e.g. `n/`, `p/`) will be ignored.
+
 [TIP]
-You don't have to capitalise each keyword. The search is always case insensitive when searching for keyword(s) via `Name` or `Tag`. +
-[TIP]
-You don't actually have to type out the entire keyword either. For your comfort, incomplete keywords will be matched to `Food` entries containing them in the specified parameter of `Name` or `Tag`. +
-[TIP]
-You can search for multiple `Name` keywords by using a single `n/` prefix, separating them with space(s). +
+The `Food Record` displays the relevant entries of each `find` command. We can reset the `Food Record` to show all entries once again using the <<ListCommand, `list`>> command.
 
 Format: `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` +
 (Reminder: choose only 1 parameter)
 
 Examples: +
 
-Example 1: Say you wish to search for a `Food` entry with 150 `Calories` because you are looking for a snack.
+Example 1: Say you want to use *Calgo* to search for a `Food` entry with 150 `Calories` because you are looking for a light snack.
 
 image::FindCommandCalorieBefore.png[width=]
-You should first enter `find cal/150` as input and press enter. +
+You should first enter `find cal/150` as input. +
 
 image::FindCommandCalorieAfter.png[width=]
-Once the command has been entered, the `Result Display` shows the results of your command and the GUI's `Food Record` shows the relevant entries with 150 `Calories`.
+Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` displays the relevant entries with 150 `Calories`.
 
-Example 2: Say you wish to find entries which contain the keyword `Cheese` in their `Name`, but your hand slipped and the keyword only registered `Chees`. +
+Example 2: Say you wish to find entries which contain the keyword `Cheese` in their `Name`, but your hand slipped and the keyboard only registered `Chees`. +
 
 image::FindCommandSubstringBefore.png[width=]
 
-You would therefore enter `find n/Chees` as the command input. +
+You are therefore likely to enter `find n/Chees` as the command input. +
 
 image::FindCommandSubstringAfter.png[width=]
 
-Once the command has been entered, the `Result Display` shows the results of your command and the GUI's `Food Record` shows the relevant entries which contain `Chees` in their `Name`. This is not too bad, as you still obtain entries that will be largely relevant.
+Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` shows the relevant entries which contain `Chees` in their `Name`. This is not too bad, as you still obtain entries that will be largely relevant to `Cheese`.
 
 Example 3: Say you are lazy but wish to find entries containing the keyword `sweet` in their `Tag`. +
 
 image::FindCommandTagBefore.png[width=]
 
-You could first enter `find t/swe` as input and press enter. +
+You could first enter `find t/swe` as input. +
 
 image::FindCommandTagAfter.png[width=]
 
-As the `find` command allows you to search using substrings, `Food` entries with `swe` in any one of their `Tags` would appear in the `Food Record`. Therefore, your original search for `sweet` would also have its results shown. +
+Upon entering the command, the `Food Record` will display all entries which have the `swe` keyword present in any one of their `Tags`. As the `find` command allows you to search using substrings, the intended search for `sweet` will also have its results shown. +
 
-Please note that the search is case-insensitive, as seen from the `Sweet` `Tag` of the result `Sambal Chilli`. Moreover, as with Example 2, we allow for incomplete words to be used as search keywords.
+Please note that the search is case-insensitive, an example being the `Sweet` `Tag` of the result `Bandung`. Moreover, as with Example 2, we allow for incomplete words to be used as search keywords.
 
 <<<
 
@@ -333,7 +334,7 @@ Example: Say you want to view all entries again after performing a `find n/Chick
 
 image::ListCommandBefore.png[width=]
 
-You should first enter `list` as input, and press enter.
+You should first enter `list` as input.
 
 image::ListCommandAfter.png[width=]
 
@@ -431,15 +432,21 @@ item as much as possible. Instead of naming your Food "Chocolate", perhaps "Whit
 |Delete|Deletes the specified `Food` from the `Food Record`.|`delete`|`delete pizza`
 |Update|Updates a `Food` in `Food Record`.|`update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
     |`update n/pizza cal/200 p/10 c/200 f/200`*OR*`update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite`
-.2+|Navigate Food Record|Find|Searches for and displays a particular `Food`.
+.2+|Navigate Food Record|Find|Searches through the `Food Record` and displays the relevant entries based on the specifications entered.
     |`find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)
-    |`find n/Pizza`*OR*`find cal/110` etc
-|List|Displays all `Food`s in `Food Record`.|`list`|-
+    |`find n/Pizza` +
+    `find cal/110`
+|List|Displays all entries in the `Food Record`.|`list`|-
 .3+|Edit Daily List|Nom|Adds a `Food` to a specific day's `Daily List`.|`nom [n/NAME] [d/DATE] [portion/PORTION][r/RATING]`
     |`nom n/chicken d/2020-03-04 portion/1.5`
 |Stomach|Lists all `Food` in a particular day's `Daily List`.|`stomach [d/DATE]`|`stomach d/2020-03-04`
 |Vomit|Deletes a specific `Food` from the `Daily List`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
     |`vomit num/chicken d/2020-03-04 portion/3`*OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
-|Generate Report|Report|Generate the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-03-04`
+.4+|Generate Document|Report|Generates the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-03-04`
+|Export|Generates a neat and editable file containing the current `Food` entries|`export`|-
 |=======================================================================
+Please note the following: +
+
+* For the `clear`, `export`, and `list` commands, any parameters entered will be ignored. +
+* For the `find` command, only one parameter is accepted. Any input entered without a preceding `Prefix` will be ignored.
