@@ -707,16 +707,20 @@ image::UpdateActivityDiagram.png[]
 // tag::caloriegraph[]
 [[Implementation-CalorieGraph]]
 === Past seven days calorie data graph
-This feature displays to the user a summary of their past seven days' daily total calorie consumption in the form of a line graph.
-Specifically, the graph shows the calorie consumption for the date of the `DailyList`, and the six days before it.
+(by Janice)
 
-This functionality is automatic. The graph will always display the past seven days' data at the bottom of the app, and will update
+This section addresses how the graph displaying the user's past seven day's daily total calorie consumption works.
+Note that the graph counts starting from the date on the current `Food Record`, and the six days prior to it.
+
+The graph will always display the past seven days' data at the bottom of the app, and will update
 whenever app data is changed.
 
-==== Implementation
-This feature is facilitated by the `GraphPanel` class in the `Ui` component.
+[NOTE]
+If a command changes the date of the `Food Record` (such as `nom` or `stomach`), the graph will update to show
+that date and the six days prior to that date.
 
-`GraphPanel` contains a `LineChart` of `String` date against `Number` calories, and is populated with
+==== Implementation
+`GraphPanel` in the `Ui` component. It contains a `LineChart` of `String` date against `Number` calories, and is populated with
 data from an `XYChart.series`. The data is in turn obtained from the `Logic` component, which provides only the past seven days'
 of `DailyFoodLog`. The implementation of the `GraphPanel` class will be further explained.
 
@@ -733,6 +737,28 @@ most recent app data.
 
 Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having `MainWindow`
 call `GraphPanel#getGraph(Logic logic)` on startup and after execution of commands.
+
+The sequence diagram below demonstrates how the `Graph` feature works, such as upon loading of `MainWindow`.
+
+image::GraphSequenceDiagram.png[]
+Sequence Diagram for `Graph` feature.
+
+Step 1: `MainWindow` requests for an instance of `GraphPanel`.
+
+If no instance exists, a new `GraphPanel` is created. Otherwise one is retrieved. This ensures that `GraphPanel`
+is a singleton.
+
+Step 2: `MainWindow` calls `GraphPanel` again to generate the graph and add it to the `GraphPanelPlaceholder` inside `MainWindow`.
+
+Step 3: Inside `GraphPanel`, a wrapper method `makeGraph` calls three methods in a row:
+
+First, `initialiseTreeMap`, which has `Logic` call the `getPastWeekLogs` method onto `GraphPanel`, generating
+a `TreeMap` of `String` date mapped to `Double` calories using the past seven days' `DailyFoodLog`.
+Second, `initialiseGraph` method is called to generate the graph itself.
+Third, `updateSeries` method is called to ensure the data populating the graph is up to date.
+
+After which, the `GraphPanel` adds the graph to `MainWindow`.
+
 
 == Documentation
 
