@@ -6,6 +6,10 @@
 
 
 'T1 through T4 are shades of the original color from lightest to darkest
+!define MAIN_COLOR #1D1D1D
+!define MAIN_COLOR_T1 #9D9D9D
+
+!define OTHER_COLOR #555555
 
 !define UI_COLOR #1D8900
 !define UI_COLOR_T1 #83E769

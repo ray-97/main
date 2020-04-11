@@ -64,10 +64,10 @@
                                     </padding>
                                 </StackPane>
                             </HBox>
-                  <Label fx:id="dailyListDate" text="Daily List:" />
+                        <Label fx:id="dailyListDate" text="Daily List:" />
                         <StackPane fx:id="dailyListPanelPlaceholder" VBox.vgrow="ALWAYS" />
-<!--                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Weekly Graph" />-->
-<!--                        <StackPane fx:id="graphDisplayPlaceholder" />-->
+                        <StackPane fx:id="graphPanelPlaceholder" prefHeight="150.0" prefWidth="200.0" />
+
                     </VBox>
 
                     <VBox fx:id="dailyList" minWidth="315.0" prefHeight="322.0" prefWidth="315.0" styleClass="pane-with-border" HBox.hgrow="ALWAYS">

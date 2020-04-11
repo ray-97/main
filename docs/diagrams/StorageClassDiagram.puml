@@ -38,17 +38,17 @@ StorageManager o--> "1" GoalStorage
 
 JsonConsumptionRecordStorage .up.|> ConsumptionRecordStorage
 JsonConsumptionRecordStorage .down.> JsonSerializableConsumptionRecord
-JsonSerializableConsumptionRecord "1" .down.> "*" JsonAdaptedDailyFoodLog
+JsonSerializableConsumptionRecord .down.> JsonAdaptedDailyFoodLog
 
 JsonGoalStorage .up.|> GoalStorage
 JsonGoalStorage ..> JsonSerializableGoal
-JsonSerializableGoal "1" ..> "0...1" JsonAdaptedGoal
+JsonSerializableGoal ..> JsonAdaptedGoal
 
 JsonUserPrefsStorage .up.|> UserPrefsStorage
 
 JsonFoodRecordStorage .up.|> FoodRecordStorage
 JsonFoodRecordStorage .down.> JsonSerializableFoodRecord
-JsonSerializableFoodRecord "1" .down.> "*" JsonAdaptedFood
-JsonAdaptedFood "1" .right.> "*" JsonAdaptedTag
+JsonSerializableFoodRecord .down.> JsonAdaptedFood
+JsonAdaptedFood .right.> JsonAdaptedTag
 }
 @enduml
