@@ -3,7 +3,7 @@
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":FoodRecordParser" as FoodRecordParser LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
 participant ":UpdateCommandParser" as UpdateCommandParser LOGIC_COLOR
 participant "u:UpdateCommand" as UpdateCommand LOGIC_COLOR
 participant ":CommandResult" as CommandResult LOGIC_COLOR
@@ -13,21 +13,24 @@ box Model MODEL_COLOR_T1
 participant ":Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("update n/Apple cal/52 p/2 c/14 f/1")
+[-> LogicManager : execute("update n/apple cal/52 p/2 c/14 f/1")
 activate LogicManager
 
-LogicManager -> FoodRecordParser : parseCommand("update n/Apple cal/52 p/2 c/14 f/1")
-activate FoodRecordParser
+LogicManager -> CalgoParser : parseCommand("update n/apple cal/52 p/2 c/14 f/1")
+activate CalgoParser
 
 create UpdateCommandParser
-FoodRecordParser -> UpdateCommandParser
+CalgoParser -> UpdateCommandParser : UpdateCommandParser()
 activate UpdateCommandParser
 
-UpdateCommandParser --> FoodRecordParser
+UpdateCommandParser --> CalgoParser
 deactivate UpdateCommandParser
 
-FoodRecordParser -> UpdateCommandParser : parse("n/Apple cal/52 p/2 c/14 f/1")
+CalgoParser -> UpdateCommandParser : parse("n/apple cal/52 p/2 c/14 f/1")
 activate UpdateCommandParser
+UpdateCommandParser -> UpdateCommandParser : convertToTitleCase("apple")
+activate UpdateCommandParser
+deactivate UpdateCommandParser
 
 create UpdateCommand
 UpdateCommandParser -> UpdateCommand
@@ -36,14 +39,14 @@ activate UpdateCommand
 UpdateCommand --> UpdateCommandParser : u
 deactivate UpdateCommand
 
-UpdateCommandParser --> FoodRecordParser : u
+UpdateCommandParser --> CalgoParser : u
 deactivate UpdateCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-UpdateCommandParser -[hidden]-> FoodRecordParser
+UpdateCommandParser -[hidden]-> CalgoParser
 destroy UpdateCommandParser
 
-FoodRecordParser --> LogicManager : u
-deactivate FoodRecordParser
+CalgoParser --> LogicManager : u
+deactivate CalgoParser
 
 LogicManager -> UpdateCommand : execute()
 activate UpdateCommand
@@ -55,17 +58,10 @@ alt Food already exists in FoodRecord
     deactivate Model
     UpdateCommand -> Model : setFood(toAdd, existingFood)
     activate Model
-
     Model --> UpdateCommand
     deactivate Model
 else else
-    UpdateCommand -> Model : addFood(toAdd)
-    activate Model
-
-    Model --> UpdateCommand
-    deactivate Model
-
-
+    ref over UpdateCommand, Model : ordering
 
 end
 
@@ -81,7 +77,7 @@ deactivate CommandResult
 UpdateCommand --> LogicManager : result
 deactivate UpdateCommand
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-UpdateCommand -[hidden]-> FoodRecordParser
+UpdateCommand -[hidden]-> CalgoParser
 destroy UpdateCommand
 
 [<--LogicManager

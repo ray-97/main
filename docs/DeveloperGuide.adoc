@@ -672,29 +672,77 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
 
 [[Implementation-SmartUpdate]]
-=== Updating `FoodRecord`
-This feature allows you to add a food preset with all its nutritional details into the `FoodRecord`.
-This makes it convenient for you to keep track of your `Food` consumed in the day without having to manually key in the nutritional details every time you do so.
+=== Updating the `FoodRecord`
+This section addresses how the `update` command works.
+
+The `update` command allows the user to update the `FoodRecord` by either updating a new `Food` into the `FoodRecord` or updating the
+nutritional values of an existing `Food` in the `FoodRecord`.
+
+From the user's perspective, the `update` command decides whether to
+override an existing `Food` in the `FoodRecord` with new values, or create a new `Food` in the `FoodRecord` for them.
+
+For better user experience, the `Name` required in the `update` command is case-insensitive. This means that if "Apple" already exists in the
+`FoodRecord`, an update command with "apple" as the `Name` will result in nutritional values of "Apple" in the `FoodRecord` being updated,
+instead of a new `Food` with `Name` "apple" being created in the `FoodRecord`
+
+On top of this, for all new `Food` being updated into the FoodRecord with the `update` command, the `Name` entry of the `Food` updated into the `FoodRecord`
+will be formatted to title case. This means that if the user updates a new Food into the FoodRecord with the `Name` as "char kuay teow", the `Food` that
+is stored in the FoodRecord will be of `Name` "Char Kuay Teow".
+
+
+[NOTE]
+When a new Food is updated into the FoodRecord, the FoodRecord is sorted in lexicographical order. For more information on how this is implemented,
+please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
+
 
 ==== Implementation
-The update mechanism is facilitated by `FoodRecord` and `UpdateCommand`. An additional operation was implemented into `FoodRecord`:
 
-* `FoodRecord#hasExistingFood()` - Checks if there is an existing `Food` in `FoodRecord` based on its name only
+The `update` command is facilitated by the FoodRecord which contains a UniqueFoodList which stores all the Food in the FoodRecord.
+This command either adds a new Food into this UniqueFoodList or edits the nutritional values of an existing Food in the UniqueFoodList.
+An additional operation is implemented to help with this:
 
-This operation was exposed in the `Model` interface as `Model#hasExistingFood()`.
+* `FoodRecord#hasFood()` - Checks if there is an existing `Food` in `FoodRecord` by checking if there is any `Food` in the FoodRecord
+with the same `Name`.
 
-The update feature first checks if there is already an existing `Food` item with the same name
-inside `FoodRecord` using the method `FoodRecord#hasExistingFood()`.
+This operation was exposed in the `Model` interface as `Model#hasFood()` and allows the `UpdateCommand` to decide whether to
+add or edit `Food` in the `UniqueFoodList`.
 
-If there is already an existing `Food` with the same name, the existing `Food` item will override the `Food` item inside `FoodRecord` with
-the new nutritional information provided by the user. +
-Otherwise, the new `Food` item will be added into the `FoodRecord`.
+The following sequence diagram shows how the `update` operation works in both cases:
 
-The following sequence diagram shows how the update operation works in both cases:
-
-.Sequence Diagram for Update command
+.Sequence Diagram for Update command (to be updated)
 image::UpdateSequenceDiagram.png[]
 NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+How the `update` command works:
+
+Step 1: LogicManager executes the user input of `update n/apple cal/52 p/2 c/14 f/1", using CalgoParser to realise this is
+an update command and creates a new UpdateCommandParser object.
+
+Step 2: `UpdateCommandParser` then parses the arguments provided by `CalgoParser` with the `parse` method.
+During this parsing process, `UpdateCommandParser` calls the `covertToTitleCase` method on the `Name` argument, converting it
+to title case.
+
+Step 3: `UpdateCommandParser` then creates a new `UpdateCommand` object, which `LogicManager` calls the execute method with this object
+as an argument.
+
+Step 4: `UpdateCommand` now checks if there exists an existing `Food` in the `FoodRecord` by calling `Model` 's
+`hasFood` method, which checks if there is any Food in `FoodRecord` 's UniqueFoodList with the same `Name`.
+
+Step 5:
+
+* Scenario 1:
+If Food already exists in the `FoodRecord`:
+** Model calls the `getExistingFood` method with the user inputted Food
+as a parameter to get the existing Food, `existingFood` in the `UniqueFoodList`. It thens call the setFood method to replace the
+existing Food in the UniqueFoodList with the new `Food` which contains new nutritional values.
+
+* Scenario 2:
+If Food does not exist in `FoodRecord`:
+** This scenario is handled by the Lexicographical Ordering feature. Please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
+** Model calls the `addFood` method with the user inputted `Food` as a parameter to add the new `Food` into the `UniqueFoodList` in `FoodRecord`
+** After the `Food` is added into the `UniqueFoodList`, the `UniqueFoodList` is also sorted in lexicographical order.
+
+Step 6: A new `CommandResult` object is then created and returned back to `LogicManager`.
 
 <<<
 
@@ -703,16 +751,18 @@ NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at t
 ===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
 
 * *Alternative 1 (current choice):* Overrides the existing `Food` item with the new `Food` item
-** Pros: No need for a separate command of `edit` to deal with existing `Food` item apart from `add` to add new `Food` item into the `FoodRecord`.
-Instead, a smarter command of `update` is used to deal with both scenarios.
+** Pros:
+*** No need for an additional command of `edit` just for the user to edit an existing `Food` item in the `FoodRecord`.
 ** Cons:
-This might not be intuitive for the user since the word "update" is generally assumed to be for editing something only, and not necessarily adding something.
+*** Might not be intuitive for the user since the word "update" is generally assumed to be for editing something only and not necessarily adding something.
+*** May result in additional performance overhead.
 
-* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another function `edit` to edit the existing `Food` instead.
-** Pros: In the event where the user is unaware that there is already an existing `Food` item, this two step process will be clearer to him that he is
-in fact editing a `Food` item and not adding a new one in.
-** Cons: This is more tedious for the user since more steps is required to change an existing `Food` item. On top of that, an additional command of `edit` will be required and `update`
-should be replaced with `add` for clearer user experience.
+* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another command `edit` to edit the existing `Food` instead.
+** Pros:
+*** More intuitive for user, since he might not know that he is overriding an existing `Food` item
+** Cons:
+*** Additional command has to be created just to handle editing
+*** More tedious for user since more steps are required to achieve the same result.
 
 ==== Summary
 The `update` command is a smart command that either updates an existing `Food` item in the `FoodRecord` with new nutritional information,
