@@ -43,9 +43,6 @@ This tells you there is important information that you should take note of.
 [TIP]
 This informs you of useful tips about Calgo.
 
-[WARNING]
-This serves as a warning to alert you about something you need to be careful of.
-
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.
@@ -61,8 +58,8 @@ This serves as a warning to alert you about something you need to be careful of.
 image::Ui.png[width="790"]
 
 +
-.  Type your desired command in the command box and press kbd:[Enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
+.  Type your desired command in the command box and press kbd:[enter] to execute it. +
+e.g. typing *`help`* and pressing kbd:[enter] will open the help window. +
 - You can refer to <<Commands>> below for details of each command.
 .  What are you waiting for? Your healthy lifestyle begins now! +
 Start experimenting with the commands yourself and experience the convenience *Calgo* brings.
@@ -92,33 +89,50 @@ Clears all `Food` entries from the `Food Record`. +
 Format: `clear` +
 (any parameters entered are ignored)
 
-=== Consuming `Food` consumed on a certain day : `nom`
+=== Adding `Food` to `Consumption Record` : `nom`
 (by Ruicong)
+
+Your `Consumption Record` stores everything that you have consumed.
+With the `nom` command, you can add food that you have consumed on a certain day to your
+`Consumption Record`. +
 The `nom` command allows you to keep track of your consumption on certain date. +
+
+Below are some information to keep in mind:
+****
+* The `Food` you consume should exist in `Food Record`.
+* The `nom` command has some default behavior when you choose to not provide values for certain `Prefixes`. Do note that
+this is not the same as excluding optional parameters.
+* If you do not provide the `Date` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you consumed the `Food` today.
+* Date follows yyyy-mm-dd format.
+* If you do not provide the `Portion` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you consumed 1 portion of `Food`.
+* If you do not provide the `RATING` parameter, the consumption of `Food` will not have a rating associated with it.
+However, if you do not give the `Prefix` a value, you will get an error.
+* The rating for a `Food` displayed is based on the average rating given to the food on that day.
+****
+
+[TIP]
+As you enter `nom n/..`, Calgo will show you `Food` suggestions that match what you are searching for via the `Result Display`.
+`Names` on Calgo are case insensitive, so you can type quickly without worrying about the specific name of the `Food`.
+[TIP]
+If you have planned to eat something at a future date, it is possible to use `nom` to record a consumption
+with `Date` that comes after today.
 
 Format: `nom n/NAME [d/DATE] [portion/PORTION][r/RATING]`
 
-****
-* If a date is not provided, Calgo will by default take it that you ate the `Food` today.
-* Date follows yyyy-mm-dd format.
-* If you decide not to include in `d/`, `portion/` or `r/` prefixes, Calgo will take it that those prefixes exist
-but has no values provided. +
-Not providing values can result in the following behavior:
-1. Date will be today's date.
-2. Portion will be 1.
-3. This dining experience will not have a rating.
-* Rating for food displayed is the its average rating, based on the ratings it received that day.
-* You can check how much nutritional content each type of food content by checking the existing list of food.
-* You can rate your dining experience, average rating of consuming a certain food will then be displayed.
-****
+Example: Suppose you want to have a Cheeseburger today and have already stored its nutritional content
+in `Food Record`. Since you just want to dig in as soon as possible, yet still want to jot your meal down,
+you decide to enter the simplest command possible. Here's how you do it.
 
-Examples:
+image::NomCommandBefore.png[width=]
 
-* `nom n/chicken d/2020-03-04 portion/1.5` +
-Adds 1.5 portion of chicken to the log tracking user's consumption on 4th March 2020.
-* `nom n/apple pie portion/2 r/7` +
-Adds 2 portion of apple pie to the log tracking user's consumption today.
-This consumption will be rated 7/10.
+First, enter `nom n/Cheeseburger` as input and press kbd:[enter].
+
+image::NomCommandAfter.png[width=]
+
+Once you enter the command, the `Result Display` will inform you that the food has been consumed.
+The `Consumption Record` panel and `Graph Display` are refreshed to reflect your latest consumption.
 
 === Deleting a `Food` from current `Food Record`: `delete`
 (by Zhang Xian)
@@ -138,44 +152,54 @@ Example: Say you want to remove a `Food`, `Pizza`, that already exists in your `
 
 image::DeleteCommandBefore.png[width=]
 
-You should first enter `delete n/pizza` as input, and press enter. Note that `delete n/Pizza` also has the same effect.
+You should first enter `delete n/pizza` as input, and press kbd:[enter]. Note that `delete n/Pizza` also has the same effect.
 
 image::DeleteCommandAfter.png[width=]
 
 Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` shows that
 the `Food`, `Pizza`,is no longer there.
 
-=== Deleting `Food` consumed on a certain day : `vomit`
+=== Removing portions of `Food` from `Consumption Record` : `vomit`
 (by Ruicong)
-Deletes a `Food` that a user has previously added to the log tracking consumption on that day.
 
-Format: `vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
+If you have overstated an amount previously or actually vomited from over-consumption(yikes!), you can amend existing
+consumption records using the `vomit` command.
+
+[NOTE]
+The `Food` that you wish to `vomit` must already exist in the current `Consumption Record`,
+but not necessarily exist from `Food Record`.
 
 ****
-* Deletes a portion of food at the specified `INDEX_OF_FOOD`.
-* The index refers to the index number shown in the displayed consumption list.
-* The index *must be a positive integer*: 1, 2, 3, ...
-* If you decide not to include in `d/` or `portion/` prefixes, Calgo will take it that those prefixes exist
-but has no values provided. +
-Not providing values can result in the following behavior:
-1. Date will be today's date.
-2. The whole entry is deleted.
-* If user specified a portion greater than what he has consumed, the entire entry will be deleted.
+* Deletes a portion of food at the specified `INDEX_OF_FOOD`. The index refers to the position of `Food` shown in
+the `Consumption Record`.
+* The index you supply *must be a positive integer*: 1, 2, 3, ...
+* The `vomit` command has some default behavior when you choose to not provide values for certain `Prefixes`. Do note that
+this is not the same as excluding optional parameters.
+* If you do not provide the `Date` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you `vomit` today.
 * Date follows yyyy-mm-dd format.
-* Vomiting a portion of food will not affect it's ratings. +
-Suppose you gave a rating by mistake, you can use the `undo` command,
+* If you do not provide the `Portion` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you wish to `vomit` the whole portion `Food`, resulting in the deletion of that entire entry.
+* If you specified a portion greater than what you have consumed, the entire entry will be deleted as well.
+* Using `vomit` on a portion of food will not affect its ratings.
+If you gave a rating by mistake, you can use the `undo` command,
 which will be available from version 2.0 onwards.
 ****
 
-Examples:
+Format: `vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
 
-* `stomach` +
-`vomit num/2` +
-Deletes the second food consumed today in the consumption log displayed using `stomach` command.
+Example: Let's say you ordered a glass of Bandung and previously used `nom` with `Portion` set to 1.
+However, because the drink was too sweet, and you can only finish half a glass, you can use `vomit` to adjust your
+`Consumption Record`. Here's how you can do this.
 
-* `vomit num/1 d/2020-03-04 portion/3` +
-Deletes 3 portions of of the first `Food` consumed on 2020-03-04.
+image::VomitCommandBefore.png[width=]
 
+You can enter `vomit num/1 portion/0.5`, then press kbd:[enter].
+
+image::VomitCommandAfter.png[width=]
+
+As you can see from the `Consumption Record` panel, the portion has been reduced.
+The `Graph Display` also reflects a drop in `Calories`.
 
 === Displaying `help` when lost : `help`
 
@@ -228,7 +252,7 @@ Say you wish to export the current `Food Record` so that you can print a copy fo
 
 image::ExportCommandBefore.png[width=]
 
-You should first type in and enter the command, as seen above.
+You should first type in the command and press kbd:[enter], as seen above.
 
 image::ExportCommandAfter.png[width=]
 
@@ -297,7 +321,7 @@ Upon entering the command, the `Food Record` will display all entries which have
 Please note that the search is case-insensitive, an example being the `Sweet` `Tag` of the result `Bandung`. Moreover, as with Example 2, we allow for incomplete words to be used as search keywords.
 
 <<<
-
+[[report]]
 === Generating insights : `report`
 Given a date, the command generates a document (in txt format) of relevant insights about the user's food consumption
 pattern of the same date. This file is stored in the `data/reports` folder.
@@ -376,24 +400,36 @@ Sets the desired number of `Calorie` to be consumed to be 2580.
 === Showing all `Food` consumed on a particular day : `stomach`
 (by Ruicong)
 
-Displays a list of `Food` entries along side how many portions have been consumed on that day.
-For a more detailed statistical report with nutritional values of `Food` consumed, see the `report` command.
+Do you want to see what you ate yesterday? Or the day before? +
 
-Format: `stomach [d/DATE]`
+You can go to the `Consumption Record` of a particular `Date` using `stomach` command.
+
+[tip]
+For a more detailed statistical report with nutritional values of `Food` consumed, see <<report>>.
 
 ****
-* If a date is not provided, *Calgo* will assume that the user wishes to see `Food` consumed today.
-* If you want to show today's records, inclusion of `d/` prefix is optional.
+* If you choose to not provide a `Date`, or a value for its `Prefix`,
+*Calgo* will by default use today's date.
 * Date follows yyyy-mm-dd format.
 ****
 
-Examples:
+[note]
+If you go to a `Consumption Record` on a day where you have never consumed anything before, `Result Display`
+will remind you that you have not consumed anything yet, instead of showing "Display all food consumed".
+The latter message suggests that you have consumed something on that `Date`, but `vomit` it afterwards.
 
-* `stomach d/2020-03-04` +
-Displays a list of `Food` user has consumed on 2020-03-04.
+Format: `stomach [d/DATE]`
 
-* `stomach` or `stomach d/` +
-Displays a list of `Food` the user has consumed today.
+Example: If you want to see what you have consumed on 12 April 2020, here's how you can do it.
+
+image::StomachCommandBefore.png[width=]
+
+Enter the command `stomach d/2020-04-12` as input and press kbd:[enter].
+
+image::StomachCommandAfter.png[width=]
+
+You will then be shown a `Consumption Record` for 12 April 2020.
+You can also see that `Daily Goal Display` has been updated to reflect how you did on 12 April 2020.
 
 === Updating the current `Food Record` : `update`
 (by Zhang Xian)
@@ -425,7 +461,7 @@ Here's how you update your new `Food`, Mee Goreng, into your `Food Record`.
 
 image::UpdateCommandNewBefore.png[width=]
 
-You should first enter `update n/Mee Goreng cal/418 p/8 c/58 f/17` as input and press enter.
+You should first enter `update n/Mee Goreng cal/418 p/8 c/58 f/17` as input and press kbd:[enter].
 
 image::UpdateCommandNewAfter.png[width=]
 
@@ -436,7 +472,7 @@ You wish to `update` the `Protein` value for Mee Goreng to a new value of 10g
 
 image::UpdateCommandExistingFoodBefore.png[width=]
 
-You should first enter `update n/Mee Goreng cal/418 p/10 c/58 f/17` as input and press enter
+You should first enter `update n/Mee Goreng cal/418 p/10 c/58 f/17` as input and press kbd:[enter].
 
 image::UpdateCommandExistingFoodAfter.png[width=]
 
@@ -464,6 +500,11 @@ being updated into the `Food Record`, your new `Food` item is updated as `Char K
 *Q*: Where can I find my exported `Food Record` entries and consumption reports? +
 *A*: They are both found in the `exports` and `reports` subfolders in the `data` folder respectively. Please do not remove the json files in the `data` folder. These are system files.
 
+*Q*: With so many commands for interacting with `Food Record` and `Consumption Record` which are so similar,
+how do I distinguish between them? +
+*A*: Our commands are named so that you can associate them with the correct `Record`.
+Commands that deal with `Consumption Record` are words that you think of when you physically interact with food.
+
 == Command Summary
 
 [width="59%",cols="17%,<18%,<20%,<25%,<20%",options="header",]
@@ -482,10 +523,10 @@ being updated into the `Food Record`, your new `Food` item is updated as `Char K
     |`find n/Pizza` +
     `find cal/110`
 |List|Displays all entries in the `Food Record`.|`list`|-
-.3+|Edit Daily List|Nom|Adds a `Food` to a specific day's `Daily List`.|`nom [n/NAME] [d/DATE] [portion/PORTION][r/RATING]`
-    |`nom n/chicken d/2020-03-04 portion/1.5`
-|Stomach|Lists all `Food` in a particular day's `Daily List`.|`stomach [d/DATE]`|`stomach d/2020-03-04`
-|Vomit|Deletes a specific `Food` from the `Daily List`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
+.3+|Edit and Navigating Consumption Record|Nom|Adds a `Food` to a specific day's `Consumption Record`.|`nom n/NAME [d/DATE] [portion/PORTION][r/RATING]`
+    |`nom n/chicken d/2020-03-04 portion/1.5 r/8`
+|Stomach|Lists all `Food` in a particular day's `Consumption Record`.|`stomach [d/DATE]`|`stomach d/2020-03-04`
+|Vomit|Deletes a specific `Food` from the `Consumption Record`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
     |`vomit num/chicken d/2020-03-04 portion/3`*OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
 .4+|Generate Document|Report|Generates the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-03-04`
