@@ -70,12 +70,14 @@ Start experimenting with the commands yourself and experience the convenience *C
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are parameters that are to be supplied by you
+* Words in `UPPER_CASE` are parameters that are to be supplied by you.
 ** e.g. in `n/NAME`, `NAME` is a parameter. `n/kiwi` would mean that the name of the `Food` is 'kiwi'.
 * Items in square brackets (i.e. []) are optional
 ** e.g. in `[t/TAG]`, `TAG` is an optional parameter which can be used as `t/fruit` to tag the `Food` as a 'fruit'.
-* Parameters can be given in any order, as long as the correct prefix appears before the parameter
+* Parameters can be given in any order, as long as the correct prefix appears before the parameter.
 ** e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` gives the same functionality.
+* If parameters are duplicated in your input, Calgo will take the last entered parameter.
+** e.g. if you entered `nom n/apple n/banana`, it will be equivalent to `nom n/banana'
 * Items with `…`​ after them can be used multiple times (including zero times)
 ** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
 ====

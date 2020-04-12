@@ -509,17 +509,28 @@ image::FindListCommandActivityDiagram.png[]
 
 
 [[Implementation-ConsumptionManagement]]
-=== `Food` consumption management
-In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
-When adding food to be consumed, removing food, or displaying food consumed on certain days,
-a `FilteredList` will be populated with relevant `ConsumedFood`.
+=== `ConsumptionRecord` management
+(by Ruicong)
+
+This section addresses how `nom`, `vomit`, and `stomach` commands work. They are the 3 commands that you will use
+to interact with `ConsumptionRecord`. `nom` allows you to add `Food`, `vomit` allows you to remove `Food`, and `stomach`
+gives you a way to browse a list of `Food` within the `ConsumptionRecord` at a different date.
+
+The high level idea of how `Food` consumption is managed is that `ConsumptionRecord` stores all the `Food` consumed.
+Whenever `nom`, `vomit`, or `stomach` is used, a list will be retrieve and sent to a FilteredList. Such a list consists of `DisplayFood` objects,
+for the purpose of displaying information compiled from each `Food`.
+The FilteredList is an observable, so whenever it is updated, the GUI will be informed and display the contents accordingly.
 
 ==== Implementation
-The `nom`, `vomit` and `stomach` commands are facilitated by the `FoodRecord`.  +
-`FoodRecord` contains a `UniqueDateToLogMap`, which maps a `LocalDate` to a `DailyFoodLog`. +
-`DailyFoodLog` contains a `LinkedHashMap` storing `Food` in the sequence that they were consumed and maps those `Food` to a `Double` portion.
+In Calgo, you will find that the GUI `ConsumptionRecord` use a `uniqueDateToLogMap` to map each `LocalDate` to a `DailyFoodLog`.
+As you can guess, `LocalDate` keys are unique. +
+Each `DailyFoodLog` is related to a `LocalDate` object and contains 2 `LinkedHashMap`, one to map `Food` consumed to their portion,
+another to map `Food` to an `ArrayList` of `Integer`, which represents the ratings given to that `Food` item consumed on that day.
 
-This section covers how the `nom` command is implemented. The `vomit` and `stomach` commands work in very similar way, hence their implementation is omitted for brevity.
+// inserts class diagram for illustration
+
+// -> continue here!
+This section shows you how `nom` command works.
 
 A top-level illustration of the execution of a `nom` command is given in the sequence diagram below:
 
