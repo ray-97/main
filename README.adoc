@@ -31,7 +31,7 @@ Introducing *Calgo*, your personal meal-tracking assistant:
 * If you need help in setting up and learning about Calgo's features, check out our <<UserGuide#, User Guide>>.
 * If you are a developer wanting to contribute and learn how Calgo works, check out our <<DeveloperGuide#, Developer Guide>>.
 * To learn about the team working to make your Calgo experience effortless, read <<AboutUs#, About Us>>.
-* If you need anything else, <<ContactUs#, Contact Us>>
+* If you need anything else, <<ContactUs#, Contact Us>>.
 
 == Acknowledgements
 
