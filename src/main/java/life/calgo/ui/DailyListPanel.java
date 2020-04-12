@@ -13,6 +13,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import life.calgo.commons.core.LogsCenter;
 import life.calgo.model.food.DisplayFood;
 
@@ -22,6 +25,7 @@ import life.calgo.model.food.DisplayFood;
 public class DailyListPanel extends UiPart<Region> {
 
     private static final String FXML = "DailyListPanel.fxml";
+    private static final String NO_FOOD = "You haven't consumed anything today!";
     private final Logger logger = LogsCenter.getLogger(DailyListPanel.class);
 
     @FXML
@@ -30,15 +34,28 @@ public class DailyListPanel extends UiPart<Region> {
     public DailyListPanel(ObservableList<DisplayFood> dailyList) {
         super(FXML);
         setUpColumns();
+        Text text = new Text(NO_FOOD);
+        text.setFill(Color.WHITE);
+        text.setFont(Font.font ("Segoe UI Semibold", 13));
+        dailyListView.setPlaceholder(text);
         dailyListView.setItems(dailyList);
     }
 
     @SuppressWarnings("unchecked") // suppressed an inevitable unchecked warning due to use of varargs
     private void setUpColumns() {
+        TableColumn<DisplayFood, Void> index = setUpIndexColumn();
         TableColumn<DisplayFood, String> foodName = setUpFoodNameColumn();
         TableColumn<DisplayFood, String> portion = setUpPortionColumn();
         TableColumn<DisplayFood, String> rating = setUpRatingColumn();
-        dailyListView.getColumns().addAll(foodName, portion, rating);
+        dailyListView.getColumns().addAll(index, foodName, portion, rating);
+    }
+
+    private TableColumn<DisplayFood, Void> setUpIndexColumn() {
+        TableColumn<DisplayFood, Void> index = new TableColumn<>("");
+        index.setCellFactory(tableColumn -> new IndexTableCell());
+        index.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.05));
+        index.setResizable(false);
+        return index;
     }
 
     private TableColumn<DisplayFood, String> setUpRatingColumn() {
@@ -55,7 +72,7 @@ public class DailyListPanel extends UiPart<Region> {
         TableColumn<DisplayFood, String> foodName = new TableColumn<>("Food Name");
         foodName.setCellValueFactory(param -> new ReadOnlyObjectWrapper<String>(param.getValue().getName().fullName));
         foodName.setCellFactory(tableColumn -> new NameTableCell());
-        foodName.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.65));
+        foodName.prefWidthProperty().bind(dailyListView.widthProperty().multiply(0.60));
         foodName.setResizable(false);
         return foodName;
     }
@@ -69,6 +86,23 @@ public class DailyListPanel extends UiPart<Region> {
         portion.setResizable(false);
         return portion;
     }
+
+    /**
+     * Responsible for displaying index of Food item in the list.
+     */
+    class IndexTableCell extends TableCell<DisplayFood, Void> {
+        @Override
+        public void updateIndex(int index) {
+            super.updateIndex(index);
+            if (isEmpty() || index < 0) {
+                setText(null);
+            } else {
+                setText(Integer.toString(index + 1) + ".");
+            }
+        }
+    }
+
+
 
     /**
      * Custom {@code RatingTableCell} that displays the graphics of a {@code TableCell} using a {@code DisplayFood}.

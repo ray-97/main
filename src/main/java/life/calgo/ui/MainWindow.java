@@ -160,8 +160,7 @@ public class MainWindow extends UiPart<Stage> {
         remainingCaloriesDisplay = new RemainingCaloriesDisplay();
         caloriesDisplayPlaceholder.getChildren().add(remainingCaloriesDisplay.getRoot());
 
-        dailyListDate.setText("Food Consumed On: " + getDate()); // this is where it is set
-        // dailyListDate.setStyle("-fx-text-fill: white; -fx-font-size: 12");
+        dailyListDate.setText("Food Consumed On: " + getDate());
 
         if (logic.getDailyGoal().getGoal().equals(DailyGoal.DUMMY_VALUE)) {
             resultDisplay.setFeedbackToUser(GREETING_MESSAGE_NO_GOAL);
@@ -278,11 +277,16 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-            foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
 
+            // update GUI components that display Model information
+
+            // Food Record
+            foodListPanel = new FoodListPanel(logic.getFilteredFoodRecord());
+            // Goal Information
             fillGoal();
             fillRemainingCalories();
 
+            // Graph
             graphPanelPlaceholder.getChildren().removeAll(graphPanel.getPreviousGraph());
             graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 

@@ -43,9 +43,6 @@ This tells you there is important information that you should take note of.
 [TIP]
 This informs you of useful tips about Calgo.
 
-[WARNING]
-This serves as a warning to alert you about something you need to be careful of.
-
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.
@@ -61,8 +58,8 @@ This serves as a warning to alert you about something you need to be careful of.
 image::Ui.png[width="790"]
 
 +
-.  Type your desired command in the command box and press kbd:[Enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[Enter] will open the help window. +
+.  Type your desired command in the command box and press kbd:[enter] to execute it. +
+e.g. typing *`help`* and pressing kbd:[enter] will open the help window. +
 - You can refer to <<Commands>> below for details of each command.
 .  What are you waiting for? Your healthy lifestyle begins now! +
 Start experimenting with the commands yourself and experience the convenience *Calgo* brings.
@@ -83,86 +80,126 @@ Start experimenting with the commands yourself and experience the convenience *C
 ** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
 ====
 
-TIP: As you begin to key in the name of the `Food` for any of these commands: `update`, `delete`, or `nom`, Calgo shows you
+TIP: As you key in the name of the `Food` for any of these commands: `update`, `delete`, or `nom`, Calgo shows you
 `Food` with similar names that exists in the `Food Record`.
 
 === Clearing all entries : `clear`
 
 Clears all `Food` entries from the `Food Record`. +
-Format: `clear`
+Format: `clear` +
+(any parameters entered are ignored)
 
-=== Consuming `Food` consumed on a certain day : `nom`
+=== Adding `Food` to `Consumption Record` : `nom`
 (by Ruicong)
+
+Your `Consumption Record` stores everything that you have consumed.
+With the `nom` command, you can add food that you have consumed on a certain day to your
+`Consumption Record`. +
 The `nom` command allows you to keep track of your consumption on certain date. +
+
+Below are some information to keep in mind:
+****
+* The `Food` you consume should exist in `Food Record`.
+* The `nom` command has some default behavior when you choose to not provide values for certain `Prefixes`. Do note that
+this is not the same as excluding optional parameters.
+* If you do not provide the `Date` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you consumed the `Food` today.
+* Date follows yyyy-mm-dd format.
+* If you do not provide the `Portion` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you consumed 1 portion of `Food`.
+* If you do not provide the `RATING` parameter, the consumption of `Food` will not have a rating associated with it.
+However, if you do not give the `Prefix` a value, you will get an error.
+* The rating for a `Food` displayed is based on the average rating given to the food on that day.
+****
+
+[TIP]
+As you enter `nom n/..`, Calgo will show you `Food` suggestions that match what you are searching for via the `Result Display`.
+`Names` on Calgo are case insensitive, so you can type quickly without worrying about the specific name of the `Food`.
+[TIP]
+If you have planned to eat something at a future date, it is possible to use `nom` to record a consumption
+with `Date` that comes after today.
 
 Format: `nom n/NAME [d/DATE] [portion/PORTION][r/RATING]`
 
-****
-* If a date is not provided, Calgo will by default take it that you ate the `Food` today.
-* Date follows yyyy-mm-dd format.
-* If you decide not to include in `d/`, `portion/` or `r/` prefixes, Calgo will take it that those prefixes exist
-but has no values provided. +
-Not providing values can result in the following behavior:
-1. Date will be today's date.
-2. Portion will be 1.
-3. This dining experience will not have a rating.
-* Rating for food displayed is the its average rating, based on the ratings it received that day.
-* You can check how much nutritional content each type of food content by checking the existing list of food.
-* You can rate your dining experience, average rating of consuming a certain food will then be displayed.
-****
+Example: Suppose you want to have a Cheeseburger today and have already stored its nutritional content
+in `Food Record`. Since you just want to dig in as soon as possible, yet still want to jot your meal down,
+you decide to enter the simplest command possible. Here's how you do it.
 
-Examples:
+image::NomCommandBefore.png[width=]
 
-* `nom n/chicken d/2020-03-04 portion/1.5` +
-Adds 1.5 portion of chicken to the log tracking user's consumption on 4th March 2020.
-* `nom n/apple pie portion/2 r/7` +
-Adds 2 portion of apple pie to the log tracking user's consumption today.
-This consumption will be rated 7/10.
+First, enter `nom n/Cheeseburger` as input and press kbd:[enter].
+
+image::NomCommandAfter.png[width=]
+
+Once you enter the command, the `Result Display` will inform you that the food has been consumed.
+The `Consumption Record` panel and `Graph Display` are refreshed to reflect your latest consumption.
 
 === Deleting a `Food` from current `Food Record`: `delete`
 (by Zhang Xian)
 
-If you no longer require Calgo to store a particular `Food` and its nutritional values for you, this `delete` command
-helps you with that.
+If you no longer require Calgo to store a particular `Food` and its nutritional values for you, this `delete` command removes
+the specified `Food` from your `Food Record`.
+
+[NOTE]
+The `Food` that you wish to `delete` must already exist in the current `Food Record`.
+[TIP]
+You don't have to capitalise the `Name` of the `Food` that you wish to delete. For better efficiency, the `Name` field of your
+input for the `delete` command is case insensitive.
 
 Format: `delete n/NAME`
 
-Example:
+Example: Say you want to remove a `Food`, `Pizza`, that already exists in your `Food Record`.
 
-* `delete n/pizza` +
-Deletes pizza from the `Food Record`.
+image::DeleteCommandBefore.png[width=]
 
-=== Deleting `Food` consumed on a certain day : `vomit`
+You should first enter `delete n/pizza` as input, and press kbd:[enter]. Note that `delete n/Pizza` also has the same effect.
+
+image::DeleteCommandAfter.png[width=]
+
+Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` shows that
+the `Food`, `Pizza`,is no longer there.
+
+=== Removing portions of `Food` from `Consumption Record` : `vomit`
 (by Ruicong)
-Deletes a `Food` that a user has previously added to the log tracking consumption on that day.
 
-Format: `vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
+If you have overstated an amount previously or actually vomited from over-consumption(yikes!), you can amend existing
+consumption records using the `vomit` command.
+
+[NOTE]
+The `Food` that you wish to `vomit` must already exist in the current `Consumption Record`,
+but not necessarily exist from `Food Record`.
 
 ****
-* Deletes a portion of food at the specified `INDEX_OF_FOOD`.
-* The index refers to the index number shown in the displayed consumption list.
-* The index *must be a positive integer*: 1, 2, 3, ...
-* If you decide not to include in `d/` or `portion/` prefixes, Calgo will take it that those prefixes exist
-but has no values provided. +
-Not providing values can result in the following behavior:
-1. Date will be today's date.
-2. The whole entry is deleted.
-* If user specified a portion greater than what he has consumed, the entire entry will be deleted.
+* Deletes a portion of food at the specified `INDEX_OF_FOOD`. The index refers to the position of `Food` shown in
+the `Consumption Record`.
+* The index you supply *must be a positive integer*: 1, 2, 3, ...
+* The `vomit` command has some default behavior when you choose to not provide values for certain `Prefixes`. Do note that
+this is not the same as excluding optional parameters.
+* If you do not provide the `Date` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you `vomit` today.
 * Date follows yyyy-mm-dd format.
-* Vomiting a portion of food will not affect it's ratings. +
-Suppose you gave a rating by mistake, you can use the `undo` command,
+* If you do not provide the `Portion` parameter, or if its `Prefix` does not have a value,
+Calgo will by default take it that you wish to `vomit` the whole portion `Food`, resulting in the deletion of that entire entry.
+* If you specified a portion greater than what you have consumed, the entire entry will be deleted as well.
+* Using `vomit` on a portion of food will not affect its ratings.
+If you gave a rating by mistake, you can use the `undo` command,
 which will be available from version 2.0 onwards.
 ****
 
-Examples:
+Format: `vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
 
-* `stomach` +
-`vomit num/2` +
-Deletes the second food consumed today in the consumption log displayed using `stomach` command.
+Example: Let's say you ordered a glass of Bandung and previously used `nom` with `Portion` set to 1.
+However, because the drink was too sweet, and you can only finish half a glass, you can use `vomit` to adjust your
+`Consumption Record`. Here's how you can do this.
 
-* `vomit num/1 d/2020-03-04 portion/3` +
-Deletes 3 portions of of the first `Food` consumed on 2020-03-04.
+image::VomitCommandBefore.png[width=]
 
+You can enter `vomit num/1 portion/0.5`, then press kbd:[enter].
+
+image::VomitCommandAfter.png[width=]
+
+As you can see from the `Consumption Record` panel, the portion has been reduced.
+The `Graph Display` also reflects a drop in `Calories`.
 
 === Displaying `help` when lost : `help`
 
@@ -190,10 +227,11 @@ Format: `exit`
 === Exporting the current `Food Record` into a reference sheet : `export`
 (by Eugene) +
 
-Obtaining a portable copy of the current `Food Record` may be useful for various purposes. For instance, you can conveniently share your `Food` entries with friends, print the `Food Record` for future reference, or even adapt it to suit your personal cooking needs in the kitchen. +
+Obtaining a portable copy of the current `Food Record` may be useful for various purposes. For instance, you can conveniently share your `Food` entries with friends, print the `Food Record` for future reference, or even adapt it to suit your personal cooking needs in the kitchen. Whatever the purpose, we have you covered with the `export` command. +
 
-The `export` command comes in handy for situations like these. It provides you with a neatly formatted, editable file that reflects all entries in the current `Food Record`. This file (FoodRecord.txt) will be created in the `data/exports` folder. +
+The `export` command provides you with a neatly formatted, editable file that reflects all entries in the current `Food Record`. This file (FoodRecord.txt) will be created in the `data/exports` folder. +
 
+Here are some key pointers for using the command:
 ****
 * FoodRecord.txt shows the `Food Record` in alphabetical order of `Food` names, and includes the corresponding details of each `Food` neatly in a table.
 * If a previous FoodRecord.txt file exists, do close any instances of the file (if previously opened) before running the `export` command. The file will be replaced by an updated version representing your latest `Food Record`.
@@ -205,58 +243,85 @@ This lets you manually track your diet using a reference sheet of your past `Foo
 [NOTE]
 Certain `Food` names may be too long to fit into the given space. The reference sheet truncates these names and shows the remainder on the following lines. Rest assured that all your information is still captured and will be separated with space(s). Individual entries will also appear on separate lines.
 
-Format: `export`
+Format: `export` +
+(any parameters entered are ignored)
 
-Example:
-// todo: image of typing 'export' in the command bar, describe this.
-// todo: image of resultant message on GUI, and describe that the FoodRecord.txt file is created in data/exports folder.
+Example: +
+
+Say you wish to export the current `Food Record` so that you can print a copy for reference while cooking.
+
+image::ExportCommandBefore.png[width=]
+
+You should first type in the command and press kbd:[enter], as seen above.
+
+image::ExportCommandAfter.png[width=]
+
+Doing so, *Calgo*  will show you a result message indicating the copy has been successfully generated.
+You can find this copy (FoodRecord.txt) in the `data/exports` folder near the App.
 
 <<<
-
-=== Finding a `Food` by nutritional value or keyword(s) : `find`
+[[FindCommand]]
+=== Finding a `Food` entry by nutritional value or keyword(s) : `find`
 (by Eugene) +
 
-With many `Food` entries in the `Food Record`, it may be quite difficult to search for a particular `Food` entry you want. This is where the `find` command comes in nicely.
+When you have many entries in the `Food Record`, it may be rather difficult to search for a particular one. This is where the `find` command comes in nicely.
 
 The `find` command shows all `Food` entries that have a nutritional value matching what you specify. This can be the number of `Calories`, or the number of grams of `Proteins`/`Carbohydrates`/`Fats`.
 
-Alternatively, you can choose to search for a keyword which appears in the `Name` or `Tag` associated with a particular `Food`.
+Alternatively, you can choose to search for a keyword which appears in any part of the `Name`, or in one of the `Tags` associated with a particular `Food` entry.
 
+Here are some key pointers:
 ****
-* The `find` command takes in one, and only 1 parameter.
+* The `find` command takes in one, and only one parameter.
 * For finding via nutritional value, only `Food` matching the same exact value will be shown.
+* You don't have to capitalise each keyword. The search is always case insensitive when searching for keyword(s) via `Name` or `Tag`. +
+* You don't actually have to type out the entire keyword either. For your comfort, incomplete keywords will be matched to `Food` entries containing them in the specified parameter of `Name` or `Tag`. +
+* You can search for multiple `Name` keywords by using a single `n/` prefix, separating them with space(s). +
 ****
 
+[NOTE]
+If you're a fast typist, fear not! We understand the possibility that typing errors can be made quite often, so any additional input for the `find` command without a preceding prefix (e.g. `n/`, `p/`) will be ignored.
+
 [TIP]
-You don't have to capitalise each keyword. The search is always case insensitive when searching for keyword(s) via `Name` or `Tag`. +
-[TIP]
-You don't actually have to type out the entire keyword either. For your comfort, incomplete keywords will be matched to `Food` entries containing them in the specified parameter of `Name` or `Tag`. +
-[TIP]
-You can search for multiple `Name` keywords by using a single `n/` prefix, separating them with space(s). +
+The `Food Record` displays the relevant entries of each `find` command. We can reset the `Food Record` to show all entries once again using the <<ListCommand, `list`>> command.
 
 Format: `find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` +
 (Reminder: choose only 1 parameter)
 
 Examples: +
 
-// todo: example on numerical categorical find
-* `find cal/150` +
-Returns 'Bandung' and 'Hot Dog Bun' which both have 150 `Calories`. This works for `Calories`, `Proteins`, `Carbohydrates`, and `Fats` - all of which take on non-negative integer values within 5 digits. +
+Example 1: Say you want to use *Calgo* to search for a `Food` entry with 150 `Calories` because you are looking for a light snack.
 
-// todo: example on String categorical substring find on Name
-* `find n/Chees` +
-Returns 'Cheeseburger' and 'Cheesy Bites' which both contain the `Chees` keyword in their `Name`. Note that the keyword is an incomplete word but it still works. +
+image::FindCommandCalorieBefore.png[width=]
+You should first enter `find cal/150` as input. +
 
-// todo: example on String categorical find on Tag with case insensitivity
-* `find t/swe` +
-Returns 'Bandung', 'Pineapple Chicken Rice', 'Strawberry Milk` which are tagged `Sweet`, and also 'Sambal Chilli' which is tagged `sweet`. Note that like the above, searches for `Tags` can also be incomplete keywords. Finding via keywords in `Name` or `Tag` is always case insensitive.
+image::FindCommandCalorieAfter.png[width=]
+Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` displays the relevant entries with 150 `Calories`.
 
-// todo: example on multiple n/ keyword1 keyword2 search.
-* `find n/Black Oyster` +
-Returns 'Black Forest Slice Cake' (which contains keyword `Black`) and 'Stirfried Kai Lan in Oyster Sauce' (which contains keyword `Oyster`).
+Example 2: Say you wish to find entries which contain the keyword `Cheese` in their `Name`, but your hand slipped and the keyboard only registered `Chees`. +
+
+image::FindCommandSubstringBefore.png[width=]
+
+You are therefore likely to enter `find n/Chees` as the command input. +
+
+image::FindCommandSubstringAfter.png[width=]
+
+Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` shows the relevant entries which contain `Chees` in their `Name`. This is not too bad, as you still obtain entries that will be largely relevant to `Cheese`.
+
+Example 3: Say you are lazy but wish to find entries containing the keyword `sweet` in their `Tag`. +
+
+image::FindCommandTagBefore.png[width=]
+
+You could first enter `find t/swe` as input. +
+
+image::FindCommandTagAfter.png[width=]
+
+Upon entering the command, the `Food Record` will display all entries which have the `swe` keyword present in any one of their `Tags`. As the `find` command allows you to search using substrings, the intended search for `sweet` will also have its results shown. +
+
+Please note that the search is case-insensitive, an example being the `Sweet` `Tag` of the result `Bandung`. Moreover, as with Example 2, we allow for incomplete words to be used as search keywords.
 
 <<<
-
+[[report]]
 === Generating insights : `report`
 Given a date, the command generates a document (in txt format) of relevant insights about the user's food consumption
 pattern of the same date. This file is stored in the `data/reports` folder.
@@ -283,13 +348,13 @@ This generates a txt file containing the above-mentioned insights made on the co
 // todo: add Screenshot of report
 // todo: Graphical Report
 
+[[ListCommand]]
 === Listing all `Food` in current `Food Record` : `list`
 (by Eugene) +
 
-With a large number of entries in the `Food Record`, we can use the `find` command to narrow down our search. However, this filtered information is only useful for a short amount of time and we will usually want to view all entries in the `Food Record` again. +
+With a large number of entries in the `Food Record`, you may remember that we can use the <<FindCommand, `find`>> command to narrow down our search. However, this filtered information is only useful for a short amount of time and we will usually want to view all entries in the `Food Record` again. This is where the `list` command comes in handy. +
 
-The `list` command resets the display accordingly to show all entries in the current `Food Record`. These will be neatly sorted in alphabetical order, just as the `Food Record` previously appeared. +
-
+The `list` command resets the display accordingly to show all entries in the `Food Record`. These will be neatly sorted in alphabetical order, just as the `Food Record` previously appeared:
 ****
 * `Food` entries will once again be listed with all their corresponding details.
 ****
@@ -298,7 +363,18 @@ The `list` command resets the display accordingly to show all entries in the cur
 You can think of this as the undo of a `find` command.
 After a `find` command, you are advised to complete your intended actions first, before using the `list` command to reset the display. This allows for a smoother workflow as you will now avoid the need to perform the same `find` command again.
 
-Format: `list`
+Format: `list` +
+(any parameters entered are ignored)
+
+Example: Say you want to view all entries again after performing a `find n/Chicken` command.
+
+image::ListCommandBefore.png[width=]
+
+You should first enter `list` as input.
+
+image::ListCommandAfter.png[width=]
+
+Doing so, you will see a result message displayed and the `Food Record` will now show all `Food` entries.
 
 === Setting a daily `Calorie` target : `goal`
 
@@ -324,52 +400,92 @@ Sets the desired number of `Calorie` to be consumed to be 2580.
 === Showing all `Food` consumed on a particular day : `stomach`
 (by Ruicong)
 
-Displays a list of `Food` entries along side how many portions have been consumed on that day.
-For a more detailed statistical report with nutritional values of `Food` consumed, see the `report` command.
+Do you want to see what you ate yesterday? Or the day before? +
 
-Format: `stomach [d/DATE]`
+You can go to the `Consumption Record` of a particular `Date` using `stomach` command.
+
+[tip]
+For a more detailed statistical report with nutritional values of `Food` consumed, see <<report>>.
 
 ****
-* If a date is not provided, *Calgo* will assume that the user wishes to see `Food` consumed today.
-* If you want to show today's records, inclusion of `d/` prefix is optional.
+* If you choose to not provide a `Date`, or a value for its `Prefix`,
+*Calgo* will by default use today's date.
 * Date follows yyyy-mm-dd format.
 ****
 
-Examples:
+Format: `stomach [d/DATE]`
 
-* `stomach d/2020-03-04` +
-Displays a list of `Food` user has consumed on 2020-03-04.
+Example: If you want to see what you have consumed on 12 April 2020, here's how you can do it.
 
-* `stomach` or `stomach d/` +
-Displays a list of `Food` the user has consumed today.
+image::StomachCommandBefore.png[width=]
+
+Enter the command `stomach d/2020-04-12` as input and press kbd:[enter].
+
+image::StomachCommandAfter.png[width=]
+
+You will then be shown a `Consumption Record` for 12 April 2020.
+You can also see that `Daily Goal Display` has been updated to reflect how you did on 12 April 2020.
 
 === Updating the current `Food Record` : `update`
 (by Zhang Xian)
 
-Your `Food Record` stores all the nutritional information of all the `Food` that you consume frequently. This `update` command helps you `update` your `Food Record` with either
-a new `Food`  or `update` an existing `Food`  in the `Food Record`.
+Your `Food Record` stores all the nutritional values of all the `Food` that you consume frequently.
+This command helps you to either `update` a new `Food` into your `Food Record` or
+`update` an existing `Food` in your `Food Record` with new nutritional values.
 
-There is only two scenarios in which you will use this `update` command:
+Here are some key pointers:
+****
+* The `Name` value for the `update` command is case-insensitive. This means that inputting n/Apple or n/apple for the `Name` field means the same.
+* Calgo automatically formats your `Name` value to title case. This means that updating the `Food Record`
+with a `Food` with `Name` `chicken nugget spicy` will result in the `Food` being saved as `Chicken Nugget Spicy` in the `Food Record`
+* You cannot `update` the `Food Record` with two `Food` of the same name.
+****
 
-* Scenario 1: You want to update a new `Food`  into `Food Record`
-** The `Food` , along with the nutritional values that you inputted will be added into the `Food Record` as a new `Food` .
-* Scenario 2: You want to update an existing `Food` item in the `Food Record` with nutritional values
-** The existing `Food`  in the `Food Record` will be updated with new nutritional values that you have inputted.
+[TIP]
+As long as two `Food` items have the same name, they are deemed to be the same `Food` item! We suggest you to be as specific as possible in naming your `Food`.
+Instead of naming your `Food` "Chocolate", perhaps "White Chocolate" or "Dark Chocolate" would be a better idea!
 
-In both scenarios, we have kept the format the same for you: +
+
 Format: `update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
 
 Examples:
 
-* `update n/pizza cal/200 p/10 c/200 f/200` +
-This command adds a new `Food`, pizza into the user’s food presets with nutritional values of 200 `Calorie`, 10g of `Protein`, 200g of `Carbohydrate` and 200g of `Fat`.
-* `update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite` +
-As pizza already exists in the user’s `Food Record`, this command overrides the nutritional values of pizza with 200 `Calorie`, 10g of `Protein`, 200g of `Carbohydrate` and 20g of `Fat`.
-The pizza is also tagged with the `Tag` "Italiano" and "Favourite" .
+Example 1: Suppose you often eat Mee Goreng but see that your `Food Record` does not have a record for this `Food`. After searching online for the
+nutritional values for Mee Goreng, you found that Mee Goreng has 418 `Calories`, 8g of `Protein`, 58g of `Carbohydrate` and 17g of `Fat`.
+Here's how you update your new `Food`, Mee Goreng, into your `Food Record`.
 
-[NOTE]
-As long as two Food items have the same name, they are deemed to be the same Food item! We suggest you to be as specific in naming your Food
-item as much as possible. Instead of naming your Food "Chocolate", perhaps "White Chocolate" or "Dark Chocolate" would be a better idea!
+image::UpdateCommandNewBefore.png[width=]
+
+You should first enter `update n/Mee Goreng cal/418 p/8 c/58 f/17` as input and press kbd:[enter].
+
+image::UpdateCommandNewAfter.png[width=]
+
+Once the command has been entered, the `Result Display` shows the result of your command and the `Food Record` has been updated with a new `Food`, Mee Goreng.
+
+Example 2: Suppose you realise that there was an error with the nutritional values keyed in for an existing `Food`, Mee Goreng, inside your `Food Record`.
+You wish to `update` the `Protein` value for Mee Goreng to a new value of 10g
+
+image::UpdateCommandExistingFoodBefore.png[width=]
+
+You should first enter `update n/Mee Goreng cal/418 p/10 c/58 f/17` as input and press kbd:[enter].
+
+image::UpdateCommandExistingFoodAfter.png[width=]
+
+Once the command has been entered, the `Result Display` shows the result of your command and the `Food`, Mee Goreng, in `Food Record` has been updated with a new `Protein`
+nutritional value of 10g.
+
+Example 3: Suppose you want to `update` a new `Food`, Char Kuay Teow, into the `Food Record`. However, you typed the name of the `Food` in hurry and did not capitalise some letters properly.
+Instead of `Char Kuay Teow`, you accidentally typed `char KUay TeoW` in the `Name` field.
+
+image::UpdateCommandCapitaliseBefore.png[width=]
+
+You would therefore enter `update n/char KUay TeoW cal/200 p/20 c/22 f/30 t/greasy`
+
+image::UpdateCommandCapitaliseAfter.png[width=]
+
+Calgo automatically formats the `Name` of your `Food` for you into proper title case into the `Food Record`. Hence, you see that instead of a hideous `char KUay TeoW`
+being updated into the `Food Record`, your new `Food` item is updated as `Char Kuay Teow`.
+
 
 == FAQ
 
@@ -378,6 +494,11 @@ item as much as possible. Instead of naming your Food "Chocolate", perhaps "Whit
 
 *Q*: Where can I find my exported `Food Record` entries and consumption reports? +
 *A*: They are both found in the `exports` and `reports` subfolders in the `data` folder respectively. Please do not remove the json files in the `data` folder. These are system files.
+
+*Q*: With so many commands for interacting with `Food Record` and `Consumption Record` which are so similar,
+how do I distinguish between them? +
+*A*: Our commands are named so that you can associate them with the correct `Record`.
+Commands that deal with `Consumption Record` are words that you think of when you physically interact with food.
 
 == Command Summary
 
@@ -392,15 +513,21 @@ item as much as possible. Instead of naming your Food "Chocolate", perhaps "Whit
 |Delete|Deletes the specified `Food` from the `Food Record`.|`delete`|`delete pizza`
 |Update|Updates a `Food` in `Food Record`.|`update n/NAME cal/CALORIES p/PROTEINS c/CARBOHYDRATES f/FATS [t/TAGS]`
     |`update n/pizza cal/200 p/10 c/200 f/200`*OR*`update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite`
-.2+|Navigate Food Record|Find|Searches for and displays a particular `Food`.
+.2+|Navigate Food Record|Find|Searches through the `Food Record` and displays the relevant entries based on the specifications entered.
     |`find [n/NAME] [cal/CALORIES] [p/PROTEINS] [c/CARBOHYDRATES] [f/FATS] [t/TAG]` (choose only 1 parameter)
-    |`find n/Pizza`*OR*`find cal/110` etc
-|List|Displays all `Food`s in `Food Record`.|`list`|-
-.3+|Edit Daily List|Nom|Adds a `Food` to a specific day's `Daily List`.|`nom [n/NAME] [d/DATE] [portion/PORTION][r/RATING]`
-    |`nom n/chicken d/2020-03-04 portion/1.5`
-|Stomach|Lists all `Food` in a particular day's `Daily List`.|`stomach [d/DATE]`|`stomach d/2020-03-04`
-|Vomit|Deletes a specific `Food` from the `Daily List`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
+    |`find n/Pizza` +
+    `find cal/110`
+|List|Displays all entries in the `Food Record`.|`list`|-
+.3+|Edit and Navigating Consumption Record|Nom|Adds a `Food` to a specific day's `Consumption Record`.|`nom n/NAME [d/DATE] [portion/PORTION][r/RATING]`
+    |`nom n/chicken d/2020-03-04 portion/1.5 r/8`
+|Stomach|Lists all `Food` in a particular day's `Consumption Record`.|`stomach [d/DATE]`|`stomach d/2020-03-04`
+|Vomit|Deletes a specific `Food` from the `Consumption Record`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
     |`vomit num/chicken d/2020-03-04 portion/3`*OR* +
 `vomit num/chicken`*OR* `vomit n/chicken d/ portion/`
-|Generate Report|Report|Generate the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-03-04`
+.4+|Generate Document|Report|Generates the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-03-04`
+|Export|Generates a neat and editable file containing the current `Food` entries|`export`|-
 |=======================================================================
+Please note the following: +
+
+* For the `clear`, `export`, and `list` commands, any parameters entered will be ignored. +
+* For the `find` command, only one parameter is accepted. Any input entered without a preceding `Prefix` will be ignored.

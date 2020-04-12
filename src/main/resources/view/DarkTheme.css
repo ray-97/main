@@ -37,6 +37,15 @@
     -fx-display-caret:true;
 }
 
+.command-message-label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-background-color: #4f53b3;
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+    -fx-opacity: 0.9;
+}
+
 .text-area .content {
     -fx-background-color: #4f53b3;
 }
@@ -84,6 +93,7 @@
     -fx-padding: 0, 0, 25, 0;
     -fx-opacity: 1;
 }
+
 
 .table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: transparent;

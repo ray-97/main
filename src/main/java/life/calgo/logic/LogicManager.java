@@ -26,7 +26,7 @@ import life.calgo.model.food.predicates.FoodRecordContainsFoodNamePredicate;
 import life.calgo.storage.Storage;
 
 /**
- * The main LogicManager of the app.
+ * The main LogicManager of the App.
  */
 public class LogicManager implements Logic {
     public static final String FILE_OPS_ERROR_MESSAGE = "Could not save data to file: ";
@@ -42,13 +42,7 @@ public class LogicManager implements Logic {
         calgoParser = new CalgoParser();
     }
 
-    @Override
-    public List<Food> getSimilarFood(String foodName) {
-        List<Food> filteredFood;
-        filteredFood = model.getFoodRecord()
-                .getFoodList().filtered(new FoodRecordContainsFoodNamePredicate(foodName));
-        return filteredFood;
-    }
+    // General execute method for all commands
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
@@ -71,14 +65,14 @@ public class LogicManager implements Logic {
         return commandResult;
     }
 
-    @Override
-    public DailyGoal getDailyGoal() {
-        return model.getDailyGoal();
-    }
+    // Getter Methods for Day package classes in Model
 
     @Override
-    public double getRemainingCalories() {
-        return model.getRemainingCalories();
+    public List<Food> getSimilarFood(String foodName) {
+        List<Food> filteredFood;
+        filteredFood = model.getFoodRecord()
+                .getFoodList().filtered(new FoodRecordContainsFoodNamePredicate(foodName));
+        return filteredFood;
     }
 
     @Override
@@ -105,6 +99,21 @@ public class LogicManager implements Logic {
     public ObservableList<DisplayFood> getFilteredDailyList() {
         return model.getCurrentFilteredDailyList();
     }
+
+    // Goal related Methods
+
+    @Override
+    public DailyGoal getDailyGoal() {
+        return model.getDailyGoal();
+    }
+
+    @Override
+    public double getRemainingCalories() {
+        return model.getRemainingCalories();
+    }
+
+
+    // User Pref Methods
 
     @Override
     public Path getFoodRecordFilePath() {

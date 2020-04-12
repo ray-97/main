@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
@@ -19,7 +18,8 @@ import life.calgo.logic.commands.HelpCommand;
  */
 public class HelpWindow extends UiPart<Stage> {
     public static final String USERGUIDE_URL = "https://ay1920s2-cs2103t-f11-1.github.io/main/UserGuide.html";
-    public static final String HELP_MESSAGE = "A summarised user guide is shown below. For the full user guide, refer to: " + USERGUIDE_URL;
+    public static final String HELP_MESSAGE = "A summarised user guide is shown below. "
+            + "For the full user guide, refer to: " + USERGUIDE_URL;
     //public static final String COMMAND_MESSAGE = "";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
@@ -34,7 +34,7 @@ public class HelpWindow extends UiPart<Stage> {
     private Label helpMessage;
 
     @FXML
-    private TextArea commandMessage;
+    private Label commandMessage;
 
     /**
      * Creates a new HelpWindow.

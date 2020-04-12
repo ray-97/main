@@ -52,7 +52,7 @@ public class JsonGoalStorage implements GoalStorage {
 
         Optional<JsonSerializableGoal> jsonGoal = JsonUtil.readJsonFile(
                 filePath, JsonSerializableGoal.class);
-        if (!jsonGoal.isPresent()) {
+        if (jsonGoal.isEmpty()) {
             return Optional.empty();
         }
 

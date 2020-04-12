@@ -3,6 +3,7 @@ package life.calgo.storage;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import life.calgo.commons.exceptions.IllegalValueException;
+import life.calgo.logic.commands.GoalCommand;
 import life.calgo.model.day.DailyGoal;
 
 /**
@@ -26,7 +27,7 @@ class JsonAdaptedGoal {
      * Dummy constructor for JsonAdaptedGoal class.
      */
     public JsonAdaptedGoal() {
-        this.dailyGoal = 0;
+        this.dailyGoal = DailyGoal.DUMMY_VALUE;
     }
 
     /**
@@ -36,7 +37,7 @@ class JsonAdaptedGoal {
      */
     public DailyGoal toModelType() throws IllegalValueException {
         if (!DailyGoal.isValidGoal(dailyGoal)) {
-            throw new IllegalValueException(DailyGoal.MESSAGE_CONSTRAINTS);
+            throw new IllegalValueException(GoalCommand.MESSAGE_FAILURE);
         }
         return new DailyGoal(dailyGoal);
     }
