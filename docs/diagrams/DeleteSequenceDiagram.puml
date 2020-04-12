@@ -3,7 +3,7 @@
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":FoodRecordParser" as FoodRecordParser LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
 participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
 participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
 participant ":CommandResult" as CommandResult LOGIC_COLOR
@@ -16,17 +16,17 @@ end box
 [-> LogicManager : execute("delete n/Apple")
 activate LogicManager
 
-LogicManager -> FoodRecordParser : parseCommand("delete n/Apple")
-activate FoodRecordParser
+LogicManager -> CalgoParser : parseCommand("delete n/Apple")
+activate CalgoParser
 
 create DeleteCommandParser
-FoodRecordParser -> DeleteCommandParser
+CalgoParser -> DeleteCommandParser
 activate DeleteCommandParser
 
-DeleteCommandParser --> FoodRecordParser
+DeleteCommandParser --> CalgoParser
 deactivate DeleteCommandParser
 
-FoodRecordParser -> DeleteCommandParser : parse("n/Apple")
+CalgoParser -> DeleteCommandParser : parse("n/Apple")
 activate DeleteCommandParser
 
 create DeleteCommand
@@ -36,14 +36,14 @@ activate DeleteCommand
 DeleteCommand --> DeleteCommandParser : d
 deactivate DeleteCommand
 
-DeleteCommandParser --> FoodRecordParser : d
+DeleteCommandParser --> CalgoParser : d
 deactivate DeleteCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-DeleteCommandParser -[hidden]-> FoodRecordParser
+DeleteCommandParser -[hidden]-> CalgoParser
 destroy DeleteCommandParser
 
-FoodRecordParser --> LogicManager : d
-deactivate FoodRecordParser
+CalgoParser --> LogicManager : d
+deactivate CalgoParser
 
 LogicManager -> DeleteCommand : execute()
 activate DeleteCommand

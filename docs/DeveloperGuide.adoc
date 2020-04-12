@@ -16,9 +16,12 @@ endif::[]
 
 By: `Team F11-1`      Since: `March 2020`      Licence: `MIT`
 
+*Table of Contents*:
+
 == About this guide
 
 This Developer Guide is a document to guide future software developers of the Calgo App by providing a sufficient and comprehensible overview of the project. +
+
 While we aim to provide a reasonable amount of depth, do keep in mind that the goal of this document is not to serve as a replacement for reading the actual code. +
 
 Welcome on-board the Software Development Team for Calgo! Together, we will inspire a healthier lifestyle!
@@ -118,7 +121,7 @@ image::LogicClassDiagram.png[]
 *API* :
 link:{repoURL}/blob/master/src/main/java/life/calgo/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `FoodRecordParser` class to parse the user command.
+.  `Logic` uses the `CalgoParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
 .  The command execution can affect the `Model` (e.g. adding a food).
 .  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
@@ -150,7 +153,7 @@ real-time.
 . This component does not depend on any of the other three components.
 
 [NOTE]
-To make `Model` follow the Object Oriented Programming (OOP) Paradigm more closely,
+To make `Model` follow the Object-Oriented Paradigm (OOP) more closely,
 we can store a `Tag` list in `Food Record`, which `Food` objects can reference.
 This would allow `Food Record` to only require one `Tag` object per unique `Tag`,
 instead of each `Food` needing their own `Tag` object.
@@ -189,93 +192,344 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-[[Implementation-Configuration]]
-=== Configuration
+//tag:: Report[]
+[[Implementation-InsightsReport]]
+=== Generate insights report
+This feature allows a user to generate a report that contains statistics and deliverable insights based on
+personal food consumption patterns.
 
-Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
-
-
-
-As with any application with a plethora of commands, it is useful to have an in-app and offline method by which users can view the purpose and usage format of each command.
-
-This help feature is a functionality that is carried out by the FoodRecordParser to guide users on how to utilise the App's commands. The guide is displayed in a separate window, as handled by HelpWindow.
-
-With this, a top-level idea of the execution of the help command is given in the sequence diagram below:
-
-.Sequence Diagram for Help Command
-image::HelpSequenceDiagram.png[]// tag::helpcommand[]
-[[Implementation-HelpGuide]]
-=== Command guide `help` command
-
-This section addresses how the `help` command works.
-
-The `help` command allows us to reference a summarised version of the User Guide (called the command guide)
-containing the usages of the commands and their formats, arranged in alphabetical order. Users may enter an
-optional `Command_word` that filters the displayed command guide.
-
-[NOTE]
-`Command_word` filters out only commands which contain the `Command_word` as a substring. If no commands contain it
-as a substring, an error message will be displayed at the top of the `HelpWindow` and the full command guide will be shown.
-
+The functionality can be invoked by entering the `report d/DATE` command.
+This command generates a report that is based on the food consumed by
+the user on the specified date.
 
 ==== Implementation
-// end::helpcommand[]
+The specified feature is facilitated by `ReportGenerator` class in the `Storage` component.
+In this section, the implementation features of the `ReportGenerator` class will be further explained.
 
-Step 1: `LogicManager` takes in the user input of "help". +
-Step 2: `FoodRecordParser` is passed the String input and is parsed using `parseCommand`. +
-Step 3: This results in a `HelpCommand` object which is executed by the `LogicManager`. +
-Step 4: The `LogicManager` encapsulates the result as a `CommandResult` object which is passed back to the `MainWindow`. +
-Step 5: The `MainWindow` executes the handleHelp() method, displaying the `HelpWindow` if it is not already being displayed. +
-Step 6: `HelpWindow` is displayed as a separate popup.
+`ReportGenerator` class implements the following operation:
 
-// end::helpcommand[]
+* `ReportGenerator#generateReport()` - Creates report containing an analysis of all food consumed by user on the
+given date when inputting the `report` command.
+
+Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
+
+<<<
+
+The following sequence diagram illustrates the top-level execution of the `generateReport()` operation:
+
+image::ReportFeatureSequenceDiagram.png[]
+
+Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of 27 March 2020. +
+
+Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
+
+Step 3: The `String` input is parsed by `CalgoParser`, which removes the "d/" prefix tag and sends
+the date input to `ReportCommandParser`. +
+
+Step 4: Once the `ReportCommandParser` checks that the given date is valid, it creates a `ReportCommand` object and
+returns it to `LogicManager`.
+
+Step 5: `LogicManager` then executes the `ReportCommand`.
+
+Step 6: From `Model`, `ReportCommand` retrieves the `DailyFoodLog` object that stores all `Food` consumed on the input date.
+
+Step 7: From `Model`, `ReportCommand` also retrieves `DailyGoal` object, which stores the daily number of calories the user wants to consume.
+
+Step 8: With the relevant objects retrieved from Steps 6 and 7, `ReportCommand` constructs a
+`ReportGenerator` object.
+
+Step 9: Using the `ReportGenerator` object, `ReportCommand` calls `#generateInsights()`, which prints metainformation
+, food-wise statistics, aggregate statistics and insights based on the `DailyFoodLog` of the input date.
+
+Step 10: This newly generated report is saved in the `/reports` folder. If the report is successfully generated,
+the `CommandResult` is true. Otherwise, it is false. This `CommandResult` object is finally returned to `LogicManager`,
+to signify the end of the command.
+
 <<<
 
 ==== Design considerations
-===== Aspect: How Help is displayed
-* **Alternative 1 (current choice):** `HelpWindow` is displayed as a separate popup.
-** Pros:
-- User can refer to the command guide in a window separately from Calgo, keeping it present as they use the App.
-- Command guide can give a more detailed description of command usage and format as it has more space to display in.
-- No internet access is required as all information on commands is stored offline.
-** Cons:
-- `help` does not redirect to a url containing the most up-to-date User Guide. Changes made to the User Guide
-must be updated in `HelpCommand` separately.
-- `HelpWindow` might obstruct view of the App upon initially loading it, causing annoyance.
-* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
-** Pros:
-- No possibility of a popup blocking the main app.
-- All information is contained within a single window.
-** Cons:
-- User must use the `help` command every time they require a guide, as `ResultDisplay` will be
-overwritten after other commands.
 
-===== Aspect: Command guides can be selectively displayed
-* **Alternative 1 (current choice):** `help` displays all command guides by default. User can selectively filter to
-display only desired commands by entering an optional keyword after `help`.
-** Pros:
-- Desired command can be more rapidly found.
-- Removes all unwanted commands from `HelpWindow`, reducing clutter.
-** Cons:
-- Filtered `help` does not benefit users who don't know the command they're looking for.
-* **Alternative 2:** Always display all command guides to ensure user will find the guide they require.
-** Pros:
-- No possibility of user being unable to find their desired command after sufficient searching.
-** Cons:
-- Relatively large array of commands can be overwhelming to a new user, deterring them from using the App.
-- Can be very frustrating to search through for experienced users.
+===== Aspect: How generate report executes
+
+* *Alternative 1 (current choice):* Print insights into a .txt file.
+
+** Pros: The implementation allows users to easily edit the contents of the report should they have realised they
+did not log in certain food items on that day.
+** Cons: Users could cheat by modifying values in the report. This defeats the purpose of the report to improve their
+self-awareness of their food consumption patterns.
+
+* *Alternative 2:* Print insights into a pdf file.
+** Pros: The insights appear more legitimate and neatly formatted.
+
+** Cons: Requires use of external libraries, which occupy memory of the App. PDF files generally require
+more memory than .txt files as well.
 
 ==== Summary
-`help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
+The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
 
-.Activity Diagram for Help
-image::HelpActivityDiagram.png[]
+.Activity Diagram for Report command
+image::ReportActivityDiagram.png[]
+
+//tag:: Goal[]
+[[Implementation-GoalFeature]]
+=== Setting Goal Feature
+
+// tag::categoricalsubstringfindsearch[]
+[[Implementation-FindList]]
+=== Searching for specific `Food` via categories and substrings
+(by Eugene)
+
+This section addresses how the `find` and `list` commands work. As they are complementary in their functions during the search process, both `find` and `list` commands will be explained together here for better coherence.
+
+The `find` command allows us to search through the `FoodRecord` (via categorical or substring search) based on what the user enters for the `Prefix`. Users may enter one and only one `Prefix`. The search results can then be displayed in the GUI's `Food Record`.
+
+Meanwhile, the `list` command allows us to reset the GUI's `Food Record` to once again show all entries in lexicographical order. This can be thought of as the reverse of a `find` command. However, unlike the `find` command, the `list` command does not use any `Prefix`, and ignores any input after its command word.
+
+[NOTE]
+`Prefix` here indicates which `Food` attribute we are interested in. Categorical search finds `Food` objects with values that match the user-specified value representing one of the nutritional categories (`Calorie`, `Protein`, `Carbohydrate`, or `Fat`). Meanwhile, substring search finds matches for the user-entered substring in any part of the the `Name` or in any of the `Tag` objects belonging to the `Food` objects.
+
+[NOTE]
+For more information on lexicographical ordering, please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
+
+The above commands rely on the `FindCommand` and `ListCommand` objects respectively. Objects of both classes use a `Predicate<Food>` object to filter through the current `Food` objects, where `Food` objects will be displayed in the GUI's `Food Record` should they evaluate these predicates to be true.
+
+==== Implementation
+To search via a particular `Food` attribute, we use a `FindCommandParser` to create the corresponding `Predicate<Food>` based on which `Food` attribute the `Prefix` entered represents. This predicate is then used to construct a new `FindCommand` object, which changes the GUI display when executed. +
+
+The class diagram below shows the relevant `Predicate<Food>` classes used in the construction of `FindCommand` objects.
+
+.Class Diagram showing the relevant predicates used in constructing `FindCommand` objects
+image::FindListCommandPredicateClassDiagram.png[]
+
+As seen in the above class diagram, each `Predicate<Food>` is indeed representative of either `Name`, `Calorie`, `Protein`, `Carbohydrate`, `Fat`, or `Tag`. Moreover, it should be noted that each of these predicates test against a `Food` object, and therefore have a dependency on `Food`.
+
+The sequence diagram below demonstrates how the `find` command works, for both categorical and substring search:
+
+.Sequence Diagram for `find` command: categorical search and substring search
+image::FindSequenceDiagram.png[]
+
+[NOTE]
+The lifeline for the both of the `FindCommandParser` objects, and both of the `FindCommand` objects should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+From the above, it is clear that both categorical search and substring search of the `find` command have similar steps: +
+
+Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `find` command, and creates a new `FindCommandParser` object. +
+
+Step 2: The `FindCommandParser` object parses the user-entered arguments that match the `Prefix`, creating a `Predicate<Food>` object based on which `Food` attribute the `Prefix` represents.
+
+- In the above diagram examples, a `ProteinContainsKeywordsPredicate` object is created for the categorical search via `Protein` while a `NameContainsKeywordPredicate` object is created for the substring search via `Name`. +
+
+Step 3: This `Predicate<Food>` object is then used to construct a new `FindCommand` object, returned to `LogicManager`. +
+
+Step 4: `LogicManager` calls the `execute` method of the `FindCommand` created, which filters for `Food` objects that evaluate the predicate previously created to be true. It then returns a new `CommandResult` object reflecting the status of the execution. These changes are eventually reflected in the GUI.
+
+The `find` command therefore searches through the existing `FoodRecord` and then displays the relevant search results in the GUI's `Food Record`. To once again show all `Food` entries in the display, we use the `list` command.
+
+In constrast to `FindCommand`, the `ListCommand` constructor takes in no arguments and simply uses the predicate `Model.PREDICATE_SHOW_ALL_FOODS` to always show all `Food` entries in its `execute` method. This is described by the sequence diagram below:
+
+.Sequence Diagram for `list` command
+image::ListSequenceDiagram.png[]
+[NOTE]
+The lifeline for the `ListCommand` object should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
+
+How the `list` command works:
+
+Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `list` command and thereby create a new `ListCommand` object. +
+
+Step 2: `LogicManager` then calls the `execute` method of this `ListCommand`, which uses `Model.PREDICATE_SHOW_ALL_FOODS` to evaluate to true for all `Food` objects in the `FoodRecord`.
+
+Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` entries.
+
+==== Design considerations
+
+===== Aspect: Predicate construction source.
+
+* **Alternative 1 (current choice):** Each `Predicate<Food>` is constructed using a new object of type either `Name`, `Calorie`, `Protein`, `Carbohydrate`, `Fat`, `Tag`.
+** Pros:
+- Defensive programming by building new objects rather than relying on mutable sources.
+- Can reuse existing code and classes like ArgumentMultimap and their methods.
+- Models objects well to reflect the real-world.
+** Cons:
+- May be more resource-intensive than other alternatives.
+- New developers may not find this intuitive.
+* **Alternative 2:** Each `Predicate<Food>` is created using a `String` which represents the keywords.
+** Pros:
+- Easier to implement with fewer existing dependencies.
+- Less resource-intensive.
+** Cons:
+- More prone to bugs.
+- Difficult to ascertain which `Food` attribute it actually represents.
+- More difficult to debug as `String` type is easily modified.
+- Does not reflect good OOP practices
+
+===== Aspect: Enabling substring search.
+
+* **Alternative 1 (current choice):** Allow substring search for both `Name` and `Tag`
+** Pros:
+- Improves user experience.
+- Can reuse common code as the approach for both `Name` and `Tag` are similar.
+- Generally easy to implement substring finding.
+- Can use regular expressions if needed, which are powerful and suitable for our purpose.
+** Cons:
+- Requires good understanding of the original project.
+- Need to know the `String` type, regular expressions, and their implications.
+- Need to implement searching via multiple types of `Food` attributes and hence introduces more dependencies.
+- Need to implement a new `Parser` class to detect each relevant `Prefix`.
+* **Alternative 2:** Only allow exact word matches for `Name` and `Tag`
+** Pros:
+- Can simply reuse large parts of the original project's existing code.
+- Less prone to bugs.
+- Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
+** Cons:
+- Diminishes user experience.
+- May not fully satisfy the user requirements.
+- Need to implement searching via multiple types of `Food` attributes and hence introduces more dependencies.
+- Need to implement a new `Parser` class to detect each relevant `Prefix`.
+
+==== Summary
+
+In essence, this section focuses on searching which is implemented via `find` and `list` commands. +
+
+The `find` command performs a categorical search if a value from a nutritional category (`Calorie`, `Protein`, `Carbohydrate`, `Fat`) is specified. Otherwise, a substring search is performed to find `Food` objects that contain the entered substring in their `Name` or in one of their `Tag` s. These rely on the `Predicate<Food>` object used in constructing the `FindCommand`, which depend on the `Prefix` entered by the user. +
+
+Meanwhile, the `list` command simply uses the predicate already defined in `Model` to display all `Food` objects. +
+
+The above can be summarised in the activity diagram below:
+
+.Activity Diagram for Searching
+image::FindListCommandActivityDiagram.png[]
+
+// tag::categoricalsubstringfindsearch[]
+
+// tag::lexicographicalordering[]
+[[Implementation-LexicographicalOrder]]
+=== Lexicographical `Food` order
+(by Eugene)
+
+This section addresses how the GUI `Food Record` entries appear in lexicographical order, which is an effect of sorting `Food` objects in the `FoodRecord`.
+
+Over time, users will eventually have many `Food` entries -- these should be sorted for a better experience. Intuitively, the lexicographical order is the most suitable here.
+
+In essence, `Food` objects are sorted by the `UniqueFoodList` (which is inside `FoodRecord`).
+Sorting is performed each time `Food` object(s) are newly added to the `UniqueFoodList`, or during the initialisation of the `UniqueFoodList` upon App start-up.
+There is no need to re-sort when a `Food` object is deleted or edited as the order is maintained.
+
+[NOTE]
+For a better understanding of adding and editing `Food` objects using the `update` command, please refer to its relevant section <<Implementation-SmartUpdate, here>>.
+[NOTE]
+Although the the `list` command changes the GUI `Food Record` display, it does not actually perform sorting. It simply resets the GUI `Food Record` to show all `Food` entries, and is usually used after a `find` command. You can read more about them <<Implementation-FindList, here>>.
+
+==== Implementation
+
+The `UniqueFoodList` is able to sort `Food` objects because the `Food` class implements the `Comparable<Food>` interface.
+This allows us to specify the lexicographical order for sorting `Food` objects via their `Name`, using the following compareTo method in the `Food` class:
+[source,java]
+----
+public int compareTo(Food other) {
+    String currentName = this.getName().toString();
+    String otherName = other.getName().toString();
+    return currentName.compareTo(otherName);
+}
+----
+
+How the sorting process works:
+
+* When the App starts up, a new `UniqueFoodList` is created from the source json file (if available) or otherwise the default entries, and the created `Food` objects are sorted as they are added to it.
+* Existing `Food` objects are therefore arranged in lexicographic order by `Name`.
+* Thereafter, `UniqueFoodList` sorts the `Food` objects whenever new `Food` objects are added.
+
+It should be noted that sorting is only performed by the `addFood` and `setFoods` method of the `UniqueFoodList`, which calls the `sortInternalList` method. Not to be confused, the `setFood` method, which is used when a `Food` object is edited, does not perform any sorting. +
+
+The sequence diagram below shows how the lexicographical ordering is performed when Calgo starts up:
+
+.Lexicographical Ordering Sequence Diagram for App Start-up
+image::LexicographicalOrderingStartupSequenceDiagram.png[]
+
+Based on the above diagram, when Calgo starts: +
+
+Step 1: We initialise the `ModelManager` object. For this, we use previously stored user data if available (by reading in from the source json files). Otherwise, we use the default Calgo `Food` entries. +
+
+Step 2: Before we can finish constructing a new `ModelManager` object, we require the creation of a new `FoodRecord` object which in turn requires the creation of a new `UniqueFoodList` object. +
+
+Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it using the `setFoods` method. This calls the `sortInternalList` method, which sorts the newly added `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order (defined in the `Food` class).
+
+
+Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added (note: not when they are edited) using the `update` command:
+
+.Lexicographical Ordering Sequence Diagram for Updating
+image::LexicographicalOrderingUpdateSequenceDiagram.png[]
+
+[NOTE]
+This is in a reference frame as it is reused in the `update` section <<Implementation-SmartUpdate, here>>)
+
+
+Here, the diagram describes what happens after parsing the user input and creating an `UpdateCommand` object. Since the `Food` entered by the user is an entirely new `Food` object without a `Name`-equivalent `Food` existing in the `UniqueFoodList`:
+
+Step 1: We call the respective `addFood` and `add` methods as seen in the diagram, eventually adding the `Food` object into the `UniqueFoodList` and arriving at its `sortInternalList` method call. +
+
+Step 2: The `sortInternalList` method then sorts the `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order defined in the `Food` class.
+
+[NOTE]
+During an `update` command, we do not perform sorting if the user enters a `Food` object that already has an existing counterpart with an equivalent `Name` in the `UniqueFoodList`.
+
+Any re-ordering will eventually be reflected in the GUI, facilitated by the following (in the case of a `list` command) or otherwise something similar:
+[source,java]
+----
+model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
+----
 
 <<<
 
+==== Design considerations
+
+===== Aspect: Frequency of sorting operation.
+
+* **Alternative 1 (current choice):** Sort whenever a new `Food` is added or during App start-up.
+** Pros:
+- Guarantees correctness of sorting.
+- Saves on computational cost by not sorting during deletion or edits as the order is preserved.
+- Computational cost is not too expensive since the introduced `Food` objects usually come individually rather than as a collection (except during App start-up).
+** Cons:
+- Need to ensure implementations of various commands changing the `Model` are correct and do not interfere with the sorting process.
+- May be computationally expensive if there are many unsorted `Food` objects at once, which is possible when Calgo starts up.
+* **Alternative 2:** Sort only when calling the `list` command.
+** Pros:
+- Easier to implement with fewer existing dependencies.
+- Uses less computational resources since sorting is only done when `list` command is called.
+** Cons:
+- Diminishes user experience.
+- May be incompatible with certain `Storage` functions.
+- May lead to bugs in overall product due to incompatible features.
+
+===== Aspect: Data structure to store `Food` objects.
+
+* **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
+** Pros:
+- Can reuse existing code, removing the need to maintain a separate list-like data structure.
+- Based on existing code, any changes to the `Model` from the sorting process are automatically reflected in the GUI. This is very useful for testing and debugging manually.
+** Cons:
+- Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
+* **Alternative 2:** Use a simpler data structure like an `ArrayList`.
+** Pros:
+- Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
+** Cons:
+- More troublesome as we require self-defined methods, abstracted over the existing ones. If not careful, these self-defined methods can possibly contain violations of certain software engineering principles, which may introduce regression in the future.
+- May be inefficient in using resources.
+
+<<<
+
+==== Summary
+
+The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects and hence how their respective entries appear in the GUI `Food Record`. This can be summarised in the activity diagram below:
+
+.Activity Diagram for Lexicographical Ordering
+image::LexicographicalOrderingActivityDiagram.png[]
+// end::lexicographicalordering[]
+
 // tag::exportfoodrecord[]
 [[Implementation-Export]]
-=== Exporting the current `FoodRecord` into a .txt file
+=== Exporting the current `FoodRecord` into a portable file
 (by Eugene)
 
 This section addresses how the `export` command works, creating a FoodRecord.txt file showing details of all the `Food` objects currently stored in the `FoodRecord`. The information is presently neatly in table form and the file is created in the `data/exports` folder.
@@ -344,7 +598,7 @@ Step 4: A new `CommandResult` object indicating the status of the execution is t
 
 * **Alternative 1 (current choice):** Create `DocumentGenerator` abstract class which both `ExportGenerator` and `ReportGenerator` extends.
 ** Pros:
-- Good Object-Oriented Programming practice, following its principles.
+- Good OOP practice, following its principles.
 - Allows for code reuse and neater code.
 - Able to apply concepts of polymorphism, if required.
 - May be now easier to debug.
@@ -376,140 +630,14 @@ The above can be summarised in the activity diagram below:
 image::ExportActivityDiagram.png[]
 
 // tag::exportfoodrecord[]
-<<<
-
-// tag::categoricalsubstringfindsearch[]
-[[Implementation-FindList]]
-=== Searching for specific `Food` via categories and substrings
-(by Eugene)
-
-This section addresses how the `find` and `list` commands work. As they are complementary in their functions during the search process, both `find` and `list` commands will be explained together here for better coherence.
-
-The `find` command allows us to search through the `FoodRecord` (via categorical or substring search) based on what the user enters for the `Prefix`. Users may enter one and only one `Prefix`. The search results can then be displayed in the GUI's `Food Record`.
-
-Meanwhile, the `list` command allows us to reset the GUI's `Food Record` to once again show all entries in lexicographical order. This can be thought of as the reverse of a `find` command. However, unlike the `find` command, the `list` command does not use any `Prefix`, and ignores any input after its command word.
-
-[NOTE]
-`Prefix` here indicates which `Food` attribute we are interested in. Categorical search finds `Food` objects with values that match the user-specified value representing one of the nutritional categories (`Calorie`, `Protein`, `Carbohydrate`, or `Fat`). Meanwhile, substring search finds matches for the user-entered substring in any part of the the `Name` or in any of the `Tag` objects belonging to the `Food` objects.
-
-[NOTE]
-For more information on lexicographical ordering, please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
-
-The above commands rely on the `FindCommand` and `ListCommand` objects respectively. Objects of both classes use a `Predicate<Food>` object to filter through the current `Food` objects, where `Food` objects will be displayed in the GUI's `Food Record` should they evaluate these predicates to be true.
-
-==== Implementation
-To search via a particular `Food` attribute, we use a `FindCommandParser` to create the corresponding `Predicate<Food>` based on which `Food` attribute the `Prefix` entered represents. This predicate is then used to construct a new `FindCommand` object, which changes the GUI display when executed. +
-
-The class diagram below shows the relevant `Predicate<Food>` classes used in the construction of `FindCommand` objects.
-
-image::FindListCommandPredicateClassDiagram.png[]
-.Class Diagram showing the relevant predicates used in constructing `FindCommand` objects
-
-As seen in the above class diagram, each `Predicate<Food>` is indeed representative of either `Name`, `Calorie`, `Protein`, `Carbohydrate`, `Fat`, or `Tag`. Moreover, it should be noted that each of these predicates test against a `Food` object, and therefore have a dependency on `Food`.
-
-The sequence diagram below demonstrates how the `find` command works, for both categorical and substring search:
-
-.Sequence Diagram for `find` command: categorical search and substring search
-image::FindSequenceDiagram.png[]
-
-[NOTE]
-The lifeline for the both of the `FindCommandParser` objects, and both of the `FindCommand` objects should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
-
-From the above, it is clear that both categorical search and substring search of the `find` command have similar steps: +
-
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `find` command, and creates a new `FindCommandParser` object. +
-
-Step 2: The `FindCommandParser` object parses the user-entered arguments that match the `Prefix`, creating a `Predicate<Food>` object based on which `Food` attribute the `Prefix` represents.
-
-- In the above diagram examples, a `ProteinContainsKeywordsPredicate` object is created for the categorical search via `Protein` while a `NameContainsKeywordPredicate` object is created for the substring search via `Name`. +
-
-Step 3: This `Predicate<Food>` object is then used to construct a new `FindCommand` object, returned to `LogicManager`. +
-
-Step 4: `LogicManager` calls the `execute` method of the `FindCommand` created, which filters for `Food` objects that evaluate the predicate previously created to be true. It then returns a new `CommandResult` object reflecting the status of the execution. These changes are eventually reflected in the GUI.
-
-The `find` command therefore searches through the existing `FoodRecord` and then displays the relevant search results in the GUI's `Food Record`. To once again show all `Food` entries in the display, we use the `list` command.
-
-In constrast to `FindCommand`, the `ListCommand` constructor takes in no arguments and simply uses the predicate `Model.PREDICATE_SHOW_ALL_FOODS` to always show all `Food` entries in its `execute` method. This is described by the sequence diagram below:
-
-.Sequence Diagram for `list` command
-image::ListSequenceDiagram.png[]
-[NOTE]
-The lifeline for the `ListCommand` object should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-
-How the `list` command works:
-
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `list` command and thereby create a new `ListCommand` object. +
-
-Step 2: `LogicManager` then calls the `execute` method of this `ListCommand`, which uses `Model.PREDICATE_SHOW_ALL_FOODS` to evaluate to true for all `Food` objects in the `FoodRecord`.
-
-Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` entries.
-
-==== Design considerations
-
-===== Aspect: Predicate construction source.
-
-* **Alternative 1 (current choice):** Each `Predicate<Food>` is constructed using a new object of type either `Name`, `Calorie`, `Protein`, `Carbohydrate`, `Fat`, `Tag`.
-** Pros:
-- Defensive programming by building new objects rather than relying on mutable sources.
-- Can reuse existing code and classes like ArgumentMultimap and their methods.
-- Models objects well to reflect the real-world.
-** Cons:
-- May be more resource-intensive than other alternatives.
-- New developers may not find this intuitive.
-* **Alternative 2:** Each `Predicate<Food>` is created using a `String` which represents the keywords.
-** Pros:
-- Easier to implement with fewer existing dependencies.
-- Less resource-intensive.
-** Cons:
-- More prone to bugs.
-- Difficult to ascertain which `Food` attribute it actually represents.
-- More difficult to debug as `String` type is easily modified.
-- Does not reflect good Object-Oriented Programming practices
-
-===== Aspect: Enabling substring search.
-
-* **Alternative 1 (current choice):** Allow substring search for both `Name` and `Tag`
-** Pros:
-- Improves user experience.
-- Can reuse common code as the approach for both `Name` and `Tag` are similar.
-- Generally easy to implement substring finding.
-- Can use regular expressions if needed, which are powerful and suitable for our purpose.
-** Cons:
-- Requires good understanding of the original project.
-- Need to know the `String` type, regular expressions, and their implications.
-- Need to implement searching via multiple types of `Food` attributes and hence introduces more dependencies.
-- Need to implement a new `Parser` class to detect each relevant `Prefix`.
-* **Alternative 2:** Only allow exact word matches for `Name` and `Tag`
-** Pros:
-- Can simply reuse large parts of the original project's existing code.
-- Less prone to bugs.
-- Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
-** Cons:
-- Diminishes user experience.
-- May not fully satisfy the user requirements.
-- Need to implement searching via multiple types of `Food` attributes and hence introduces more dependencies.
-- Need to implement a new `Parser` class to detect each relevant `Prefix`.
-
-==== Summary
-
-In essence, this section focuses on searching which is implemented via `find` and `list` commands. +
-
-The `find` command performs a categorical search if a value from a nutritional category (`Calorie`, `Protein`, `Carbohydrate`, `Fat`) is specified. Otherwise, a substring search is performed to find `Food` objects that contain the entered substring in their `Name` or in one of their `Tag` s. These rely on the `Predicate<Food>` object used in constructing the `FindCommand`, which depend on the `Prefix` entered by the user. +
-
-Meanwhile, the `list` command simply uses the predicate already defined in `Model` to display all `Food` objects. +
-
-The above can be summarised in the activity diagram below:
-
-.Activity Diagram for Searching
-image::FindListCommandActivityDiagram.png[]
-
-// tag::categoricalsubstringfindsearch[]
-<<<
 
 
 [[Implementation-ConsumptionManagement]]
 === `Food` consumption management
+
+(by Ruicong)
+
+
 In Calgo, you will find that there is a date associated with each list of `ConsumedFood`.
 When adding food to be consumed, removing food, or displaying food consumed on certain days,
 a `FilteredList` will be populated with relevant `ConsumedFood`.
@@ -567,244 +695,78 @@ The `nom` command adds a `Food` item consumed by the user into the `stomach`. Th
 .Activity Diagram for Nom
 image::NomActivityDiagram.png[]
 
-//tag:: Report[]
-[[Implementation-InsightsReport]]
-=== Generate insights report
-This feature allows a user to generate a report that contains statistics and deliverable insights based on
-personal food consumption patterns.
-
-The functionality can be invoked by entering the `report d/DATE` command.
-This command generates a report that is based on the food consumed by
-the user on the specified date.
-
-==== Implementation
-The specified feature is facilitated by `ReportGenerator` class in the `Storage` component.
-In this section, the implementation features of the `ReportGenerator` class will be further explained.
-
-`ReportGenerator` class implements the following operation:
-
-* `ReportGenerator#generateReport()` - Creates report containing an analysis of all food consumed by user on the
-given date when inputting the `report` command.
-
-Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
-
-<<<
-
-The following sequence diagram illustrates the top-level execution of the `generateReport()` operation:
-
-image::ReportFeatureSequenceDiagram.png[]
-
-Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of 27 March 2020. +
-
-Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
-
-Step 3: The `String` input is parsed by `FoodRecordParser`, which removes the "d/" prefix tag and sends
-the date input to `ReportCommandParser`. +
-
-Step 4: Once the `ReportCommandParser` checks that the given date is valid, it creates a `ReportCommand` object and
-returns it to `LogicManager`.
-
-Step 5: `LogicManager` then executes the `ReportCommand`.
-
-Step 6: From `Model`, `ReportCommand` retrieves the `DailyFoodLog` object that stores all `Food` consumed on the input date.
-
-Step 7: From `Model`, `ReportCommand` also retrieves `DailyGoal` object, which stores the daily number of calories the user wants to consume.
-
-Step 8: With the relevant objects retrieved from Steps 6 and 7, `ReportCommand` constructs a
-`ReportGenerator` object.
-
-Step 9: Using the `ReportGenerator` object, `ReportCommand` calls `#generateInsights()`, which prints metainformation
-, food-wise statistics, aggregate statistics and insights based on the `DailyFoodLog` of the input date.
-
-Step 10: This newly generated report is saved in the `/reports` folder. If the report is successfully generated,
-the `CommandResult` is true. Otherwise, it is false. This `CommandResult` object is finally returned to `LogicManager`,
-to signify the end of the command.
-
-<<<
-
-==== Design considerations
-
-===== Aspect: How generate report executes
-
-* *Alternative 1 (current choice):* Print insights into a .txt file.
-
-** Pros: The implementation allows users to easily edit the contents of the report should they have realised they
-did not log in certain food items on that day.
-** Cons: Users could cheat by modifying values in the report. This defeats the purpose of the report to improve their
-self-awareness of their food consumption patterns.
-
-* *Alternative 2:* Print insights into a pdf file.
-** Pros: The insights appear more legitimate and neatly formatted.
-
-** Cons: Requires use of external libraries, which occupy memory of the App. PDF files generally require
-more memory than .txt files as well.
-
-==== Summary
-The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
-
-.Activity Diagram for Report command
-image::ReportActivityDiagram.png[]
-
-// tag::lexicographicalordering[]
-[[Implementation-LexicographicalOrder]]
-=== Lexicographical `Food` order
-(by Eugene)
-
-This section addresses how the GUI `Food Record` entries appear in lexicographical order, which is an effect of sorting `Food` objects in the `FoodRecord`.
-
-Over time, users will eventually have many `Food` entries -- these should be sorted for a better experience. Intuitively, the lexicographical order is the most suitable here.
-
-In essence, `Food` objects are sorted by the `UniqueFoodList` (which is inside `FoodRecord`).
-Sorting is performed each time `Food` object(s) are newly added to the `UniqueFoodList`, or during the initialisation of the `UniqueFoodList` upon App start-up.
-There is no need to re-sort when a `Food` object is deleted or edited as the order is maintained.
-
-[NOTE]
-For a better understanding of adding and editing `Food` objects using the `update` command, please refer to its relevant section <<Implementation-SmartUpdate, here>>.
-[NOTE]
-Although the the `list` command changes the GUI `Food Record` display, it does not actually perform sorting. It simply resets the GUI `Food Record` to show all `Food` entries, and is usually used after a `find` command. You can read more about them <<Implementation-FindList, here>>.
-
-==== Implementation
-
-The `UniqueFoodList` is able to sort `Food` objects because the `Food` class implements the `Comparable<Food>` interface.
-This allows us to specify the lexicographical order for sorting `Food` objects via their `Name`, using the following compareTo method in the `Food` class:
-[source,java]
-----
-public int compareTo(Food other) {
-    String currentName = this.getName().toString();
-    String otherName = other.getName().toString();
-    return currentName.compareTo(otherName);
-}
-----
-
-How the sorting process works:
-
-* When the App starts up, a new `UniqueFoodList` is created from the source json file (if available) or otherwise the default entries, and the created `Food` objects are sorted as they are added to it.
-* Existing `Food` objects are therefore arranged in lexicographic order by `Name`.
-* Thereafter, `UniqueFoodList` sorts the `Food` objects whenever new `Food` objects are added.
-
-It should be noted that sorting is only performed by the `addFood` and `setFoods` method of the `UniqueFoodList`, which calls the `sortInternalList` method. Not to be confused, the `setFood` method, which is used when a `Food` object is edited, does not perform any sorting. +
-
-The sequence diagram below shows how the lexicographical ordering is performed when Calgo starts up:
-
-.Lexicographical Ordering Sequence Diagram for App Start-up
-image::LexicographicalOrderingStartupSequenceDiagram.png[]
-
-Based on the above diagram, when Calgo starts: +
-
-Step 1: We initialise the `ModelManager` object. For this, we use previously stored user data if available (by reading in from the source json files). Otherwise, we use the default *Calgo* `Food` entries. +
-
-Step 2: Before we can finish constructing a new `ModelManager` object, we require the creation of a new `FoodRecord` object which in turn requires the creation of a new `UniqueFoodList` object. +
-
-Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it using the `setFoods` method. This calls the `sortInternalList` method, which sorts the newly added `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order (defined in the `Food` class).
-
-
-Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added (note: not when they are edited) using the `update` command:
-
-.Lexicographical Ordering Sequence Diagram for Updating (Note: this is in a reference frame as it is reused in the `update` section <<Implementation-SmartUpdate, here>>)
-image::LexicographicalOrderingUpdateSequenceDiagram.png[]
-
-Here, the diagram describes what happens after parsing the user input and creating an `UpdateCommand` object. Since the `Food` entered by the user is an entirely new `Food` object without a `Name`-equivalent `Food` existing in the `UniqueFoodList`:
-
-Step 1: We call the respective `addFood` and `add` methods as seen in the diagram, eventually adding the `Food` object into the `UniqueFoodList` and arriving at its `sortInternalList` method call. +
-
-Step 2: The `sortInternalList` method then sorts the `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order defined in the `Food` class.
-
-[NOTE]
-During an `update` command, we do not perform sorting if the user enters a `Food` object that already has an existing counterpart with an equivalent `Name` in the `UniqueFoodList`.
-
-Any re-ordering will eventually be reflected in the GUI, facilitated by the following (in the case of a `list` command) or otherwise something similar:
-[source,java]
-----
-model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
-----
-
-<<<
-
-==== Design considerations
-
-===== Aspect: Frequency of sorting operation.
-
-* **Alternative 1 (current choice):** Sort whenever a new `Food` is added or during App start-up.
-** Pros:
-- Guarantees correctness of sorting.
-- Saves on computational cost by not sorting during deletion or edits as the order is preserved.
-- Computational cost is not too expensive since the introduced `Food` objects usually come individually rather than as a collection (except during App start-up).
-** Cons:
-- Need to ensure implementations of various commands changing the `Model` are correct and do not interfere with the sorting process.
-- May be computationally expensive if there are many unsorted `Food` objects at once, which is possible when Calgo starts up.
-* **Alternative 2:** Sort only when calling the `list` command.
-** Pros:
-- Easier to implement with fewer existing dependencies.
-- Uses less computational resources since sorting is only done when `list` command is called.
-** Cons:
-- Diminishes user experience.
-- May be incompatible with certain `Storage` functions.
-- May lead to bugs in overall product due to incompatible features.
-
-===== Aspect: Data structure to store `Food` objects.
-
-* **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
-** Pros:
-- Can reuse existing code, removing the need to maintain a separate list-like data structure.
-- Based on existing code, any changes to the `Model` from the sorting process are automatically reflected in the GUI. This is very useful for testing and debugging manually.
-** Cons:
-- Many of the underlying `ObservableList` methods are built-in and cannot be edited. They are also difficult to understand for those unfamiliar. This can make development slightly trickier, especially in following certain software engineering principles.
-* **Alternative 2:** Use a simpler data structure like an `ArrayList`.
-** Pros:
-- Easy for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project.
-** Cons:
-- More troublesome as we require self-defined methods, abstracted over the existing ones. If not careful, these self-defined methods can possibly contain violations of certain software engineering principles, which may introduce regression in the future.
-- May be inefficient in using resources.
-
-<<<
-
-==== Summary
-
-The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects and hence how their respective entries appear in the GUI `Food Record`. This can be summarised in the activity diagram below:
-
-.Activity Diagram for Lexicographical Ordering
-image::LexicographicalOrderingActivityDiagram.png[]
-// end::lexicographicalordering[]
-
-=== Logging
-
-We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
-
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>> below)
-* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
-* Currently log messages are output through: `Console` and to a `.log` file.
-
-*Logging Levels*
-
-* `SEVERE` : Critical problem detected which may possibly cause the termination of the App
-* `WARNING` : Can continue, but with caution
-* `INFO` : Information showing the noteworthy actions by the App
-* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
-
 [[Implementation-SmartUpdate]]
-=== Updating `FoodRecord`
-This feature allows you to add a food preset with all its nutritional details into the `FoodRecord`.
-This makes it convenient for you to keep track of your `Food` consumed in the day without having to manually key in the nutritional details every time you do so.
+=== Updating the `FoodRecord`
+This section addresses how the `update` command works.
+
+The `update` command allows the user to update the `FoodRecord` by either updating a new `Food` into the `FoodRecord` or updating the
+nutritional values of an existing `Food` in the `FoodRecord`.
+
+From the user's perspective, the `update` command decides whether to
+override an existing `Food` in the `FoodRecord` with new values, or create a new `Food` in the `FoodRecord` for them.
+
+For better user experience, the `Name` required in the `update` command is case-insensitive. This means that if "Apple" already exists in the
+`FoodRecord`, an `update` command with "apple" as the `Name` will result in nutritional values of "Apple" in the `FoodRecord` being updated,
+instead of a new `Food` with `Name` "apple" being created in the `FoodRecord`
+
+On top of this, for all new `Food` being updated into the `FoodRecord` with the `update` command, the `Name` entry of the `Food` updated into the `FoodRecord`
+will be formatted to proper case. This means that if the user updates a new q into the `FoodRecord` with the `Name` as "char kuay teow", the `Food` that
+is stored in the `FoodRecord` will be of `Name` "Char Kuay Teow".
+
+
+[NOTE]
+When a new Food is updated into the FoodRecord, the FoodRecord is sorted in lexicographical order. For more information on how this is implemented,
+please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
+
 
 ==== Implementation
-The update mechanism is facilitated by `FoodRecord` and `UpdateCommand`. An additional operation was implemented into `FoodRecord`:
 
-* `FoodRecord#hasExistingFood()` - Checks if there is an existing `Food` in `FoodRecord` based on its name only
+The `update` command is facilitated by the FoodRecord which contains a UniqueFoodList which stores all the Food in the FoodRecord.
+This command either adds a new Food into this UniqueFoodList or edits the nutritional values of an existing Food in the UniqueFoodList.
+An additional operation is implemented to help with this:
 
-This operation was exposed in the `Model` interface as `Model#hasExistingFood()`.
+* `FoodRecord#hasFood()` - Checks if there is an existing `Food` in `FoodRecord` by checking if there is any `Food` in the FoodRecord
+with the same `Name`.
 
-The update feature first checks if there is already an existing `Food` item with the same name
-inside `FoodRecord` using the method `FoodRecord#hasExistingFood()`.
+This operation was exposed in the `Model` interface as `Model#hasFood()` and allows the `UpdateCommand` to decide whether to
+add or edit `Food` in the `UniqueFoodList`.
 
-If there is already an existing `Food` with the same name, the existing `Food` item will override the `Food` item inside `FoodRecord` with
-the new nutritional information provided by the user. +
-Otherwise, the new `Food` item will be added into the `FoodRecord`.
+The following sequence diagram shows how the `update` operation works in both cases:
 
-The following sequence diagram shows how the update operation works in both cases:
-
-.Sequence Diagram for Update command
+.Sequence Diagram for Update command (to be updated)
 image::UpdateSequenceDiagram.png[]
 NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+How the `update` command works:
+
+Step 1: LogicManager executes the user input of `update n/apple cal/52 p/2 c/14 f/1", using CalgoParser to realise this is
+an update command and creates a new UpdateCommandParser object.
+
+Step 2: `UpdateCommandParser` then parses the arguments provided by `CalgoParser` with the `parse` method.
+During this parsing process, `UpdateCommandParser` calls the `covertToTitleCase` method on the `Name` argument, converting it
+to proper case.
+
+Step 3: `UpdateCommandParser` then creates a new `UpdateCommand` object, which `LogicManager` calls the execute method with this object
+as an argument.
+
+Step 4: `UpdateCommand` now checks if there exists an existing `Food` in the `FoodRecord` by calling `Model` 's
+`hasFood` method, which checks if there is any Food in `FoodRecord` 's UniqueFoodList with the same `Name`.
+
+Step 5:
+
+* Scenario 1:
+If Food already exists in the `FoodRecord`:
+** Model calls the `getExistingFood` method with the user inputted Food
+as a parameter to get the existing Food, `existingFood` in the `UniqueFoodList`. It thens call the setFood method to replace the
+existing Food in the UniqueFoodList with the new `Food` which contains new nutritional values.
+
+* Scenario 2:
+If Food does not exist in `FoodRecord`:
+** This scenario is handled by the Lexicographical Ordering feature. Please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
+** Model calls the `addFood` method with the user inputted `Food` as a parameter to add the new `Food` into the `UniqueFoodList` in `FoodRecord`
+** After the `Food` is added into the `UniqueFoodList`, the `UniqueFoodList` is also sorted in lexicographical order.
+
+Step 6: A new `CommandResult` object is then created and returned back to `LogicManager`.
 
 <<<
 
@@ -813,16 +775,18 @@ NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at t
 ===== Aspect: Updating the `FoodRecord` when there is an existing `Food` item in `FoodRecord`
 
 * *Alternative 1 (current choice):* Overrides the existing `Food` item with the new `Food` item
-** Pros: No need for a separate command of `edit` to deal with existing `Food` item apart from `add` to add new `Food` item into the `FoodRecord`.
-Instead, a smarter command of `update` is used to deal with both scenarios.
+** Pros:
+*** No need for an additional command of `edit` just for the user to edit an existing `Food` item in the `FoodRecord`.
 ** Cons:
-This might not be intuitive for the user since the word "update" is generally assumed to be for editing something only, and not necessarily adding something.
+*** Might not be intuitive for the user since the word "update" is generally assumed to be for editing something only and not necessarily adding something.
+*** May result in additional performance overhead.
 
-* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another function `edit` to edit the existing `Food` instead.
-** Pros: In the event where the user is unaware that there is already an existing `Food` item, this two step process will be clearer to him that he is
-in fact editing a `Food` item and not adding a new one in.
-** Cons: This is more tedious for the user since more steps is required to change an existing `Food` item. On top of that, an additional command of `edit` will be required and `update`
-should be replaced with `add` for clearer user experience.
+* *Alternative 2:* Informs the user that there is already an existing `Food` item, and direct him to use another command `edit` to edit the existing `Food` instead.
+** Pros:
+*** More intuitive for user, since he might not know that he is overriding an existing `Food` item
+** Cons:
+*** Additional command has to be created just to handle editing
+*** More tedious for user since more steps are required to achieve the same result.
 
 ==== Summary
 The `update` command is a smart command that either updates an existing `Food` item in the `FoodRecord` with new nutritional information,
@@ -831,6 +795,136 @@ The following activity diagram summarises what happens when a user enters a vali
 
 .Activity Diagram for Update command
 image::UpdateActivityDiagram.png[]
+
+=== Real-time Suggestions for Existing `Food` in `FoodRecord`
+
+This section addresses how the GUI Result Display suggests Food with similar names to the user for the commands `update`, `delete` and `nom`.
+
+When the user have many `Food` entries in the `FoodRecord`, they may have difficulties finding out if a particular `Food` exists in the `FoodRecord`.
+For better user experience, this feature listens to the input of the user for these three commands suggests similar existing Food entries in real time.
+
+This feature listens to the input of the user after the `Prefix` `n/` and checks if there is a `Food` entry in the `FoodRecord` with a similar `Name`.
+
+[NOTE]
+The `Name` parameter is case-insensitive and searches the `Food` entries in the `FoodRecord` by whether they start with the user input so far after the
+`Prefix` `n/`.
+
+==== Implementation
+
+A listener set in place within the CommandBox to listen for user input passes the input to MainWindow.
+This feature is then facilitated by an operation `getSimilarfood` in the
+
+
+image::RealTimeSuggestionSequenceDiagram.png[]
+Step1....
+
+
+
+==== Design Considerations
+===== Aspect: How the suggestions is shown to the user.
+* *Alternative 1: (current choice):* ResultDisplay displays the names of similar Food entries in Food Record.
+** Pros:
+
+** Cons:
+
+* Alternative 2:* Filter the GUI's Food Record to similar Food entries.
+** Pros:
+** Cons:
+
+
+[[Implementation-HelpGuide]]
+=== Command guide `help` command
+
+This section addresses how the `help` command works.
+
+The `help` command allows us to reference a summarised version of the User Guide (called the command guide)
+containing the usages of the commands and their formats, arranged in alphabetical order. Users may enter an
+optional `command word` that filters the displayed command guide.
+
+[NOTE]
+`command word` filters out only commands which contain the `command word` as a substring. If no commands contain it
+as a substring, an error message will be displayed at the top of the `HelpWindow` and the full command guide will be shown.
+
+
+==== Implementation
+// end::helpcommand[]
+
+To generate a command guide using the `help` command, a `HelpCommand` object helps to generate the relevant command guides
+based on the provided `command word` in the input.
+
+The sequence diagram below demonstrates how teh `help` command works, should a `command word` of "nom" be provided.
+
+.Sequence Diagram for Help
+image::HelpSequenceDiagram.png[]
+
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise it is a `help` command, and thus creates
+`HelpCommand`
+
+Step 2: `HelpCommand` constructor generates the necessary mapping of command name to the corresponding command guide.
+
+Step 3: `LogicManager` calls the `execute` method on the `HelpCommand` object, which produces the String containing the
+relevant command guides. A `CommandResult` object is produced reflecting the response to the `help` command.
+
+- In the above sequence diagram, one possibility shown, where the user provides a `command_word`. `setFilteredGuide`
+will attempt to retrieve only relevant command guides, defaulting to a list of all guides if no relevant guides exist.
+Otherwise, by default a list of all guides will be provided.
+
+Step 4: The `CommandResult` is eventually passed to `MainWindow`, which then displays the command guide in a separate
+window, called `HelpWindow`.
+
+// end::helpcommand[]
+<<<
+
+==== Design considerations
+===== Aspect: How Help is displayed
+* **Alternative 1 (current choice):** `HelpWindow` is displayed as a separate popup.
+** Pros:
+- User can refer to the command guide in a window separately from Calgo, keeping it present as they use the App.
+- Command guide can give a more detailed description of command usage and format as it has more space to display in.
+- No internet access is required as all information on commands is stored offline.
+** Cons:
+- `help` does not redirect to a url containing the most up-to-date User Guide. Changes made to the User Guide
+must be updated in `HelpCommand` separately.
+- `HelpWindow` might obstruct view of the App upon initially loading it, causing annoyance.
+* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
+** Pros:
+- No possibility of a popup blocking the main app.
+- All information is contained within a single window.
+** Cons:
+- User must use the `help` command every time they require a guide, as `ResultDisplay` will be
+overwritten after other commands.
+
+===== Aspect: Command guides can be selectively displayed
+* **Alternative 1 (current choice):** `help` displays all command guides by default. User can selectively filter to
+display only desired commands by entering an optional keyword after `help`.
+** Pros:
+- Desired command can be more rapidly found.
+- Removes all unwanted commands from `HelpWindow`, reducing clutter.
+** Cons:
+- Filtered `help` does not benefit users who don't know the command they're looking for.
+* **Alternative 2:** Always display all command guides to ensure user will find the guide they require.
+** Pros:
+- No possibility of user being unable to find their desired command after sufficient searching.
+** Cons:
+- Relatively large array of commands can be overwhelming to a new user, deterring them from using the App.
+- Can be very frustrating to search through for experienced users.
+
+==== Summary
+`help` will produce a popup, displaying a guide on the App's available commands' purposes and usage format.
+
+.Activity Diagram for Help
+image::HelpActivityDiagram.png[]
+
+<<<
+
+
+<<<
+
+<<<
+
+
+
+
 
 // tag::caloriegraph[]
 [[Implementation-CalorieGraph]]
@@ -903,6 +997,35 @@ After which, the `GraphPanel` adds the graph to `MainWindow`.
 
 * *Alternative 2:* Dates are based on past seven days starting from today's date, inclusive.
 
+
+
+
+
+=== Logging
+
+We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
+
+* The logging level can be controlled using the `logLevel` setting in the configuration file (See <<Implementation-Configuration>> below)
+* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
+* Currently log messages are output through: `Console` and to a `.log` file.
+
+*Logging Levels*
+
+* `SEVERE` : Critical problem detected which may possibly cause the termination of the App
+* `WARNING` : Can continue, but with caution
+* `INFO` : Information showing the noteworthy actions by the App
+* `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
+
+
+[[Implementation-Configuration]]
+
+
+=== Configuration
+
+Certain properties of the App can be controlled (e.g user prefs file location, logging level) through the configuration file (default: `config.json`).
+
+
+
 == Documentation
 
 Refer to the guide <<Documentation#, here>>.
@@ -920,12 +1043,12 @@ Refer to the guide <<DevOps#, here>>.
 
 *Target user profile*:
 
-* wants to have, or already has, a lifestyle of eating healthy
-* manages a significant number of Food items (finding information about each Food item, tracking consumption, etc)
-* prefers desktop Apps over other types
-* can type fast
-* prefers typing over mouse input
-* is reasonably comfortable using CLI Apps
+* Can type fast
+* Is reasonably comfortable using `CLI` Apps
+* Wants to have, or already has, a lifestyle of eating healthy
+* Manages a significant number of `Food` items
+* Prefers desktop Apps over other types
+* Prefers typing over mouse input
 
 *Value proposition*:
 
@@ -939,56 +1062,54 @@ Refer to the guide <<DevOps#, here>>.
 
 Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (possible future development) - `*`
 
-[width="59%",cols="22%,<23%,<25%,<30%",options="header",]
+[width="100%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
-|`* * *` |user who does not know what my food is made of |find out the nutritional composition of a particular food by name |locate details of the entry without having to go through the entire record
+|`* * *` |user who does not know what my food is made of |find out the nutritional composition of a particular food by name |locate details of the entry without having to go through the entire record.
 
-|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
+|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App.
 
-|`* * *` |user |have a portable, editable, and readable file to store the relevant values for each entry made |edit, share, or print my personal entries
+|`* * *` |user |have a portable, editable, and readable file to store the relevant values for each entry made |edit, share, or print my personal entries.
 
-|`* * *` |user who may not be able to access his laptop at some time |have a copy of my past entries |use it for physical reference
+|`* * *` |user who may not be able to access his laptop at some time |have a copy of my past entries |use it for physical reference.
 
-|`* * *` |user who dislikes sieving through information and prefers to have only the relevant information presented |have a way to easily find the entries I want in the record |save time and effort and not get annoyed
+|`* * *` |user who dislikes sieving through information and prefers to have only the relevant information presented |have a way to easily find the entries I want in the record |save time and effort and not get annoyed.
 
-|`* * *` |lazy user who does not like typing too many tedious characters |find entries using incomplete words or phrases |obtain the same intended results for a search through the entries as in the case of typing fully and correctly
+|`* * *` |lazy user who does not like typing too many tedious characters |find entries using incomplete words or phrases |obtain the same intended results for a search through the entries as in the case of typing fully and correctly.
 
-|`* * *` |user who dislikes memorising things |have an option to see the entire record |know what entries currently exist in the records
+|`* * *` |user who dislikes memorising things |have an option to see the entire record |know what entries currently exist in the records.
 
-|`* * *` |user who has many entries |view entire record in lexicographical order |easily navigate to the entry I want in the record
+|`* * *` |user who has many entries |view entire record in lexicographical order |easily navigate to the entry I want in the record.
 
-|`* * *` |user who is forgetful | be able to edit the nutritional value of a previously saved entry in the record | I can edit the entry if I remembered a nutrition value wrongly previously
+|`* * *` |user who is forgetful | be able to edit the nutritional value of a previously saved entry in the record | edit the entry if I remembered a nutrition value wrongly previously.
 
-|`* * *` |user who is busy | be able to create a list of Food records with preset nutritional values| so that I can quickly choose a Food Item with preset values and add it to my calorie tracker
+|`* * *` |user who is busy | be able to create a list of goto Food with nutritional values| quickly choose a Food Item with preset values and add it to my calorie tracker.
 
-|`* * *` |user who doesn't like redundant things | see and be warned if a Food item that I am about to update my Food Record with already exists| so that I can save time and effort and not create a duplicate item in the Food record.
+|`* * *` |user who doesn't like redundant things | override a Food entry in the Food Record which already exists| save time and effort and not create a duplicate item in the Food Record.
 
-|`* * *` |user who gets bored of food easily |delete a Food item that I no longer want to eat in future from my Food records| so that I do not have so many Food items in the Food records that I no longer eat.
+|`* * *` |user who gets bored of food easily |delete a Food item that I no longer want to eat in future from my Food Record| avoid having so many Food items in the Food Record that I no longer eat.
 
-|`* * *` |user who is a foodie | find out the number of times I have eaten a specific food item each day | systematically cut down on overeaten food and monitor progress.
+|`* * *` |user who is a foodie | find out the statistics of the food that I have been consuming each day | systematically cut down on overeaten food and monitor progress.
 
-|`* * *` |user who cannot decide on what to eat | obtain a list of personalised food recommendations that still align with my dietary goals | do not waste time deciding what to eat nor will I give in to impulse and eat junk food.
+|`* * *` |user who cannot decide on what to eat | obtain a list of personalised food recommendations that still align with my dietary goals | avoid wasting time deciding what to eat nor will I give in to impulse and eat junk food.
 
-|`* * *` |user who is interested to lose weight | find out the number of calories I have consumed each day | can check which days I have exceed my desired number of daily calorie and exercise more to compensate.
+|`* * *` |user who is interested to lose weight | find out the number of calories I have consumed each day | check which days I have exceed my desired number of daily calorie and exercise more to compensate.
 
 |`* * *` |user who is busy | obtain an easy-to-understand consumption report | quickly understand my food consumption patterns and make plans to rectify them accordingly.
 
 |`* * *` |user who remembers the big picture but not the specifics | search for a particular part of a guide | not be bothered by unnecessary information.
 
-|`* * *` | user who values visuals | curated information expressed in a well organised graph | intuitively understand information
+|`* * *` | user who values visuals | curated information expressed in a well organised graph | intuitively understand information.
 
-|`* * *` | user who values opinions | have some suggestions based on my goals and consumption patterns | know my options when I am indecisive on what to eat
+|`* * *` | user who values opinions | have some suggestions based on my goals and consumption patterns | know my options when I am indecisive on what to eat.
 
-|`* * *` |user who cannot fully remember the name for a particular entry |view all entries which have the nutritional value I happen to remember |obtain a list of possible Food items that are relevant
+|`* * *` |user who cannot fully remember the name for a particular entry |view all entries which have the nutritional value I happen to remember |obtain a list of possible Food entries that are relevant.
 
-|`* *` |fitness influencer | get a copy of and share my daily food consumption | can conveniently continue to inspire my followers.
-
-|`* *` |forgetful user | be able to lookup exact command formats | so that I won't need to go through the trouble of memorising commands
+|`* *` |forgetful user | be able to lookup exact command formats | so that I won't need to go through the trouble of memorising commands.
 
 |=======================================================================
 
-_{Add more here as you continue developing the project}_
+As you continue developing the Calgo, feel free to add more user stories here.
 
 [appendix]
 == Use Cases
@@ -1148,9 +1269,16 @@ Use case ends.
 .  Calgo should work on both 32-bit and 64-bit environments.
 .  The product expects users to initially find out about `Food` items and their respective nutritional values for creating `Food` item entries for the first time.
 .  The minimum screen size for the App window to fully display its GUI is 1250 x 600.
+.  The product should be for a single-user.
+.  The product should be developed incrementally over the project duration.
+.  The software should follow the OOP.
+
 
 [appendix]
 == Glossary
+
+[[command-line-interface]] Command Line Interface (CLI)::
+Text-based user interface used to view and manage computer files.
 
 [[food]] Food::
 `Food` items entered by the user to represent a real life Food.
@@ -1167,10 +1295,19 @@ The accumulated list of all `Food` objects entered by the user.
 The GUI's `Food Record` box, which shows all details for every `Food` entry.
 
 [[gui]] GUI::
-The Graphical User Interface of *Calgo*.
+The Graphical User Interface of Calgo.
 
 [[mainstream-os]] Mainstream OS::
-Windows, Linux, Unix, OS-X
+Windows, Linux, Unix, OS-X.
+
+[[nutritional-info]] Nutritional Information::
+Refers to `Calorie` s, `Protein` s, `Carbohydrate` s and `Fat` s.
+
+[[oop]] OOP::
+Objected-Oriented Paradigm.
+
+[[prefix]] Prefix::
+A set of characters placed before a parameter when entering a command.
 
 
 [appendix]
@@ -1222,3 +1359,35 @@ Expected: The GUI will show all `Food` entries existing in the `FoodRecord`.
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+
+[appendix]
+== Effort
+
+=== Challenges and Difficulties
+
+At the start, all of us were very new to software engineering projects. Hence, the learning curve was very steep. Because of this, most of the time, we were very confused. However, we demonstrated good teamwork because we always met often and helped each other out by explaining frameworks and teaching each other on software development tools like Git, Intellij and JavaFX.
+
+Due to the COVID-19 situation, there was a lot of uncertainty and our style of meetings were significantly affected. However, everyone demonstrated good attitude and the team was full of good sports, so we covered each other's weaknesses and supported one another, therefore being able to realise a strong team potential.
+
+=== Effort put in by the team
+
+* 3-4 meetings weekly on average
+* Many unrecorded hours were put in for self-learning and managing the project.
+* We placed a lot of emphasis on brainstorming our features and implementing them to make it user-centric. For e.g. a real-time suggestion feature
+
+=== Achievements
+
+* Product Design
+** Our team successfully morphed AB3 and its relevant tests into the Calgo you see today.
+** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our presentation, demo and testing.
+* Implementation
+** Ambitious in experimenting with new interesting features. For e.g. intelligent insights and graphs.
+** Implemented features consistently and incrementally, allowing us to make changes to past features and
+** Experimented with new workflow and decided on one, Agile(Scrum), which we liked the most.
+** Put in additional effort in making the GUI different and novel, despite it being not part of the grading scheme. This is another example of how we go an extra mile just for the sake of user centric-ness. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
+* Project Management
+** Predominantly followed the forking workflow
+** Diligently created issues and assigned them
+** Plan and incrementally implemented our user stories throughout different milestones.
+** Regularly review each other’s code on and off Github.
+
