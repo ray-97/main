@@ -23,7 +23,7 @@ Introducing *Calgo*, your personal meal-tracking assistant:
 * Change the way you approach fitness: Calgo offers an all-in-one calorie tracker that is easy-to-use and guaranteed to save you from the frustrations of meal tracking. Bye bye complexity!
 * Calgo's comprehensive reports also transform the way you approach your daily meals through intelligent suggestions on how to improve your meal consumption patterns.
 * A lot of careful thought has been put in when designing Calgo to ensure that you have a smooth experience and won't end up spending too much time in learning how it works. Save that time for other important stuff.
-* To evolve with the times and help you calculate your calories in a fraction of a second, Calgo is fully digital. It is a gift of convenience to you, packaged as a beautiful desktop application. I mean just look at our User Interface above. As the saying goes, pictures speak a thousand words but pictures of your consumption data saves you of thousands of excess calories!
+* To evolve with the times and help you calculate your calories in a fraction of a second, Calgo is fully digital. It is a gift of convenience to you, packaged as a beautiful desktop application. I mean just look at our User Interface above. As the saying goes, pictures speak a thousand words but pictures of your consumption data saves you thousands of excess calories!
 * Excited and want to know how to start making calories go? Download Calgo now from our latest GitHub release!
 
 == Site Map
