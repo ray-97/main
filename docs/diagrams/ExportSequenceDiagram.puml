@@ -1,0 +1,83 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
+participant ":ExportCommand" as ExportCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+participant ":ExportGenerator" as ExportGenerator MODEL_COLOR
+end box
+
+[-> LogicManager : execute("export")
+activate LogicManager
+
+LogicManager -> CalgoParser : parseCommand("export")
+activate CalgoParser
+
+create ExportCommand
+CalgoParser -> ExportCommand : new ExportCommand()
+activate ExportCommand
+
+ExportCommand --> CalgoParser
+deactivate ExportCommand
+
+CalgoParser --> LogicManager
+deactivate CalgoParser
+
+LogicManager -> ExportCommand : execute(model)
+activate ExportCommand
+
+ExportCommand -> Model : getFoodRecord()
+activate Model
+
+Model --> ExportCommand : foodRecord
+deactivate Model
+
+create ExportGenerator
+ExportCommand -> ExportGenerator : new ExportGenerator(foodRecord);
+activate ExportGenerator
+ExportGenerator --> ExportCommand
+deactivate ExportGenerator
+
+ExportCommand -> ExportGenerator : generateExport()
+activate ExportGenerator
+
+ExportGenerator -> ExportGenerator : printHeader()
+activate ExportGenerator
+deactivate ExportGenerator
+
+ExportGenerator -> ExportGenerator : printBody()
+activate ExportGenerator
+deactivate ExportGenerator
+
+ExportGenerator -> ExportGenerator : printFooter()
+activate ExportGenerator
+deactivate ExportGenerator
+
+ExportGenerator --> ExportCommand : isSuccessfullyExported
+deactivate ExportGenerator
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+ExportGenerator -[hidden]-> ExportCommand
+destroy ExportGenerator
+
+create CommandResult
+ExportCommand -> CommandResult : new CommandResult(resultMessage)
+activate CommandResult
+
+CommandResult --> ExportCommand
+deactivate CommandResult
+
+ExportCommand --> LogicManager
+deactivate ExportCommand
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+ExportCommand -[hidden]-> CalgoParser
+destroy ExportCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml
