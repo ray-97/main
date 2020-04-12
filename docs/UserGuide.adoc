@@ -34,7 +34,7 @@ Calgo is an *all-in-one smart calorie tracker* that helps you to always be one s
 
 Here are a few ways in which Calgo can help you:
 
-* *Food Records*: Calgo stores, organises and displays of all your favourite `Food` items at your fingertips.
+* *Data Management*: Calgo stores, organises and displays of all your favourite `Food` items at your fingertips.
 * *Insights:* You set your personal diet goals and Calgo helps you to achieve them by providing you with consumption reports and insights on how to improve your diet.
 * *Hassle-Free Convenience:* Generate a portable copy of your `Food Record` or personalised consumption reports with a single command, anytime, anywhere.
 * *User-Friendly Software Interface:* Your meal-tracking experience is optimised with features that tolerate incomplete search inputs, produce fast responses and suggestions.
@@ -53,7 +53,7 @@ This tells you there is important information that you should take note of.
 [TIP]
 This informs you of useful tips about Calgo.
 
-Also, do note that any words that are marked up in this format: `This is an example` refer to technical terms related to Calgo's implementation.
+Also, as you may be wondering from the previous section, any words that are marked up in this format: `This is an example` refer to technical terms related to Calgo's implementation.
 
 == Quick Start
 
