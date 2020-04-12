@@ -309,9 +309,8 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Presents similar food suggestions to user depending on their input
+     * Presents similar food suggestions to user depending on their input.
      *
-     * @see Logic#getSimilarFood(String)
      */
     private void getSuggestions(String text) {
         String foodName = text.substring(text.indexOf("n/") + 2);

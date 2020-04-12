@@ -17,6 +17,7 @@ Class DailyListPanel
 Class ConsumedFoodCard
 Class StatusBarFooter
 Class CommandBox
+Class GraphPanel
 }
 
 package Model <<Rectangle>> {
@@ -38,11 +39,13 @@ MainWindow *-down-> ResultDisplay
 MainWindow *-down-> FoodListPanel
 MainWindow *-down-> DailyListPanel
 MainWindow *-down-> StatusBarFooter
+MainWindow *-down-> GraphPanel
 
 FoodListPanel -down-> FoodCard
 DailyListPanel -down-> ConsumedFoodCard
 
 MainWindow -left-|> UiPart
+
 
 ResultDisplay --|> UiPart
 CommandBox --|> UiPart
@@ -52,7 +55,10 @@ DailyListPanel --|> UiPart
 ConsumedFoodCard ---|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow -down-|> UiPart
+GraphPanel --|> UiPart
 
+
+GraphPanel ..> Model
 FoodCard ..> Model
 ConsumedFoodCard ..> Model
 UiManager -right-> Logic
