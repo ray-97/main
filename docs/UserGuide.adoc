@@ -88,9 +88,68 @@ Start experimenting with the commands yourself and experience the convenience Ca
 [[GUI]]
 == Interpreting Calgo's Graphical User Interface
 //placeholder unlabelled image
+.A labelled illustration of Calgo on startup
 image::Ui.png[width="790"]
 
+Calgo's graphical user interface (GUI) is designed to be sleek and compact, allowing you to use Calgo on nearly entirely
+one window and also take in information at a glance. However, that might be a little overwhelming at the start. Hence,
+this section aims to give a rundown on the GUI's various parts and ease you into using the App, starting from the
+top of the GUI.
 
+There are eight parts to the GUI, as follows: `Menu Bar`, `Command Box`, `Result Display`, `Daily Goal Display`, `Consumption Record`,
+ `Graph Display`, `Food Record` and `Status Bar`. They are labelled accordingly in the above image from 1 to 8. There is
+a ninth part, the `Help Window`, that is a separate pop up - only appearing when required for your convenience.
+
+=== `Menu Bar`
+The bar right at the top of Calgo's GUI. It only has two button, `File` and `Help`. The buttons allow
+you to exit the app by clicking the exit option under `File`, and to access the command guide by clicking the
+ help option under `Help`. These buttons are there for your convenience, as exiting the app can also be done through the
+`exit` command, and likewise accessing the command guides can be done using the `help` command.
+
+=== `Command Box`
+Calgo listens to your requests and processes them. The `Command Box` is where you type commands into.
+
+[[TIP]]
+Should you mistype a command, Calgo will prompt you to use the right format! You can easily edit the errornous command
+inside the `Command Box` without needing to retype it entirely.
+
+=== `Result Display`
+This is where Calgo displays textual updates as a result of processing your inputted commands. Although some commands
+update elsewhere on the GUI, the `Result Display` will still show a response so you know for certain when your
+commands have been correctly processed.
+
+=== `Daily Goal Consumption`
+This section is helpfully labelled as "Your Goal Information" on the GUI, and consists of two parts. The left box
+showcases your target daily calorie goal (after you've set it using the `goal` command). The right box showcases
+the amount of calories you still need to consume to meet your daily goal, or the amount you've exceeded by.
+
+The `Daily Goal Consumption` updates automatically.
+
+=== `Consumption Record`
+The `Consumption Record` displays the list of `Food` entries that you have consumed on that day! Although it only shows
+one day's consumption, using the `stomach` command will let you view other days' records.
+
+It has three subsections: The name of the `Food` entry, the number of portions of that `Food` you consumed that day,
+and its average rating as set by you, color-coded from red to green for low to high rating.
+
+=== `Graph Display`
+This handy graph shows a summary of your past seven day's total calorie consumption. It displays starting from the date
+of the current `Consumption Record` and then counts the six days before it.
+
+eg. `Consumption Record` currently shows 2020-04-12. `Graph Display` will thus show the daily calories consumed from
+2020-04-06 to 2020-04-12.
+
+The `Graph Display` is a line graph for clear data representation, and to ensure you aren't overly confused by
+unnecessary information on it.
+
+=== `Food Record`
+This is a list of all `Food` entries you currently have in Calgo. Each `Food` entry will have a name, its nutritional
+information, and optional tags as set by you. The `Food Record` alternates colors between entries so that you
+can easily tell one entry apart from its neighbours.
+
+=== `Status Bar`
+All the way at the bottom, this bar shows where data saved via the `export` function is saved to in your computer. Simply
+navigate via a file explorer or copy paste that path into the file directory to view any saved exported data.
 
 [[Commands]]
 == Commands
