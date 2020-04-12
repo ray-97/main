@@ -413,6 +413,11 @@ For a more detailed statistical report with nutritional values of `Food` consume
 * Date follows yyyy-mm-dd format.
 ****
 
+[note]
+If you go to a `Consumption Record` on a day where you have never consumed anything before, `Result Display`
+will remind you that you have not consumed anything yet, instead of showing "Display all food consumed".
+The latter message suggests that you have consumed something on that `Date`, but `vomit` it afterwards.
+
 Format: `stomach [d/DATE]`
 
 Example: If you want to see what you have consumed on 12 April 2020, here's how you can do it.
