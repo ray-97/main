@@ -283,8 +283,6 @@ public class MainWindow extends UiPart<Stage> {
             fillGoal();
             fillRemainingCalories();
 
-            dailyListDate.setText("Daily List: " + getDate()); // this is where it is set
-
             graphPanelPlaceholder.getChildren().removeAll(graphPanel.getPreviousGraph());
             graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
 
@@ -301,6 +299,8 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Invalid command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
+        } finally {
+            dailyListDate.setText("Food Consumed On: " + getDate());
         }
     }
 
