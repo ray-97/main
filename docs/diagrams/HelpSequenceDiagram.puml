@@ -1,19 +1,50 @@
 @startuml
 !include style.puml
 
-Actor User as user USER_COLOR
-Participant ":UI" as ui UI_COLOR
-Participant ":Logic" as logic LOGIC_COLOR
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
+participant ":HelpCommand" as HelpCommand LOGIC_COLOR
+end box
 
-user -[USER_COLOR]> ui : "help"
-activate ui UI_COLOR
+[-> LogicManager : execute("help nom")
+activate LogicManager
 
-ui -[UI_COLOR]> logic : execute("help")
-activate logic LOGIC_COLOR
+LogicManager -> CalgoParser : parseCommand("help nom")
+activate CalgoParser
 
-logic --[LOGIC_COLOR]> ui
-deactivate logic
+create HelpCommand
+CalgoParser -> HelpCommand : new HelpCommand("nom")
+activate HelpCommand
 
-ui--[UI_COLOR]> user
-deactivate ui
+HelpCommand -> HelpCommand : addMessagesToMap()
+activate HelpCommand
+deactivate HelpCommand
+
+HelpCommand -> HelpCommand : setKeySet()
+activate HelpCommand
+deactivate HelpCommand
+
+HelpCommand --> CalgoParser : command
+deactivate HelpCommand
+
+CalgoParser --> LogicManager : command
+deactivate CalgoParser
+
+LogicManager -> HelpCommand : execute(model)
+activate HelpCommand
+
+HelpCommand -> HelpCommand : setFilteredGuide()
+activate HelpCommand
+deactivate HelpCommand
+
+HelpCommand --> LogicManager : result
+deactivate HelpCommand
+
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+HelpCommand -[hidden]-> CalgoParser
+destroy HelpCommand
+
+[<--LogicManager : result
+
 @enduml
