@@ -64,6 +64,13 @@ e.g. typing *`help`* and pressing kbd:[enter] will open the help window. +
 .  What are you waiting for? Your healthy lifestyle begins now! +
 Start experimenting with the commands yourself and experience the convenience *Calgo* brings.
 
+[[GUI]]
+== Interpreting Calgo's Graphical User Interface
+//placeholder unlabelled image
+image::Ui.png[width="790"]
+
+
+
 [[Commands]]
 == Commands
 
