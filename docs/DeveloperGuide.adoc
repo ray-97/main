@@ -211,15 +211,23 @@ This section addresses how the `help` command works.
 
 The `help` command allows us to reference a summarised version of the User Guide (called the command guide)
 containing the usages of the commands and their formats, arranged in alphabetical order. Users may enter an
-optional `command_word` that filters the displayed command guide.
+optional `command word` that filters the displayed command guide.
 
 [NOTE]
-`Command_word` filters out only commands which contain the `command_word` as a substring. If no commands contain it
+`command word` filters out only commands which contain the `command word` as a substring. If no commands contain it
 as a substring, an error message will be displayed at the top of the `HelpWindow` and the full command guide will be shown.
 
 
 ==== Implementation
 // end::helpcommand[]
+
+To generate a command guide using the `help` command, a `HelpCommand` object helps to generate the relevant command guides
+based on the provided `command word` in the input.
+
+The sequence diagram below demonstrates how teh `help` command works, should a `command word` of "nom" be provided.
+
+.Sequence Diagram for Help
+image::HelpSequenceDiagram.png[]
 
 Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise it is a `help` command, and thus creates
 `HelpCommand`
@@ -229,7 +237,7 @@ Step 2: `HelpCommand` constructor generates the necessary mapping of command nam
 Step 3: `LogicManager` calls the `execute` method on the `HelpCommand` object, which produces the String containing the
 relevant command guides. A `CommandResult` object is produced reflecting the response to the `help` command.
 
-- In the above sequence diagram, two possibilities are shown. If the user provides a `command_word`, `setFilteredGuide`
+- In the above sequence diagram, one possibility shown, where the user provides a `command_word`. `setFilteredGuide`
 will attempt to retrieve only relevant command guides, defaulting to a list of all guides if no relevant guides exist.
 Otherwise, by default a list of all guides will be provided.
 
