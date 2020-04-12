@@ -1,0 +1,47 @@
+@startuml
+!include style.puml
+
+box Ui UI_COLOR_T1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
+
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+participant "foodRecord:FoodRecord" as FoodRecord MODEL_COLOR
+participant "foodList:UniqueFoodList" as UniqueFoodList MODEL_COLOR
+end box
+
+
+
+[-> MainWindow : getSuggestions("delete n/piz")
+activate MainWindow
+
+MainWindow -> LogicManager : getSimilarFood("piz")
+activate LogicManager
+LogicManager -> Model : getFoodRecord()
+activate Model
+Model --> LogicManager : foodRecord
+deactivate Model
+LogicManager -> FoodRecord : getFoodList()
+activate FoodRecord
+FoodRecord --> LogicManager: foodList
+deactivate FoodRecord
+
+
+LogicManager -> UniqueFoodList : filtered(FoodRecordContainsFoodNamePredicate("piz"))
+activate UniqueFoodList
+UniqueFoodList --> LogicManager : filteredFood
+deactivate UniqueFoodList
+
+LogicManager --> MainWindow : filteredFood
+deactivate LogicManager
+
+
+[<--MainWindow : similarFood
+@enduml

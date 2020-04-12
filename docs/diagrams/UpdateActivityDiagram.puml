@@ -6,11 +6,12 @@ start
 'Since the beta syntax does not support placing the condition outside the
 'diamond we place it as the true branch instead.
 
-if () then ([food item already exists in Food Record])
-    :Get existing Food item;
-    :Override Food Item;
+if () then ([food item already exists in FoodRecord])
+    :Get existing Food;
+    :Override Food in FoodRecord;
 else ([else])
+    :Add new Food into FoodRecord;
+    :Sorts FoodRecord by lexicographical order;
 endif
-:Store Food item into Food Record;
 stop
 @enduml

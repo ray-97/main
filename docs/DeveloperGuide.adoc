@@ -796,7 +796,7 @@ For better user experience, the `Name` required in the `update` command is case-
 instead of a new `Food` with `Name` "apple" being created in the `FoodRecord`
 
 On top of this, for all new `Food` being updated into the FoodRecord with the `update` command, the `Name` entry of the `Food` updated into the `FoodRecord`
-will be formatted to title case. This means that if the user updates a new Food into the FoodRecord with the `Name` as "char kuay teow", the `Food` that
+will be formatted to proper case. This means that if the user updates a new Food into the FoodRecord with the `Name` as "char kuay teow", the `Food` that
 is stored in the FoodRecord will be of `Name` "Char Kuay Teow".
 
 
@@ -830,7 +830,7 @@ an update command and creates a new UpdateCommandParser object.
 
 Step 2: `UpdateCommandParser` then parses the arguments provided by `CalgoParser` with the `parse` method.
 During this parsing process, `UpdateCommandParser` calls the `covertToTitleCase` method on the `Name` argument, converting it
-to title case.
+to proper case.
 
 Step 3: `UpdateCommandParser` then creates a new `UpdateCommand` object, which `LogicManager` calls the execute method with this object
 as an argument.
@@ -952,6 +952,31 @@ After which, the `GraphPanel` adds the graph to `MainWindow`.
 * *Alternative 1 (current choice):* Dates are based on past seven days starting from date of `Consumption Record`, inclusive.
 
 * *Alternative 2:* Dates are based on past seven days starting from today's date, inclusive.
+
+=== Real-time Suggestions for Existing `Food` in `FoodRecord`
+
+This section addresses how the GUI Result Display suggests Food with similar names to the user for the commands `update`, `delete` and `nom`.
+
+When the user have many `Food` entries in the `FoodRecord`, they may have difficulties finding out if a particular `Food` exists in the `FoodRecord`.
+For better user experience, this feature listens to the input of the user for these three commands suggests similar existing Food entries in real time.
+
+This feature listens to the input of the user after the `Prefix` `n/` and checks if there is a `Food` entry in the `FoodRecord` with a similar `Name`.
+
+[NOTE]
+The `Name` parameter is case-insensitive and searches the `Food` entries in the `FoodRecord` by whether they start with the user input so far after the
+`Prefix` `n/`.
+
+==== Implementation
+
+A listener set in place within the CommandBox to listen for user input passes the input to MainWindow.
+This feature is then facilitated by an operation in LogicManager
+
+
+image::RealTimeSuggestionSequenceDiagram.png[]
+
+
+
+
 
 == Documentation
 
