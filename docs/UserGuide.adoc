@@ -170,9 +170,9 @@ The `Food` that you wish to `vomit` must already exist in the current `Consumpti
 but not necessarily exist from `Food Record`.
 
 ****
-* Deletes a portion of food at the specified `INDEX_OF_FOOD`. The index refers to the position of `Food` shown in
+* Deletes a portion of food at the specified `INDEX_OF_FOOD`. The `Index` refers to the position of `Food` shown in
 the `Consumption Record`.
-* The index you supply *must be a positive integer*: 1, 2, 3, ...
+* The `Index` you supply *must be a positive integer*: 1, 2, 3, ...
 * The `vomit` command has some default behavior when you choose to not provide values for certain `Prefixes`. Do note that
 this is not the same as excluding optional parameters.
 * If you do not provide the `Date` parameter, or if its `Prefix` does not have a value,
@@ -504,6 +504,10 @@ being updated into the `Food Record`, your new `Food` item is updated as `Char K
 how do I distinguish between them? +
 *A*: Our commands are named so that you can associate them with the correct `Record`.
 Commands that deal with `Consumption Record` are words that you think of when you physically interact with food.
+
+*Q*: Why does vomit use `Index` instead of `Name`? +
+*A*: The average person does not eat so many types of food a day. We expect the list to be short, thus `vomit` uses
+a number so that you do not need to type out the full name of a `Food`.
 
 == Command Summary
 
