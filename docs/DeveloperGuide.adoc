@@ -153,7 +153,7 @@ real-time.
 . This component does not depend on any of the other three components.
 
 [NOTE]
-To make `Model` follow the Object Oriented Programming (OOP) Paradigm more closely,
+To make `Model` follow the Object-Oriented Paradigm (OOP) more closely,
 we can store a `Tag` list in `Food Record`, which `Food` objects can reference.
 This would allow `Food Record` to only require one `Tag` object per unique `Tag`,
 instead of each `Food` needing their own `Tag` object.
@@ -361,7 +361,7 @@ Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` en
 - More prone to bugs.
 - Difficult to ascertain which `Food` attribute it actually represents.
 - More difficult to debug as `String` type is easily modified.
-- Does not reflect good Object-Oriented Programming practices
+- Does not reflect good OOP practices
 
 ===== Aspect: Enabling substring search.
 
@@ -448,7 +448,7 @@ image::LexicographicalOrderingStartupSequenceDiagram.png[]
 
 Based on the above diagram, when Calgo starts: +
 
-Step 1: We initialise the `ModelManager` object. For this, we use previously stored user data if available (by reading in from the source json files). Otherwise, we use the default *Calgo* `Food` entries. +
+Step 1: We initialise the `ModelManager` object. For this, we use previously stored user data if available (by reading in from the source json files). Otherwise, we use the default Calgo `Food` entries. +
 
 Step 2: Before we can finish constructing a new `ModelManager` object, we require the creation of a new `FoodRecord` object which in turn requires the creation of a new `UniqueFoodList` object. +
 
@@ -598,7 +598,7 @@ Step 4: A new `CommandResult` object indicating the status of the execution is t
 
 * **Alternative 1 (current choice):** Create `DocumentGenerator` abstract class which both `ExportGenerator` and `ReportGenerator` extends.
 ** Pros:
-- Good Object-Oriented Programming practice, following its principles.
+- Good OOP practice, following its principles.
 - Allows for code reuse and neater code.
 - Able to apply concepts of polymorphism, if required.
 - May be now easier to debug.
@@ -1271,11 +1271,14 @@ Use case ends.
 .  The minimum screen size for the App window to fully display its GUI is 1250 x 600.
 .  The product should be for a single-user.
 .  The product should be developed incrementally over the project duration.
-.  The software should follow the Object-Oriented Paradigm.
+.  The software should follow the OOP.
 
 
 [appendix]
 == Glossary
+
+[[command-line-interface]] Command Line Interface (CLI)::
+Text-based user interface used to view and manage computer files.
 
 [[food]] Food::
 `Food` items entered by the user to represent a real life Food.
@@ -1292,11 +1295,19 @@ The accumulated list of all `Food` objects entered by the user.
 The GUI's `Food Record` box, which shows all details for every `Food` entry.
 
 [[gui]] GUI::
-The Graphical User Interface of *Calgo*.
+The Graphical User Interface of Calgo.
 
 [[mainstream-os]] Mainstream OS::
-Windows, Linux, Unix, OS-X
+Windows, Linux, Unix, OS-X.
 
+[[nutritional-info]] Nutritional Information::
+Refers to `Calorie` s, `Protein` s, `Carbohydrate` s and `Fat` s.
+
+[[oop]] OOP::
+Objected-Oriented Paradigm.
+
+[[prefix]] Prefix::
+A set of characters placed before a parameter when entering a command.
 
 
 [appendix]
@@ -1348,3 +1359,35 @@ Expected: The GUI will show all `Food` entries existing in the `FoodRecord`.
 .. _{explain how to simulate a missing/corrupted file and the expected behavior}_
 
 _{ more test cases ... }_
+
+[appendix]
+== Effort
+
+=== Challenges and Difficulties
+
+At the start, all of us were very new to software engineering projects. Hence, the learning curve was very steep. Because of this, most of the time, we were very confused. However, we demonstrated good teamwork because we always met often and helped each other out by explaining frameworks and teaching each other on software development tools like Git, Intellij and JavaFX.
+
+Due to the COVID-19 situation, there was a lot of uncertainty and our style of meetings were significantly affected. However, everyone demonstrated good attitude and the team was full of good sports, so we covered each other's weaknesses and supported one another, therefore being able to realise a strong team potential.
+
+=== Effort put in by the team
+
+* 3-4 meetings weekly on average
+* Many unrecorded hours were put in for self-learning and managing the project.
+* We placed a lot of emphasis on brainstorming our features and implementing them to make it user-centric. For e.g. a real-time suggestion feature
+
+=== Achievements
+
+* Product Design
+** Our team successfully morphed AB3 and its relevant tests into the Calgo you see today.
+** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our presentation, demo and testing.
+* Implementation
+** Ambitious in experimenting with new interesting features. For e.g. intelligent insights and graphs.
+** Implemented features consistently and incrementally, allowing us to make changes to past features and
+** Experimented with new workflow and decided on one, Agile(Scrum), which we liked the most.
+** Put in additional effort in making the GUI different and novel, despite it being not part of the grading scheme. This is another example of how we go an extra mile just for the sake of user centric-ness. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
+* Project Management
+** Predominantly followed the forking workflow
+** Diligently created issues and assigned them
+** Plan and incrementally implemented our user stories throughout different milestones.
+** Regularly review each other’s code on and off Github.
+
