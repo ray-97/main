@@ -100,8 +100,8 @@ public class UniqueDateToLogMap {
         internalList.clear();
         if (!internalMap.containsKey(date)) {
             throw new CommandException(
-                    String.format("Your consumption record is empty because you have not consumed food " +
-                    "on %s before", date));
+                    String.format("Your consumption record is empty because you have not consumed food "
+                    + "on %s before", date));
         }
         Set<Food> foods = internalMap.get(date).getFoods();
         if (!foods.isEmpty()) {
