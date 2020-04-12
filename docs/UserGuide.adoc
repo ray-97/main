@@ -16,21 +16,31 @@ endif::[]
 
 By: `Team F11-1`      Since: `March 2020`      Licence: `MIT`
 
+*Table of Contents*:
+
 == Introduction
 
-Have you always wanted to live a healthy lifestyle, but never managed to reach the stage where you would actively track your consumption? Is it too troublesome to remember nutritional values, or too absurd and expensive to hire a personal assistant to keep track of your diet?
+Have you always wanted to live a healthy lifestyle, but never managed to reach the stage where you would actively track your diet?
 
-Fear not!
+Is it because managing the nutritional information of your meals is just too time-consuming and frustrating?
 
-*Calgo* is an *all-in-one smart calorie tracker* to ensure that you are always one step ahead in your fitness goals! +
-Here is a list of what *Calgo* has to offer:
+Have you been searching for ways to make the meal tracking process much more convenient so that you could save all of that time and memory for the many other aspects of your life?
 
-* *Insights:* set your personal goals, generate consumption reports and view your progress
-* *User-Friendly Software Interface:* optimise your experience with features that tolerate incomplete search inputs, produce fast responses and suggestions, and cleverly manage entry conflicts
-* *Hassle-Free Convenience:* generate a portable copy of your `Food Record` or personalised consumption reports with a single command, anytime, anywhere
-* *Performance:* you get to enjoy a smooth and fast workflow, which is powered by a combination of a robust Command Line Interface (CLI) and an objectively clear Graphical User Interface (GUI). +
+Search no more because We have the solution for you!
 
-Beginners, fast typists, and health enthusiasts alike would therefore benefit from the plethora of features *Calgo* offers - centred about a convenient and smooth user experience.
+Introducing *Calgo*, your new personal meal-tracking assistant.
+
+Calgo is an *all-in-one smart calorie tracker* that helps you to always be one step ahead in your fitness goals! +
+
+Here are a few ways in which Calgo can help you:
+
+* *Data Management*: Calgo stores, organises and displays of all your favourite `Food` items at your fingertips.
+* *Insights:* You set your personal diet goals and Calgo helps you to achieve them by providing you with consumption reports and insights on how to improve your diet.
+* *Hassle-Free Convenience:* Generate a portable copy of your `Food Record` or personalised consumption reports with a single command, anytime, anywhere.
+* *User-Friendly Software Interface:* Your meal-tracking experience is optimised with features that tolerate incomplete search inputs, produce fast responses and suggestions.
+* *Performance:* You get to enjoy a smooth and fast workflow, which is powered by a combination of a robust Command Line Interface (CLI) and an objectively clear Graphical User Interface (GUI). +
+
+As you can see, Calgo's features are optimised for you to build healthy eating habits and learn how to keep track of your diets.
 
 <<<
 == Additional Information
@@ -43,12 +53,14 @@ This tells you there is important information that you should take note of.
 [TIP]
 This informs you of useful tips about Calgo.
 
+Also, as you may be wondering from the previous section, any words that are marked up in this format: `This is an example` refer to technical terms related to Calgo's implementation.
+
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.
-.  Download the latest `calgo.jar` link:{repoURL}/releases[here].
-.  Copy the `.jar` file to a folder which you will use as the home folder for the *Calgo* application.
-.  Double-click the `.jar` file to start the app. The GUI should appear in a few seconds as shown in <<gui>>.
+.  Download the latest application file named `calgo.jar` link:{repoURL}/releases[over here].
+.  Copy the `.jar` file to a folder which you will use as the home folder for the Calgo application. This is where all of your food consumption data will be stored as well.
+.  Double-click the `.jar` file to start the app. The GUI should appear in a few seconds, similar to what is shown in <<gui>>.
 
 +
 .An illustration of Calgo on startup
@@ -58,11 +70,20 @@ This informs you of useful tips about Calgo.
 image::Ui.png[width="790"]
 
 +
-.  Type your desired command in the command box and press kbd:[enter] to execute it. +
-e.g. typing *`help`* and pressing kbd:[enter] will open the help window. +
-- You can refer to <<Commands>> below for details of each command.
-.  What are you waiting for? Your healthy lifestyle begins now! +
-Start experimenting with the commands yourself and experience the convenience *Calgo* brings.
+. To verify that Calgo is working for you, type your desired command in the command box and press kbd:[enter] to execute it. +
+*Example:* Type *`help`* and press kbd:[enter] to open the help window, which should look like this: +
+
++
+.A screenshot of Calgo's Help Window
+[[helpwindow]]
+[reftext="Figure 3.2"]
+[caption = "Figure 3.2: "]
+image::Help.png[width = "790]
+
+.  Now that Calgo is working perfectly fine, what are you waiting for? Your healthy lifestyle begins now! +
+Start experimenting with the commands yourself and experience the convenience Calgo brings.
+- Learn specific details about the various commands Calgo offers by referring to <<Commands>>.
+- If you need a complete summary of all commands, refer to <<Command Summary>>.
 
 [[Commands]]
 == Commands

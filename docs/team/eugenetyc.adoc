@@ -1,9 +1,9 @@
-= John Doe - Project Portfolio
+= Eugene Tan Yew Chin - Project Portfolio
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: AddressBook - Level 3
+== PROJECT: Calgo
 
 ---
 
