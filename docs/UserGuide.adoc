@@ -53,7 +53,7 @@ This tells you there is important information that you should take note of.
 [TIP]
 This informs you of useful tips about Calgo.
 
-Also, do note that any words that are marked up in this format: `This is an example` refer to technical related to Calgo's implementation.
+Also, do note that any words that are marked up in this format: `This is an example` refer to technical terms related to Calgo's implementation.
 
 == Quick Start
 
