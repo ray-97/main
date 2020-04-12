@@ -56,6 +56,7 @@ public class ExportGenerator extends DocumentGenerator {
         printWriter.close();
 
         return file.exists() && (file.length() != 0); // success check
+
     }
 
     // Printing Methods
@@ -208,7 +209,6 @@ public class ExportGenerator extends DocumentGenerator {
 
         // Wraps the remaining part of the Name so that it suits the required formatting
         result += super.generateWrappedNameString(remainder, width);
-
 
         return result;
 

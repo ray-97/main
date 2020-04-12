@@ -1,0 +1,20 @@
+@startuml
+
+start
+:User enters export command;
+:Construct new ExportCommand;
+:Get current FoodRecord from Model;
+:Construct new ExportGenerator using the FoodRecord;
+:Generate FoodRecord.txt;
+
+if() then ([successful])
+:FoodRecord.txt is created in data/exports folder;
+
+else([unsuccessful])
+:No file is created;
+endif
+
+:Reflect results of execution in GUI to user;
+stop
+
+@enduml
