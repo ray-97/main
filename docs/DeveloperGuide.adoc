@@ -272,6 +272,112 @@ display only desired commands by entering an optional keyword after `help`.
 image::HelpActivityDiagram.png[]
 
 <<<
+
+// tag::exportfoodrecord[]
+[[Implementation-Export]]
+=== Exporting the current `FoodRecord` into a .txt file
+(by Eugene)
+
+This section addresses how the `export` command works, creating a FoodRecord.txt file showing details of all the `Food` objects currently stored in the `FoodRecord`. The information is presently neatly in table form and the file is created in the `data/exports` folder.
+
+The `export` command mainly uses an `ExportGenerator` object to generate the file. All formatting options and methods to write the contents of the file are included in the `ExportGenerator` class, which extends the `DocumentGenerator` class.
+
+[NOTE]
+You may find the `report` command similar as they both create a new file for the user. You can read more about it <<Implementation-InsightsReport, here>>.
+
+==== Implementation
+
+Most of the work in generating the file is done by the `generateExport` method of `ExportGenerator`. You can access the class to view its methods for writing the header and footer components, which are relatively easily to understand.
+
+However, the methods for writing the file body is likely where some explaining is required. Here, the formatting of the table body is determined by the following:
+[source,java]
+----
+    private static final int NAME_COLUMN_SIZE = 45;
+    private static final int VALUE_COLUMN_SIZE = 20;
+----
+`NAME_COLUMN_SIZE` represents the allowed space for the `Name`. If a `Food` object has a `Name` which is too long, the `Name` will be truncated and continued on the following lines.
+Meanwhile, `VALUE_COLUMN_SIZE` represents the allowed space for each nutritional value of `Calorie`, `Protein`, `Carbohydrate`, and `Fat` in the table. These are guaranteed to be within a length of 5 characters when parsing, and should not exceed the given space.
+
+The nutritional values will always be shown in the first line of their respective `Food` object after its (possibly truncated) `Name`. This is facilitated by the `printBody` method of `ExportGenerator`, which calls its `printBodyComponent` method and subsequently its `generateFinalisedEntryString` method, which performs the truncation and amendment of the `Name` as necessary.
+
+Moving on, the sequence diagram below demonstrates how the `export` command works to create the user copy of the current `FoodRecord`:
+
+.Sequence Diagram for `export` command: generating FoodRecord.txt
+image::ExportSequenceDiagram.png[]
+
+[NOTE]
+The lifeline for the `ExportCommand` object and that of the `ExportGenerator` object should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+From the above, creating FoodRecord.txt involves the following steps:
+
+Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `export` command, and thereby creates a new `ExportCommand` object. +
+
+Step 2: LogicManager then calls the `execute` method of this `ExportCommand` object. This results in a call to the `Model` to get the current `FoodRecord`, which is used to construct a new `ExportGenerator` object. The `ExportGenerator` is responsible for creating the FoodRecord.txt file and writing to it.
+
+Step 3: `ExportCommand` then calls the `generateExport` method of `ExportGenerator`, writing the required parts to the file. This returns a boolean indicating whether the file creation and writing are successful.
+
+Step 4: A new `CommandResult` object indicating the status of the execution is then constructed and reflected in the GUI.
+
+==== Design considerations
+
+===== Aspect: Type of file to create.
+
+* **Alternative 1 (current choice):** Create a .txt file to represent the `FoodRecord`.
+** Pros:
+- Satisfies user requirements: able to edit the file to include custom entries.
+** Cons:
+- Need to define new classes and methods for file writing, which may introduce more dependencies.
+- May be more resource-intensive than other alternatives.
+- New developers may be unfamiliar with `String` manipulation and regular expressions.
+* **Alternative 2:** Create a .pdf file to represent the `FoodRecord`
+** Pros:
+- The contents appear to be more legitimate.
+- Can use external libraries for convenience.
+- May be less resource-intensive.
+** Cons:
+- May not satisfy user requirements as the file cannot be edited easily.
+- May introduce more bugs, additional dependencies, and become prone to external factors.
+- More difficult to debug due to lack of familiarity with external libraries.
+- May require more space.
+
+===== Aspect: Abstraction for `ExportGenerator` and `ReportGenerator`.
+
+* **Alternative 1 (current choice):** Create `DocumentGenerator` abstract class which both `ExportGenerator` and `ReportGenerator` extends.
+** Pros:
+- Good Object-Oriented Programming practice, following its principles.
+- Allows for code reuse and neater code.
+- Able to apply concepts of polymorphism, if required.
+- May be now easier to debug.
+** Cons:
+- Need to define new class, possibly introducing more dependencies.
+- Need to identify what is common to both `ExportGenerator` and `ReportGenerator`.
+* **Alternative 2:** Use an interface which both classes will implement.
+** Pros:
+- Similar to Alternative 1.
+** Cons:
+- Does not allow methods to be defined in the interface. (Some exceptions: default methods, etc)
+- May need to repeat definitions which may be the same for both classes.
+* **Alternative 3:** Do not use an interface or abstract class.
+** Pros:
+- Requires less effort.
+- Does not introduce additional dependencies.
+** Cons:
+- Unable to reap benefits of the above alternatives.
+
+==== Summary
+
+This section addresses how users are able to obtain an editable copy of the current `FoodRecord` using the `export` command.
+
+The `export` command largely relies on the `ExportGenerator` class. This facilitates creating the file and writing to it.
+
+The above can be summarised in the activity diagram below:
+
+.Activity Diagram for Searching
+image::ExportActivityDiagram.png[]
+
+// tag::exportfoodrecord[]
+<<<
+
 // tag::categoricalsubstringfindsearch[]
 [[Implementation-FindList]]
 === Searching for specific `Food` via categories and substrings
@@ -284,12 +390,12 @@ The `find` command allows us to search through the `FoodRecord` (via categorical
 Meanwhile, the `list` command allows us to reset the GUI's `Food Record` to once again show all entries in lexicographical order. This can be thought of as the reverse of a `find` command. However, unlike the `find` command, the `list` command does not use any `Prefix`, and ignores any input after its command word.
 
 [NOTE]
-`Prefix` here indicates which `Food` attribute we are interested in. Categorical search finds `Food` objects with matching values representing one of the nutritional categories (`Calorie`, `Protein`, `Carbohydrate`, or `Fat`). Meanwhile, substring search finds matches of a substring in any part of the the `Name` or in any of the `Tag` objects belonging to the `Food`.
+`Prefix` here indicates which `Food` attribute we are interested in. Categorical search finds `Food` objects with values that match the user-specified value representing one of the nutritional categories (`Calorie`, `Protein`, `Carbohydrate`, or `Fat`). Meanwhile, substring search finds matches for the user-entered substring in any part of the the `Name` or in any of the `Tag` objects belonging to the `Food` objects.
 
 [NOTE]
 For more information on lexicographical ordering, please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
 
-The above commands rely on the `FindCommand` and `ListCommand` classes respectively. Objects of both classes use a `Predicate<Food>` object to filter through the current `Food` objects, which will be displayed in the GUI's `Food Record` should they evaluate these predicates to be true.
+The above commands rely on the `FindCommand` and `ListCommand` objects respectively. Objects of both classes use a `Predicate<Food>` object to filter through the current `Food` objects, where `Food` objects will be displayed in the GUI's `Food Record` should they evaluate these predicates to be true.
 
 ==== Implementation
 To search via a particular `Food` attribute, we use a `FindCommandParser` to create the corresponding `Predicate<Food>` based on which `Food` attribute the `Prefix` entered represents. This predicate is then used to construct a new `FindCommand` object, which changes the GUI display when executed. +
@@ -341,7 +447,7 @@ Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` en
 
 ==== Design considerations
 
-===== Aspect: Predicate construction source
+===== Aspect: Predicate construction source.
 
 * **Alternative 1 (current choice):** Each `Predicate<Food>` is constructed using a new object of type either `Name`, `Calorie`, `Protein`, `Carbohydrate`, `Fat`, `Tag`.
 ** Pros:
@@ -361,17 +467,19 @@ Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` en
 - More difficult to debug as `String` type is easily modified.
 - Does not reflect good Object-Oriented Programming practices
 
-===== Aspect: Enabling substring search
+===== Aspect: Enabling substring search.
 
 * **Alternative 1 (current choice):** Allow substring search for both `Name` and `Tag`
 ** Pros:
 - Improves user experience.
 - Can reuse common code as the approach for both `Name` and `Tag` are similar.
-- Can use regular expressions, which are powerful and suitable for our purpose.
+- Generally easy to implement substring finding.
+- Can use regular expressions if needed, which are powerful and suitable for our purpose.
 ** Cons:
 - Requires good understanding of the original project.
 - Need to know the `String` type, regular expressions, and their implications.
-- Need to implement searching via multiple types of `Food` attributes and hence more dependencies.
+- Need to implement searching via multiple types of `Food` attributes and hence introduces more dependencies.
+- Need to implement a new `Parser` class to detect each relevant `Prefix`.
 * **Alternative 2:** Only allow exact word matches for `Name` and `Tag`
 ** Pros:
 - Can simply reuse large parts of the original project's existing code.
@@ -380,6 +488,8 @@ Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` en
 ** Cons:
 - Diminishes user experience.
 - May not fully satisfy the user requirements.
+- Need to implement searching via multiple types of `Food` attributes and hence introduces more dependencies.
+- Need to implement a new `Parser` class to detect each relevant `Prefix`.
 
 ==== Summary
 
@@ -583,17 +693,17 @@ Step 1: We initialise the `ModelManager` object. For this, we use previously sto
 
 Step 2: Before we can finish constructing a new `ModelManager` object, we require the creation of a new `FoodRecord` object which in turn requires the creation of a new `UniqueFoodList` object. +
 
-Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it via the `setFood` method. This calls the `sortInternalList` method, which sorts the `ObservableList<Food>` contained in `UniqueFoodList` according to the specified lexicographical order (defined in the `Food` class).
+Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it using the `setFood` method. This calls the `sortInternalList` method, which sorts the newly added `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order (defined in the `Food` class).
 
 
-The sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added or edited using the `update` command:
+Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added or edited using the `update` command:
 
 .Lexicographical Ordering Sequence Diagram for Updating (Note: this is in a reference frame as it is reused in the `update` section <<Implementation-SmartUpdate, here>>)
 image::LexicographicalOrderingUpdateSequenceDiagram.png[]
 
 Based on the above diagram, after parsing the user input and creating an `UpdateCommand` object:
 
-* If a `Food` object with an equivalent `Name` (as what the user inputs) already exists in the `UniqueFoodList` object:
+* If the user inputs a `Food` object that already has an existing counterpart with an equivalent `Name` in the `UniqueFoodList`:
 - Step 1: The `UpdateCommand` object calls the `getExistingFood` method of the `ModelManager` for the user-entered `Food`, which then calls that of `FoodRecord`, and subsequently that of `UniqueFoodList` to eventually obtain the existing `Food` object with an equivalent `Name`. +
 - Step 2: Using the same sequence of classes, we call the respective `setFood` methods, eventually replacing the existing `Food` object with the desired one and arriving at the `sortInternalList` method of `UniqueFoodList`. +
 - Step 3: The `sortInternalList` method then sorts the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order defined in the `Food` class.
@@ -612,7 +722,7 @@ model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
 
 ==== Design considerations
 
-===== Aspect: Frequency of sorting operation
+===== Aspect: Frequency of sorting operation.
 
 * **Alternative 1 (current choice):** Sort whenever a new `Food` is added or edited.
 ** Pros:
@@ -631,7 +741,7 @@ model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
 - May be incompatible with certain `Storage` functions.
 - May lead to bugs in overall product due to incompatible features.
 
-===== Aspect: Data structure to store `Food` objects
+===== Aspect: Data structure to store `Food` objects.
 
 * **Alternative 1 (current choice):** Use `UniqueFoodList` to store all `Food` objects.
 ** Pros:
@@ -650,7 +760,7 @@ model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
 
 ==== Summary
 
-The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects and hence their respective entries in the GUI `Food Record`. This can be summarised in the activity diagram below:
+The `UniqueFoodList` facilitates the lexicographical ordering of `Food` objects and hence how their respective entries appear in the GUI `Food Record`. This can be summarised in the activity diagram below:
 
 .Activity Diagram for Lexicographical Ordering
 image::LexicographicalOrderingActivityDiagram.png[]
