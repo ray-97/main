@@ -776,25 +776,29 @@ It can also contain optional tags.
     |`update n/pizza cal/200 p/10 c/200 f/200` +
     *OR* +
     `update n/pizza cal/100 p/10 c/100 f/30 t/Italiano t/Favourite`
-.2+|Navigate `Food Record`|Find|Searches through the `Food Record` and displays the relevant entries based on the specifications entered.
+.2+|Navigate `Food Record`|Find|Searches through the Calgo's `Food` entries and displays relevant ones based on the specifications entered.
     |`find [n/NAME] [cal/CALORIE] [p/PROTEIN] [c/CARBOHYDRATE] [f/FAT] [t/TAG]` (choose only 1 parameter)
-    |`find n/Pizza` +
+    |`find n/piz hotdog` +
     *OR* +
-    `find cal/110`
-|List|Displays all entries in the `Food Record`.|`list`|-
+    `find n/Pizza` +
+    *OR* +
+    `find cal/110` +
+
+|List|Displays all current entries inside the `Food Record`.|`list`|-
 .3+|Edit and Navigating `Consumption Record`|Nom|Adds a `Food` to a specific day's `Consumption Record`.|`nom n/NAME [d/DATE] [portion/PORTION][r/RATING]`
     |`nom n/chicken d/2020-03-04 portion/1.5 r/8`
-|Stomach|Lists all `Food` in a particular day's `Consumption Record`.|`stomach [d/DATE]`|`stomach d/2020-04-20`
-|Vomit|Deletes a specific `Food` from the `Consumption Record`.|`vomit num/INDEX_OF_FOOD [d/DATE] [portion/PORTION]`
-    |`vomit num/chicken d/2020-03-04 portion/3` +
+|Stomach|Displays all `Food` in a particular day's `Consumption Record`.|`stomach [d/DATE]`|`stomach d/2020-04-20`
+|Vomit|Deletes a specific `Food` from the `Consumption Record`.|`vomit num/INDEX [d/DATE] [portion/PORTION]`
+    |`vomit num/1 d/2020-03-04 portion/3` +
     *OR* +
-    `vomit num/chicken` +
+    `vomit num/1` +
     *OR* +
-    `vomit n/chicken d/ portion/`
-.4+|Generate Document|Report|Generates the report for a given date.|`report d/DATE in YYYY-MM-DD`|`report d/2020-04-20`
+    `vomit num/1 d/ portion/`
+.4+|Generate Document|Report|Generates consumption report for a given date.|`report d/DATE`|`report d/2020-04-20`
 |Export|Generates a neat and editable file containing the current `Food` entries.|`export`|-
 |=======================================================================
 Please note the following: +
 
 * For the `clear`, `export`, and `list` commands, any parameters entered will be ignored. +
 * For the `find` command, only one parameter is accepted. Any input entered without a preceding `Prefix` will be ignored.
+* For commands that have date parameters, they are to be in the format YYYY-MM-DD.
