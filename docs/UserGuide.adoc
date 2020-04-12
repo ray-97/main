@@ -129,13 +129,10 @@ First type `clear` in the `Command Box` and press kbd:[enter], as shown in the a
 image::ClearCommandAfter.png[width=]
 
 Upon entering the command, all your `Food` items in the  `Food Record` will be deleted, resulting in an empty `Food Record`, as shown above.
+
 Note that your `Consumption Record` data is not affected from executing the `clear` command as shown by the unchanged Daily List and graph in the above diagram.
 
-To cater to fast typists that may make occasional typing mistakes, Calgo will still execute `clear` even if there are other words that are typed after `clear`. +
-Example: `clear you are awesome Calgo` will still work as Calgo intelligently ignores the remaining words. However, if there is no whitespace typed after `clear`, Calgo will not be able to understand the entered command. Refer to the diagram below for a visualisation.
-
-image::ClearCommandError.png[width=]
-
+To cater to fast typists that may make occasional typing mistakes, Calgo will still execute `clear` even if there are other parameters or words that are typed after `clear`. +
 
 === Adding `Food` to `Consumption Record` : `nom`
 (by Ruicong)
