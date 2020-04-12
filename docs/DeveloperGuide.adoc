@@ -671,8 +671,8 @@ This section addresses how the GUI `Food Record` entries appear in lexicographic
 Over time, users will eventually have many `Food` entries -- these should be sorted for a better experience. Intuitively, the lexicographical order is the most suitable here.
 
 In essence, `Food` objects are sorted by the `UniqueFoodList` (which is inside `FoodRecord`).
-Sorting is performed each time `Food` object(s) are newly added to the `UniqueFoodList`, edited by the user, or when the `UniqueFoodList` is initialised during App start-up.
-There is no need to re-sort during deletion as the order is maintained.
+Sorting is performed each time `Food` object(s) are newly added to the `UniqueFoodList`, or during the initialisation of the `UniqueFoodList` upon App start-up.
+There is no need to re-sort when a `Food` object is deleted or edited as the order is maintained.
 
 [NOTE]
 For a better understanding of adding and editing `Food` objects using the `update` command, please refer to its relevant section <<Implementation-SmartUpdate, here>>.
@@ -696,7 +696,9 @@ How the sorting process works:
 
 * When the App starts up, a new `UniqueFoodList` is created from the source json file (if available) or otherwise the default entries, and the created `Food` objects are sorted as they are added to it.
 * Existing `Food` objects are therefore arranged in lexicographic order by `Name`.
-* Thereafter, `UniqueFoodList` sorts the `Food` objects whenever they are added or edited in the `Model`.
+* Thereafter, `UniqueFoodList` sorts the `Food` objects whenever new `Food` objects are added.
+
+It should be noted that sorting is only performed by the `addFood` and `setFoods` method of the `UniqueFoodList`, which calls the `sortInternalList` method. Not to be confused, the `setFood` method, which is used when a `Food` object is edited, does not perform any sorting. +
 
 The sequence diagram below shows how the lexicographical ordering is performed when Calgo starts up:
 
@@ -709,24 +711,22 @@ Step 1: We initialise the `ModelManager` object. For this, we use previously sto
 
 Step 2: Before we can finish constructing a new `ModelManager` object, we require the creation of a new `FoodRecord` object which in turn requires the creation of a new `UniqueFoodList` object. +
 
-Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it using the `setFood` method. This calls the `sortInternalList` method, which sorts the newly added `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order (defined in the `Food` class).
+Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it using the `setFoods` method. This calls the `sortInternalList` method, which sorts the newly added `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order (defined in the `Food` class).
 
 
-Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added or edited using the `update` command:
+Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added (note: not when they are edited) using the `update` command:
 
 .Lexicographical Ordering Sequence Diagram for Updating (Note: this is in a reference frame as it is reused in the `update` section <<Implementation-SmartUpdate, here>>)
 image::LexicographicalOrderingUpdateSequenceDiagram.png[]
 
-Based on the above diagram, after parsing the user input and creating an `UpdateCommand` object:
+Here, the diagram describes what happens after parsing the user input and creating an `UpdateCommand` object. Since the `Food` entered by the user is an entirely new `Food` object without a `Name`-equivalent `Food` existing in the `UniqueFoodList`:
 
-* If the user inputs a `Food` object that already has an existing counterpart with an equivalent `Name` in the `UniqueFoodList`:
-- Step 1: The `UpdateCommand` object calls the `getExistingFood` method of the `ModelManager` for the user-entered `Food`, which then calls that of `FoodRecord`, and subsequently that of `UniqueFoodList` to eventually obtain the existing `Food` object with an equivalent `Name`. +
-- Step 2: Using the same sequence of classes, we call the respective `setFood` methods, eventually replacing the existing `Food` object with the desired one and arriving at the `sortInternalList` method of `UniqueFoodList`. +
-- Step 3: The `sortInternalList` method then sorts the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order defined in the `Food` class.
+Step 1: We call the respective `addFood` and `add` methods as seen in the diagram, eventually adding the `Food` object into the `UniqueFoodList` and arriving at its `sortInternalList` method call. +
 
-* Otherwise, the user-entered `Food` is an entirely new `Food` object without a `Name`-equivalent `Food` that exists in the `UniqueFoodList`:
-- Step 1: Using the same sequence of classes as the former case, we call the `addFood` and `add` methods of the respective classes, eventually adding the `Food` object and arriving at the `sortInternalList` method of `UniqueFoodList`. +
-- Step 2: The `sortInternalList` method then sorts the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order defined in the `Food` class.
+Step 2: The `sortInternalList` method then sorts the `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order defined in the `Food` class.
+
+[NOTE]
+During an `update` command, we do not perform sorting if the user enters a `Food` object that already has an existing counterpart with an equivalent `Name` in the `UniqueFoodList`.
 
 Any re-ordering will eventually be reflected in the GUI, facilitated by the following (in the case of a `list` command) or otherwise something similar:
 [source,java]
@@ -740,10 +740,10 @@ model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
 
 ===== Aspect: Frequency of sorting operation.
 
-* **Alternative 1 (current choice):** Sort whenever a new `Food` is added or edited.
+* **Alternative 1 (current choice):** Sort whenever a new `Food` is added or during App start-up.
 ** Pros:
 - Guarantees correctness of sorting.
-- Saves on computational cost by not sorting during deletion as the order is maintained.
+- Saves on computational cost by not sorting during deletion or edits as the order is preserved.
 - Computational cost is not too expensive since the introduced `Food` objects usually come individually rather than as a collection (except during App start-up).
 ** Cons:
 - Need to ensure implementations of various commands changing the `Model` are correct and do not interfere with the sorting process.
@@ -958,25 +958,23 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (po
 [width="59%",cols="22%,<23%,<25%,<30%",options="header",]
 |=======================================================================
 |Priority |As a ... |I want to ... |So that I can...
-|`* * *` |user who does not know what my food is made of |find out the nutritional composition of a particular food by name |locate details of the Food item without having to go through the entire Food record
+|`* * *` |user who does not know what my food is made of |find out the nutritional composition of a particular food by name |locate details of the entry without having to go through the entire record
 
-|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use Calgo
+|`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |have a portable and readable file to store the relevant values for each Food item |backup, share or export my personal Food records list
+|`* * *` |user |have a portable, editable, and readable file to store the relevant values for each entry made |edit, share, or print my personal entries
 
-|`* * *` |user who may not be able to access his laptop at some time |have a copy of my past Food records |use it for physical reference
+|`* * *` |user who may not be able to access his laptop at some time |have a copy of my past entries |use it for physical reference
 
-|`* * *` |user who wants to save a copy of my current Food records |save my file at a convenient location |easily access it
+|`* * *` |user who dislikes sieving through information and prefers to have only the relevant information presented |have a way to easily find the entries I want in the record |save time and effort and not get annoyed
 
-|`* * *` |user who dislikes sieving through information and prefers to have only the relevant information presented |have a way to easily find what Food items I want in the records |save time and effort and not get annoyed
+|`* * *` |lazy user who does not like typing too many tedious characters |find entries using incomplete words or phrases |obtain the same intended results for a search through the entries as in the case of typing fully and correctly
 
-|`* * *` |lazy user who does not like typing too many tedious characters |find entries using incomplete words or phrases |obtain the same intended results for a search through the Food records as in the case of typing fully and correctly
+|`* * *` |user who dislikes memorising things |have an option to see the entire record |know what entries currently exist in the records
 
-|`* * *` |user who dislikes memorising things |have an option to see the entire Food record |know what Food items have their data currently in the records
+|`* * *` |user who has many entries |view entire record in lexicographical order |easily navigate to the entry I want in the record
 
-|`* * *` |user who has many entries |view entire food record in lexicographic order |easily navigate to the entry in the record
-
-|`* * *` |user who is forgetful | be able to edit the nutritional value of a previously saved Food item in the Food record | I can edit the Food Item if I remembered a nutrition value of the Food Item wrongly previously
+|`* * *` |user who is forgetful | be able to edit the nutritional value of a previously saved entry in the record | I can edit the entry if I remembered a nutrition value wrongly previously
 
 |`* * *` |user who is busy | be able to create a list of Food records with preset nutritional values| so that I can quickly choose a Food Item with preset values and add it to my calorie tracker
 
@@ -994,26 +992,24 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (po
 
 |`* * *` |user who remembers the big picture but not the specifics | search for a particular part of a guide | not be bothered by unnecessary information.
 
-|`* *` |forgetful user | be able to lookup exact command formats | so that I won't need to go through the trouble of memorising commands
-
 |`* * *` | user who values visuals | curated information expressed in a well organised graph | intuitively understand information
 
 |`* * *` | user who values opinions | have some suggestions based on my goals and consumption patterns | know my options when I am indecisive on what to eat
 
-|`* *` |user who cannot fully remember the Food name |access a Food item's information by any one of its nutritional values I happen to remember |obtain a list of possible Food items that are relevant
+|`* * *` |user who cannot fully remember the name for a particular entry |view all entries which have the nutritional value I happen to remember |obtain a list of possible Food items that are relevant
 
-|`* *` |fitness influencer | get a screenshot and share my daily food consumption | can conveniently continue to inspire my followers.
+|`* *` |fitness influencer | get a copy of and share my daily food consumption | can conveniently continue to inspire my followers.
 
-|`*` |user who cannot fully remember the food name |have some form of autocomplete or input correction measure for incomplete keywords |obtain the possible results for a search through the Food records as in the case of typing fully and correctly
+|`* *` |forgetful user | be able to lookup exact command formats | so that I won't need to go through the trouble of memorising commands
 
 |=======================================================================
 
-_{More to be added as development proceeds and is always ongoing}_
+_{Add more here as you continue developing the project}_
 
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the `Calgo` application and the *Actor* is the `user`, unless specified otherwise)
+(For all use cases below, the *System* is the Calgo application and the *Actor* is the user, unless specified otherwise)
 
 [discrete]
 
@@ -1021,26 +1017,31 @@ _{More to be added as development proceeds and is always ongoing}_
 
 *MSS*
 
-1.  User requests for a guide on the app's commands
+1.  User requests for a guide on the app's commands.
 2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
 +
 Use case ends.
 
 [discrete]
-=== Use case: `find` `Food` item by keyword (which can be an incomplete word)
+=== Use case: `find` `Food` item by `Name` or `Tag` keyword (which can be an incomplete word)
 
 *MSS*
 
-1.  User requests to find a `Food` item by the keyword.
-2.  `Calgo` shows a list of `Food` items which contains `name` in any part of the name of the `Food` item.
+1.  User wants to find a `Food` entry by a specific keyword in `Name` or `Tag`.
+2.  User enters `find` command with the `Name` `Prefix`, or the `Tag` `Prefix`, accordingly.
+3.  `Calgo` shows a list of `Food` entries which contains the substring indicated in any part of the `Name` or `Tag` of the `Food` entries respectively.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-*The `FoodRecord` is empty* +
-A message indicating that zero matching `Food` items exist is shown. +
+*2a. User enters invalid input for particular `Prefix`* +
+2a1. A message prompting the user to enter a valid input is shown. +
+Use case resumes from Step 2.
+
+*3a. The `FoodRecord` is empty* +
+3a1. A message is shown indicating that there are zero matching `Food` items and prompts users to make new entries. +
 Use case ends.
 
 [discrete]
@@ -1048,16 +1049,21 @@ Use case ends.
 
 *MSS*
 
-1.  User requests to `find` a `Food` item by a single nutritional value of `Protein`, `Carbohydrate`, or `Fat` (indicated by the prefix).
-2.  `Calgo` shows a list of `Food` items in the `FoodRecord` which has the same nutritional values.
+1.  User wants to `find` a `Food` item by a single nutritional value of either `Calorie`, `Protein`, `Carbohydrate`, or `Fat`.
+2.  User enters `find` command with appropriate `Prefix`.
+3.  `Calgo` shows a list of `Food` entries which has the same nutritional value.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-*The `FoodRecord` is empty.* +
-`Calgo` shows a message indicating that 0 matching `Food` items exist. +
+*2a. User enters invalid input for particular `Prefix`* +
+2a1. A message prompting the user to enter a valid input is shown. +
+Use case resumes from Step 2.
+
+*3a. The `FoodRecord` is empty* +
+3a1. A message is shown indicating that there are zero matching `Food` items and prompts users to make new entries. +
 Use case ends.
 
 [discrete]
@@ -1065,9 +1071,18 @@ Use case ends.
 
 *MSS*
 
-1.  User requests to `export` the current `FoodRecord`.
-2.  Calgo creates a user-friendly text file `FoodRecord.txt` containing all `Food` item details in the `data/exports` folder.
+1.  User wants to `export` the current `FoodRecord`.
+2.  User enters the `export` command into `Calgo`.
+3.  Calgo creates a user-friendly text file `FoodRecord.txt` containing all `Food` item details in the `data/exports` folder.
 +
+Use case ends.
+
+*Extensions*
+
+[none]
+
+*3a. User's system prevents the file from being created* +
+3a1. A message is shown indicating that the file is unable to be created. +
 Use case ends.
 
 [discrete]
@@ -1075,16 +1090,17 @@ Use case ends.
 
 *MSS*
 
-1.  User requests to `list` all current `FoodRecord` entries.
-2.  `Calgo` shows a list of all `Food` items in the current `FoodRecord`.
+1.  User wants to `list` all current `FoodRecord` entries.
+2.  User enters the `list` command into `Calgo`.
+3.  `Calgo` shows a list of all `Food` entries in the GUI's `Food Record`.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-*The `FoodRecord` is empty.* +
-`Calgo` shows a message indicating that the `FoodRecord` is currently empty. +
+*3a. The `FoodRecord` is empty.* +
+3a1. `Calgo` shows a message indicating that all entries are shown, with the GUI showing an empty `Food Record`. User is also prompted by this message to make new entries. +
 Use case ends.
 
 [discrete]
@@ -1157,12 +1173,17 @@ Use case ends.
 This contains nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
 They can also contains a series of `Tag` s.
 
-[[food-records]] FoodRecord::
-The accumulated list of all `Food` items entered by the user, containing nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
+[[gui-food-records-entry]] Food Entry::
+An entry in the GUI's `Food Record` box, which shows all details for one `Food` object.
 
+[[food-records]] FoodRecord::
+The accumulated list of all `Food` objects entered by the user.
 
 [[gui-food-records]] Food Record::
-The GUI's `Food Record` box.
+The GUI's `Food Record` box, which shows all details for every `Food` entry.
+
+[[gui]] GUI::
+The Graphical User Interface of *Calgo*.
 
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X

@@ -71,7 +71,6 @@ public class UniqueFoodList implements Iterable<Food> {
         }
 
         internalList.set(index, editedFood);
-        sortInternalList();
     }
 
     /**
