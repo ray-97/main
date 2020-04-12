@@ -158,10 +158,7 @@ public class HelpCommand extends Command {
         return result;
     }
 
-    @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-
+    private void setFilteredGuide() {
         if (keyword == null) {
             filteredGuide = DEFAULT_HELP_MESSAGE;
         } else {
@@ -171,6 +168,13 @@ public class HelpCommand extends Command {
         if (filteredGuide.isEmpty()) {
             filteredGuide = NO_COMMAND + DEFAULT_HELP_MESSAGE;
         }
+    }
+
+    @Override
+    public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+
+        setFilteredGuide();
 
         return new CommandResult(SHOWING_HELP_MESSAGE,
                 true, false);

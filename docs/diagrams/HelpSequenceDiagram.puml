@@ -1,19 +1,13 @@
 @startuml
 !include style.puml
 
-Actor User as user USER_COLOR
-Participant ":UI" as ui UI_COLOR
-Participant ":Logic" as logic LOGIC_COLOR
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":HelpCommand" as HelpCommand LOGIC_COLOR
+end box
 
-user -[USER_COLOR]> ui : "help"
-activate ui UI_COLOR
+box Ui UI_COLOR_T1
+participant ":MainWindow" as MainWindow UI_COLOR
+end box
 
-ui -[UI_COLOR]> logic : execute("help")
-activate logic LOGIC_COLOR
-
-logic --[LOGIC_COLOR]> ui
-deactivate logic
-
-ui--[UI_COLOR]> user
-deactivate ui
 @enduml
