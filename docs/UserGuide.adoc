@@ -88,27 +88,54 @@ Start experimenting with the commands yourself and experience the convenience Ca
 [[Commands]]
 == Commands
 
+In this section, specific information about each command will be explained, such as what the command can do for you, how is it formatted and visual examples of their usage.
+
+But before that, do take note of the following information, which applies to all Calgo commands:
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are parameters that are to be supplied by you
-** e.g. in `n/NAME`, `NAME` is a parameter. `n/kiwi` would mean that the name of the `Food` is 'kiwi'.
-* Items in square brackets (i.e. []) are optional
-** e.g. in `[t/TAG]`, `TAG` is an optional parameter which can be used as `t/fruit` to tag the `Food` as a 'fruit'.
-* Parameters can be given in any order, as long as the correct prefix appears before the parameter
-** e.g. if the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` gives the same functionality.
-* Items with `…`​ after them can be used multiple times (including zero times)
-** e.g. `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
+* Words in `UPPER_CASE` are parameters that are to be provided by you.
+** *Example:* In `n/NAME`, `NAME` is a parameter. `n/kiwi` would mean that the name of the `Food` is 'kiwi'.
+* Items in square brackets (i.e. []) are optional.
+** *Example:* In `[t/TAG]`, `TAG` is an optional parameter which can be used as `t/fruit` to tag the `Food` as a 'fruit'.
+* Parameters can be given in any order, as long as the correct prefix appears before the parameter.
+** *Example:* If the command specifies `n/NAME p/PROTEINS`, `p/PROTEINS n/NAME` gives the same functionality.
+* Items with `…`​ after them can be used multiple times (including zero times).
+** *Example:* `[t/TAG]...` implies it can be left empty, or used as `t/favourite`, `t/favourite t/green` or with more than 2 tags.
 ====
 
-TIP: As you key in the name of the `Food` for any of these commands: `update`, `delete`, or `nom`, Calgo shows you
-`Food` with similar names that exists in the `Food Record`.
+In addition, this is a useful shortcut that may apply to you:
+
+TIP: As you key in the name of the `Food` for any of the following commands: `update`, `delete`, or `nom`, Calgo shows you
+`Food` with similar names that exists in the `Food Record` in the `Result Display` component of the GUI.
+Never make spelling mistakes again!
+
+Now that you know the general command information, refer to the following subsections for specific details of Calgo commands.
 
 === Clearing all entries : `clear`
+(by Vineeth)
 
-Clears all `Food` entries from the `Food Record`. +
+If you want to clear all the `Food` entries currently stored in your `Food Record`, this command will be extremely useful to you.
+
 Format: `clear` +
-(any parameters entered are ignored)
+
+Example: Suppose that you want to drastically improve your diet. You decide to take a look at all of your `Food` items in the `Food Record` currently but none of them fit into your new diet.
+So instead of deleting each `Food` item one by one, you decide to `clear` them. This is what you need to do:
+
+image::ClearCommandBefore.png[width=]
+
+First type `clear` in the `Command Box` and press kbd:[enter], as shown in the above diagram.
+
+image::ClearCommandAfter.png[width=]
+
+Upon entering the command, all your `Food` items in the  `Food Record` will be deleted, resulting in an empty `Food Record`, as shown above.
+Note that your `Consumption Record` data is not affected from executing the `clear` command as shown by the unchanged Daily List and graph in the above diagram.
+
+To cater to fast typists that may make occasional typing mistakes, Calgo will still execute `clear` even if there are other words that are typed after `clear`. +
+Example: `clear you are awesome Calgo` will still work as Calgo intelligently ignores the remaining words. However, if there is no whitespace typed after `clear`, Calgo will not be able to understand the entered command. Refer to the diagram below for a visualisation.
+
+image::ClearCommandError.png[width=]
+
 
 === Adding `Food` to `Consumption Record` : `nom`
 (by Ruicong)
@@ -344,6 +371,8 @@ Please note that the search is case-insensitive, an example being the `Sweet` `T
 <<<
 [[report]]
 === Generating insights : `report`
+(by Vineeth)
+
 Given a date, the command generates a document (in txt format) of relevant insights about the user's food consumption
 pattern of the same date. This file is stored in the `data/reports` folder.
 
@@ -398,6 +427,7 @@ image::ListCommandAfter.png[width=]
 Doing so, you will see a result message displayed and the `Food Record` will now show all `Food` entries.
 
 === Setting a daily `Calorie` target : `goal`
+(by Vineeth)
 
 What is the point of tracking your meals if you do not have an objective benchmark?
 
