@@ -705,6 +705,8 @@ image::NomActivityDiagram.png[]
 [[Implementation-SmartUpdate]]
 === Modifying the `FoodRecord`
 
+(By Zhang Xian)
+
 This section addresses how the `FoodRecord` can be modified by the `update` and `delete` commands.
 
 The `update` command allows the user to modify the `FoodRecord` by either adding a new `Food` into the `FoodRecord` or editing the
@@ -853,6 +855,8 @@ image::DeleteActivityDiagram.png[]
 [[Implementation-RealTimeSuggestion]]
 
 === Real-time Suggestions for Existing `Food` in `FoodRecord`
+
+(By Zhang Xian)
 
 This section addresses how the GUI `Result Display` suggests `Food` with similar `Name` to the user for the commands `update`, `delete` and `nom`.
 
