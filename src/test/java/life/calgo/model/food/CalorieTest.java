@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import life.calgo.testutil.Assert;
 
-
 public class CalorieTest {
 
     @Test
