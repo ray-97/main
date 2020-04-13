@@ -31,7 +31,7 @@ CalgoParser -> ReportCommandParser : parse("d/2020-03-27")
 activate ReportCommandParser
 
 create ReportCommand
-ReportCommandParser -> ReportCommand
+ReportCommandParser -> ReportCommand : new ReportCommand(queryDate)
 activate ReportCommand
 
 ReportCommand --> ReportCommandParser : r
