@@ -72,7 +72,7 @@ public class ReportGenerator extends DocumentGenerator {
             + "Calgo advices you not to eat %s at all because it has \n way too many calories relative to your goal.";
 
     private static final String ADVICE_TO_CONTINUE = "Based on your goal, Calgo has verified that your favourite food,"
-            + " %s, is sufficiently healthy!";
+            + " %s,\n is sufficiently healthy! This means that it can continue to be a part of your diet.";
 
     private static final String ADVICE_TO_EXERCISE = "Calgo has verified that your favourite food is preventing you "
             + "from reaching your daily goal.\n"
