@@ -1,48 +1,68 @@
-= John Doe - Project Portfolio
+= Eugene Tan Yew Chin - Project Portfolio
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: AddressBook - Level 3
+== PROJECT: Calgo
 
----
+=== Overview
 
-== Overview
+This portfolio page highlights some of my contributions to Calgo - a Software Engineering project developed in my second year of undergraduate studies in the National University of Singapore.
 
-AddressBook - Level 3 is a desktop protein book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+==== About the Team
 
-== Summary of contributions
+My team consisted of 5 Year 2 Computer Science undergraduates taking the CS2103T Software Engineering module.
 
-* *Major enhancement*: added *the ability to undo/redo previous commands*
-** What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.
-** Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.
-** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
-** Credits: _{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}_
+==== About the Project
 
-* *Minor enhancement*: added a history command that allows the user to navigate to previous commands using up/down keys.
+Calgo is an all-in-one personal meal tracking assistant which seeks to encourage a healthy lifestyle among its users. It allows users to not only have a convenient nutritional record of all their favourite food entries, but also track, monitor, and plan their food consumption. Moreover, the team has come up with a plethora of user-centric features to make Calgo well-suited to provide users with both convenience and utility.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+My team was tasked with morphing an existing https://github.com/nus-cs2103-AY1920S1/addressbook-level3[Address Book Level 3 (AB3) project] into a product which demonstrated the team's creative flair and technical skills in Brownfield software development.
+We were therefore required to use the existing AB3 project as Calgo's project foundation, to create a desktop application supporting the Command Line Interface. This was to target users who prefer typing but also enjoy the benefits of a Graphical User Interface.
+With all of us being food lovers and realising a greater societal need for healthy eating, Calgo was born.
+
+=== Summary of contributions
+
+==== Enhancements
+
+* *Major enhancement*: I implemented categorical search via the `find` command.
+** What it does: This allows users to search for `Food` entries by narrowing down on a specific `Food`-related attribute of either `Name`, `Calorie`, `Protein`, `Carbohydrate`, `Fat`, or `Tag`.
+** Justification: Users now have an option to perform refined searches, preventing the need to tediously scroll through the `Food Record`.
+** Highlights: This enhancement requires in-depth understanding of the application's architecture and how commands work internally. A new parser for the `find` command was created to detect the different prefixes entered by the user, as with supporting classes (such as `Predicate` s) to facilitate background workings.
+
+* *Major enhancement*: I implemented the `export` command.
+** What it does: This allows users to export their current `Food` entries to a portable, neatly formatted editable .txt file. They can now also add their own notes and share their entries.
+** Justification: This improves user experience as they can now obtain a copy of their `Food` entries for multiple purposes like printing onto paper.
+** Highlights: This enhancement requires comprehensive understanding of how commands are processed, and gave opportunity to perform good Object-Oriented Paradigm practices. A new class for the command, as well as supporting classes (such as for table formatting) were created. Moreover, as the `report` command by my teammate is similar and we applied good OOP for better code quality and reuse.
+
+* *Minor enhancement*: I implemented substring search via the `find` command.
+** What it does: This allows users to search for `Food` entries by typing incomplete keywords for searching using the `Name` or `Tag` prefixes. Results are entries containing these substrings (in the specified attribute).
+** Justification: Users no longer have to type the full `Name` (which can get really long) for entries. Those who are lazy, or happen to enter incomplete keywords can still have their results shown.
+** Highlights: This enhancement relies on `Predicate` s, as with the categorical search via `find` command.
+
+* *Minor enhancement*: I implemented the lexicographical ordering of `Food` objects.
+** What it does: This makes the `Food Record` show all entries in lexicographical order.
+** Justification: When users have too many entries, it is frustrating to scroll through them in a non-alphabetical order.
+** Highlights: For good efficiency, we only sort entries when Calgo starts up or when new entries are added.
+
+* *Code contributed*: You can view my contributions to Calgo https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=eugenetyc&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=eugenetyc&tabRepo=AY1920S2-CS2103T-F11-1%2Fmain%5Bmaster%5D[here].
 
 * *Other contributions*:
 
+** Documentation:
+*** Wrote sections 5.4 (`export`), 5.5 (`find`), 5.8 (`list`) of the User Guide: https://github.com[#14]
 ** Project management:
 *** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
 ** Enhancements to existing features:
 *** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
 *** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
-** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
 ** Community:
 *** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
 *** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
 *** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
 *** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
-** Tools:
-*** Integrated a third party library (Natty) to the project (https://github.com[#42])
-*** Integrated a new Github plugin (CircleCI) to the team repo
 
-_{you can add/remove categories in the list above}_
-
+<<<
 == Contributions to the User Guide
 
 
