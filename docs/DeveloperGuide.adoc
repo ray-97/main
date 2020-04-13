@@ -847,7 +847,7 @@ optional `command word` that filters the displayed command guide.
 
 [NOTE]
 `command word` filters out only commands which contain the `command word` as a substring. If no commands contain it
-as a substring, an error message will be displayed at the top of the `HelpWindow` and the full command guide will be shown.
+as a substring, an error message will be displayed at the top of the GUI component `Help Window` and the full command guide will be shown.
 
 
 ==== Implementation
@@ -873,15 +873,15 @@ relevant command guides. A `CommandResult` object is produced reflecting the res
 will attempt to retrieve only relevant command guides, defaulting to a list of all guides if no relevant guides exist.
 Otherwise, by default a list of all guides will be provided.
 
-Step 4: The `CommandResult` is eventually passed to `MainWindow`, which then displays the command guide in a separate
-window, called `HelpWindow`.
+Step 4: The `CommandResult` is eventually passed to the `MainWindow` class, which then displays the command guide in a separate
+window, using the `HelpWindow` class.
 
 // end::helpcommand[]
 <<<
 
 ==== Design considerations
 ===== Aspect: How Help is displayed
-* **Alternative 1 (current choice):** `HelpWindow` is displayed as a separate popup.
+* **Alternative 1 (current choice):** GUI component `Help Window` is displayed as a separate popup.
 ** Pros:
 - User can refer to the command guide in a window separately from Calgo, keeping it present as they use the App.
 - Command guide can give a more detailed description of command usage and format as it has more space to display in.
@@ -889,13 +889,13 @@ window, called `HelpWindow`.
 ** Cons:
 - `help` does not redirect to a url containing the most up-to-date User Guide. Changes made to the User Guide
 must be updated in `HelpCommand` separately.
-- `HelpWindow` might obstruct view of the App upon initially loading it, causing annoyance.
-* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
+- GUI component `Help Window` might obstruct view of the App upon initially loading it, causing annoyance.
+* **Alternative 2:** GUI component `Help Window` is not used, and instead content is displayed as part of GUI component `Result Display`.
 ** Pros:
 - No possibility of a popup blocking the main app.
 - All information is contained within a single window.
 ** Cons:
-- User must use the `help` command every time they require a guide, as `ResultDisplay` will be
+- User must use the `help` command every time they require a guide, as GUI component `Result Display` will be
 overwritten after other commands.
 
 ===== Aspect: Command guides can be selectively displayed
@@ -903,7 +903,7 @@ overwritten after other commands.
 display only desired commands by entering an optional keyword after `help`.
 ** Pros:
 - Desired command can be more rapidly found.
-- Removes all unwanted commands from `HelpWindow`, reducing clutter.
+- Removes all unwanted commands from GUI component `Help Window`, reducing clutter.
 ** Cons:
 - Filtered `help` does not benefit users who don't know the command they're looking for.
 * **Alternative 2:** Always display all command guides to ensure user will find the guide they require.
@@ -952,20 +952,21 @@ of `DailyFoodLog`. The implementation of the `GraphPanel` class will be further 
 
 `GraphPanel` class implements the following operations:
 
-* `GraphPanel#initialiseTreeMap(Logic logic)` - Sets up the TreeMap that maps `LocalDate` date of `DailyFoodLog` to the `Double`
+* `initialiseTreeMap` - Sets up the TreeMap that maps `LocalDate` date of `DailyFoodLog` to the `Double`
 total calorie consumption n that day.
-* `GraphPanel#initialseGraph()` - Sets up the `LineChart` with xAxis a `String` representing date, and yAxis a `Double` representing
+* `initialseGraph` - Sets up the `LineChart` with xAxis a `String` representing date, and yAxis a `Double` representing
 total calories consumed on that date.
-* `GraphPanel#updateSeries()` - Ensures the `XYChart.series` that populates the graph with data is always updated with the
+* `updateSeries` - Ensures the `XYChart.series` that populates the graph with data is always updated with the
 most recent app data.
-* `GraphPanel#makeGraph(Logic logic)` - Wrapper function that calls the above three methods.
-* `GraphPanel#getGraph(Logic logic)` - Public accessor function to generate and retrieve the `LineChart`.
+* `makeGraph` - Wrapper function that calls the above three methods.
+* `getGraph` - Public accessor function to generate and retrieve the `LineChart`.
 
-Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having `MainWindow`
-call `GraphPanel#getGraph(Logic logic)` on startup and after execution of commands.
+Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having the
+ `MainWindow` class call `getGraph` on startup and after execution of commands.
 
-The sequence diagram below demonstrates how the `Graph` feature works, such as upon loading of `MainWindow`.
+The sequence diagram below demonstrates how the `Graph` feature works.
 
+.Sequence Diagram for GraphPanel
 image::GraphSequenceDiagram.png[]
 Sequence Diagram for `Graph` feature.
 
@@ -1128,10 +1129,23 @@ Also note that the term *MSS* refers to the Main Success Scenario for each Use C
 
 *MSS*
 
-1.  User requests for a guide on the app's commands.
-2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
+1.  User wants to find the command guide for the commands in Calgo.
+2.  User enters `help` command with no additional `command_word`.
+3.  `Calgo` generates a popup, displaying a list of all command guides in the popup.
 +
 Use case ends.
+
+*Extensions*
+
+[none]
+*2a. User enters a `command_word` after `help`, such as foe example `help nom`.*
+2a1. `Calgo` filters out only command guides containing the `command_word` "nom".
+2a2. `Calgo` generates a popup, displaying this filtered list of command guides.
+
+*2b. User enters a `command_word` after `help` that has no corresponding command guides.*
+2b1. `Calgo` tries to filter out only command guides containing the `command_word` but fails to find any guides. Thus
+it defaults to display all command guides.
+Use case resumes from Step 2.
 
 [discrete]
 === Use case: `find` `Food` item by `Name` or `Tag` keyword (which can be an incomplete word)
