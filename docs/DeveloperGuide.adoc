@@ -837,7 +837,7 @@ Step1....
 
 This section addresses how the `help` command works.
 
-The `help` command allows us to reference a summarised version of the User Guide (called the command guide)
+The `help` command allows users to reference a summarised version of the User Guide (called the command guide)
 containing the usages of the commands and their formats, arranged in alphabetical order. Users may enter an
 optional `command word` that filters the displayed command guide.
 
@@ -849,10 +849,10 @@ as a substring, an error message will be displayed at the top of the `HelpWindow
 ==== Implementation
 // end::helpcommand[]
 
-To generate a command guide using the `help` command, a `HelpCommand` object helps to generate the relevant command guides
+To generate a command guide using the `help` command, a `HelpCommand` object generates the relevant command guides
 based on the provided `command word` in the input.
 
-The sequence diagram below demonstrates how teh `help` command works, should a `command word` of "nom" be provided.
+The sequence diagram below demonstrates how the `help` command works, should a `command word` of "nom" be provided.
 
 .Sequence Diagram for Help
 image::HelpSequenceDiagram.png[]
