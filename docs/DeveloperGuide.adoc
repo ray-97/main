@@ -957,6 +957,7 @@ image::RealTimeSuggestionActivityDiagram.png[]
 
 
 [[Implementation-HelpGuide]]
+//tag:: helpCommand[]
 === Command guide `help` command
 
 This section addresses how the `help` command works.
@@ -971,7 +972,6 @@ as a substring, an error message will be displayed at the top of the GUI compone
 
 
 ==== Implementation
-// end::helpcommand[]
 
 To generate a command guide using the `help` command, a `HelpCommand` object generates the relevant command guides
 based on the provided `command word` in the input.
@@ -996,7 +996,7 @@ Otherwise, by default a list of all guides will be provided.
 Step 4: The `CommandResult` is eventually passed to the `MainWindow` class, which then displays the command guide in a separate
 window, using the `HelpWindow` class.
 
-// end::helpcommand[]
+// end::helpCommand[]
 <<<
 
 ==== Design considerations
@@ -1120,7 +1120,15 @@ After which, the `GraphPanel` adds the graph to `MainWindow`.
 
 * *Alternative 2:* Dates are based on past seven days starting from today's date, inclusive.
 
+==== Summary
 
+In summary, this section addresses how the graph obtains information on the past seven `DailyFoodLog`, and correspondingly
+produces a visual graph output onto Calgo's `Main Window` GUI component viewable by the user.
+
+The graph requires the `LogicManager` class to obtain the information, and the `MainWindow` class to facilitate display
+to the user.
+
+//end::caloriegraph[]
 
 === Logging
 

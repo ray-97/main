@@ -89,13 +89,14 @@ Start experimenting with the commands yourself and experience the convenience Ca
 - Learn specific details about the various commands Calgo offers by referring to <<Commands, this section>>.
 - If you need a complete summary of all commands, refer to <<Command Summary, this table>>.
 
+//tag::interpretGUI[]
 [[GUI]]
 == Interpreting Calgo's Graphical User Interface
 //placeholder unlabelled image
 .A labelled illustration of Calgo on startup
 [reftext="Figure 4.1"]
 [caption = "Figure 4.1: "]
-image::UiLabelled.png[width="790"]
+image::UiLabelled.png[]
 
 Calgo's GUI is designed to be sleek and compact, allowing you to use and view all of Calgo's features on a single window.
 However, that might be a little overwhelming at the start. Hence,
@@ -163,6 +164,7 @@ can easily tell one entry apart from its neighbours.
 
 === `Status Bar`
 This bar shows where Calgo reads system data from. You should not delete or modify these files.
+//end::interpretGUI[]
 
 [[Commands]]
 == Commands
@@ -422,6 +424,7 @@ image::GoalCommandAfter.png[]
 As you can see, the `Daily Goal Display` has updated to reflect your daily calorie goal. You can now track your meals
 and get immediate updates on the remaining amount of calories you have to consume for that day to achieve your goal.
 
+// tag::helpCommand[]
 === `help` : Displaying `help` when lost
 
 (by Janice)
@@ -458,6 +461,7 @@ image::HelpCommandWithNomBefore.png[]
 As you can see, the `Help Window` popup now only shows the command guide for `nom`.
 
 image::HelpCommandWithNomPopup.png[]
+// end::helpCommand[]
 
 // tag::listcommand[]
 [[ListCommand]]
