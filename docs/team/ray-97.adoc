@@ -77,7 +77,7 @@ https://github.com/ray-97/ped/issues/5[#5]
 
 == Contributions to the User Guide
 
-The links below are not generated for PDF.
+The links below are not generated for PDF. So I excluded them on github to make them consistent.
 
 |===
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
