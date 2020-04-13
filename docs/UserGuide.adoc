@@ -217,11 +217,11 @@ Suppose that you want to drastically improve your diet. You decide to take a loo
 currently in the `Food Record` but realise none of them fit into your new diet.
 To avoid the hassle of deleting each `Food` entry one by one, you decide to `clear` them. This is what you need to do:
 
-image::ClearCommandBefore.png[width=]
+image::ClearCommandBefore.png[]
 
 First, type `clear` and then press kbd:[enter], as shown in the above diagram.
 
-image::ClearCommandAfter.png[width=]
+image::ClearCommandAfter.png[]
 
 Upon entering the command, all your `Food` entries in the  `Food Record` will be deleted. This will result in an empty `Food Record`, as shown above.
 As mentioned previously, your data in the `Consumption Record` and `Graph Display` is left unchanged.
@@ -244,11 +244,11 @@ Example:
 
 Say you want to remove a `Food`, `Pizza`, that already exists in your `Food Record`. This is how you can do it:
 
-image::DeleteCommandBefore.png[width=]
+image::DeleteCommandBefore.png[]
 
 You should first enter `delete n/pizza` as input, and press kbd:[enter]. Note that `delete n/Pizza` also has the same effect.
 
-image::DeleteCommandAfter.png[width=]
+image::DeleteCommandAfter.png[]
 
 Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` no longer shows
 a `Food` entry for `Pizza`.
@@ -415,11 +415,11 @@ Let's suppose you are a young adult who is trying to lose weight because your fa
 You search online for the ideal number of calorie you should consume daily to lose weight. A credible online source states
 it should be 1900 calories. Now, you want to reflect that daily calorie goal in Calgo. You can do that by following this simple step:
 
-image::GoalCommandBefore.png[width=]
+image::GoalCommandBefore.png]
 
 Type in `goal 1900` and press kbd:[enter], as shown above. +
 
-image::GoalCommandAfter.png[width=]
+image::GoalCommandAfter.png[]
 
 As you can see, the `Daily Goal Display` has updated to reflect your daily calorie goal. You can now track your meals
 and get immediate updates on the remaining amount of calories you have to consume for that day to achieve your goal.
@@ -447,20 +447,20 @@ Example:
 Let's say you've forgotten how to add `Food` entries to your `Consumption Record`. You know there is a command called `nom`,
 but don't recall its format. You can use the `help` command to obtain the format like so:
 
-image::HelpCommandBefore.png
+image::HelpCommandBefore.png[]
 
 Type `help`, then press kbd:[enter].
 
-image::HelpCommandPopup.png
+image::HelpCommandPopup.png[]
 
 This creates a popup (the `Help Window`) with command guides. However that displays all the commands, which might make searching for only
 `nom` a bit daunting. Instead, you can type `help nom`, then press kbd:[enter].
 
-image::HelpCommandWithNomBefore.png[widt=]
+image::HelpCommandWithNomBefore.png[]
 
 As you can see, the `Help Window` popup now only shows the command guide for `nom`.
 
-image::HelpCommandWithNomPopup.png
+image::HelpCommandWithNomPopup.png[]
 // end::helpCommand[]
 
 // tag::listcommand[]
@@ -541,11 +541,11 @@ Suppose you want to have a Cheeseburger today and have already stored its nutrit
 in `Food Record`. Since you just want to dig in as soon as possible, yet still want to jot your meal down,
 you decide to enter the simplest command possible. Here's how you do it:
 
-image::NomCommandBefore.png[width=]
+image::NomCommandBefore.png[]
 
 First, enter `nom n/Cheeseburger` as input and press kbd:[enter].
 
-image::NomCommandAfter.png[width=]
+image::NomCommandAfter.png[]
 
 Once you enter the command, the `Result Display` will inform you that the food has been consumed.
 The `Consumption Record` panel and `Graph Display` are updated to reflect your latest consumption.
@@ -593,50 +593,50 @@ Example:
 Let's suppose you had a buffet on 27th of April 2020 and you managed to `nom` lots of exciting `Food` into your
 `Consumption Record`. It is now the end of the day and you want to look back and find out how you fared. This is what you can do:
 
-image::ReportCommandBefore.png[width=]
+image::ReportCommandBefore.png[]
 
 First, type `report d/2020-04-27` and press kbd:[enter], as shown above.
 
-image::SampleReport.png[width=]
+image::SampleReport.png[]
 
 Second, go to the `data/reports` folder and open 2020-04-27_report.txt. You will
 see a report that looks similar to the one in the above screenshot.
 
 The following steps breakdown what information is included in each section of the report.
 
-image::ReportHeader.png[width=]
+image::ReportHeader.png[]
 
 The first section is the `Report Header`, which states the date of your consumption pattern that is being analysed in the report. In this case,
 your food consumption pattern on the 27th of April 2020 is analysed in the displayed report screenshot.
 
-image::ReportGoalInfo.png[width=]
+image::ReportGoalInfo.png[]
 
 The second section is `Your Goal Information`. This section reminds you of the daily calorie goal that you have set for yourself.
 
-image::ReportFoodwiseStatistics.png[width=]
+image::ReportFoodwiseStatistics.png[]
 
 The third section is `Food-wise Statistics`. As the name suggests, this section provides you with relevant statistics for every `Food` entry in your `Consumption Record` of the given day.
 In this case, you can see a variety of `Food` entries that you have tracked from your buffet experience. For each `Food` entry, the report displays the name of the `Food`, the total number of portions you consumed and the total amount of calories from that `Food`.
 You can use this information to realise what `Food` you may be over-consuming.
 
-image::ReportAggregateStatistics.png[width=]
+image::ReportAggregateStatistics.png[]
 
 The fourth section is `Aggregate Statistics`, which shows you the total amount of calories, protein, carbohydrates and fat that you have consumed on the given day.
 This section could be particularly helpful if you are interested in tracking your total nutritional intake each day.
 
-image::ReportInsights.png[width=]
+image::ReportInsights.png[]
 
 The fifth section is called `Insights for You`. In this section, Calgo uses your daily calorie goal to explain how close you were to achieving it.
 For you to continually improve your eating habits, Calgo, like any other friend, pushes you with motivating messages and congratulates you if you achieved the goal.
 In this case, as you exceeded the daily calorie goal by 959 calories, Calgo provides you with some reassurance that you can do better the next day to ensure that you do not give up.
 
-image::ReportSuggestions.png[width=]
+image::ReportSuggestions.png[]
 
 The penultimate section is `Suggestions for You`. In this section, Calgo analyses your `Consumption Record` of the past week from the given date to find out what you can do to improve your eating habits.
 Calgo does this by using a mix of your ratings and quantity consumed of each `Food` to intelligently infer what your favourite `Food` is. It then analyses if you can continue to keep your favourite `Food` in the past week in your diet based on your daily calorie goal.
 Over time, through Calgo's smart suggestions, you will eventually have a diet consisting of your favourite `Food` entries that are compatible with your goal. How awesome is that!
 
-image::ReportFooter.png[width=]
+image::ReportFooter.png[]
 
 The final section is the `Report Footer`, which informs you that the report has concluded. This is the part where you realise that Calgo provides you with so many key insights in such a neatly organised and compact document.
 
@@ -663,11 +663,11 @@ Format: `stomach [d/DATE]`
 
 Example: If you want to see what you have consumed on 12 April 2020, here's how you can do it:
 
-image::StomachCommandBefore.png[width=]
+image::StomachCommandBefore.png[]
 
 Type the command `stomach d/2020-04-12` as input and press kbd:[enter].
 
-image::StomachCommandAfter.png[width=]
+image::StomachCommandAfter.png[]
 
 The `Consumption Record` will display all the `Food` you have consumed on 12 April 2020.
 You can also see that `Daily Goal Display` has updated to show the amount of calories you have consumed on 12 April 2020,
@@ -701,22 +701,22 @@ Example 1: Suppose you want to create a `Food` entry for Mee Goreng in Calgo. Af
 nutritional values for Mee Goreng, you found that Mee Goreng has 418 calories, 8g of protein, 58g of carbohydrate and 17g of fat.
 Here's how you update your new `Food`, Mee Goreng, into your `Food Record`:
 
-image::UpdateCommandNewBefore.png[width=]
+image::UpdateCommandNewBefore.png[]
 
 You should type `update n/Mee Goreng cal/418 p/8 c/58 f/17` and press kbd:[enter].
 
-image::UpdateCommandNewAfter.png[width=]
+image::UpdateCommandNewAfter.png[]
 
 Once the command has been entered, the `Result Display` shows the result of your command and the `Food Record` has been updated with a new `Food`, Mee Goreng.
 
 Example 2: Perhaps you realised that there was an error with the nutritional values keyed in for an existing `Food`, Mee Goreng, inside your `Food Record`.
 You wish to `update` the protein value for Mee Goreng to a new value of 10g. This is how you can do it:
 
-image::UpdateCommandExistingFoodBefore.png[width=]
+image::UpdateCommandExistingFoodBefore.png[]
 
 Type `update n/Mee Goreng cal/418 p/10 c/58 f/17` as input and press kbd:[enter].
 
-image::UpdateCommandExistingFoodAfter.png[width=]
+image::UpdateCommandExistingFoodAfter.png[]
 
 Once the command has been entered, the `Result Display` shows the result of your command and the `Food`, Mee Goreng, in
 `Food Record` has been updated with a new protein nutritional value of 10g.
@@ -725,11 +725,11 @@ Example 3: Suppose you want to `update` a new `Food`, Char Kuay Teow, into the `
 name of the `Food` in hurry and did not capitalise some letters properly.
 Instead of "Char Kuay Teow", you accidentally typed "char KUay TeoW" in the name field. You can do this:
 
-image::UpdateCommandCapitaliseBefore.png[width=]
+image::UpdateCommandCapitaliseBefore.png[]
 
 You can then type `update n/char KUay TeoW cal/200 p/20 c/22 f/30 t/greasy` and press kbd:[enter].
 
-image::UpdateCommandCapitaliseAfter.png[width=]
+image::UpdateCommandCapitaliseAfter.png[]
 
 Calgo automatically formats the name of your `Food` for you to proper case. Hence, you
 see that instead of a hideous "char KUay TeoW"
@@ -767,11 +767,11 @@ Example: Let's say you ordered a glass of Bandung and previously used `nom` with
 However, because the drink was too sweet, you only finished half a glass, you can use `vomit` to adjust your
 `Consumption Record`. Here's how you can do this:
 
-image::VomitCommandBefore.png[width=]
+image::VomitCommandBefore.png[]
 
 You should enter `vomit num/1 portion/0.5`, then press kbd:[enter].
 
-image::VomitCommandAfter.png[width=]
+image::VomitCommandAfter.png[]
 
 As you can see from the `Consumption Record` panel, the portion has been reduced to 0.5.
 The `Graph Display` also reflects a drop in calories.
