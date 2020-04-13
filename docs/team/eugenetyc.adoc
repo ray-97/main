@@ -50,17 +50,21 @@ With all of us being food lovers and realising a greater societal need for healt
 * *Other contributions*:
 
 ** Documentation:
-*** Wrote sections 5.4 (`export`), 5.5 (`find`), 5.8 (`list`) of the User Guide: https://github.com[#14]
-** Project management:
-*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
-** Enhancements to existing features:
-*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
-*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
-** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
-*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
-*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
+*** Wrote sections for `find`, `list`, `export` of the User Guide: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/117[#117], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/141[#141], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/159[#159], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/160[#160], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/206[#206], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/217[#217], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/223[#223], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/226[#226], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/268[#268], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/272[#272], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/278[#278], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/287[#287]
+*** Wrote sections for Searching, Lexicographical Ordering, and Exporting, of the Developer Guide: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/123[#123], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/124[#124], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/141[#141], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/245[#245], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/259[#259], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/272[#272], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/275[#275], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/278[#278], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/287[#287]
+*** Other User Guide contributions: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/65[#65], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/68[#68], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/89[#89], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/116[#116], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/165[#165]
+*** Other Developer Guide contributions: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/67[#67], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/89[#89], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/121[#121],
+
+** Project and team management & contributions:
+*** Morphed AB3 to a minimally functional Calgo: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/89[#89], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/96[#96]
+*** Update team pages/documentation: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/40[#40], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/42[#42], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/52[#52], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/65[#65], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/67[#67], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/89[#89], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/117[#117], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/121[#121], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/123[#123], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/124[#124], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/141[#141], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/159[#159], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/160[#160], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/206[#206], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/223[#223]
+*** Team lead: facilitated meetings and discussions, standardisation, providing technical help.
+*** Product ideation, user testing, facilitating issue tracker and milestone management, curating some JUnit tests (e.g. for `find` command).
+*** Reviewed some PRs: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/288#pullrequestreview-391976279[1], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/271#pullrequestreview-391976983[2]
+
+** Beyond the team:
+*** Peer team bugs reporting & testing: https://github.com/eugenetyc/ped/issues/1[#1], https://github.com/eugenetyc/ped/issues/2[#2], https://github.com/eugenetyc/ped/issues/3[#3], https://github.com/eugenetyc/ped/issues/4[#4], https://github.com/eugenetyc/ped/issues/6[#6], https://github.com/eugenetyc/ped/issues/7[#7], https://github.com/eugenetyc/ped/issues/8[#8], https://github.com/eugenetyc/ped/issues/9[#9], https://github.com/eugenetyc/ped/issues/10[#10], https://github.com/eugenetyc/ped/issues/11[#11], https://github.com/eugenetyc/ped/issues/13[#13], https://github.com/eugenetyc/ped/issues/14[#14], https://github.com/eugenetyc/ped/issues/15[#15], https://github.com/eugenetyc/ped/issues/16[#16], https://github.com/eugenetyc/ped/issues/17[#17].
+*** Contributed to forum discussions (examples: https://github.com/nus-cs2103-AY1920S2/forum/issues/29[1], https://github.com/nus-cs2103-AY1920S2/forum/issues/109[2], https://github.com/nus-cs2103-AY1920S2/forum/issues/55[3], https://github.com/nus-cs2103-AY1920S2/forum/issues/56[4], https://github.com/nus-cs2103-AY1920S2/forum/issues/50[5], https://github.com/nus-cs2103-AY1920S2/forum/issues/52[6], https://github.com/nus-cs2103-AY1920S2/forum/issues/28[7], https://github.com/nus-cs2103-AY1920S2/forum/issues/54[8])
 
 <<<
 == Contributions to the User Guide
