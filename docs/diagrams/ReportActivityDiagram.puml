@@ -1,13 +1,18 @@
 @startuml
 start
-:User executes Report command;
+:User executes report command;
 
 if () then ([there are food entries added on the given date])
-    :Retrieve DailyFoodLog and DailyGoal from Model;
-    :Calculate statistics based on the food consumed in the DailyFoodLog;
+    :Retrieve DailyFoodLog, DailyGoal and a List of
+    past week's DailyFoodLog from Model;
+    :Calculate statistics based on the food consumed in the DailyFoodLog
+    corresponding to the given date;
     :Compare statistics with DailyGoal to generate deliverable insights;
+    :Analyse past week's consumption data to
+    generate Favourite food and related suggestions;
 else ([else])
     :Show error message and do not generate report;
 endif
 stop
 @enduml
+

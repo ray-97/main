@@ -3,51 +3,57 @@
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":FoodRecordParser" as FoodRecordParser LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
 participant ":ReportCommandParser" as ReportCommandParser LOGIC_COLOR
 participant "r:ReportCommand" as ReportCommand LOGIC_COLOR
 participant ":CommandResult" as CommandResult LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
-participant ":Model" as Model MODEL_COLOR
+participant "model:Model" as Model MODEL_COLOR
 participant ":ReportGenerator" as ReportGenerator MODEL_COLOR
 end box
 
 [-> LogicManager : execute("report d/2020-03-27")
 activate LogicManager
 
-LogicManager -> FoodRecordParser : parseCommand("report d/2020-03-27")
-activate FoodRecordParser
+LogicManager -> CalgoParser : parseCommand("report d/2020-03-27")
+activate CalgoParser
 
 create ReportCommandParser
-FoodRecordParser -> ReportCommandParser
+CalgoParser -> ReportCommandParser : new ReportCommandParser()
 activate ReportCommandParser
 
-ReportCommandParser --> FoodRecordParser
+ReportCommandParser --> CalgoParser
 deactivate ReportCommandParser
 
-FoodRecordParser -> ReportCommandParser : parse("d/2020-03-27")
+CalgoParser -> ReportCommandParser : parse("d/2020-03-27")
 activate ReportCommandParser
 
 create ReportCommand
-ReportCommandParser -> ReportCommand
+ReportCommandParser -> ReportCommand : new ReportCommand(queryDate)
 activate ReportCommand
 
 ReportCommand --> ReportCommandParser : r
 deactivate ReportCommand
 
-ReportCommandParser --> FoodRecordParser : r
+ReportCommandParser --> CalgoParser : r
 deactivate ReportCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-ReportCommandParser -[hidden]-> FoodRecordParser
+ReportCommandParser -[hidden]-> CalgoParser
 destroy ReportCommandParser
 
-FoodRecordParser --> LogicManager : r
-deactivate FoodRecordParser
+CalgoParser --> LogicManager : r
+deactivate CalgoParser
 
-LogicManager -> ReportCommand : execute()
+LogicManager -> ReportCommand : execute(model)
 activate ReportCommand
+
+ReportCommand -> Model : getDailyGoal()
+activate Model
+
+Model --> ReportCommand
+deactivate Model
 
 ReportCommand -> Model : getLogByDate(queryDate)
 activate Model
@@ -55,13 +61,15 @@ activate Model
 Model --> ReportCommand
 deactivate Model
 
-ReportCommand -> Model : getDailyGoal()
+ReportCommand -> Model : getPastWeekLogs()
 activate Model
+
 Model --> ReportCommand
 deactivate Model
 
 create ReportGenerator
-ReportCommand -> ReportGenerator
+ReportCommand -> ReportGenerator : new ReportGenerator(queryDate, dailyGoal, dailyLog, pastWeekLogs)
+
 activate ReportGenerator
 ReportGenerator --> ReportCommand
 deactivate ReportGenerator
@@ -69,15 +77,15 @@ deactivate ReportGenerator
 ReportCommand -> ReportGenerator : generateReport()
 activate ReportGenerator
 
+ReportGenerator -> ReportGenerator : updateStatistics()
+activate ReportGenerator
+deactivate ReportGenerator
+
 ReportGenerator -> ReportGenerator : printHeader()
 activate ReportGenerator
 deactivate ReportGenerator
 
-ReportGenerator -> ReportGenerator : printFoodwiseStatistics()
-activate ReportGenerator
-deactivate ReportGenerator
-
-ReportGenerator -> ReportGenerator : printAggregateStatistics()
+ReportGenerator -> ReportGenerator : printBody()
 activate ReportGenerator
 deactivate ReportGenerator
 
@@ -87,6 +95,9 @@ deactivate ReportGenerator
 
 ReportGenerator --> ReportCommand
 deactivate ReportGenerator
+ReportGenerator -[hidden]-> CalgoParser
+destroy ReportGenerator
+
 create CommandResult
 ReportCommand -> CommandResult
 activate CommandResult
@@ -96,6 +107,8 @@ deactivate CommandResult
 
 ReportCommand --> LogicManager : result
 deactivate ReportCommand
+ReportCommand -[hidden]-> CalgoParser
+destroy ReportCommand
 
 [<--LogicManager
 deactivate LogicManager

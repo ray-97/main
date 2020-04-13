@@ -1,0 +1,13 @@
+@startuml
+start
+:User executes goal command;
+
+if () then ([the given value is valid])
+    : Create new DailyGoal object with the given value;
+    : Set the DailyGoal attribute of Model as the newly generated DailyGoal object;
+    : Display success message to User;
+else ([else])
+    : Show error message and do not update goal;
+endif
+stop
+@enduml

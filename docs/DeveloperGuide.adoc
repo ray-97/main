@@ -139,6 +139,7 @@ NOTE: The lifeline for `DeleteCommandParser` and `DeleteCommand` should end at t
 [[Design-Model]]
 === Model component
 
+[[Model-Component]]
 .Structure of the Model Component
 image::ModelClassDiagram.png[]
 
@@ -196,38 +197,46 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-//tag:: Report[]
 [[Implementation-InsightsReport]]
-=== Generate insights report
-This feature allows a user to generate a report that contains statistics and deliverable insights based on
-personal food consumption patterns.
+=== Generating consumption statistics and insights report +
+(by Vineeth)
 
-The functionality can be invoked by entering the `report d/DATE` command.
-This command generates a report that is based on the food consumed by
-the user on the specified date.
+This feature allows a user to automatically generate a report that contains statistics and personalised insights based on
+his or her food consumption pattern on a given date. Do note that the generated report is a .txt file.
+
+The user can invoke this functionality by entering the `report` command, which follows the following format: `report d/DATE`. +
+
+This section explains: +
+
+* how the `report` command works and the crucial method it invokes during execution (In the Implementation subsection).
+* the various aspects that were deliberated over when coming up with the design of the statistics and insights report feature (In the Design Considerations subsection).
+* a summary that shows a simplified Activity Diagram that captures the essential logic in the execution of the  `report` command (In the Summary subsection).
+
+Before moving on to learn how the feature works, if you want to see what the report includes, you can refer to our <<UserGuide#, User Guide>>.
 
 ==== Implementation
-The specified feature is facilitated by `ReportGenerator` class in the `Storage` component.
-In this section, the implementation features of the `ReportGenerator` class will be further explained.
 
-`ReportGenerator` class implements the following operation:
+The specified feature is facilitated by a `ReportGenerator` object. If you are interested in how `ReportGenerator` fits into the architecture of Calgo,
+refer to this <<Design-Storage, section>>.
 
-* `ReportGenerator#generateReport()` - Creates report containing an analysis of all food consumed by user on the
-given date when inputting the `report` command.
+To learn how the `report` command works, the most important method that you need to know is the `generateReport()` method from the `ReportGenerator` class.
 
-Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
+Refer to the sequence diagram below to understand the top-level execution of the `generateReport()` operation after the user enters a valid `report` command.
 
-<<<
-
-The following sequence diagram illustrates the top-level execution of the `generateReport()` operation:
-
+.Sequence Diagram for `report` command: generating 2020-03-27_report.txt
 image::ReportFeatureSequenceDiagram.png[]
 
-Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of 27 March 2020. +
+
+[NOTE]
+The lifelines for the `ReportCommandParser` object, `ReportCommand` object, `ReportGenerator` object should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+From the above diagram, creating a report for the consumption patterns on 27th of March 2020 involves the following steps:
+
+Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of the abovementioned date. +
 
 Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
 
-Step 3: The `String` input is parsed by `CalgoParser`, which removes the "d/" prefix tag and sends
+Step 3: The `String` input is parsed by `CalgoParser`, which removes the "d/" `Prefix` and sends
 the date input to `ReportCommandParser`. +
 
 Step 4: Once the `ReportCommandParser` checks that the given date is valid, it creates a `ReportCommand` object and
@@ -235,48 +244,144 @@ returns it to `LogicManager`.
 
 Step 5: `LogicManager` then executes the `ReportCommand`.
 
-Step 6: From `Model`, `ReportCommand` retrieves the `DailyFoodLog` object that stores all `Food` consumed on the input date.
+Step 6: From `Model`, `ReportCommand` retrieves the required objects to construct an instance of `ReportGenerator`.
 
-Step 7: From `Model`, `ReportCommand` also retrieves `DailyGoal` object, which stores the daily number of calories the user wants to consume.
-
-Step 8: With the relevant objects retrieved from Steps 6 and 7, `ReportCommand` constructs a
+Step 7: With the relevant objects retrieved from Steps 6, `ReportCommand` constructs a
 `ReportGenerator` object.
 
-Step 9: Using the `ReportGenerator` object, `ReportCommand` calls `#generateInsights()`, which prints metainformation
-, food-wise statistics, aggregate statistics and insights based on the `DailyFoodLog` of the input date.
+Step 8: Using the `ReportGenerator` object, `ReportCommand` invokes the *crucial* method `generateInsights()`, which prints
+neatly organised sections of analysed data based on the `DailyFoodLog` of the input date. For the section that gives insights related to
+the user's favourite `Food`, the past seven days of `DailyFoodLog` objects are analysed.
 
-Step 10: This newly generated report is saved in the `/reports` folder. If the report is successfully generated,
+Step 9: This newly generated report is saved in the `data/reports` folder. If the report is successfully generated,
 the `CommandResult` is true. Otherwise, it is false. This `CommandResult` object is finally returned to `LogicManager`,
-to signify the end of the command.
+to signify the end of the command and GUI shows a result message to the user.
 
 <<<
 
 ==== Design considerations
 
-===== Aspect: How generate report executes
+Many of the design considerations made for `report` command are similar to that of the `export` command. You can check
+out the similar design considerations over <<Design-Export, here>>.
 
-* *Alternative 1 (current choice):* Print insights into a .txt file.
+In addition to those design considerations, the following consideration is specific to the functionality of the `report` command.
 
-** Pros: The implementation allows users to easily edit the contents of the report should they have realised they
-did not log in certain food items on that day.
-** Cons: Users could cheat by modifying values in the report. This defeats the purpose of the report to improve their
-self-awareness of their food consumption patterns.
+===== Aspect: How many days of past data should be used to analyse user's favourite `Food` for the suggestions section of the report.
 
-* *Alternative 2:* Print insights into a pdf file.
-** Pros: The insights appear more legitimate and neatly formatted.
+* *Alternative 1 (current choice): Analyse past seven days of consumption data*
 
-** Cons: Requires use of external libraries, which occupy memory of the App. PDF files generally require
-more memory than .txt files as well.
+** Pros: This implementation is more efficient as it does not have to churn out all existing consumption data produced by the user so far.
+** Cons: The reliability of the suggestions may be impacted due to certain special events such as buffet celebrations, in which the user may consume
+`Food` that he or she does not usually eat.
+
+* *Alternative 2: Analyse all data*
+** Pros: The insights will be much more reliable and more tolerant of outlier data points.
+
+** Cons: The efficiency of the `report` command gets worse over time and may cause dissatisfaction to the user.
 
 ==== Summary
-The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
+The following activity diagram summarizes what happens when user executes a `report d/DATE` command with a correctly formatted date: +
 
 .Activity Diagram for Report command
 image::ReportActivityDiagram.png[]
 
+You can check out this code snippet to see how the `ReportCommand` object determines if there are no `Food` entries present
+in the given date:
+
+----
+// if there is no food consumed on the given date, do not execute command
+if (!model.hasLogWithSameDate(queryDate) || model.getLogByDate(queryDate).getFoods().size() == 0) {
+   throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + String.format(NO_SUCH_DATE, queryDate))
+}
+----
+
 //tag:: Goal[]
 [[Implementation-GoalFeature]]
-=== Setting Goal Feature
+=== Setting daily calorie goals for motivation
+(by Vineeth)
+
+This feature helps a user chunk his or her long term goal of developing a healthy lifestyle into smaller daily goals.
+Psychologically, this helps to motivate them as the perceived difficulty of achieving the long term goal reduces.
+
+The user can set a daily calorie goal with the `goal` command, which follows the following format: `goal GOAL`.
+
+This section addresses how the `goal` command works.
+
+==== Implementation
+
+In addition to the `GoalCommandParser`, the `goal` command relies heavily on the `DailyGoal` class, which is part of the
+`Model` component. Refer to the `Model` component diagram <<Model-Component, here>>.
+
+To address the issue where a user does not want to set up a daily calorie goal, Calgo places a `DUMMY_VALUE` of 0 calories,
+as shown in the code snippet below, from `DailyGoal` class. To cater to a wide range of users, it also has a broad range of acceptable
+values, ranging from 1 to 99999. However, to guide users towards a healthy lifestyle, the App does display a warning
+message whenever a user sets a goal below the `MINIMUM_HEALTHY_CALORIES`.
+
+----
+    // Values used for GoalCommandParser when parsing user inputted goals.
+    public static final int MINIMUM_HEALTHY_CALORIES = 1200;
+
+    public static final int MINIMUM_ACCEPTABLE_CALORIES = 1;
+
+    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 99999;
+
+    // Default value, when user does not input a goal.
+    public static final int DUMMY_VALUE = 0;
+----
+
+Refer to the sequence diagram below to understand how a `goal` command is executed.
+.Sequence Diagram for `goal` command: updating daily calorie goal to 2000 calories.
+
+image::GoalSequenceDiagram.png[]
+
+[NOTE]
+The lifelines of the `GoalCommandParser` object, `GoalCommand` object and `DailyGoal` object should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+The following steps explain the sequence diagram: +
+
+Step 1: User inputs `goal 2000` to update his or her goal to 2000 calories. +
+
+Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
+
+Step 3: The `String` input is parsed by `CalgoParser`, which sends the `goal` value input to `GoalCommandParser`. +
+
+Step 4: Once the `GoalCommandParser` checks that the given value is valid, it converts the input to an `Integer` and creates a `GoalCommand` object and
+returns it to `LogicManager`.
+
+Step 5: `LogicManager` then executes the `GoalCommand`, which in turn invokes `updateDailyGoal` method of `Model`.
+
+Step 6: In `Model`, the `updateDailyGoal` method is a static method that generates a new `DailyGoal` object with the corresponding input. This `DailyGoal` object is returned to `Model`
+, which replaces the existing `DailyGoal` attribute of the `ModelManager` with the newly generated `DailyGoal` object.
+
+==== Design Considerations
+
+===== Aspect: Type of user input data that is required for goal command
+
+* **Alternative 1 (current choice):** Use a simple goal feature that accepts the user's inputted value.
+** Pros: +
+- The user is not daunted by the large amount of information he or she needs to provide to set a goal.
+- The user will not feel paranoid as Calgo does not ask for personal data such as height, weight, gender and age.
+
+** Cons: +
+- The goal may not be effective unless the user diligently checks online for a appropriate goal and then enters it into Calgo.
+
+* **Alternative 2:** Use a scientific method to calculate the basal metabolic rate of the user.
+** Pros: +
+- The goal is very effective because it matches their body type.
+** Cons: +
+- A lot of data is required to be inputted by the user.
+- May cause users to avoid setting goals because of the large amount of personal data they need to store in Calgo.
+- User feeling uncomfortable about setting a goal will also affect effectiveness of `report` command.
+
+==== Summary
+
+In essence, the `goal` command is a fun feature that is used to motivate the user and generate specific insights if the
+user were to invoke the `report` command after setting a daily calorie goal.
+
+Refer to the Activity Diagram below for a visual summary of the logic behind the execution of the `goal` command.
+
+.Activity Diagram for `goal` command.
+image::GoalActivityDiagram.png[]
 
 // tag::categoricalsubstringfindsearch[]
 [[Implementation-FindList]]
@@ -576,6 +681,7 @@ Step 3: `ExportCommand` then calls the `generateExport` method of `ExportGenerat
 
 Step 4: A new `CommandResult` object indicating the result of the execution is then constructed and reflected in the GUI.
 
+[[Design-Export]]
 ==== Design considerations
 
 ===== Aspect: Type of file to create.
@@ -1176,7 +1282,7 @@ Refer to the guide <<DevOps#, here>>.
 * Is reasonably comfortable using `CLI` Apps
 * Wants to have, or already has, a lifestyle of eating healthy
 * Manages a significant number of `Food` items
-* Prefers desktop Apps over other types
+* Prefers desktop Apps over other types of Apps (such as mobile or tablet)
 * Prefers typing over mouse input
 
 *Value proposition*:
@@ -1438,7 +1544,7 @@ Use case ends.
 Use case ends.
 
 *1b. Inputted `date` in wrong format.* +
-1b1. Calgo shows a message indicating the correct format for the `date`.
+1b1. Calgo shows a message indicating the correct format for the `date`. +
 1b2. User enters `report` command with the `date` in the correct format. +
 
 Use case resumes from step 2.
@@ -1456,11 +1562,12 @@ Use case ends.
 .  Should be able to hold up to 1000 `Food` items without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Calgo should work on both 32-bit and 64-bit environments.
-.  The product expects users to initially find out about `Food` items and their respective nutritional values for creating `Food` item entries for the first time.
 .  The minimum screen size for the App window to fully display its GUI is 1250 x 600.
-.  The product should be for a single-user.
+.  Calgo should be designed for a single-user (i.e. Calgo should not be a multi-user App).
 .  The product should be developed incrementally over the project duration.
-.  The software should follow the OOP.
+.  The software's codebase should adhere to OOP.
+.  The product should have minimal network usage. Therefore, it is expected that users will find out about the
+respective nutritional values of a `Food` entry whenever they want to `update` it into the `FoodRecord` for the first time.
 
 
 [appendix]
@@ -1470,9 +1577,9 @@ Use case ends.
 Text-based user interface used to view and manage computer files.
 
 [[food]] Food::
-`Food` items entered by the user to represent a real life Food.
-This contains nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
-They can also contains a series of `Tag` s.
+A `Food` item entered by the user represents a real life food.
+`Food` contains nutritional values such as `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
+It can also contains a series of `Tag` s.
 
 [[gui-food-records-entry]] Food Entry::
 An entry in the GUI's `Food Record` box, which shows all details for one `Food` object.
@@ -1568,15 +1675,16 @@ Due to the COVID-19 situation, there was a lot of uncertainty and our style of m
 
 * Product Design
 ** Our team successfully morphed AB3 and its relevant tests into the Calgo you see today.
-** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our presentation, demo and testing.
+** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our CS2101 presentation, CS2103T demo and PE-Dry Run testing.
+It also has potential to be collaborated with other peer projects such as FitBiz (Group F11-2).
 * Implementation
 ** Ambitious in experimenting with new interesting features. For e.g. intelligent insights and graphs.
 ** Implemented features consistently and incrementally, allowing us to make changes to past features and
-** Experimented with new workflow and decided on one, Agile(Scrum), which we liked the most.
-** Put in additional effort in making the GUI different and novel, despite it being not part of the grading scheme. This is another example of how we go an extra mile just for the sake of user centric-ness. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
+** Experimented with new workflow before deciding on one, Agile(Scrum), which we liked the most.
+** Put in additional effort in making the GUI different and novel, even though it is not part of the grading rubric. This is another example of how we go the extra mile to make our product more user-centric. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
 * Project Management
-** Predominantly followed the forking workflow
-** Diligently created issues and assigned them
-** Plan and incrementally implemented our user stories throughout different milestones.
-** Regularly review each other’s code on and off Github.
+** Predominantly followed the forking workflow.
+** Diligently created issues and assigned them on GitHub, while also consistently communicating with each other on Telegram.
+** Planned and incrementally implemented our user stories throughout different milestones.
+** Regularly reviewed each other’s code on and off Github.
 
