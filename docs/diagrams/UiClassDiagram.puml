@@ -11,6 +11,7 @@ Class UiManager
 Class MainWindow
 Class HelpWindow
 Class ResultDisplay
+Class GoalDisplay
 Class FoodListPanel
 Class FoodCard
 Class DailyListPanel
@@ -33,9 +34,10 @@ HiddenOutside ..> Ui
 
 UiManager .left.|> Ui
 UiManager -down-> MainWindow
-MainWindow --> HelpWindow
+MainWindow *-down-> HelpWindow
 MainWindow *-down-> CommandBox
 MainWindow *-down-> ResultDisplay
+MainWindow *-down-> GoalDisplay
 MainWindow *-down-> FoodListPanel
 MainWindow *-down-> DailyListPanel
 MainWindow *-down-> StatusBarFooter
@@ -48,6 +50,7 @@ MainWindow -left-|> UiPart
 
 
 ResultDisplay --|> UiPart
+GoalDisplay --|> UiPart
 CommandBox --|> UiPart
 FoodListPanel --|> UiPart
 FoodCard --|> UiPart

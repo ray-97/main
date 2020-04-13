@@ -1,0 +1,54 @@
+@startuml
+!include style.puml
+
+box Ui UI_COLOR_T1
+participant ":MainWindow" as MainWindow UI_COLOR
+participant ":GraphPanel" as GraphPanel UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+end box
+
+[-> MainWindow : fillInnerParts()
+activate MainWindow
+
+create GraphPanel
+MainWindow -> GraphPanel : getGraphPanelInstance()
+activate GraphPanel
+
+GraphPanel --> MainWindow : instance
+deactivate GraphPanel
+
+MainWindow -> GraphPanel : getGraph(logic)
+activate GraphPanel
+
+GraphPanel -> GraphPanel : initialiseTreeMap(logic)
+activate GraphPanel
+
+GraphPanel -> GraphPanel : setPastWeekLogs(logic)
+activate GraphPanel
+
+GraphPanel -> LogicManager : getPastWeekLogs()
+activate LogicManager
+LogicManager --> GraphPanel : result
+deactivate LogicManager
+
+deactivate GraphPanel
+deactivate GraphPanel
+
+GraphPanel -> GraphPanel : initialiseGraph()
+activate GraphPanel
+deactivate GraphPanel
+
+GraphPanel -> GraphPanel : updateSeries()
+activate GraphPanel
+deactivate GraphPanel
+
+GraphPanel --> MainWindow : graph
+deactivate GraphPanel
+
+[<-- MainWindow : result
+deactivate MainWindow
+
+@enduml
