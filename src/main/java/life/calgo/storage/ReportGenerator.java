@@ -62,6 +62,9 @@ public class ReportGenerator extends DocumentGenerator {
             + "Don't lose heart. You can do better!";
 
     // for Suggestions
+    private static final String NO_GOAL_SUGGESTIONS_MESSAGE = "Since you did not set a daily calorie goal yet, Calgo"
+            + " cannot advice you on whether\n" + "%s is suitable for your diet.";
+
     private static final String SUGGESTIONS_HEADER_MESSAGE = "Suggestions for You";
 
     private static final String FAVOURITE_FOOD_MESSAGE = "Your favourite food in the past week "
@@ -387,7 +390,7 @@ public class ReportGenerator extends DocumentGenerator {
 
         // if Goal is not set, cannot form personalised suggestions
         if (!isGoalSet()) {
-            printWriter.println(NO_GOAL_MESSAGE);
+            printWriter.println(String.format(NO_GOAL_SUGGESTIONS_MESSAGE, favouriteFood.getFoodNameString()));
             return;
         }
 

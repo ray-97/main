@@ -52,6 +52,7 @@ public class JsonGoalStorage implements GoalStorage {
 
         Optional<JsonSerializableGoal> jsonGoal = JsonUtil.readJsonFile(
                 filePath, JsonSerializableGoal.class);
+
         if (jsonGoal.isEmpty()) {
             return Optional.empty();
         }

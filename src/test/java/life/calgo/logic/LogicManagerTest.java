@@ -53,7 +53,7 @@ public class LogicManagerTest {
         JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("userPrefs.json"));
         JsonConsumptionRecordStorage consumptionRecordStorage =
                 new JsonConsumptionRecordStorage(temporaryFolder.resolve("consumptionrecord.json"));
-        JsonGoalStorage goalStorage = new JsonGoalStorage(temporaryFolder.resolve("goal.json"));
+        JsonGoalStorage goalStorage = new JsonGoalStorage(temporaryFolder.resolve("invalidGoal.json"));
 
         StorageManager storage = new StorageManager(foodRecordStorage, consumptionRecordStorage,
                 userPrefsStorage, goalStorage);
