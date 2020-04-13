@@ -444,11 +444,11 @@ Example:
 Let's say you've forgotten how to add `Food` entries to your `Consumption Record`. You know there is a command called `nom`,
 but don't recall its format. You can use the `help` command to obtain the format like so:
 
-image::HelpCommandBefore.png[width=]
+image::HelpCommandBefore.png
 
 Type `help`, then press kbd:[enter].
 
-image::HelpCommandPopup.png[width=]
+image::HelpCommandPopup.png
 
 This creates a popup (the `Help Window`) with command guides. However that displays all the commands, which might make searching for only
 `nom` a bit daunting. Instead, you can type `help nom`, then press kbd:[enter].
