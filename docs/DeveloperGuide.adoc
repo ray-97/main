@@ -1127,10 +1127,23 @@ As you continue developing the Calgo, feel free to add more user stories here.
 
 *MSS*
 
-1.  User requests for a guide on the app's commands.
-2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
+1.  User wants to find the command guide for the commands in Calgo.
+2.  User enters `help` command with no additional `command_word`.
+3.  `Calgo` generates a popup, displaying a list of all command guides in the popup.
 +
 Use case ends.
+
+*Extensions*
+
+[none]
+*2a. User enters a `command_word` after `help`, such as foe example `help nom`.*
+2a1. `Calgo` filters out only command guides containing the `command_word` "nom".
+2a2. `Calgo` generates a popup, displaying this filtered list of command guides.
+
+*2b. User enters a `command_word` after `help` that has no corresponding command guides.*
+2b1. `Calgo` tries to filter out only command guides containing the `command_word` but fails to find any guides. Thus
+it defaults to display all command guides.
+Use case resumes from Step 2.
 
 [discrete]
 === Use case: `find` `Food` item by `Name` or `Tag` keyword (which can be an incomplete word)
