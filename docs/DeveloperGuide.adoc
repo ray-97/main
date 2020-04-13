@@ -1341,6 +1341,29 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: consuming food on a on a specific day with `nom`.
+
+*MSS*
+
+1. User wants to record their `Food` consumption on a particular day.
+2. User enters `nom` command with the appropriate `Prefixes` and values.
+3. Calgo processes the command and update display.
+
+*Extensions*
+
+[none]
+*2a. User misspells the command or `Prefix`* +
+2a1. A message prompting the user to enter a valid input is shown. +
+Use case resumes from Step 2.
+
+*2b. The `Food` does not exist in `FoodRecord`* +
+2b1. A message prompting the user to enter a valid input is shown. +
+Use case resumes from Step 2.
+
+*2c. User enters invalid value for particular `Prefix`* +
+2c1. A message prompting the user to enter a valid input is shown. +
+Use case resumes from Step 2.
 
 [appendix]
 == Non Functional Requirements
