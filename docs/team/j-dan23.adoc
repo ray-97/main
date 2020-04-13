@@ -17,7 +17,7 @@ We are 5 Year 2 Computer Science undergraduates reading CS2103T: Software Engine
 
 Calgo is a personalise calorie and meal tracker application, morphed from the existing https://github.com/nus-cs2103-AY1920S1/addressbook-level3[Address Book Level 3 (AB3) project] code base. My team was tasked with morphing it via Brownfield software development into a new application, while still maintaining its original Command Line Interface (CLI) nature and the majority of the code architecture.
 
-It's hard to balance a suitable diet when one greatly enjoys food. Thus, we created Calgo to solve that issue. Calgo aims to aid seekers of a healthy lifestyle in adhering to a consistent daily dietary goal by increasing the convenience of tracking their daily meals. Calgo can keep track of nutritional information of the food users eat, monitor their daily caloric consumption to ensure they are meeting their goals, and to summarise all these into portable insights for even more convenience.
+It is difficult to maintain a balanced diet if you greatly enjoy food. Thus, we created Calgo to solve that issue. Calgo aims to aid seekers of a healthy lifestyle in adhering to a consistent daily dietary goal by increasing the convenience of tracking their daily meals. Calgo can keep track of nutritional information of the food users eat, monitor their daily caloric consumption to ensure they are meeting their goals, and to summarise all these into portable insights for even more convenience.
 
 == Summary of contributions
 

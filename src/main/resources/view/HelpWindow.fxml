@@ -4,33 +4,39 @@
 <?import javafx.scene.Scene?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.stage.Stage?>
 
 <fx:root height="500.0" title="Help" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <scene>
         <Scene stylesheets="@DarkTheme.css">
             <AnchorPane stylesheets="@DarkTheme.css">
-                <HBox stylesheets="@DarkTheme.css">
-                    <Label fx:id="helpMessage" styleClass="help-label" stylesheets="@DarkTheme.css" text="Label">
-                        <HBox.margin>
-                            <Insets left="5.0" />
-                        </HBox.margin>
-                        <padding>
-                            <Insets left="5.0" />
-                        </padding>
-                    </Label>
-                    <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL">
-                        <HBox.margin>
-                            <Insets left="5.0" />
-                        </HBox.margin>
-                    </Button>
-                    <padding>
-                        <Insets bottom="10.0" left="15.0" right="10.0" top="5.0" />
-                    </padding>
-                </HBox>
-                <Label fx:id="commandMessage" alignment="TOP_LEFT" layoutX="-1.0" layoutY="43.0" styleClass="command-message-label" stylesheets="@DarkTheme.css" text="\$commandGuide" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0" />
+            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                      <HBox stylesheets="@DarkTheme.css">
+                          <Label fx:id="helpMessage" styleClass="help-label" stylesheets="@DarkTheme.css" text="Label">
+                              <HBox.margin>
+                                  <Insets left="5.0" />
+                              </HBox.margin>
+                              <padding>
+                                  <Insets left="5.0" />
+                              </padding>
+                          </Label>
+                          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL">
+                              <HBox.margin>
+                                  <Insets left="5.0" />
+                              </HBox.margin>
+                          </Button>
+                          <padding>
+                              <Insets bottom="10.0" left="15.0" right="10.0" top="5.0" />
+                          </padding>
+                      </HBox>
+                   <TextArea fx:id="commandMessage" editable="false" layoutX="-1.0" layoutY="43.0" text="\$commandGuide" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="43.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
                 </AnchorPane>
         </Scene>
     </scene>
