@@ -34,7 +34,7 @@ HiddenOutside ..> Ui
 
 UiManager .left.|> Ui
 UiManager -down-> MainWindow
-MainWindow --> HelpWindow
+MainWindow *-down-> HelpWindow
 MainWindow *-down-> CommandBox
 MainWindow *-down-> ResultDisplay
 MainWindow *-down-> GoalDisplay
@@ -62,6 +62,7 @@ GraphPanel --|> UiPart
 
 
 GraphPanel ..> Model
+GoalDisplay ..> Model
 FoodCard ..> Model
 ConsumedFoodCard ..> Model
 UiManager -right-> Logic
