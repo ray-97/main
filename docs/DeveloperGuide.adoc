@@ -1412,15 +1412,16 @@ Due to the COVID-19 situation, there was a lot of uncertainty and our style of m
 
 * Product Design
 ** Our team successfully morphed AB3 and its relevant tests into the Calgo you see today.
-** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our presentation, demo and testing.
+** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our CS2101 presentation, CS2103T demo and PE-Dry Run testing.
+It also has potential to be collaborated with other peer projects such as FitBiz (Group F11-2).
 * Implementation
 ** Ambitious in experimenting with new interesting features. For e.g. intelligent insights and graphs.
 ** Implemented features consistently and incrementally, allowing us to make changes to past features and
-** Experimented with new workflow and decided on one, Agile(Scrum), which we liked the most.
-** Put in additional effort in making the GUI different and novel, despite it being not part of the grading scheme. This is another example of how we go an extra mile just for the sake of user centric-ness. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
+** Experimented with new workflow before deciding on one, Agile(Scrum), which we liked the most.
+** Put in additional effort in making the GUI different and novel, even though it is not part of the grading rubric. This is another example of how we go the extra mile to make our product more user-centric. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
 * Project Management
-** Predominantly followed the forking workflow
-** Diligently created issues and assigned them
-** Plan and incrementally implemented our user stories throughout different milestones.
-** Regularly review each other’s code on and off Github.
+** Predominantly followed the forking workflow.
+** Diligently created issues and assigned them on GitHub, while also consistently communicating with each other on Telegram.
+** Planned and incrementally implemented our user stories throughout different milestones.
+** Regularly reviewed each other’s code on and off Github.
 
