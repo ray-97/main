@@ -286,10 +286,6 @@ public class MainWindow extends UiPart<Stage> {
             fillGoal();
             fillRemainingCalories();
 
-            // Graph
-            graphPanelPlaceholder.getChildren().removeAll(graphPanel.getPreviousGraph());
-            graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
-
             if (commandResult.isShowHelp()) {
                 handleHelpHelper(commandResult.getFeedbackToUser());
             }
@@ -304,7 +300,11 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         } finally {
+            // Daily List date display
             dailyListDate.setText("Food Consumed On: " + getDate());
+            // Graph
+            graphPanelPlaceholder.getChildren().removeAll(graphPanel.getPreviousGraph());
+            graphPanelPlaceholder.getChildren().add(graphPanel.getGraph(logic));
         }
     }
 
