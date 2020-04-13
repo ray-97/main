@@ -309,7 +309,7 @@ As seen in the above class diagram, each `Predicate<Food>` is indeed representat
 
 The sequence diagram below demonstrates how the `find` command works, for both categorical and substring search:
 
-.Sequence Diagram for `find` command: categorical search and substring search
+.Sequence Diagram for `find` command: Categorical Search and Substring Search
 image::FindSequenceDiagram.png[]
 
 [NOTE]
@@ -560,7 +560,7 @@ The nutritional values will always be shown in the first line of their respectiv
 
 Moving on, the sequence diagram below demonstrates how the `export` command works to create the user copy of the current `FoodRecord`:
 
-.Sequence Diagram for `export` command: generating FoodRecord.txt
+.Sequence Diagram for `export` command: Generating FoodRecord.txt
 image::ExportSequenceDiagram.png[]
 
 [NOTE]
