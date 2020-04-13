@@ -1,47 +1,76 @@
-= John Doe - Project Portfolio
+= Cai Ruicong - Project Portfolio
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: AddressBook - Level 3
+== PROJECT: Calgo
 
----
+This portfolio page highlights some of my contributions to Calgo - a Software Engineering project developed in my second year of undergraduate studies in the National University of Singapore.
 
-== Overview
+==== About the Team
 
-AddressBook - Level 3 is a desktop protein book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+We are 5 Year 2 Computer Science undergraduates reading CS2103T: Software Engineering.
+
+==== About the Project
+
+Our project, Calgo is minimalistic calorie tracker. Calgo was built upon the brownfield project
+https://github.com/nus-cs2103-AY1920S1/addressbook-level3[Address Book Level 3 (AB3) project], morphed incrementally
+over a period of 3 months in accordance to software development principles.
+Calgo is written in java and totals to around 10 thousand lines of code.
+
+Calgo's primary purpose is to provide fast typists with a tool that they can use to store
+records on their food consumption. Calgo uses a command line interface (CLI) to interact with the user.
+Whenever the user interacts with our App, the feedback is immediate and the effects are contained within
+a single window. This is so that our users can focus on their goals while Calgo do the heavy lifting.
+With many amazing features that are simple and fast to pick up, I hope our users will find it enjoyable and
+easy to monitor their health.
 
 == Summary of contributions
 
-* *Major enhancement*: added *the ability to undo/redo previous commands*
-** What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.
-** Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.
+* *Major enhancement*: I implemented the `Consumption Records` of the App, which serves as a backend for
+features implemented by me and my teammates.
+** What it does: This allows users to reliably stored data in our app.
+** Justification: We need a storage that can load and save information of user so that it will be useful in the long run.
+Features such as report and graphs need data to work.
 ** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
-** Credits: _{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}_
+The future versions of `Calgo` will mainly be working with this feature to implement extensions.
+The implementation of `Consumption Record` was written to mirror the structure of AB3. However, it was much more because it has been scaled up keep track of many states and lists based on dates, as opposed to 1 list in AB3.
 
-* *Minor enhancement*: added a history command that allows the user to navigate to previous commands using up/down keys.
+* *Major enhancement*: I implemented the `nom` and `vomit` command
+** What it does: These commands allows users to create, read, update and delete entries that represents their food consumption.
+** Justification: These feature is the reason our App exists, it addresses what the user wants to do primarily.
+** Highlights: `Nom` allows user to rate their meal experience, which is used to generate
+actionable insights based on the user's profile.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Minor enhancement*: I implemented the `stomach` command.
+** What it does: It allows users to browse `Consumption Records` on different dates.
+** Justification: The `stomach` command is as essential as a remote control to a TV as it is to the user.
+** Highlights: Although this might sound simple, it actually required a lot of planning and design to implement the structure
+because the data structure had to maintain a record for each date.
+
+* *Code contributed*: You can view my contributions using https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=ray-97&tabRepo=AY1920S2-CS2103T-F11-1%2Fmain%5Bmaster%5D[reposense]
 
 * *Other contributions*:
-
-** Project management:
-*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
-** Enhancements to existing features:
-*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
-*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
 ** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
-** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
-*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
-*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
-** Tools:
-*** Integrated a third party library (Natty) to the project (https://github.com[#42])
-*** Integrated a new Github plugin (CircleCI) to the team repo
+*** Wrote sections for User Guide and Developer Guide:
+https://github.com/AY1920S2-CS2103T-F11-1/main/pull/273[#273]
+https://github.com/AY1920S2-CS2103T-F11-1/main/pull/252[#252]
+https://github.com/AY1920S2-CS2103T-F11-1/main/pull/302[#302]
 
-_{you can add/remove categories in the list above}_
+*** Wrote Javadocs:
+https://github.com/AY1920S2-CS2103T-F11-1/main/pull/221[#221]
+https://github.com/AY1920S2-CS2103T-F11-1/main/pull/215[#215]
+
+** Project and team management & contributions:
+
+
+** Beyond the team:
+*** Peer testing & bug reporting:
+https://github.com/ray-97/ped/issues/13[#13]
+https://github.com/ray-97/ped/issues/12[#12]
+https://github.com/ray-97/ped/issues/9[#9]
+https://github.com/ray-97/ped/issues/7[#7]
+https://github.com/ray-97/ped/issues/5[#5]
 
 == Contributions to the User Guide
 
@@ -68,5 +97,3 @@ include::../DeveloperGuide.adoc[tag=dataencryption]
 == PROJECT: PowerPointLabs
 
 ---
-
-_{Optionally, you may include other projects in your portfolio.}_
