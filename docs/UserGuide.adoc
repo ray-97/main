@@ -95,7 +95,7 @@ Start experimenting with the commands yourself and experience the convenience Ca
 .A labelled illustration of Calgo on startup
 [reftext="Figure 4.1"]
 [caption = "Figure 4.1: "]
-image::Ui.png[width="790"]
+image::UiLabelled.png[width="790"]
 
 Calgo's GUI is designed to be sleek and compact, allowing you to use and view all of Calgo's features on a single window.
 However, that might be a little overwhelming at the start. Hence,
@@ -427,13 +427,20 @@ Example:
 Let's say you've forgotten how to add `Food` entries to your `Consumption Record`. You know there is a command called `nom`,
 but don't recall its format. You can use the `help` command to obtain the format like so:
 
-image::HelpCommandBefore.png
+image::HelpCommandBefore.png[width=]
 
-You can type `help nom`, then press kbd:[enter].
+Type `help`, then press kbd:[enter].
 
-image::HelpCommandAfter.png
+image::HelpCommandPopup.png[width=]
 
-As you can see, a `Help Window` is created, showing a guide on how to use the `nom` command.
+This creates a popup (the `Help Window`) with command guides. However that displays all the commands, which might make searching for only
+`nom` a bit daunting. Instead, you can type `help nom`, then press kbd:[enter].
+
+image::HelpCommandWithNomBefore.png[widt=]
+
+As you can see, the `Help Window` popup now only shows the command guide for `nom`.
+
+image::HelpCommandWithNomPopup.png[widt=]
 
 [[ListCommand]]
 === `list` : Listing all `Food` in current `Food Record`
