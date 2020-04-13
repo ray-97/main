@@ -261,6 +261,7 @@ exiting Calgo.
 
 Format: `exit`
 
+// tag::exportfoodrecord[]
 === `export` : Exporting the current `Food Record` into a reference sheet
 (by Eugene) +
 
@@ -295,16 +296,18 @@ Example: +
 
 Let's suppose you wish to export the current `Food Record` so that you can print a copy for reference while cooking. Here's how you can do it:
 
-image::ExportCommandBefore.png[width=]
+image::ExportCommandBefore.png[]
 
 You should type in the command and press kbd:[enter], as seen above.
 
-image::ExportCommandAfter.png[width=]
+image::ExportCommandAfter.png[]
 
 Doing so, Calgo  will show you a result message indicating the copy has been successfully generated.
 You can find this copy (named FoodRecord.txt) in the `data/exports` folder.
+// end::exportfoodrecord[]
 
 <<<
+// tag::findcommand[]
 [[FindCommand]]
 === `find` : Finding a `Food` entry by nutritional value or keyword(s)
 (by Eugene) +
@@ -344,21 +347,22 @@ Examples: +
 Example 1: Say you want to use Calgo to search for a `Food` entry with 150 calories because you are
 looking for a light snack. Here is how you can do it:
 
-image::FindCommandCalorieBefore.png[width=]
+image::FindCommandCalorieBefore.png[]
+
 You should type `find cal/150`, then press kbd:[enter]. +
 
-image::FindCommandCalorieAfter.png[width=]
+image::FindCommandCalorieAfter.png[]
 Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record`
 displays the relevant entries with 150 calories.
 
 Example 2: Say you wish to find entries which contain the keyword `Cheese` in their name, but your hand slipped and
 the keyboard only typed `Chees`. This is what happens: +
 
-image::FindCommandSubstringBefore.png[width=]
+image::FindCommandSubstringBefore.png[]
 
 You are likely to enter `find n/Chees` as the command input. +
 
-image::FindCommandSubstringAfter.png[width=]
+image::FindCommandSubstringAfter.png[]
 
 Once the command has been entered, the `Result Display` shows the results of your command and the `Food Record` shows
 the relevant entries which contain `Chees` in their name. This is not too bad, as you still obtain entries that will
@@ -367,17 +371,18 @@ with incomplete keywords.
 
 Example 3: Say you are lazy but wish to find entries containing the keyword `sweet` in their tag. Here is how you can do it: +
 
-image::FindCommandTagBefore.png[width=]
+image::FindCommandTagBefore.png[]
 
 You can type `find t/swe` as input, and then press kbd:[enter]. +
 
-image::FindCommandTagAfter.png[width=]
+image::FindCommandTagAfter.png[]
 
 Upon entering the command, the `Food Record` will display all entries which have the `swe` keyword present in any one of
 their tags. As you can search using incomplete keywords, the intended search for the `sweet` tag will also have its result shown. +
 
 Please note that the search is case-insensitive, an example being the resulting `Sweet` tag of `Bandung`. Moreover,
 as with Example 2, we allow for incomplete words to be used as search keywords.
+// end::findcommand[]
 
 [[goal]]
 === `goal` : Setting a daily calorie target
@@ -454,6 +459,7 @@ As you can see, the `Help Window` popup now only shows the command guide for `no
 
 image::HelpCommandWithNomPopup.png[widt=]
 
+// tag::listcommand[]
 [[ListCommand]]
 === `list` : Listing all `Food` in current `Food Record`
 (by Eugene) +
@@ -481,13 +487,15 @@ Example:
 
 Let's say you want to view all entries again after performing a `find n/Chicken` command. You can do the following:
 
-image::ListCommandBefore.png[width=]
+image::ListCommandBefore.png[]
 
 Type `list` as input, then press kbd:[enter].
 
-image::ListCommandAfter.png[width=]
+image::ListCommandAfter.png[]
 
 The `Result Display` will then indicate the result of your command, and the `Food Record` will now show all `Food` entries once again.
+// end::listcommand[]
+
 
 === `nom` : Adding `Food` to `Consumption Record`
 (by Ruicong)
