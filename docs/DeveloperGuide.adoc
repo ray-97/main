@@ -962,6 +962,7 @@ Calgo will display the past seven days' graph automatically, and likewise update
 
 The sequence diagram below demonstrates how the `Graph` feature works.
 
+.Sequence Diagram for GraphPanel
 image::GraphSequenceDiagram.png[]
 Sequence Diagram for `Graph` feature.
 
