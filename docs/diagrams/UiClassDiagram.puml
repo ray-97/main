@@ -62,7 +62,6 @@ GraphPanel --|> UiPart
 
 
 GraphPanel ..> Model
-GoalDisplay ..> Model
 FoodCard ..> Model
 ConsumedFoodCard ..> Model
 UiManager -right-> Logic
