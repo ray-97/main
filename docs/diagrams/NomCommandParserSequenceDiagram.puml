@@ -1,0 +1,48 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
+participant ":NomCommandParser" as NomCommandParser LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":ModelManager" as ModelManager MODEL_COLOR
+end box
+
+[-> LogicManager : execute(commandText)
+activate LogicManager
+
+LogicManager -> CalgoParser : parseCommand(userInput, model)
+activate CalgoParser
+
+create NomCommandParser
+CalgoParser -> NomCommandParser : new NomCommandParser(model)
+activate NomCommandParser
+
+NomCommandParser -> NomCommandParser : parse(args)
+activate NomCommandParser
+
+opt modelHasLogWithSameDate
+NomCommandParser -> ModelManager : getLogByDate(localDate)
+activate ModelManager
+
+ModelManager --> NomCommandParser : DailyFoodLog
+deactivate ModelManager
+end
+
+NomCommandParser --> NomCommandParser : NomCommand
+deactivate NomCommandParser
+
+NomCommandParser --> CalgoParser : NomCommand
+deactivate NomCommandParser
+
+CalgoParser --> LogicManager : NomCommand
+deactivate CalgoParser
+
+[<--LogicManager
+deactivate LogicManager
+
+destroy NomCommandParser
+@enduml

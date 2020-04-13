@@ -1,0 +1,37 @@
+@startuml
+!include style.puml
+
+box Storage STORAGE_COLOR_T1
+participant ":StorageManager" as StorageManager STORAGE_COLOR
+participant ":JsonConsumptionRecordStorage" as JsonConsumptionRecordStorage STORAGE_COLOR
+participant ":JsonSerializableConsumptionRecordStorage" as JsonSerializableConsumptionRecordStorage STORAGE_COLOR
+participant ":JsonAdaptedDailyFoodLog" as JsonAdaptedDailyFoodLog STORAGE_COLOR
+end box
+
+[-> StorageManager : readConsumptionRecord()
+activate StorageManager
+
+StorageManager -> JsonConsumptionRecordStorage : readConsumptionRecord(filePath)
+activate JsonConsumptionRecordStorage
+
+JsonConsumptionRecordStorage -> JsonSerializableConsumptionRecordStorage : toModelType()
+activate JsonSerializableConsumptionRecordStorage
+
+JsonSerializableConsumptionRecordStorage -> JsonAdaptedDailyFoodLog : toModelType()
+activate JsonAdaptedDailyFoodLog
+
+JsonAdaptedDailyFoodLog --> JsonSerializableConsumptionRecordStorage : DailyFoodLog
+deactivate JsonAdaptedDailyFoodLog
+
+JsonSerializableConsumptionRecordStorage --> JsonConsumptionRecordStorage : ConsumptionRecord
+deactivate JsonSerializableConsumptionRecordStorage
+
+JsonConsumptionRecordStorage --> StorageManager : Optional<ReadOnlyConsumptionRecord>
+deactivate JsonConsumptionRecordStorage
+
+[<--StorageManager
+deactivate StorageManager
+
+destroy JsonAdaptedDailyFoodLog
+destroy JsonSerializableConsumptionRecordStorage
+@enduml

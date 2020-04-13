@@ -6,11 +6,14 @@ skinparam classBackgroundColor MODEL_COLOR
 
 Package Model <<Rectangle>>{
 Interface ReadOnlyFoodRecord <<Interface>>
+Interface ReadOnlyConsumptionRecord <<Interface>>
 Interface Model <<Interface>>
 Interface ObservableList <<Interface>>
 Interface Comparable <<Interface>>
 Class FoodRecord
+Class ConsumptionRecord
 Class ReadOnlyFoodRecord
+Class ReadOnlyConsumptionRecord
 Class Model
 Class ModelManager
 Class UserPrefs
@@ -19,7 +22,7 @@ Class ReadOnlyUserPrefs
 Package Food {
 Class Carbohydrate
 Class Calorie
-Class ConsumedFood
+Class DisplayFood
 Class Food
 Class Fat
 Class Name
@@ -42,14 +45,16 @@ Class HiddenOutside #FFFFFF
 HiddenOutside ..> Model
 
 FoodRecord .up.|> ReadOnlyFoodRecord
+ConsumptionRecord .up.|> ReadOnlyConsumptionRecord
 
 ModelManager .up.|> Model
 Model .right.> ObservableList
 ModelManager o--> "1" FoodRecord
+ModelManager o--> "1" ConsumptionRecord
 ModelManager o-left-> "1" UserPrefs
 UserPrefs .up.|> ReadOnlyUserPrefs
 Food .up.|> Comparable
-ConsumedFood .down.|> Food
+DisplayFood .down.|> Food
 
 FoodRecord *--> "1" UniqueFoodList
 UniqueFoodList o--> "*" Food
@@ -60,11 +65,11 @@ Food *--> "1" Protein
 Food *--> "1" Fat
 Food *--> "*" Tag
 
-FoodRecord *--> "1" UniqueDateToLogMap
+ConsumptionRecord *--> "1" UniqueDateToLogMap
 UniqueDateToLogMap o--> "*" DailyFoodLog
-DailyFoodLog o--> "*" Food
+DailyFoodLog o--> "*" Food : contains >
 ModelManager --> "0..1" DailyGoal
 
-ModelManager -->"1" Food : filtered list
-ModelManager -->"1" ConsumedFood : filtered list
+ModelManager -->"1" Food : has FilteredList of >
+ModelManager -->"1" DisplayFood : has FilteredList of >
 @enduml
