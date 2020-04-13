@@ -1,72 +1,73 @@
-= John Doe - Project Portfolio
+= Janice Ong Yi Wen - Project Portfolio
 :site-section: AboutUs
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: AddressBook - Level 3
-
----
+== PROJECT: Calgo
 
 == Overview
 
-AddressBook - Level 3 is a desktop protein book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+This portfolio page highlights some of my contributions to Calgo - a Software Engineering project developed in my second year of undergraduate studies in the National University of Singapore.
+
+== About the Team
+
+We are 5 Year 2 Computer Science undergraduates reading CS2103T: Software Engineering.
+
+== About the Project
+
+Calgo is a personalise calorie and meal tracker application, morphed from the existing https://github.com/nus-cs2103-AY1920S1/addressbook-level3[Address Book Level 3 (AB3) project] code base. My team was tasked with morphing it via Brownfield software development into a new application, while still maintaining its original Command Line Interface (CLI) nature and the majority of the code architecture.
+
+It is difficult to maintain a balanced diet if you greatly enjoy food. Thus, we created Calgo to solve that issue. Calgo aims to aid seekers of a healthy lifestyle in adhering to a consistent daily dietary goal by increasing the convenience of tracking their daily meals. Calgo can keep track of nutritional information of the food users eat, monitor their daily caloric consumption to ensure they are meeting their goals, and summarises all these into portable insights for even more convenience.
 
 == Summary of contributions
 
-* *Major enhancement*: added *the ability to undo/redo previous commands*
-** What it does: allows the user to undo all previous commands one at a time. Preceding undo commands can be reversed by using the redo command.
-** Justification: This feature improves the product significantly because a user can make mistakes in commands and the app should provide a convenient way to rectify them.
-** Highlights: This enhancement affects existing commands and commands to be added in future. It required an in-depth analysis of design alternatives. The implementation too was challenging as it required changes to existing commands.
-** Credits: _{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}_
+* *Major enhancement*: I improved *the ability to for users to obtain guidance on the usage and format of Calgo commands.*
+** What it does: The user can easily refer to a popup `Help Window` should they need a reminder for how the commands work.
+** Justification: The initial `help` command requires not only required users to refer to the entire User Guide (UG), it also merely provided a link to the UG. Together, we found both issues very overwhelming and inconvenient. Thus, the `help` function provides a summarised guide for the commands - removing the tediousness of trawling through the UG.
+** Highlights: The user can filter the command guide in `Help Window` to show only the commands they want.
 
-* *Minor enhancement*: added a history command that allows the user to navigate to previous commands using up/down keys.
+* *Major enhancement*: I added *the ability to view a summarised graph of daily caloric consumption for the past seven days.*
+** What it does: Calgo displays a line graph of daily caloric consumption against the date.
+** Justification: One of Calgo's goals is to provide summarised insights for users. The graph enables a visual version of that.
+** Highlights: The graph changes its date axis depending on the date of the currently-displayed `Consumption Record`. Users can thus view insights for different sets of seven days.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Minor enhancement*: I modified *the GUI of AB3 to its current state.* (The modification was a team effort, thus this is a minor enhancement due to individual effort amount.)
+** What it does: This allows Calgo to display all the information we require it to, such as the `Goal Display` and `Consumption Record`. Additionally the colors are altered.
+** Justification: The default AB3 GUI does not support displaying all the information Calgo needs. Additionally, the current blue and orange color theme is used to give Calgo a unique aesthetic, different from AB3.
+** Highlights: Calgo has a sleek and compact design, yet allows users to view all relevant information at a glance.
+
+* *Code contributed*: You can view my contributions to Calgo https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=j-dan23&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=eugenetyc&tabRepo=AY1920S2-CS2103T-F11-1%2Fmain%5Bmaster%5D[here].
 
 * *Other contributions*:
 
-** Project management:
-*** Managed releases `v1.3` - `v1.5rc` (3 releases) on GitHub
-** Enhancements to existing features:
-*** Updated the GUI color scheme (Pull requests https://github.com[#33], https://github.com[#34])
-*** Wrote additional tests for existing features to increase coverage from 88% to 92% (Pull requests https://github.com[#36], https://github.com[#38])
-** Documentation:
-*** Did cosmetic tweaks to existing contents of the User Guide: https://github.com[#14]
-** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com[#12], https://github.com[#32], https://github.com[#19], https://github.com[#42]
-*** Contributed to forum discussions (examples:  https://github.com[1], https://github.com[2], https://github.com[3], https://github.com[4])
-*** Reported bugs and suggestions for other teams in the class (examples:  https://github.com[1], https://github.com[2], https://github.com[3])
-*** Some parts of the history feature I added was adopted by several other class mates (https://github.com[1], https://github.com[2])
-** Tools:
-*** Integrated a third party library (Natty) to the project (https://github.com[#42])
-*** Integrated a new Github plugin (CircleCI) to the team repo
+** Contributions to team-based tasks:
+*** Wrote tests for features: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/214[#214], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/220[#220].
+*** Did bug-fixing for bugs found during mock practical exam: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/212[#212].
 
-_{you can add/remove categories in the list above}_
+** Documentation:
+*** Wrote the `GUI interpretation`, `help` sections and did minor editing for the User Guide: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/74[#74], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/77[#77], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/280[#280], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/282[#282], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/284[#284], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/285[#285], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/286[#286], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/289[#289], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/293[#293].
+*** Wrote the `help` command and graph sections, and did minor editing for the Developer Guide: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/78[#78], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/129[#129], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/253[#253], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/261[#261], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/280[#280], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/293[#293].
+
+** Beyond the team:
+*** Peer testing & bug reporting: https://github.com/J-Dan23/ped/issues/1[#1],  https://github.com/J-Dan23/ped/issues/2[#2],  https://github.com/J-Dan23/ped/issues/5[#5],  https://github.com/J-Dan23/ped/issues/6[#6],  https://github.com/J-Dan23/ped/issues/7[#7],  https://github.com/J-Dan23/ped/issues/1[#1],  https://github.com/J-Dan23/ped/issues/8[#8],  https://github.com/J-Dan23/ped/issues/9[#9].
 
 == Contributions to the User Guide
 
 
 |===
-|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users.  Please note that some hyperlinks may not work as the guide is not part of this portfolio._
 |===
 
-include::../UserGuide.adoc[tag=delete]
+include::../UserGuide.adoc[tag=interpretGUI]
 
-include::../UserGuide.adoc[tag=dataencryption]
+include::../UserGuide.adoc[tag=helpCommand]
 
 == Contributions to the Developer Guide
 
 |===
-|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project. Please note that some hyperlinks may not work as the guide is not part of this portfolio._
 |===
 
-include::../DeveloperGuide.adoc[tag=undoredo]
+include::../DeveloperGuide.adoc[tag=helpCommand]
 
-include::../DeveloperGuide.adoc[tag=dataencryption]
-
-
-== PROJECT: PowerPointLabs
-
----
-
-_{Optionally, you may include other projects in your portfolio.}_
+include::../DeveloperGuide.adoc[tag=caloriegraph]

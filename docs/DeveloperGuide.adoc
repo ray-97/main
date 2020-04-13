@@ -132,13 +132,14 @@ Given below is the Sequence Diagram for interactions within the `Logic` componen
 .Interactions Inside the Logic Component for the `delete n/Apple` Command
 image::DeleteSequenceDiagram.png[]
 
-NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+NOTE: The lifeline for `DeleteCommandParser` and `DeleteCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 <<<
 
 [[Design-Model]]
 === Model component
 
+[[Model-Component]]
 .Structure of the Model Component
 image::ModelClassDiagram.png[]
 
@@ -165,6 +166,8 @@ image::BetterModelClassDiagram.png[]
 
 <<<
 
+// tag::storagecomponent[]
+
 [[Design-Storage]]
 === Storage component
 
@@ -181,6 +184,8 @@ This would facilitate the following functions:
 . Generate and save insights reports based on previously and currently recorded user consumption.
 . Generate and save a user-friendly version of the accumulated `FoodRecord`.
 
+// end::storagecomponent[]
+
 [[Design-Commons]]
 === Common classes
 
@@ -192,38 +197,46 @@ Classes used by multiple components are in the `life.calgo.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
-//tag:: Report[]
 [[Implementation-InsightsReport]]
-=== Generate insights report
-This feature allows a user to generate a report that contains statistics and deliverable insights based on
-personal food consumption patterns.
+=== Generating consumption statistics and insights report +
+(by Vineeth)
 
-The functionality can be invoked by entering the `report d/DATE` command.
-This command generates a report that is based on the food consumed by
-the user on the specified date.
+This feature allows a user to automatically generate a report that contains statistics and personalised insights based on
+his or her food consumption pattern on a given date. Do note that the generated report is a .txt file.
+
+The user can invoke this functionality by entering the `report` command, which follows the following format: `report d/DATE`. +
+
+This section explains: +
+
+* how the `report` command works and the crucial method it invokes during execution (In the Implementation subsection).
+* the various aspects that were deliberated over when coming up with the design of the statistics and insights report feature (In the Design Considerations subsection).
+* a summary that shows a simplified Activity Diagram that captures the essential logic in the execution of the  `report` command (In the Summary subsection).
+
+Before moving on to learn how the feature works, if you want to see what the report includes, you can refer to our <<UserGuide#, User Guide>>.
 
 ==== Implementation
-The specified feature is facilitated by `ReportGenerator` class in the `Storage` component.
-In this section, the implementation features of the `ReportGenerator` class will be further explained.
 
-`ReportGenerator` class implements the following operation:
+The specified feature is facilitated by a `ReportGenerator` object. If you are interested in how `ReportGenerator` fits into the architecture of Calgo,
+refer to this <<Design-Storage, section>>.
 
-* `ReportGenerator#generateReport()` - Creates report containing an analysis of all food consumed by user on the
-given date when inputting the `report` command.
+To learn how the `report` command works, the most important method that you need to know is the `generateReport()` method from the `ReportGenerator` class.
 
-Whenever the `report d/DATE` command is given by the user, the `ReportGenerate#generateReport()` operation is called.
+Refer to the sequence diagram below to understand the top-level execution of the `generateReport()` operation after the user enters a valid `report` command.
 
-<<<
-
-The following sequence diagram illustrates the top-level execution of the `generateReport()` operation:
-
+.Sequence Diagram for `report` command: generating 2020-03-27_report.txt
 image::ReportFeatureSequenceDiagram.png[]
 
-Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of 27 March 2020. +
+
+[NOTE]
+The lifelines for the `ReportCommandParser` object, `ReportCommand` object, `ReportGenerator` object should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+From the above diagram, creating a report for the consumption patterns on 27th of March 2020 involves the following steps:
+
+Step 1: User inputs `report d/2020-03-27` to generate the insights report based on food consumption of the abovementioned date. +
 
 Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
 
-Step 3: The `String` input is parsed by `CalgoParser`, which removes the "d/" prefix tag and sends
+Step 3: The `String` input is parsed by `CalgoParser`, which removes the "d/" `Prefix` and sends
 the date input to `ReportCommandParser`. +
 
 Step 4: Once the `ReportCommandParser` checks that the given date is valid, it creates a `ReportCommand` object and
@@ -231,48 +244,144 @@ returns it to `LogicManager`.
 
 Step 5: `LogicManager` then executes the `ReportCommand`.
 
-Step 6: From `Model`, `ReportCommand` retrieves the `DailyFoodLog` object that stores all `Food` consumed on the input date.
+Step 6: From `Model`, `ReportCommand` retrieves the required objects to construct an instance of `ReportGenerator`.
 
-Step 7: From `Model`, `ReportCommand` also retrieves `DailyGoal` object, which stores the daily number of calories the user wants to consume.
-
-Step 8: With the relevant objects retrieved from Steps 6 and 7, `ReportCommand` constructs a
+Step 7: With the relevant objects retrieved from Steps 6, `ReportCommand` constructs a
 `ReportGenerator` object.
 
-Step 9: Using the `ReportGenerator` object, `ReportCommand` calls `#generateInsights()`, which prints metainformation
-, food-wise statistics, aggregate statistics and insights based on the `DailyFoodLog` of the input date.
+Step 8: Using the `ReportGenerator` object, `ReportCommand` invokes the *crucial* method `generateInsights()`, which prints
+neatly organised sections of analysed data based on the `DailyFoodLog` of the input date. For the section that gives insights related to
+the user's favourite `Food`, the past seven days of `DailyFoodLog` objects are analysed.
 
-Step 10: This newly generated report is saved in the `/reports` folder. If the report is successfully generated,
+Step 9: This newly generated report is saved in the `data/reports` folder. If the report is successfully generated,
 the `CommandResult` is true. Otherwise, it is false. This `CommandResult` object is finally returned to `LogicManager`,
-to signify the end of the command.
+to signify the end of the command and GUI shows a result message to the user.
 
 <<<
 
 ==== Design considerations
 
-===== Aspect: How generate report executes
+Many of the design considerations made for `report` command are similar to that of the `export` command. You can check
+out the similar design considerations over <<Design-Export, here>>.
 
-* *Alternative 1 (current choice):* Print insights into a .txt file.
+In addition to those design considerations, the following consideration is specific to the functionality of the `report` command.
 
-** Pros: The implementation allows users to easily edit the contents of the report should they have realised they
-did not log in certain food items on that day.
-** Cons: Users could cheat by modifying values in the report. This defeats the purpose of the report to improve their
-self-awareness of their food consumption patterns.
+===== Aspect: How many days of past data should be used to analyse user's favourite `Food` for the suggestions section of the report.
 
-* *Alternative 2:* Print insights into a pdf file.
-** Pros: The insights appear more legitimate and neatly formatted.
+* *Alternative 1 (current choice): Analyse past seven days of consumption data*
 
-** Cons: Requires use of external libraries, which occupy memory of the App. PDF files generally require
-more memory than .txt files as well.
+** Pros: This implementation is more efficient as it does not have to churn out all existing consumption data produced by the user so far.
+** Cons: The reliability of the suggestions may be impacted due to certain special events such as buffet celebrations, in which the user may consume
+`Food` that he or she does not usually eat.
+
+* *Alternative 2: Analyse all data*
+** Pros: The insights will be much more reliable and more tolerant of outlier data points.
+
+** Cons: The efficiency of the `report` command gets worse over time and may cause dissatisfaction to the user.
 
 ==== Summary
-The following activity diagram summarizes what happens when user executes a `report d/DATE` command: +
+The following activity diagram summarizes what happens when user executes a `report d/DATE` command with a correctly formatted date: +
 
 .Activity Diagram for Report command
 image::ReportActivityDiagram.png[]
 
+You can check out this code snippet to see how the `ReportCommand` object determines if there are no `Food` entries present
+in the given date:
+
+----
+// if there is no food consumed on the given date, do not execute command
+if (!model.hasLogWithSameDate(queryDate) || model.getLogByDate(queryDate).getFoods().size() == 0) {
+   throw new CommandException(MESSAGE_REPORT_FAILURE + "\n" + String.format(NO_SUCH_DATE, queryDate))
+}
+----
+
 //tag:: Goal[]
 [[Implementation-GoalFeature]]
-=== Setting Goal Feature
+=== Setting daily calorie goals for motivation
+(by Vineeth)
+
+This feature helps a user chunk his or her long term goal of developing a healthy lifestyle into smaller daily goals.
+Psychologically, this helps to motivate them as the perceived difficulty of achieving the long term goal reduces.
+
+The user can set a daily calorie goal with the `goal` command, which follows the following format: `goal GOAL`.
+
+This section addresses how the `goal` command works.
+
+==== Implementation
+
+In addition to the `GoalCommandParser`, the `goal` command relies heavily on the `DailyGoal` class, which is part of the
+`Model` component. Refer to the `Model` component diagram <<Model-Component, here>>.
+
+To address the issue where a user does not want to set up a daily calorie goal, Calgo places a `DUMMY_VALUE` of 0 calories,
+as shown in the code snippet below, from `DailyGoal` class. To cater to a wide range of users, it also has a broad range of acceptable
+values, ranging from 1 to 99999. However, to guide users towards a healthy lifestyle, the App does display a warning
+message whenever a user sets a goal below the `MINIMUM_HEALTHY_CALORIES`.
+
+----
+    // Values used for GoalCommandParser when parsing user inputted goals.
+    public static final int MINIMUM_HEALTHY_CALORIES = 1200;
+
+    public static final int MINIMUM_ACCEPTABLE_CALORIES = 1;
+
+    public static final int MAXIMUM_ACCEPTABLE_CALORIES = 99999;
+
+    // Default value, when user does not input a goal.
+    public static final int DUMMY_VALUE = 0;
+----
+
+Refer to the sequence diagram below to understand how a `goal` command is executed.
+.Sequence Diagram for `goal` command: updating daily calorie goal to 2000 calories.
+
+image::GoalSequenceDiagram.png[]
+
+[NOTE]
+The lifelines of the `GoalCommandParser` object, `GoalCommand` object and `DailyGoal` object should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+The following steps explain the sequence diagram: +
+
+Step 1: User inputs `goal 2000` to update his or her goal to 2000 calories. +
+
+Step 2: This input is saved as a `String` and passed into the `LogicManager`. +
+
+Step 3: The `String` input is parsed by `CalgoParser`, which sends the `goal` value input to `GoalCommandParser`. +
+
+Step 4: Once the `GoalCommandParser` checks that the given value is valid, it converts the input to an `Integer` and creates a `GoalCommand` object and
+returns it to `LogicManager`.
+
+Step 5: `LogicManager` then executes the `GoalCommand`, which in turn invokes `updateDailyGoal` method of `Model`.
+
+Step 6: In `Model`, the `updateDailyGoal` method is a static method that generates a new `DailyGoal` object with the corresponding input. This `DailyGoal` object is returned to `Model`
+, which replaces the existing `DailyGoal` attribute of the `ModelManager` with the newly generated `DailyGoal` object.
+
+==== Design Considerations
+
+===== Aspect: Type of user input data that is required for goal command
+
+* **Alternative 1 (current choice):** Use a simple goal feature that accepts the user's inputted value.
+** Pros: +
+- The user is not daunted by the large amount of information he or she needs to provide to set a goal.
+- The user will not feel paranoid as Calgo does not ask for personal data such as height, weight, gender and age.
+
+** Cons: +
+- The goal may not be effective unless the user diligently checks online for a appropriate goal and then enters it into Calgo.
+
+* **Alternative 2:** Use a scientific method to calculate the basal metabolic rate of the user.
+** Pros: +
+- The goal is very effective because it matches their body type.
+** Cons: +
+- A lot of data is required to be inputted by the user.
+- May cause users to avoid setting goals because of the large amount of personal data they need to store in Calgo.
+- User feeling uncomfortable about setting a goal will also affect effectiveness of `report` command.
+
+==== Summary
+
+In essence, the `goal` command is a fun feature that is used to motivate the user and generate specific insights if the
+user were to invoke the `report` command after setting a daily calorie goal.
+
+Refer to the Activity Diagram below for a visual summary of the logic behind the execution of the `goal` command.
+
+.Activity Diagram for `goal` command.
+image::GoalActivityDiagram.png[]
 
 // tag::categoricalsubstringfindsearch[]
 [[Implementation-FindList]]
@@ -305,7 +414,7 @@ As seen in the above class diagram, each `Predicate<Food>` is indeed representat
 
 The sequence diagram below demonstrates how the `find` command works, for both categorical and substring search:
 
-.Sequence Diagram for `find` command: categorical search and substring search
+.Sequence Diagram for `find` command: Categorical Search and Substring Search
 image::FindSequenceDiagram.png[]
 
 [NOTE]
@@ -313,11 +422,11 @@ The lifeline for the both of the `FindCommandParser` objects, and both of the `F
 
 From the above, it is clear that both categorical search and substring search of the `find` command have similar steps: +
 
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `find` command, and creates a new `FindCommandParser` object. +
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `find` command, and a new `FindCommandParser` object is then created. +
 
-Step 2: The `FindCommandParser` object parses the user-entered arguments that match the `Prefix`, creating a `Predicate<Food>` object based on which `Food` attribute the `Prefix` represents.
+Step 2: The `FindCommandParser` object parses the user-entered arguments that come with the `Prefix`, creating a `Predicate<Food>` object based on which `Food` attribute the `Prefix` represents.
 
-- In the above diagram examples, a `ProteinContainsKeywordsPredicate` object is created for the categorical search via `Protein` while a `NameContainsKeywordPredicate` object is created for the substring search via `Name`. +
+- In the above diagram examples, a `ProteinContainsKeywordsPredicate` object is created for the categorical search via `Protein` while a `NameContainsKeywordsPredicate` object is created for the substring search via `Name`. +
 
 Step 3: This `Predicate<Food>` object is then used to construct a new `FindCommand` object, returned to `LogicManager`. +
 
@@ -335,11 +444,11 @@ The lifeline for the `ListCommand` object should end at the destroy marker (X) b
 
 How the `list` command works:
 
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `list` command and thereby create a new `ListCommand` object. +
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `list` command, and a new `ListCommand` object is created. +
 
 Step 2: `LogicManager` then calls the `execute` method of this `ListCommand`, which uses `Model.PREDICATE_SHOW_ALL_FOODS` to evaluate to true for all `Food` objects in the `FoodRecord`.
 
-Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` entries.
+Step 3:  `LogicManager` then returns a new `CommandResult` object to reflect the status of the execution, in the GUI. The GUI's `Food Record` reflects the above changes to show all `Food` entries once again.
 
 ==== Design considerations
 
@@ -400,7 +509,7 @@ The above can be summarised in the activity diagram below:
 .Activity Diagram for Searching
 image::FindListCommandActivityDiagram.png[]
 
-// tag::categoricalsubstringfindsearch[]
+// end::categoricalsubstringfindsearch[]
 
 // tag::lexicographicalordering[]
 [[Implementation-LexicographicalOrder]]
@@ -455,7 +564,7 @@ Step 2: Before we can finish constructing a new `ModelManager` object, we requir
 Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it using the `setFoods` method. This calls the `sortInternalList` method, which sorts the newly added `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order (defined in the `Food` class).
 
 
-Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added (note: not when they are edited) using the `update` command:
+Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added (not edited) using the `update` command:
 
 .Lexicographical Ordering Sequence Diagram for Updating
 image::LexicographicalOrderingUpdateSequenceDiagram.png[]
@@ -473,7 +582,7 @@ Step 2: The `sortInternalList` method then sorts the `Food` objects in the `Obse
 [NOTE]
 During an `update` command, we do not perform sorting if the user enters a `Food` object that already has an existing counterpart with an equivalent `Name` in the `UniqueFoodList`.
 
-Any re-ordering will eventually be reflected in the GUI, facilitated by the following (in the case of a `list` command) or otherwise something similar:
+Any re-ordering will eventually be reflected in the GUI, facilitated by the following (in the case of an `update` command) or otherwise something similar:
 [source,java]
 ----
 model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
@@ -556,7 +665,7 @@ The nutritional values will always be shown in the first line of their respectiv
 
 Moving on, the sequence diagram below demonstrates how the `export` command works to create the user copy of the current `FoodRecord`:
 
-.Sequence Diagram for `export` command: generating FoodRecord.txt
+.Sequence Diagram for `export` command: Generating FoodRecord.txt
 image::ExportSequenceDiagram.png[]
 
 [NOTE]
@@ -564,21 +673,22 @@ The lifeline for the `ExportCommand` object and that of the `ExportGenerator` ob
 
 From the above, creating FoodRecord.txt involves the following steps:
 
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `export` command, and thereby creates a new `ExportCommand` object. +
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `export` command, and a new `ExportCommand` object is created. +
 
 Step 2: LogicManager then calls the `execute` method of this `ExportCommand` object. This results in a call to the `Model` to get the current `FoodRecord`, which is used to construct a new `ExportGenerator` object. The `ExportGenerator` is responsible for creating the FoodRecord.txt file and writing to it.
 
 Step 3: `ExportCommand` then calls the `generateExport` method of `ExportGenerator`, writing the required parts to the file. This returns a boolean indicating whether the file creation and writing are successful.
 
-Step 4: A new `CommandResult` object indicating the status of the execution is then constructed and reflected in the GUI.
+Step 4: A new `CommandResult` object indicating the result of the execution is then constructed and reflected in the GUI.
 
+[[Design-Export]]
 ==== Design considerations
 
 ===== Aspect: Type of file to create.
 
 * **Alternative 1 (current choice):** Create a .txt file to represent the `FoodRecord`.
 ** Pros:
-- Satisfies user requirements: able to edit the file to include custom entries.
+- Satisfies user requirements by allowing editing of the file to include custom entries.
 ** Cons:
 - Need to define new classes and methods for file writing, which may introduce more dependencies.
 - May be more resource-intensive than other alternatives.
@@ -620,16 +730,16 @@ Step 4: A new `CommandResult` object indicating the status of the execution is t
 
 ==== Summary
 
-This section addresses how users are able to obtain an editable copy of the current `FoodRecord` using the `export` command.
+In short, this section addresses how users are able to obtain an editable copy of the current `FoodRecord` using the `export` command.
 
-The `export` command largely relies on the `ExportGenerator` class. This facilitates creating the file and writing to it.
+The `export` command largely relies on the `ExportGenerator` class, which facilitates creating the file and writing to it.
 
 The above can be summarised in the activity diagram below:
 
 .Activity Diagram for Searching
 image::ExportActivityDiagram.png[]
 
-// tag::exportfoodrecord[]
+// end::exportfoodrecord[]
 
 
 [[Implementation-ConsumptionManagement]]
@@ -777,78 +887,117 @@ image::NomActiivityDiagram.png[]
 image::VomitCommandActivityDiagram.png[]
 
 
-[[Implementation-SmartUpdate]]
-=== Updating the `FoodRecord`
-This section addresses how the `update` command works.
+// tag::modifyingfoodrecord[]
 
-The `update` command allows the user to update the `FoodRecord` by either updating a new `Food` into the `FoodRecord` or updating the
+
+[[Implementation-SmartUpdate]]
+=== Modifying the `FoodRecord`
+
+(By Zhang Xian)
+
+This section addresses how the `FoodRecord` can be modified by the `update` and `delete` commands.
+
+The `update` command allows the user to modify the `FoodRecord` by either adding a new `Food` into the `FoodRecord` or editing the
 nutritional values of an existing `Food` in the `FoodRecord`.
 
-From the user's perspective, the `update` command decides whether to
+From the user's perspective, the `update` command does either of the adding and editing functions. This implementation of `update` decides whether to
 override an existing `Food` in the `FoodRecord` with new values, or create a new `Food` in the `FoodRecord` for them.
 
-For better user experience, the `Name` required in the `update` command is case-insensitive. This means that if "Apple" already exists in the
-`FoodRecord`, an `update` command with "apple" as the `Name` will result in nutritional values of "Apple" in the `FoodRecord` being updated,
-instead of a new `Food` with `Name` "apple" being created in the `FoodRecord`
-
-On top of this, for all new `Food` being updated into the `FoodRecord` with the `update` command, the `Name` entry of the `Food` updated into the `FoodRecord`
-will be formatted to proper case. This means that if the user updates a new q into the `FoodRecord` with the `Name` as "char kuay teow", the `Food` that
+For better user experience, for all new `Food` being updated into the `FoodRecord` with the `update` command, the `Name` attribute
+will be formatted to proper case. This means that if the user updates a new `Food` into the `FoodRecord` with the `Name` as "char kuay teow", the `Food` that
 is stored in the `FoodRecord` will be of `Name` "Char Kuay Teow".
-
 
 [NOTE]
 When a new Food is updated into the FoodRecord, the FoodRecord is sorted in lexicographical order. For more information on how this is implemented,
 please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
 
+The `delete` command allows the user to modify the FoodRecord by deleting a specified `Food` entry from the FoodRecord.
+This command takes in the `Name` of the `Food` entry to be deleted.
+
+For both `delete` and `update` commands, the `Name` parameter is implemented to be case-insensitive. This means that `n/APPLE` and `n/apple` refers to
+the same `Food` entry with `Name` stored as `Apple`.
 
 ==== Implementation
 
-The `update` command is facilitated by the FoodRecord which contains a UniqueFoodList which stores all the Food in the FoodRecord.
-This command either adds a new Food into this UniqueFoodList or edits the nutritional values of an existing Food in the UniqueFoodList.
-An additional operation is implemented to help with this:
+The modification of the `FoodRecord` is facilitated by `UniqueFoodList`, which is responsible for storing all the `Food` entries in the `FoodRecord`.
+Additional abstractions were used by `Model` and `Logic` for any operations that results in a modification of the `UniqueFoodList`.
 
-* `FoodRecord#hasFood()` - Checks if there is an existing `Food` in `FoodRecord` by checking if there is any `Food` in the FoodRecord
-with the same `Name`.
+Both commands require an additional operation, `hasFood`, in `FoodRecord` to be implemented. `hasFood` checks if there is an existing `Food` in `FoodRecord`
+by checking if there is any `Food` in the `FoodRecord` with the same `Name`. Two `Food` entries is deemed to be of the same `Name` if their lowercase variant
+is the same.
 
-This operation was exposed in the `Model` interface as `Model#hasFood()` and allows the `UpdateCommand` to decide whether to
-add or edit `Food` in the `UniqueFoodList`.
+This operation was exposed in the `Model` interface as `hasFood`, allowing `UpdateCommand` and `DeleteCommand` this functionality.
+
+===== Implementation of `update` command:
+
+For the `update` command, the `hasFood` operation decides whether `UpdateCommand` adds a new `Food` into `UniqueFoodList` or
+edits the nutritional values of an existing `Food` in the `UniqueFoodList`.
 
 The following sequence diagram shows how the `update` operation works in both cases:
 
-.Sequence Diagram for Update command (to be updated)
+.Sequence Diagram for `update` command
 image::UpdateSequenceDiagram.png[]
 NOTE: The lifeline for `UpdateCommandParser` and `UpdateCommand` should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
 
 How the `update` command works:
 
-Step 1: LogicManager executes the user input of `update n/apple cal/52 p/2 c/14 f/1", using CalgoParser to realise this is
-an update command and creates a new UpdateCommandParser object.
+Step 1: `LogicManager` executes the user input of `update n/apple cal/52 p/2 c/14 f/1", using `CalgoParser` to realise this is
+an `update` command and creates a new `UpdateCommandParser` object.
 
 Step 2: `UpdateCommandParser` then parses the arguments provided by `CalgoParser` with the `parse` method.
 During this parsing process, `UpdateCommandParser` calls the `covertToTitleCase` method on the `Name` argument, converting it
 to proper case.
 
-Step 3: `UpdateCommandParser` then creates a new `UpdateCommand` object, which `LogicManager` calls the execute method with this object
+Step 3: `UpdateCommandParser` then creates a new `UpdateCommand` object, which `LogicManager` calls the `execute` method with this object
 as an argument.
 
 Step 4: `UpdateCommand` now checks if there exists an existing `Food` in the `FoodRecord` by calling `Model` 's
-`hasFood` method, which checks if there is any Food in `FoodRecord` 's UniqueFoodList with the same `Name`.
+`hasFood` method.
 
 Step 5:
 
 * Scenario 1:
 If Food already exists in the `FoodRecord`:
-** Model calls the `getExistingFood` method with the user inputted Food
-as a parameter to get the existing Food, `existingFood` in the `UniqueFoodList`. It thens call the setFood method to replace the
-existing Food in the UniqueFoodList with the new `Food` which contains new nutritional values.
+** Model calls the `getExistingFood` method with the user inputted `Food`
+as a parameter to get the existing `Food`, `existingFood` in the `UniqueFoodList`. It thens call the `setFood` method to replace the
+existing `Food` in the `UniqueFoodList` with the new `Food` which contains new nutritional values.
 
 * Scenario 2:
-If Food does not exist in `FoodRecord`:
+If `Food` does not exist in `FoodRecord`:
 ** This scenario is handled by the Lexicographical Ordering feature. Please refer to its relevant section <<Implementation-LexicographicalOrder, here>>.
 ** Model calls the `addFood` method with the user inputted `Food` as a parameter to add the new `Food` into the `UniqueFoodList` in `FoodRecord`
 ** After the `Food` is added into the `UniqueFoodList`, the `UniqueFoodList` is also sorted in lexicographical order.
 
 Step 6: A new `CommandResult` object is then created and returned back to `LogicManager`.
+
+===== Implementation of `delete` command:
+
+For the `delete` command, the `hasFood` operation allows `UpdateCommand` to check whether the Food that the user requests to be
+deleted exists in the `UniqueFoodList`.
+
+The following sequence diagram shows how the `delete` command works:
+
+.Sequence Diagram for `delete` command
+image::DeleteSequenceDiagram.png[]
+
+NOTE: The lifeline for `DeleteCommandParser` and `DeleteCommand` should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
+
+
+How the `delete` command works:
+
+Step 1:  `LogicManager` executes the user input of "delete n/Apple", using `CalgoParser` to realise this is
+an `delete` command and creates a new `DeleteCommandParser` object.
+
+Step 2: `DeleteCommandParser` then parses the arguments provided by `CalgoParser` with the `parse` method, before creating a new
+`DeleteCommand` object that is returned back to the `LogicManager` which calls the `execute` method with this as an argument.
+
+Step 3: `DeleteCommand` now checks if there exists an existing `Food` in the `FoodRecord` by calling `Model`'s `hasFood` method, which
+checks if there is such `Food` in the `UniqueFoodList`.
+
+Step 4: `Model` then calls the `getExistingFood` method to return the `Food` object to be removed from the `UniqueFoodList`. Thereafter,
+`Model` calls the `deleteFood` method with this `Food` object as an argument to remove this `Food` from the `UniqueFoodList`.
+
+Step 5: A new `CommandResult` object is then created and returned back to the `LogicManager`.
 
 <<<
 
@@ -871,19 +1020,37 @@ Step 6: A new `CommandResult` object is then created and returned back to `Logic
 *** More tedious for user since more steps are required to achieve the same result.
 
 ==== Summary
-The `update` command is a smart command that either updates an existing `Food` item in the `FoodRecord` with new nutritional information,
+
+In summary, this section explains how commands related to modifying the `FoodRecord` is implemented.
+
+The `update` command is a smart command that either updates an existing `Food` entry in the `FoodRecord` with new nutritional information,
 or updates a new `Food` item into the `FoodRecord`
 The following activity diagram summarises what happens when a user enters a valid `update` command:
 
-.Activity Diagram for Update command
+.Activity Diagram for `update` command
 image::UpdateActivityDiagram.png[]
+
+The `delete` command allows the user to remove a `Food` entry from the `FoodRecord` by specifying it's `Name` as an parameter.
+The following activity diagram summarises what happens when a user enters a valid 'delete' command:
+
+.Activity Diagram for `delete` command
+image::DeleteActivityDiagram.png[]
+
+// end::modifyingfoodrecord[]
+
+// tag::realtimesuggestions[]
+
+[[Implementation-RealTimeSuggestion]]
 
 === Real-time Suggestions for Existing `Food` in `FoodRecord`
 
-This section addresses how the GUI Result Display suggests Food with similar names to the user for the commands `update`, `delete` and `nom`.
+(By Zhang Xian)
+
+This section addresses how the GUI `Result Display` suggests `Food` with similar `Name` to the user for the commands `update`, `delete` and `nom`.
 
 When the user have many `Food` entries in the `FoodRecord`, they may have difficulties finding out if a particular `Food` exists in the `FoodRecord`.
-For better user experience, this feature listens to the input of the user for these three commands suggests similar existing Food entries in real time.
+For better user experience, this feature listens to the input of the user for these three commands and suggests similar existing `Food` entries in real time in the GUI's
+`Result Display`.
 
 This feature listens to the input of the user after the `Prefix` `n/` and checks if there is a `Food` entry in the `FoodRecord` with a similar `Name`.
 
@@ -893,48 +1060,111 @@ The `Name` parameter is case-insensitive and searches the `Food` entries in the 
 
 ==== Implementation
 
-A listener set in place within the CommandBox to listen for user input passes the input to MainWindow.
-This feature is then facilitated by an operation `getSimilarfood` in the
+To be able to process user's input in real-time, we set a `listener` in the `CommandBox` to listen for the input of any of the three commands: `update`, `delete` or `nom`
+This feature is then facilitated by different objects, mainly `MainWindow` and `UniqueFoodList`. `MainWindow` interacts with `LogicManager` 's method of `getSimilarFood` which exposes
+the `FoodRecord`, allowing a filtered list of similar `Food` entries in the `UniqueFoodList` to be returned back to the user.
 
+A predicate, `FoodRecordContainsFoodNamePredicate` is also essential in this implementation in ensuring that the correct similar `Food` items can be filtered from the `UniqueFoodList`
+back to the `LogicManager` to be displayed by the GUI. The `test` method of this predicate which is responsible for the above is shown:
+[source,java]
+----
+public boolean test(Food food) {
+    boolean foodStartsWithInputFoodName = food.getName().fullName.toLowerCase()
+        .startsWith(foodName.toLowerCase().trim());
+    boolean inputFoodNameStartsWithFood = foodName.toLowerCase().trim()
+        .startsWith(food.getName().fullName.toLowerCase());
 
+    return foodStartsWithInputFoodName || inputFoodNameStartsWithFood;
+}
+----
+Both of the `boolean` used for this predicate is essential. For instance, if "Laksa is already present" in the `FoodRecord`:
+
+- If the user keys in "Lak", the first `boolean` `foodStartsWithInputFoodName` ensures that "Laksa" will be suggested to the user.
+- If the user keys in "Laksa Spicy", the second `boolean` `inputFoodNameStartsWithFood` ensures that "Laksa" will be suggested to the user.
+
+The following sequence diagram will explain how the different objects interact to achieve the Real-time Suggestion Feature.
+
+.Real-time Suggestion Feature Sequence Diagram
 image::RealTimeSuggestionSequenceDiagram.png[]
-Step1....
 
+Based on the above diagram, when a user has already entered any of the `CommandWord`: `update`, `delete` or `nom`, and also the Prefix `n/`:
 
+Step 1: `CommandBox` calls the `MainWindow` method of `getSuggestions` with the parameter as the entire `String` of user input in the `CommandBox`.
+
+Step 2: `MainWindow` then parses the user inputted `String` and calls `LogicManager` method of `getSimilarFood` with the parameter `foodName` which is the entire `String` after the `Prefix` `n/`
+
+Step 3: The `Model` then does the necessary work by calling methods `getFoodRecord` and `getFoodList`. This results in the current `UniqueFoodList` being returned
+
+Step 4: The `UniqueFoodList` is then filtered with the `Predicate<Food>`, `FoodRecordContainsFoodNamePredicate` which returns a `List<Food>` of `Food` objects that have similar `Name` fields to the user input.
+
+Step 5: Finally, the filtered `List<Food>` is then parsed into a `String` for the user by the `MainWindow` and then displayed in the GUI's `Result Display`.
 
 ==== Design Considerations
 ===== Aspect: How the suggestions is shown to the user.
-* *Alternative 1: (current choice):* ResultDisplay displays the names of similar Food entries in Food Record.
+* *Alternative 1: (current choice):* `ResultDisplay` displays the names of similar `Food` entries in `Food Record`.
 ** Pros:
+*** Improved user experience, allowing user to still view the unfiltered `FoodRecord` in the GUI.
+*** User can have access to the raw `String` of the `Name` similar `Food` entries for copying and pasting.
 
 ** Cons:
+*** Additional interacting with `UI` components required, instead of just filtering `UniqueFoodList`
+*** Cannot reusing existing lexicographical sorting feature of `FoodRecord`.
 
-* Alternative 2:* Filter the GUI's Food Record to similar Food entries.
+* *Alternative 2:* Filter the GUI's `Food Record` to show similar Food entries.
 ** Pros:
+*** Feature is limited to minimal interactions with `UI`, making use of existing `UI`-`Model` abstractions.
+*** Compatible with existing code relating to the `FoodRecord`, allowing code to be reused.
 ** Cons:
+*** Takes away most of the need for `find` and `list` features since they achieve mostly the same purpose.
+
+===== Aspect: Commands that utilise Real-time Suggestions
+* *Alternative 1: (current choice):* Only three commands: `update`, `delete`, `nom`
+** Pros:
+*** Improves computational performance, since real-time features for every command will be computationally expensive.
+*** Keeps the desired outcomes of other features such as `find` and `list` intact
+** Cons:
+*** Decrease in user experience, as they might expect this feature to be universal for all commands
+
+* *Alternative 2* All the commands
+** Pros:
+*** Better standardisation of feature across all commands.
+** Cons:
+*** Additional computational overhead.
+*** Not all commands have a `Name` field.
+*** Additional implementation or significant change in how this feature works is necessary to make it universal.
+
+==== Summary
+`CommandBox` listens for any of the three commands as mentioned, allowing `LogicManager` and `FoodRecord` to facilitate
+the suggestions of similar `Food` entries from the `UniqueFoodList` to display in the GUI's `Result Display`. This can be summarised
+in the activity diagram below:
+
+.Real-time Suggestion Feature Activity Diagram
+image::RealTimeSuggestionActivityDiagram.png[]
+
+// end::realtimesuggestions[]
 
 
 [[Implementation-HelpGuide]]
+//tag:: helpCommand[]
 === Command guide `help` command
 
 This section addresses how the `help` command works.
 
-The `help` command allows us to reference a summarised version of the User Guide (called the command guide)
+The `help` command allows users to reference a summarised version of the User Guide (called the command guide)
 containing the usages of the commands and their formats, arranged in alphabetical order. Users may enter an
 optional `command word` that filters the displayed command guide.
 
 [NOTE]
 `command word` filters out only commands which contain the `command word` as a substring. If no commands contain it
-as a substring, an error message will be displayed at the top of the `HelpWindow` and the full command guide will be shown.
+as a substring, an error message will be displayed at the top of the GUI component `Help Window` and the full command guide will be shown.
 
 
 ==== Implementation
-// end::helpcommand[]
 
-To generate a command guide using the `help` command, a `HelpCommand` object helps to generate the relevant command guides
+To generate a command guide using the `help` command, a `HelpCommand` object generates the relevant command guides
 based on the provided `command word` in the input.
 
-The sequence diagram below demonstrates how teh `help` command works, should a `command word` of "nom" be provided.
+The sequence diagram below demonstrates how the `help` command works, should a `command word` of "nom" be provided.
 
 .Sequence Diagram for Help
 image::HelpSequenceDiagram.png[]
@@ -951,15 +1181,15 @@ relevant command guides. A `CommandResult` object is produced reflecting the res
 will attempt to retrieve only relevant command guides, defaulting to a list of all guides if no relevant guides exist.
 Otherwise, by default a list of all guides will be provided.
 
-Step 4: The `CommandResult` is eventually passed to `MainWindow`, which then displays the command guide in a separate
-window, called `HelpWindow`.
+Step 4: The `CommandResult` is eventually passed to the `MainWindow` class, which then displays the command guide in a separate
+window, using the `HelpWindow` class.
 
-// end::helpcommand[]
+// end::helpCommand[]
 <<<
 
 ==== Design considerations
 ===== Aspect: How Help is displayed
-* **Alternative 1 (current choice):** `HelpWindow` is displayed as a separate popup.
+* **Alternative 1 (current choice):** GUI component `Help Window` is displayed as a separate popup.
 ** Pros:
 - User can refer to the command guide in a window separately from Calgo, keeping it present as they use the App.
 - Command guide can give a more detailed description of command usage and format as it has more space to display in.
@@ -967,13 +1197,13 @@ window, called `HelpWindow`.
 ** Cons:
 - `help` does not redirect to a url containing the most up-to-date User Guide. Changes made to the User Guide
 must be updated in `HelpCommand` separately.
-- `HelpWindow` might obstruct view of the App upon initially loading it, causing annoyance.
-* **Alternative 2:** `HelpWindow` is not used, and instead content is displayed as part of `ResultDisplay`.
+- GUI component `Help Window` might obstruct view of the App upon initially loading it, causing annoyance.
+* **Alternative 2:** GUI component `Help Window` is not used, and instead content is displayed as part of GUI component `Result Display`.
 ** Pros:
 - No possibility of a popup blocking the main app.
 - All information is contained within a single window.
 ** Cons:
-- User must use the `help` command every time they require a guide, as `ResultDisplay` will be
+- User must use the `help` command every time they require a guide, as GUI component `Result Display` will be
 overwritten after other commands.
 
 ===== Aspect: Command guides can be selectively displayed
@@ -981,7 +1211,7 @@ overwritten after other commands.
 display only desired commands by entering an optional keyword after `help`.
 ** Pros:
 - Desired command can be more rapidly found.
-- Removes all unwanted commands from `HelpWindow`, reducing clutter.
+- Removes all unwanted commands from GUI component `Help Window`, reducing clutter.
 ** Cons:
 - Filtered `help` does not benefit users who don't know the command they're looking for.
 * **Alternative 2:** Always display all command guides to ensure user will find the guide they require.
@@ -1003,8 +1233,6 @@ image::HelpActivityDiagram.png[]
 <<<
 
 <<<
-
-
 
 
 
@@ -1030,20 +1258,21 @@ of `DailyFoodLog`. The implementation of the `GraphPanel` class will be further 
 
 `GraphPanel` class implements the following operations:
 
-* `GraphPanel#initialiseTreeMap(Logic logic)` - Sets up the TreeMap that maps `LocalDate` date of `DailyFoodLog` to the `Double`
+* `initialiseTreeMap` - Sets up the TreeMap that maps `LocalDate` date of `DailyFoodLog` to the `Double`
 total calorie consumption n that day.
-* `GraphPanel#initialseGraph()` - Sets up the `LineChart` with xAxis a `String` representing date, and yAxis a `Double` representing
+* `initialseGraph` - Sets up the `LineChart` with xAxis a `String` representing date, and yAxis a `Double` representing
 total calories consumed on that date.
-* `GraphPanel#updateSeries()` - Ensures the `XYChart.series` that populates the graph with data is always updated with the
+* `updateSeries` - Ensures the `XYChart.series` that populates the graph with data is always updated with the
 most recent app data.
-* `GraphPanel#makeGraph(Logic logic)` - Wrapper function that calls the above three methods.
-* `GraphPanel#getGraph(Logic logic)` - Public accessor function to generate and retrieve the `LineChart`.
+* `makeGraph` - Wrapper function that calls the above three methods.
+* `getGraph` - Public accessor function to generate and retrieve the `LineChart`.
 
-Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having `MainWindow`
-call `GraphPanel#getGraph(Logic logic)` on startup and after execution of commands.
+Calgo will display the past seven days' graph automatically, and likewise update automatically. It does so by having the
+ `MainWindow` class call `getGraph` on startup and after execution of commands.
 
-The sequence diagram below demonstrates how the `Graph` feature works, such as upon loading of `MainWindow`.
+The sequence diagram below demonstrates how the `Graph` feature works.
 
+.Sequence Diagram for GraphPanel
 image::GraphSequenceDiagram.png[]
 Sequence Diagram for `Graph` feature.
 
@@ -1079,9 +1308,15 @@ After which, the `GraphPanel` adds the graph to `MainWindow`.
 
 * *Alternative 2:* Dates are based on past seven days starting from today's date, inclusive.
 
+==== Summary
 
+In summary, this section addresses how the graph obtains information on the past seven `DailyFoodLog`, and correspondingly
+produces a visual graph output onto Calgo's `Main Window` GUI component viewable by the user.
 
+The graph requires the `LogicManager` class to obtain the information, and the `MainWindow` class to facilitate display
+to the user.
 
+//end::caloriegraph[]
 
 === Logging
 
@@ -1129,7 +1364,7 @@ Refer to the guide <<DevOps#, here>>.
 * Is reasonably comfortable using `CLI` Apps
 * Wants to have, or already has, a lifestyle of eating healthy
 * Manages a significant number of `Food` items
-* Prefers desktop Apps over other types
+* Prefers desktop Apps over other types of Apps (such as mobile or tablet)
 * Prefers typing over mouse input
 
 *Value proposition*:
@@ -1169,7 +1404,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (po
 
 |`* * *` |user who doesn't like redundant things | override a Food entry in the Food Record which already exists| save time and effort and not create a duplicate item in the Food Record.
 
-|`* * *` |user who gets bored of food easily |delete a Food item that I no longer want to eat in future from my Food Record| avoid having so many Food items in the Food Record that I no longer eat.
+|`* * *` |user who gets bored of food easily |deletpe a Food item that I no longer want to eat in future from my Food Record| avoid having so many Food items in the Food Record that I no longer eat.
 
 |`* * *` |user who is a foodie | find out the statistics of the food that I have been consuming each day | systematically cut down on overeaten food and monitor progress.
 
@@ -1196,7 +1431,9 @@ As you continue developing the Calgo, feel free to add more user stories here.
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the Calgo application and the *Actor* is the user, unless specified otherwise)
+For all use cases below, the *System* is the Calgo application and the *Actor* is the user, unless specified otherwise. +
+
+Also note that the term *MSS* refers to the Main Success Scenario for each Use Case.
 
 [discrete]
 
@@ -1204,10 +1441,23 @@ As you continue developing the Calgo, feel free to add more user stories here.
 
 *MSS*
 
-1.  User requests for a guide on the app's commands.
-2.  Calgo shows a list of all available commands and their corresponding purpose and usage.
+1.  User wants to find the command guide for the commands in Calgo.
+2.  User enters `help` command with no additional `command_word`.
+3.  `Calgo` generates a popup, displaying a list of all command guides in the popup.
 +
 Use case ends.
+
+*Extensions*
+
+[none]
+*2a. User enters a `command_word` after `help`, such as foe example `help nom`.*
+2a1. `Calgo` filters out only command guides containing the `command_word` "nom".
+2a2. `Calgo` generates a popup, displaying this filtered list of command guides.
+
+*2b. User enters a `command_word` after `help` that has no corresponding command guides.*
+2b1. `Calgo` tries to filter out only command guides containing the `command_word` but fails to find any guides. Thus
+it defaults to display all command guides.
+Use case resumes from Step 2.
 
 [discrete]
 === Use case: `find` `Food` item by `Name` or `Tag` keyword (which can be an incomplete word)
@@ -1216,7 +1466,7 @@ Use case ends.
 
 1.  User wants to find a `Food` entry by a specific keyword in `Name` or `Tag`.
 2.  User enters `find` command with the `Name` `Prefix`, or the `Tag` `Prefix`, accordingly.
-3.  `Calgo` shows a list of `Food` entries which contains the substring indicated in any part of the `Name` or `Tag` of the `Food` entries respectively.
+3.  Calgo shows a list of `Food` entries which contains the substring indicated in any part of the `Name` or `Tag` of the `Food` entries respectively.
 +
 Use case ends.
 
@@ -1295,50 +1545,95 @@ Use case ends.
 
 *MSS*
 
-1.  User requests to add a new `Food` item in the `FoodRecord`.
-2.  `Calgo` creates and saves a new `Food` item in the `FoodRecord` with nutritional information specified by user.
+1.  User wants to add a new `Food` entry in the `FoodRecord`.
+2.  User begins to type in an `update` command with `Name` `Prefix`.
+3.  `Calgo` shows that there are no similar `Food` entries in GUI `Result Display`.
+4.  User completes typing in remaining `Prefixes` of `Calorie`, `Protein`, `Carbohydrate`, `Fat` `Prefixes` accordingly and enters it in `Calgo`.
+5.  `Calgo` adds a new `Food` entry into `FoodRecord` with paramaters as specified by User.
 +
 Use case ends.
 
-[discrete]
-=== Use case: `update` an existing `Food` item in current `FoodRecord`
+*Extensions*
 
-*MSS*
+[none]
 
-1.  User requests to edit an existing `Food` item in the `FoodRecord`.
-2.  `Calgo` replaces the existing `Food` item's nutritional values with the new information.
-+
+*3a. There are similar `Food` entries in the `FoodRecord`* +
+3a1. `Calgo` the similar Food entries in the GUI's `Result Display`
+Use case resumes from Step 3.
+
+*5a. `Calgo`'s FoodRecord already contains the same `Food` entry* +
+5a1. `Calgo` overrides this existing `Food` entry with the new `Food` entry
 Use case ends.
+
 
 [discrete]
 === Use case: `delete` an existing `Food` item in current `FoodRecord`
 
 *MSS*
 
-1.  User requests to delete an existing `Food` item from the `FoodRecord`
-2.  `Calgo` deletes the existing `Food` item in the `FoodRecord`.
+1.  User wants to delete a Food entry from the `FoodRecord`
+2.  User types in an delete command with the `Name` Prefix.
+3.  `Calgo` shows that the `Food` entry that the User wishes to delete exists in one of the similar Food items message in the GUI Result Display.
+4.  User enters the command into `Calgo`
+5.  `Calgo` deletes the `Food` entry from the `FoodRecord`.
 +
 Use case ends.
 
+*Extensions*
+
+[none]
+
+*3a. The Food entry that the User wishes to delete does not exists in the `FoodRecord`.* +
+3a1. GUI `Result Display` shows that there are no similar `Food` items in the `FoodRecord`.
+Use cases resumes from Step 3.
+
+
 [discrete]
-=== Use case: set a dietary `goal`
+=== Use case: set a daily `goal`
 
 *MSS*
 
-1.  User uses `goal` command to set a dietary `DailyGoal` for the daily number of `Calorie` s to be consumed.
-2.  `Calgo` stores this `DailyGoal` in user preferences and analyses `Food` consumption with respect to this `goal`.
-+
+1. User enters the `goal` command with the intended value.
+2. Calgo updates the user's `goal` to the new value provided by the user.
+
 Use case ends.
 
+*Extensions*
+
+*1a. User enters an invalid input for the `goal`.* +
+  1a1. Calgo shows a message indicating the acceptable range of values for the `goal` command. +
+  1a2. User enters `goal` command with a new value. +
+Steps 1a1 and 1a2 are repeated until user enters a valid input. +
+
+Use case resumes from step 2.
+
 
 [discrete]
-=== Use case: generate a `report` on a specific day.
+=== Use case: generate a `report` on a specific `date`.
 
 *MSS*
 
-1.  User requests to obtain a `report` on his or her `Food` consumption patterns on a particular day.
-2.  Calgo analyses the `Food` consumed on that day and generates a document with actionable insights for the user.
-+
+1. User enters the `report` command with a particular `date`.
+2. Calgo analyses the `Food` consumed on that `date` and generates a `report` text file in the `data/reports` folder for the user.
+
+Use case ends.
+
+*Extensions*
+
+*1a. There is no `Food` consumed on the inputted `date`.* +
+1a1. Calgo shows a message indicating that there was no `Food` consumed on the given `date`. +
+
+Use case ends.
+
+*1b. Inputted `date` in wrong format.* +
+1b1. Calgo shows a message indicating the correct format for the `date`. +
+1b2. User enters `report` command with the `date` in the correct format. +
+
+Use case resumes from step 2.
+
+*1c. User enters `report` command without setting a daily calorie `goal`.* +
+1c1. Calgo generates a `report` without the sections related to the `goal`. +
+
 Use case ends.
 
 [discrete]
@@ -1372,11 +1667,12 @@ Use case resumes from Step 2.
 .  Should be able to hold up to 1000 `Food` items without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Calgo should work on both 32-bit and 64-bit environments.
-.  The product expects users to initially find out about `Food` items and their respective nutritional values for creating `Food` item entries for the first time.
 .  The minimum screen size for the App window to fully display its GUI is 1250 x 600.
-.  The product should be for a single-user.
+.  Calgo should be designed for a single-user (i.e. Calgo should not be a multi-user App).
 .  The product should be developed incrementally over the project duration.
-.  The software should follow the OOP.
+.  The software's codebase should adhere to OOP.
+.  The product should have minimal network usage. Therefore, it is expected that users will find out about the
+respective nutritional values of a `Food` entry whenever they want to `update` it into the `FoodRecord` for the first time.
 
 
 [appendix]
@@ -1487,9 +1783,8 @@ Expected: Similar to previous.
 
 . Deleting a `Food` item from the `FoodRecord`
 
-. Prerequisites: Launch `Calgo` succesfully and a `Food` item Apple already exists in `FoodRecord`
-. Test case: `delete n/Apple` +
-   Expected: `Food` item Apple is deleted from `FoodRecord`. Details of the deleted `Food` shown in the status message.
+.. Prerequisites: Launch Calgo successfully and a `Food` item Apple already exists in `FoodRecord`
+.. Test case: `delete n\Apple` +
 . Test case: `delete 0` +
    Expected: No food is deleted. Error details shown in the status message. Status bar remains the same.
 . Other incorrect delete commands to try: `delete`, `delete n/Banana` (where `Food` banana does not exists in `FoodRecord`) +
@@ -1613,14 +1908,16 @@ Due to the COVID-19 situation, there was a lot of uncertainty and our style of m
 
 * Product Design
 ** Our team successfully morphed AB3 and its relevant tests into the Calgo you see today.
-** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our presentation, demo and testing.
+** Our team’s project idea was validated and appreciated by peers and tutors, most notably from our CS2101 presentation, CS2103T demo and PE-Dry Run testing.
+It also has potential to be collaborated with other peer projects such as FitBiz (Group F11-2).
 * Implementation
 ** Ambitious in experimenting with new interesting features. For e.g. intelligent insights and graphs.
 ** Implemented features consistently and incrementally, allowing us to make changes to past features and
-** Experimented with new workflow and decided on one, Agile(Scrum), which we liked the most.
-** Put in additional effort in making the GUI different and novel, despite it being not part of the grading scheme. This is another example of how we go an extra mile just for the sake of user centric-ness. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
+** Experimented with new workflow before deciding on one, Agile(Scrum), which we liked the most.
+** Put in additional effort in making the GUI different and novel, even though it is not part of the grading rubric. This is another example of how we go the extra mile to make our product more user-centric. For e.g. we tried out new JavaFX APIs like LineChart and TableView.
 * Project Management
-** Predominantly followed the forking workflow
-** Diligently created issues and assigned them
-** Plan and incrementally implemented our user stories throughout different milestones.
-** Regularly review each other’s code on and off Github.
+** Predominantly followed the forking workflow.
+** Diligently created issues and assigned them on GitHub, while also consistently communicating with each other on Telegram.
+** Planned and incrementally implemented our user stories throughout different milestones.
+** Regularly reviewed each other’s code on and off Github.
+

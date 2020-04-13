@@ -1,0 +1,85 @@
+@startuml
+!include style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":CalgoParser" as CalgoParser LOGIC_COLOR
+participant ":GoalCommandParser" as GoalCommandParser LOGIC_COLOR
+participant "g:GoalCommand" as GoalCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+participant ":DailyGoal" as DailyGoal MODEL_COLOR
+end box
+
+[-> LogicManager : execute("goal 2000")
+activate LogicManager
+
+LogicManager -> CalgoParser : parseCommand("goal 2000")
+activate CalgoParser
+
+create GoalCommandParser
+CalgoParser -> GoalCommandParser : new GoalCommandParser
+activate GoalCommandParser
+
+GoalCommandParser --> CalgoParser
+deactivate GoalCommandParser
+
+CalgoParser -> GoalCommandParser : parse("goal 2000")
+activate GoalCommandParser
+
+create GoalCommand
+GoalCommandParser -> GoalCommand : new GoalCommand(targetCalories)
+activate GoalCommand
+
+GoalCommand --> GoalCommandParser : g
+deactivate GoalCommand
+
+GoalCommandParser --> CalgoParser : g
+deactivate GoalCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+GoalCommandParser -[hidden]-> CalgoParser
+destroy GoalCommandParser
+
+CalgoParser --> LogicManager : g
+deactivate CalgoParser
+
+LogicManager -> GoalCommand : execute(model)
+activate GoalCommand
+
+GoalCommand -> Model : updateDailyGoal(g.numCaloriesDaily)
+activate Model
+
+Model -> DailyGoal : updateDailyGoal(g.numCaloriesDaily)
+activate DailyGoal
+
+DailyGoal -> DailyGoal : new DailyGoal(newTarget)
+activate DailyGoal
+DailyGoal --> DailyGoal
+deactivate DailyGoal
+
+GoalCommand -[hidden]-> CalgoParser
+DailyGoal --> Model
+deactivate DailyGoal
+deactivate Model
+
+GoalCommand -[hidden]-> CalgoParser
+destroy DailyGoal
+
+create CommandResult
+GoalCommand -> CommandResult : new CommandResult(OUTCOME_MESSAGE)
+activate CommandResult
+
+CommandResult --> GoalCommand : result
+deactivate CommandResult
+
+GoalCommand --> LogicManager : result
+deactivate GoalCommand
+GoalCommand -[hidden]-> CalgoParser
+destroy GoalCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+start
+:User executes delete command;
+:DeleteCommand checks if there exists a Food entry in FoodRecord with the same Name;
+if () then ([there is a Food entry in FoodRecord with the same name])
+    :Get existing Food entry;
+    :Delete Food entry from FoodRecord;
+    :Inform user that Food entry has been deleted from FoodRecord;
+else ([else])
+    :Inform user that the Food entry does not exist in FoodRecord;
+endif
+stop
+@enduml
