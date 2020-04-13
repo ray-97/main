@@ -1051,7 +1051,7 @@ Refer to the guide <<DevOps#, here>>.
 * Is reasonably comfortable using `CLI` Apps
 * Wants to have, or already has, a lifestyle of eating healthy
 * Manages a significant number of `Food` items
-* Prefers desktop Apps over other types
+* Prefers desktop Apps over other types of Apps (such as mobile or tablet)
 * Prefers typing over mouse input
 
 *Value proposition*:
@@ -1282,7 +1282,7 @@ Use case ends.
 Use case ends.
 
 *1b. Inputted `date` in wrong format.* +
-1b1. Calgo shows a message indicating the correct format for the `date`.
+1b1. Calgo shows a message indicating the correct format for the `date`. +
 1b2. User enters `report` command with the `date` in the correct format. +
 
 Use case resumes from step 2.
@@ -1300,11 +1300,13 @@ Use case ends.
 .  Should be able to hold up to 1000 `Food` items without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  Calgo should work on both 32-bit and 64-bit environments.
-.  The product expects users to initially find out about `Food` items and their respective nutritional values for creating `Food` item entries for the first time.
 .  The minimum screen size for the App window to fully display its GUI is 1250 x 600.
 .  The product should be for a single-user.
 .  The product should be developed incrementally over the project duration.
-.  The software should follow the OOP.
+.  The software's codebase should adhere to OOP.
+.  The product should have minimal network usage.
+. It is expected that users will find out about the
+respective nutritional values of a `Food` entry whenever they want to `update` it into the `FoodRecord` for the first time.
 
 
 [appendix]
@@ -1314,9 +1316,9 @@ Use case ends.
 Text-based user interface used to view and manage computer files.
 
 [[food]] Food::
-`Food` items entered by the user to represent a real life Food.
-This contains nutritional values of each of their `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
-They can also contains a series of `Tag` s.
+A `Food` item entered by the user represents a real life food.
+`Food` contains nutritional values such as `Calorie` s, number of grams of `Protein` s, `Carbohydrate` s and `Fat` s.
+It can also contains a series of `Tag` s.
 
 [[gui-food-records-entry]] Food Entry::
 An entry in the GUI's `Food Record` box, which shows all details for one `Food` object.
