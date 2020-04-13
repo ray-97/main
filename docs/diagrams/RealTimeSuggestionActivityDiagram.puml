@@ -1,0 +1,13 @@
+@startuml
+start
+:User enters "update" or "delete" or "nom";
+:User enters "n/";
+:MainWindow sends input after "n/" to LogicManager;
+:LogicManager communicates with FoodRecord to get Food entries with similar Name in UniqueFoodList;
+if () then ([there are Food entries with similar Name])
+    :Display similar Food suggestions in GUI's Result Display;
+else ([else])
+    :Inform user that there is no similar Food entries in GUI's Result Display;
+endif
+stop
+@enduml
