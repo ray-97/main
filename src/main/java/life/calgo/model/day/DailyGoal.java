@@ -1,5 +1,7 @@
 package life.calgo.model.day;
 
+import static java.util.Objects.requireNonNull;
+
 import life.calgo.model.ReadOnlyGoal;
 
 /**
@@ -19,7 +21,11 @@ public class DailyGoal implements ReadOnlyGoal {
 
     private int targetDailyCalories;
 
-    public DailyGoal(int numCalories) {
+    public DailyGoal(Integer numCalories) throws IllegalArgumentException {
+        requireNonNull(numCalories);
+        if (!isValidGoal(numCalories)) {
+            throw new IllegalArgumentException("An inadmissible value of daily goal has been given");
+        }
         this.targetDailyCalories = numCalories;
     }
 
@@ -45,13 +51,13 @@ public class DailyGoal implements ReadOnlyGoal {
      * @param newTarget The new desired number of calories to consume each day.
      * @return Updated DailyGoal object.
      */
-    public DailyGoal updateDailyGoal(int newTarget) {
+    public DailyGoal updateDailyGoal(Integer newTarget) {
         return new DailyGoal(newTarget);
     }
 
     // Utility methods
 
-    public static boolean isValidGoal(int targetDailyCalories) {
+    public static boolean isValidGoal(Integer targetDailyCalories) {
         return targetDailyCalories >= MINIMUM_ACCEPTABLE_CALORIES && targetDailyCalories <= MAXIMUM_ACCEPTABLE_CALORIES;
     }
 
@@ -60,5 +66,17 @@ public class DailyGoal implements ReadOnlyGoal {
         return "Calorie goal: " + this.targetDailyCalories;
     }
 
+    /**
+     * Checks if the current DailyGoal can be considered equivalent to the other, based on identity and value.
+     *
+     * @param other the other DailyGoal to compare with.
+     * @return whether the current DailyGoal and the other can be considered equivalent.
+     */
+    @Override
+    public boolean equals(Object other) {
+        return other == this
+                || (other instanceof DailyGoal
+                && targetDailyCalories == (((DailyGoal) other).targetDailyCalories));
+    }
 }
 

@@ -127,13 +127,16 @@ public class MainApp extends Application {
             if (!goalOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with no goal set.");
             }
-            goal = goalOptional.orElse(new DailyGoal(DailyGoal.DUMMY_VALUE));
+            goal = goalOptional.orElse(new DailyGoal());
+        } catch (IllegalArgumentException e) {
+            logger.warning("Current value of goal is not admissible. Will be starting with no goal set.");
+            goal = new DailyGoal();
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with no goal set.");
-            goal = new DailyGoal(DailyGoal.DUMMY_VALUE);
+            goal = new DailyGoal();
         } catch (IOException e) {
             logger.warning("Problem while reading from the goal file. Will be starting with no goal set.");
-            goal = new DailyGoal(DailyGoal.DUMMY_VALUE);
+            goal = new DailyGoal();
         }
         return new ModelManager(initialData, consumptionData, userPrefs, goal);
     }
