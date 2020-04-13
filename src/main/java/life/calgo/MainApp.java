@@ -132,7 +132,8 @@ public class MainApp extends Application {
             logger.warning("Current value of goal is not admissible. Will be starting with no goal set.");
             goal = new DailyGoal();
         } catch (DataConversionException e) {
-            logger.warning("Data file not in the correct format. Will be starting with no goal set.");
+            logger.warning("Data file not in the correct format or current goal is not an acceptable value."
+                    + " Will be starting with no goal set.");
             goal = new DailyGoal();
         } catch (IOException e) {
             logger.warning("Problem while reading from the goal file. Will be starting with no goal set.");

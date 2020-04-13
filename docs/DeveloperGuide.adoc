@@ -1118,7 +1118,9 @@ As you continue developing the Calgo, feel free to add more user stories here.
 [appendix]
 == Use Cases
 
-(For all use cases below, the *System* is the Calgo application and the *Actor* is the user, unless specified otherwise)
+For all use cases below, the *System* is the Calgo application and the *Actor* is the user, unless specified otherwise. +
+
+Also note that the term *MSS* refers to the Main Success Scenario for each Use Case.
 
 [discrete]
 
@@ -1138,7 +1140,7 @@ Use case ends.
 
 1.  User wants to find a `Food` entry by a specific keyword in `Name` or `Tag`.
 2.  User enters `find` command with the `Name` `Prefix`, or the `Tag` `Prefix`, accordingly.
-3.  `Calgo` shows a list of `Food` entries which contains the substring indicated in any part of the `Name` or `Tag` of the `Food` entries respectively.
+3.  Calgo shows a list of `Food` entries which contains the substring indicated in any part of the `Name` or `Tag` of the `Food` entries respectively.
 +
 Use case ends.
 
@@ -1238,29 +1240,56 @@ Use case ends.
 *MSS*
 
 1.  User requests to delete an existing `Food` item from the `FoodRecord`
-2.  `Calgo` deletes the existing `Food` item in the `FoodRecord`.
+2.  Calgo deletes the existing `Food` item in the `FoodRecord`.
 +
 Use case ends.
 
 [discrete]
-=== Use case: set a dietary `goal`
+=== Use case: set a daily `goal`
 
 *MSS*
 
-1.  User uses `goal` command to set a dietary `DailyGoal` for the daily number of `Calorie` s to be consumed.
-2.  `Calgo` stores this `DailyGoal` in user preferences and analyses `Food` consumption with respect to this `goal`.
-+
+1. User enters the `goal` command with the intended value.
+2. Calgo updates the user's `goal` to the new value provided by the user.
+
 Use case ends.
+
+*Extensions*
+
+*1a. User enters an invalid input for the `goal`.* +
+  1a1. Calgo shows a message indicating the acceptable range of values for the `goal` command. +
+  1a2. User enters `goal` command with a new value. +
+Steps 1a1 and 1a2 are repeated until user enters a valid input. +
+
+Use case resumes from step 2.
 
 
 [discrete]
-=== Use case: generate a `report` on a specific day.
+=== Use case: generate a `report` on a specific `date`.
 
 *MSS*
 
-1.  User requests to obtain a `report` on his or her `Food` consumption patterns on a particular day.
-2.  Calgo analyses the `Food` consumed on that day and generates a document with actionable insights for the user.
-+
+1. User enters the `report` command with a particular `date`.
+2. Calgo analyses the `Food` consumed on that `date` and generates a `report` text file in the `data/reports` folder for the user.
+
+Use case ends.
+
+*Extensions*
+
+*1a. There is no `Food` consumed on the inputted `date`.* +
+1a1. Calgo shows a message indicating that there was no `Food` consumed on the given `date`. +
+
+Use case ends.
+
+*1b. Inputted `date` in wrong format.* +
+1b1. Calgo shows a message indicating the correct format for the `date`.
+1b2. User enters `report` command with the `date` in the correct format. +
+
+Use case resumes from step 2.
+
+*1c. User enters `report` command without setting a daily calorie `goal`.* +
+1c1. Calgo generates a `report` without the sections related to the `goal`. +
+
 Use case ends.
 
 
@@ -1340,7 +1369,7 @@ These instructions only provide a starting point for testers to work on; testers
 
 . Deleting a `Food` item from the `FoodRecord`
 
-.. Prerequisites: Launch `Calgo` succesfully and a `Food` item Apple already exists in `FoodRecord`
+.. Prerequisites: Launch Calgo successfully and a `Food` item Apple already exists in `FoodRecord`
 .. Test case: `delete n\Apple` +
    Expected: `Food` item Apple is deleted from `FoodRecord`. Details of the deleted `Food` shown in the status message.
 .. Test case: `delete 0` +
@@ -1352,7 +1381,7 @@ These instructions only provide a starting point for testers to work on; testers
 === Listing all `Food` entries
 
 . Listing down all entries, regardless of previous commands
-.. Prerequisites: Launch `Calgo` successfully.
+.. Prerequisites: Launch Calgo successfully.
 .. Test case: `list` +
 Expected: The GUI will show all `Food` entries existing in the `FoodRecord`.
 
