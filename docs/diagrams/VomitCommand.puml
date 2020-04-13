@@ -1,0 +1,21 @@
+@startuml
+start
+:User executes Vomit command;
+
+:Extract relevant prefixes using ArgumentMultimap;
+:Check if the exist DailyFoodLog with same date;
+:Ensure arguments have valid format;
+
+if() then ([exist])
+:Update existing log;
+:Command created;
+:Execute command;
+else ([does not exist])
+:Create exception message;
+:Catch exception and show on Result Display;
+endif
+
+:Update FilteredList with relevant DisplayFood;
+
+stop
+@enduml

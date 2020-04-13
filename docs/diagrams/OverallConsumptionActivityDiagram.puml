@@ -1,0 +1,26 @@
+@startuml
+start
+
+:Execute user command;
+:Parse user input;
+:Determine command;
+
+if() then ([nom or vomit or stomach])
+
+if () then ([nom])
+: Handle NomCommand (rake);
+elseif () then ([vomit])
+: Handle VomitCommand (rake);
+else ([stomach])
+: Retrieve DailyFoodLog of correct date;
+:Update FilteredList with relevant DisplayFood;
+endif
+
+else([other commands])
+:Perform relevant action;
+endif
+
+:Reflect changes in GUI to user;
+
+end
+@enduml

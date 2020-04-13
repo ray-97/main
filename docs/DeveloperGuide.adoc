@@ -696,6 +696,10 @@ It specifically checks if there exists a `DailyFoodLog` with the same `LocalDate
 they are already present. From all these information, a `DailyFoodLog` object representing the result of consuming a `Food` is created, and supplied to create
 `NomCommand`. The diagram below shows how this happens:
 
+[NOTE]
+For the subsequent sequence diagrams in the section,
+the lifelines for objects should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+
 .Sequence Diagram for parsing of Nom command
 image::NomCommandParserSequenceDiagram.png[]
 
@@ -758,10 +762,20 @@ in `DailyFoodLog` for each `LocalDate`.
 
 ==== Summary
 
-The `nom` command adds a `Food` item consumed by the user into the `stomach`. The following activity diagram summarizes what happens when the user executes a `nom` command.
+This section is a summary on all the above discussed. I would do so with the aid of a few activity diagrams so that you
+are clear about the flow of the processes covered.
 
-.Activity Diagram for Nom
-image::NomActivityDiagram.png[]
+.Activity Diagram for the 3 consumption related command
+image::OverallConsumptionActivityDiagram.png[]
+
+The 2 diagrams below serves as (rakes), which shows more details.
+
+.Activity Diagram for Nom command
+image::NomActiivityDiagram.png[]
+
+.Activity Diagram for Vomit command
+image::VomitCommandActivityDiagram.png[]
+
 
 [[Implementation-SmartUpdate]]
 === Updating the `FoodRecord`

@@ -2,12 +2,20 @@
 start
 :User executes Nom command;
 
-if () then ([command is Nom])
-    :Add food specified to a DailyFoodLog;
-    :Update model and FoodRecord;
-    :Fetch data for FilteredList and update display;
-else ([else])
-    :Handle other commands;
+:Extract relevant prefixes using ArgumentMultimap;
+:Check if the exist DailyFoodLog with same date;
+:Ensure arguments have valid format;
+
+if() then ([exist])
+:update existing log;
+
+else ([does not exist])
+:create new food log;
 endif
+
+:Command created;
+:Execute command;
+:Update FilteredList with relevant DisplayFood;
+
 stop
 @enduml
