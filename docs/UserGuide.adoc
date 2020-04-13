@@ -282,7 +282,7 @@ of each `Food` neatly in a table.
 
 [TIP]
 This lets you manually track your diet using a reference sheet of your past `Food` entries. You can freely edit this
-reference sheet to include information outside of the App. +
+reference sheet to include information outside of Calgo. +
 [NOTE]
 Certain `Food` names may be too long to fit into the given space. Such names will be shown on multiple lines.
 However, rest assured that all your information is still captured and neatly organised.
@@ -293,7 +293,7 @@ Format: `export` +
 
 Example: +
 
-Say you wish to export the current `Food Record` so that you can print a copy for reference while cooking. Here's how you can do it:
+Let's suppose you wish to export the current `Food Record` so that you can print a copy for reference while cooking. Here's how you can do it:
 
 image::ExportCommandBefore.png[width=]
 
@@ -321,10 +321,10 @@ associated with a particular `Food` entry.
 Here are some key pointers:
 ****
 * The `find` command takes in one, and only one parameter.
-* For finding via nutritional value, only `Food` matching the same exact value will be shown.
-* You don't have to capitalise each keyword. The search is always case insensitive when searching for keyword(s) via name or tag. +
+* For finding via nutritional value, only `Food` entries with the same value will be shown.
+* You don't have to capitalise keywords. The search is always case insensitive when searching for keyword(s) via name or tag. +
 * You don't actually have to type out the entire keyword either. For your convenience, incomplete keywords will be matched
-to `Food` entries containing them in the specified parameter of name or tag. +
+to `Food` entries containing them in any part of the specified parameter of name or tag. +
 * You can search for multiple name keywords by using a single `n/` `Prefix`, separating them with space(s). +
 ****
 
@@ -356,7 +356,7 @@ the keyboard only typed `Chees`. This is what happens: +
 
 image::FindCommandSubstringBefore.png[width=]
 
-You are therefore likely to enter `find n/Chees` as the command input. +
+You are likely to enter `find n/Chees` as the command input. +
 
 image::FindCommandSubstringAfter.png[width=]
 
@@ -369,14 +369,14 @@ Example 3: Say you are lazy but wish to find entries containing the keyword `swe
 
 image::FindCommandTagBefore.png[width=]
 
-You should type `find t/swe` as input, and then press kbd:[enter]. +
+You can type `find t/swe` as input, and then press kbd:[enter]. +
 
 image::FindCommandTagAfter.png[width=]
 
 Upon entering the command, the `Food Record` will display all entries which have the `swe` keyword present in any one of
 their tags. As you can search using incomplete keywords, the intended search for the `sweet` tag will also have its result shown. +
 
-Please note that the search is case-insensitive, an example being the `Sweet` tag of `Bandung`. Moreover,
+Please note that the search is case-insensitive, an example being the resulting `Sweet` tag of `Bandung`. Moreover,
 as with Example 2, we allow for incomplete words to be used as search keywords.
 
 [[goal]]
@@ -455,7 +455,7 @@ With a large number of entries in the `Food Record`, you may remember that we ca
 command to display only the relevant `Food` entries. Once we are done with the search, we will eventually want to
 view all entries again. This is where the `list` command comes in handy. +
 
-The `list` command resets the display accordingly to show all entries in the `Food Record`. These will be neatly sorted,
+The `list` command resets the display accordingly to show all entries in the `Food Record`. These entries will be neatly sorted,
 just as the `Food Record` previously appeared:
 ****
 * All entries will appear in lexicographical order.
@@ -480,7 +480,7 @@ Type `list` as input, then press kbd:[enter].
 
 image::ListCommandAfter.png[width=]
 
-You will then see a result message displayed, and the `Food Record` will now show all `Food` entries.
+The `Result Display` will then indicate the result of your command, and the `Food Record` will now show all `Food` entries once again.
 
 === `nom` : Adding `Food` to `Consumption Record`
 (by Ruicong)

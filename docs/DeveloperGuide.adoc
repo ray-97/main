@@ -313,11 +313,11 @@ The lifeline for the both of the `FindCommandParser` objects, and both of the `F
 
 From the above, it is clear that both categorical search and substring search of the `find` command have similar steps: +
 
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `find` command, and creates a new `FindCommandParser` object. +
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `find` command, and a new `FindCommandParser` object is then created. +
 
-Step 2: The `FindCommandParser` object parses the user-entered arguments that match the `Prefix`, creating a `Predicate<Food>` object based on which `Food` attribute the `Prefix` represents.
+Step 2: The `FindCommandParser` object parses the user-entered arguments that come with the `Prefix`, creating a `Predicate<Food>` object based on which `Food` attribute the `Prefix` represents.
 
-- In the above diagram examples, a `ProteinContainsKeywordsPredicate` object is created for the categorical search via `Protein` while a `NameContainsKeywordPredicate` object is created for the substring search via `Name`. +
+- In the above diagram examples, a `ProteinContainsKeywordsPredicate` object is created for the categorical search via `Protein` while a `NameContainsKeywordsPredicate` object is created for the substring search via `Name`. +
 
 Step 3: This `Predicate<Food>` object is then used to construct a new `FindCommand` object, returned to `LogicManager`. +
 
@@ -335,11 +335,11 @@ The lifeline for the `ListCommand` object should end at the destroy marker (X) b
 
 How the `list` command works:
 
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `list` command and thereby create a new `ListCommand` object. +
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `list` command, and a new `ListCommand` object is created. +
 
 Step 2: `LogicManager` then calls the `execute` method of this `ListCommand`, which uses `Model.PREDICATE_SHOW_ALL_FOODS` to evaluate to true for all `Food` objects in the `FoodRecord`.
 
-Step 3: The GUI's `Food Record` reflects the above changes to show all `Food` entries.
+Step 3:  `LogicManager` then returns a new `CommandResult` object to reflect the status of the execution, in the GUI. The GUI's `Food Record` reflects the above changes to show all `Food` entries once again.
 
 ==== Design considerations
 
@@ -455,7 +455,7 @@ Step 2: Before we can finish constructing a new `ModelManager` object, we requir
 Step 3: Once `UniqueFoodList` is constructed, we introduce the initialising data into it using the `setFoods` method. This calls the `sortInternalList` method, which sorts the newly added `Food` objects in the `ObservableList<Food>` contained in `UniqueFoodList`, according to the specified lexicographical order (defined in the `Food` class).
 
 
-Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added (note: not when they are edited) using the `update` command:
+Moving on, the sequence diagram below (which is a reference frame omitting irrelevant `update` command details) describes the lexicographical sorting process when `Food` objects are added (not edited) using the `update` command:
 
 .Lexicographical Ordering Sequence Diagram for Updating
 image::LexicographicalOrderingUpdateSequenceDiagram.png[]
@@ -473,7 +473,7 @@ Step 2: The `sortInternalList` method then sorts the `Food` objects in the `Obse
 [NOTE]
 During an `update` command, we do not perform sorting if the user enters a `Food` object that already has an existing counterpart with an equivalent `Name` in the `UniqueFoodList`.
 
-Any re-ordering will eventually be reflected in the GUI, facilitated by the following (in the case of a `list` command) or otherwise something similar:
+Any re-ordering will eventually be reflected in the GUI, facilitated by the following (in the case of an `update` command) or otherwise something similar:
 [source,java]
 ----
 model.updateFilteredFoodRecord(Model.PREDICATE_SHOW_ALL_FOODS);
@@ -564,13 +564,13 @@ The lifeline for the `ExportCommand` object and that of the `ExportGenerator` ob
 
 From the above, creating FoodRecord.txt involves the following steps:
 
-Step 1: `LogicManager` executes the user input, uses `CalgoParser` to realise this is a `export` command, and thereby creates a new `ExportCommand` object. +
+Step 1: `LogicManager` executes the user input, using `CalgoParser` to realise this is a `export` command, and a new `ExportCommand` object is created. +
 
 Step 2: LogicManager then calls the `execute` method of this `ExportCommand` object. This results in a call to the `Model` to get the current `FoodRecord`, which is used to construct a new `ExportGenerator` object. The `ExportGenerator` is responsible for creating the FoodRecord.txt file and writing to it.
 
 Step 3: `ExportCommand` then calls the `generateExport` method of `ExportGenerator`, writing the required parts to the file. This returns a boolean indicating whether the file creation and writing are successful.
 
-Step 4: A new `CommandResult` object indicating the status of the execution is then constructed and reflected in the GUI.
+Step 4: A new `CommandResult` object indicating the result of the execution is then constructed and reflected in the GUI.
 
 ==== Design considerations
 
@@ -578,7 +578,7 @@ Step 4: A new `CommandResult` object indicating the status of the execution is t
 
 * **Alternative 1 (current choice):** Create a .txt file to represent the `FoodRecord`.
 ** Pros:
-- Satisfies user requirements: able to edit the file to include custom entries.
+- Satisfies user requirements by allowing editing of the file to include custom entries.
 ** Cons:
 - Need to define new classes and methods for file writing, which may introduce more dependencies.
 - May be more resource-intensive than other alternatives.
@@ -620,9 +620,9 @@ Step 4: A new `CommandResult` object indicating the status of the execution is t
 
 ==== Summary
 
-This section addresses how users are able to obtain an editable copy of the current `FoodRecord` using the `export` command.
+In short, this section addresses how users are able to obtain an editable copy of the current `FoodRecord` using the `export` command.
 
-The `export` command largely relies on the `ExportGenerator` class. This facilitates creating the file and writing to it.
+The `export` command largely relies on the `ExportGenerator` class, which facilitates creating the file and writing to it.
 
 The above can be summarised in the activity diagram below:
 
