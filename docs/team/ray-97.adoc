@@ -61,8 +61,11 @@ https://github.com/AY1920S2-CS2103T-F11-1/main/pull/302[#302]
 https://github.com/AY1920S2-CS2103T-F11-1/main/pull/221[#221]
 https://github.com/AY1920S2-CS2103T-F11-1/main/pull/215[#215]
 
-** Project and team management & contributions:
+** Project and team management & contributions: +
 
+*** Maintained the issue tracker and assigned issues.
+*** Contributed to user stories.
+*** Managed the team repository and set up relevant services.
 
 ** Beyond the team:
 *** Peer testing & bug reporting:
