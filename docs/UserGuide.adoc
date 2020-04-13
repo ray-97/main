@@ -572,6 +572,10 @@ Refer to the list below for the various types of insights that you can easily ob
 
 Format: `report d/DATE`
 
+[NOTE]
+When entering the `report` command, do note there is a default behaviour for the `DATE` prefix. If you do not provide the date, or if its `Prefix` does not have a value,
+Calgo will by default take it that you intend to generate a report based on today's date.
+
 Example:
 
 Let's suppose you had a buffet on 27th of April 2020 and you managed to `nom` lots of exciting `Food` into your
