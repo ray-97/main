@@ -17,13 +17,13 @@ We are 5 Year 2 Computer Science undergraduates reading CS2103T: Software Engine
 
 Calgo is a personalise calorie and meal tracker application, morphed from the existing https://github.com/nus-cs2103-AY1920S1/addressbook-level3[Address Book Level 3 (AB3) project] code base. My team was tasked with morphing it via Brownfield software development into a new application, while still maintaining its original Command Line Interface (CLI) nature and the majority of the code architecture.
 
-It is difficult to maintain a balanced diet if you greatly enjoy food. Thus, we created Calgo to solve that issue. Calgo aims to aid seekers of a healthy lifestyle in adhering to a consistent daily dietary goal by increasing the convenience of tracking their daily meals. Calgo can keep track of nutritional information of the food users eat, monitor their daily caloric consumption to ensure they are meeting their goals, and to summarise all these into portable insights for even more convenience.
+It is difficult to maintain a balanced diet if you greatly enjoy food. Thus, we created Calgo to solve that issue. Calgo aims to aid seekers of a healthy lifestyle in adhering to a consistent daily dietary goal by increasing the convenience of tracking their daily meals. Calgo can keep track of nutritional information of the food users eat, monitor their daily caloric consumption to ensure they are meeting their goals, and summarises all these into portable insights for even more convenience.
 
 == Summary of contributions
 
-* *Major enhancement*: I improved *the ability to retrieve help on the usage and format of Calgo commands.*
+* *Major enhancement*: I improved *the ability to for users to obtain guidance on the usage and format of Calgo commands.*
 ** What it does: The user can easily refer to a popup `Help Window` should they need a reminder for how the commands work.
-** Justification: The initial `help` command requires users to refer to the entire User Guide (UG) which we found very overwhelming and unnecessary. Thus, the `help` function provides a summarised guide for the commands - removing the tediousness of trawling through the UG.
+** Justification: The initial `help` command requires not only required users to refer to the entire User Guide (UG), it also merely provided a link to the UG. Together, we found both issues very overwhelming and inconvenient. Thus, the `help` function provides a summarised guide for the commands - removing the tediousness of trawling through the UG.
 ** Highlights: The user can filter the command guide in `Help Window` to show only the commands they want.
 
 * *Major enhancement*: I added *the ability to view a summarised graph of daily caloric consumption for the past seven days.*
@@ -33,18 +33,21 @@ It is difficult to maintain a balanced diet if you greatly enjoy food. Thus, we 
 
 * *Minor enhancement*: I modified *the GUI of AB3 to its current state.* (The modification was a team effort, thus this is a minor enhancement due to individual effort amount.)
 ** What it does: This allows Calgo to display all the information we require it to, such as the `Goal Display` and `Consumption Record`. Additionally the colors are altered.
-** Justification: The default AB3 GUI does not support all the information we need Calgo to display. Additionally, the current blue and orange color theme is for branding reasons.
+** Justification: The default AB3 GUI does not support displaying all the information Calgo needs. Additionally, the current blue and orange color theme is used to give Calgo a unique aesthetic, different from AB3.
 ** Highlights: Calgo has a sleek and compact design, yet allows users to view all relevant information at a glance.
 
-* *Code contributed*: You can view my contributions to Calgo https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=j-dan23&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=eugenetyc&tabRepo=AY1920S2-CS2103T-F11-1%2Fmain%5Bmaster%5D[here]
+* *Code contributed*: You can view my contributions to Calgo https://nus-cs2103-ay1920s2.github.io/tp-dashboard/#search=j-dan23&sort=groupTitle&sortWithin=title&since=2020-02-14&timeframe=commit&mergegroup=false&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=eugenetyc&tabRepo=AY1920S2-CS2103T-F11-1%2Fmain%5Bmaster%5D[here].
 
 * *Other contributions*:
 
+** Contributions to team-based tasks:
 *** Wrote tests for features: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/214[#214], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/220[#220].
 *** Did bug-fixing for bugs found during mock practical exam: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/212[#212].
+
 ** Documentation:
 *** Wrote the `GUI interpretation`, `help` sections and did minor editing for the User Guide: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/74[#74], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/77[#77], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/280[#280], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/282[#282], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/284[#284], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/285[#285], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/286[#286], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/289[#289], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/293[#293].
 *** Wrote the `help` command and graph sections, and did minor editing for the Developer Guide: https://github.com/AY1920S2-CS2103T-F11-1/main/pull/78[#78], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/129[#129], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/253[#253], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/261[#261], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/280[#280], https://github.com/AY1920S2-CS2103T-F11-1/main/pull/293[#293].
+
 ** Beyond the team:
 *** Peer testing & bug reporting: https://github.com/J-Dan23/ped/issues/1[#1],  https://github.com/J-Dan23/ped/issues/2[#2],  https://github.com/J-Dan23/ped/issues/5[#5],  https://github.com/J-Dan23/ped/issues/6[#6],  https://github.com/J-Dan23/ped/issues/7[#7],  https://github.com/J-Dan23/ped/issues/1[#1],  https://github.com/J-Dan23/ped/issues/8[#8],  https://github.com/J-Dan23/ped/issues/9[#9].
 
